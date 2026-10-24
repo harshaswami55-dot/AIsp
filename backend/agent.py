@@ -10,11 +10,13 @@ import json
 import os
 import re
 import requests
+from collections import Counter
 from datetime import datetime
 from typing import Optional
 
 from forecasting_engine import calculate_metrics, perform_adf_test
-from ai_engine import SYLLABUS_KNOWLEDGE, detect_misconceptions, ai_tutor_response
+from ai_engine import SYLLABUS_KNOWLEDGE, detect_misconceptions
+from learning import TOPIC_CONTENT, tokens, _cosine
 
 # -------------------------------------------------------------------
 # OLLAMA CONFIG
@@ -168,45 +170,122 @@ def parse_tool_calls(text: str) -> list:
 def strip_tool_calls(text: str) -> str:
     return re.sub(r"```tool_call\s*\{.*?\}\s*```", "", text, flags=re.DOTALL).strip()
 
-def call_ollama(messages: list, model: str = DEFAULT_MODEL) -> str:
-    try:
-        resp = requests.post(
-            f"{OLLAMA_BASE_URL}/api/chat",
-            json={"model": model, "messages": messages, "stream": False,
-                  "options": {"temperature": 0.6, "top_p": 0.9, "num_predict": 800}},
-            timeout=30
-        )
-        resp.raise_for_status()
-        return resp.json().get("message", {}).get("content", "")
-    except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
-        # Graceful fallback: Use built-in pedagogical RAG knowledge base
-        last_user_msg = next((m["content"] for m in reversed(messages) if m.get("role") == "user"), "")
-        fallback_answer = ai_tutor_response("tutor", last_user_msg)
-        return (
-            f"{fallback_answer}\n\n"
-            "---\n*ARIA · answering from the SB6202 syllabus knowledge base*"
-        )
-    except Exception as e:
-        last_user_msg = next((m["content"] for m in reversed(messages) if m.get("role") == "user"), "")
-        return ai_tutor_response("tutor", last_user_msg)
+# -------------------------------------------------------------------
+# MODEL PROVIDERS: free hosted LLM (any OpenAI-compatible API; Groq by default) -> local Ollama -> course notes
+# -------------------------------------------------------------------
+LLM_API_KEY = os.getenv("LLM_API_KEY") or os.getenv("GROQ_API_KEY")
+LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://api.groq.com/openai/v1").rstrip("/")
+LLM_MODEL = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
 
-def check_ollama_status() -> dict:
+
+def _ollama_models() -> list:
     try:
-        resp = requests.get(f"{OLLAMA_BASE_URL}/api/tags", timeout=5)
+        resp = requests.get(f"{OLLAMA_BASE_URL}/api/tags", timeout=2)
         if resp.status_code == 200:
-            models = [m["name"] for m in resp.json().get("models", [])]
-            return {"online": True, "models": models}
+            return [m["name"] for m in resp.json().get("models", [])]
     except Exception:
         pass
-    return {"online": False, "models": []}
+    return []
+
+
+def call_llm(messages: list, model: str = DEFAULT_MODEL) -> Optional[str]:
+    """Returns the model's reply, or None when no model is reachable (caller falls back to course notes)."""
+    if LLM_API_KEY:
+        try:
+            resp = requests.post(
+                f"{LLM_BASE_URL}/chat/completions",
+                headers={"Authorization": f"Bearer {LLM_API_KEY}"},
+                json={"model": LLM_MODEL, "messages": messages, "temperature": 0.5, "max_tokens": 800},
+                timeout=25,
+            )
+            resp.raise_for_status()
+            return resp.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            print(f"Hosted LLM unavailable ({type(e).__name__}): {str(e)[:200]}")
+    models = _ollama_models()
+    if models:
+        try:
+            resp = requests.post(
+                f"{OLLAMA_BASE_URL}/api/chat",
+                json={"model": model if model in models else models[0], "messages": messages, "stream": False,
+                      "options": {"temperature": 0.6, "top_p": 0.9, "num_predict": 800}},
+                timeout=60,
+            )
+            resp.raise_for_status()
+            return resp.json().get("message", {}).get("content", "")
+        except Exception:
+            pass
+    return None
+
+
+def check_ollama_status() -> dict:
+    """Which engine ARIA is using (name kept for existing callers)."""
+    if LLM_API_KEY:
+        return {"online": True, "models": [LLM_MODEL], "provider": "hosted"}
+    models = _ollama_models()
+    if models:
+        return {"online": True, "models": models, "provider": "ollama"}
+    return {"online": False, "models": [], "provider": "course-notes"}
+
+
+# -------------------------------------------------------------------
+# COURSE-NOTES RETRIEVAL (810 explained questions + 81 reference answers in backend/content)
+# -------------------------------------------------------------------
+def retrieve_topic(query: str) -> Optional[dict]:
+    q = set(tokens(query))
+    if not q:
+        return None
+    best, best_score = None, 0
+    for content in TOPIC_CONTENT.values():
+        name = set(tokens(content["topic"]))
+        concepts = {t for c in content.get("key_concepts", []) for t in tokens(c)}
+        score = 3 * len(q & name) + 2 * len(q & concepts)
+        if score > best_score:
+            best, best_score = content, score
+    return best
+
+
+def _closest(query: str, texts: list) -> int:
+    qv = Counter(tokens(query))
+    return max(range(len(texts)), key=lambda i: _cosine(qv, Counter(tokens(texts[i])))) if texts else -1
+
+
+def notes_context(query: str) -> str:
+    topic = retrieve_topic(query)
+    if not topic:
+        return ""
+    ref = topic["references"][_closest(query, topic["references"])]
+    return (f"\n\n## Course notes for this question (SB6202 topic: {topic['topic']})\n{ref}\n"
+            f"Key concepts: {', '.join(topic.get('key_concepts', []))}\n"
+            "Use these notes as ground truth; do not contradict them.")
+
+
+def knowledge_answer(query: str) -> str:
+    """A grounded answer built only from the course content, used when no LLM is reachable."""
+    topic = retrieve_topic(query)
+    if not topic:
+        return ("I can help with any SB6202 topic — accuracy measures (MAE, RMSE, MAPE), smoothing and Holt-Winters, "
+                "ACF/PACF, stationarity and the ADF test, ARIMA/SARIMA, VAR/SARIMAX, and ML models like Random Forest "
+                "and XGBoost.\n\nWhich of these are you working on, and what exactly is confusing you?"
+                "\n\n---\n*ARIA · answering from the SB6202 course notes*")
+    refs = topic["references"]
+    questions = topic.get("questions", [])
+    qv = Counter(tokens(query))
+    ranked = sorted(questions, key=lambda q: -_cosine(qv, Counter(tokens(q["q"] + " " + q["explanation"]))))
+    traps = [q["explanation"] for q in ranked[:2]]
+    check = next((q for q in ranked[2:] if q.get("difficulty") in ("easy", "medium")), ranked[0] if ranked else None)
+    parts = [f"**{topic['topic']}**", refs[_closest(query, refs)]]
+    if topic.get("key_concepts"):
+        parts.append("**Key ideas:** " + ", ".join(topic["key_concepts"][:8]))
+    if traps:
+        parts.append("**Watch out for:**\n" + "\n".join(f"- {t}" for t in traps))
+    if check:
+        parts.append(f"**Quick check:** {check['q']}\n\nWhat would you answer, and why?")
+    parts.append("---\n*ARIA · answering from the SB6202 course notes*")
+    return "\n\n".join(parts)
 
 def agent_chat(user_message: str, session_id: str = "default",
                page_context: Optional[str] = None, model: str = DEFAULT_MODEL) -> dict:
-    status = check_ollama_status()
-    if status["online"] and status["models"]:
-        if model not in status["models"]:
-            model = status["models"][0]
-
     misc_findings = detect_misconceptions(user_message)
     misc_prefix = ""
     if misc_findings:
@@ -216,12 +295,14 @@ def agent_chat(user_message: str, session_id: str = "default",
         )
     page_note = f"\n\n[Context: Student is on the **{page_context}** screen.]" if page_context else ""
     history = _trim_history(get_history(session_id))
-    messages = [{"role": "system", "content": SYSTEM_PROMPT + page_note}]
+    messages = [{"role": "system", "content": SYSTEM_PROMPT + page_note + notes_context(user_message)}]
     messages.extend(history)
     messages.append({"role": "user", "content": user_message})
-    raw_response = call_ollama(messages, model)
+    raw_response = call_llm(messages, model)
     tool_calls_made = []
     tool_results_collected = []
+    if raw_response is None:
+        raw_response = knowledge_answer(user_message)
     for _ in range(2):
         tool_calls = parse_tool_calls(raw_response)
         if not tool_calls:
@@ -236,7 +317,7 @@ def agent_chat(user_message: str, session_id: str = "default",
             tool_result_texts.append(f"[Tool: {tool_name}]\n{result_text}")
         messages.append({"role": "assistant", "content": raw_response})
         messages.append({"role": "user", "content": "Tool results:\n\n" + "\n\n---\n\n".join(tool_result_texts) + "\n\nNow give a complete pedagogical answer to the student using these results."})
-        raw_response = call_ollama(messages, model)
+        raw_response = call_llm(messages, model) or "\n\n".join(tool_result_texts)
     clean_reply = misc_prefix + strip_tool_calls(raw_response)
     history.append({"role": "user", "content": user_message})
     history.append({"role": "assistant", "content": clean_reply})

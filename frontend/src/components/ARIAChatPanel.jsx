@@ -49,7 +49,7 @@ function useAgentChat(pageContext) {
     } catch (err) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: 'Failed to reach ARIA. Please ensure Ollama is running.',
+        content: 'Could not reach ARIA right now. Please try again in a moment.',
         id: Date.now() + 1
       }]);
     } finally {
@@ -67,19 +67,17 @@ function useAgentChat(pageContext) {
 
 function StatusBadge({ status }) {
   if (!status) return null;
-  const borderColor = status.online ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)';
-  const modelName = status.models && status.models[0] ? status.models[0] : 'llama3.2:3b';
+  const color = status.online ? 'var(--color-ok)' : 'var(--color-warn)';
   return (
-    <div style={{
+    <div title={status.online ? `Model: ${status.models?.[0] || ''}` : 'Answers come from the SB6202 course notes'} style={{
       display: 'flex', alignItems: 'center', gap: '6px',
       padding: '4px 10px', borderRadius: '20px',
-      background: status.online ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)',
-      border: '1px solid ' + borderColor,
-      fontSize: '0.72rem', fontWeight: 700,
-      color: status.online ? '#10b981' : '#ef4444'
+      background: `color-mix(in srgb, ${color} 14%, transparent)`,
+      border: `1px solid color-mix(in srgb, ${color} 40%, transparent)`,
+      fontSize: '0.72rem', fontWeight: 700, color,
     }}>
       {status.online ? <Wifi size={12} /> : <WifiOff size={12} />}
-      {status.online ? ('ARIA Online \u2022 ' + modelName) : 'ARIA Offline (Ollama not running)'}
+      {status.online ? 'ARIA \u00b7 AI model online' : 'ARIA \u00b7 course-notes mode'}
     </div>
   );
 }
@@ -332,7 +330,7 @@ function ARIAChatPanel({ pageContext, welcomeMessage, compact }) {
           </button>
         </form>
         <div style={{ fontSize: '0.68rem', color: '#475569', marginTop: '6px', textAlign: 'center' }}>
-          Enter to send • Shift+Enter for new line • Powered by Ollama (local, private)
+          Enter to send • Shift+Enter for new line • Grounded in the SB6202 course notes
         </div>
       </div>
     </div>
