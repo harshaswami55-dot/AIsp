@@ -1141,14 +1141,15 @@ def submit_journey_quiz(
     ).all()
     allowed_ids = {str(question_id) for (question_id,) in allowed_questions}
     if not allowed_ids:
-        # Fallback to any questions in this topic if quiz_stage filtering is too restrictive
         fallback_qs = db.query(Question.id).filter(Question.topic_id == req.topic_id).all()
         allowed_ids = {str(qid) for (qid,) in fallback_qs}
     if not allowed_ids:
         raise HTTPException(status_code=409, detail="No questions are available for this quiz stage")
-    if set(req.answers) != allowed_ids:
-        raise HTTPException(status_code=400, detail="Answer every question in this quiz before submitting")
-    stage_rows = db.query(Question).filter(Question.id.in_([int(i) for i in allowed_ids])).all()
+
+    # Flexible validation: grade whatever answers were submitted, rather than throwing a strict mismatch error
+    stage_rows = db.query(Question).filter(Question.id.in_([int(i) for i in req.answers.keys() if i.isdigit()])) .all()
+    if not stage_rows:
+        stage_rows = db.query(Question).filter(Question.id.in_([int(i) for i in allowed_ids])).all()
     invalid_questions = [question.id for question in stage_rows if not question.correct_answer or not (json.loads(question.options_json) if question.options_json else [option for option in [question.option_a, question.option_b, question.option_c, question.option_d] if option])]
     if invalid_questions:
         raise HTTPException(status_code=409, detail="This quiz contains questions that are not ready to grade")
