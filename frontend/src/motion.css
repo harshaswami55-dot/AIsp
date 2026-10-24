@@ -92,6 +92,51 @@
 .portal-tab.active::after { transform: scaleX(1); }
 .portal-tab:disabled { opacity: .45; cursor: not-allowed; }
 
+/* ─── 3D depth ─────────────────────────────────────────────────────────────── */
+/* Cards: a lit top edge and layered shadow so they sit above the page. */
+.card, .card-inset, .fp-card, .fp-module {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 1px 2px rgba(44,36,22,.06), 0 8px 24px -14px rgba(44,36,22,.22);
+}
+/* Pointer tilt (driven by src/tilt.js). */
+.tilt-on {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px) !important;
+  transition: transform .12s ease-out, box-shadow .25s ease !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 2px 4px rgba(44,36,22,.06), 0 26px 44px -20px rgba(44,36,22,.38) !important;
+  background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.22), transparent 45%) !important;
+  will-change: transform;
+}
+.hero-stat.tilt-on { background-image: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.22), transparent 55%) !important; }
+.hover-lift, .fp-card, .fp-module, .hero-stat { transform-style: preserve-3d; }
+
+/* Buttons press in. */
+.btn, .btn-hero, .fp-btn, .lg-submit { transition: transform .15s ease, box-shadow .2s ease, background .2s ease; }
+.btn:active:not(:disabled), .btn-hero:active, .fp-btn:active, .lg-submit:active:not(:disabled) { transform: translateY(1px) scale(.98) !important; }
+
+/* Rotating glass cube in section heroes. */
+.cube3d-wrap { display: block; position: absolute; right: 24%; top: 22px; width: 84px; height: 84px; perspective: 600px; z-index: -1; opacity: .55; pointer-events: none; }
+.cube3d { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; animation: spin3d 22s linear infinite; }
+.cube3d i { position: absolute; inset: 0; border-radius: 14px; border: 1px solid rgba(255,255,255,.55); background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.04)); box-shadow: inset 0 0 24px rgba(255,255,255,.18); }
+.cube3d i:nth-child(1) { transform: translateZ(var(--half, 42px)); }
+.cube3d i:nth-child(2) { transform: rotateY(180deg) translateZ(var(--half, 42px)); }
+.cube3d i:nth-child(3) { transform: rotateY(90deg) translateZ(var(--half, 42px)); }
+.cube3d i:nth-child(4) { transform: rotateY(-90deg) translateZ(var(--half, 42px)); }
+.cube3d i:nth-child(5) { transform: rotateX(90deg) translateZ(var(--half, 42px)); }
+.cube3d i:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--half, 42px)); }
+.cube3d-ring { display: block; position: absolute; inset: -26px; border-radius: 50%; border: 1px dashed rgba(255,255,255,.35); transform: rotateX(70deg); animation: ringSpin 14s linear infinite; }
+@keyframes spin3d { from { transform: rotateX(-24deg) rotateY(0deg); } to { transform: rotateX(-24deg) rotateY(360deg); } }
+@keyframes ringSpin { from { transform: rotateX(70deg) rotateZ(0deg); } to { transform: rotateX(70deg) rotateZ(360deg); } }
+@media (max-width: 760px) { .cube3d-wrap { display: none; } }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .card, :root:not([data-theme="light"]) .card-inset, :root:not([data-theme="light"]) .fp-card, :root:not([data-theme="light"]) .fp-module {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 28px -14px rgba(0,0,0,.6);
+  }
+  :root:not([data-theme="light"]) .tilt-on { background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.07), transparent 45%) !important; }
+}
+/* Light-background variant (front page). */
+.cube3d.ink i { border-color: rgba(122,36,65,.35); background: linear-gradient(135deg, rgba(122,36,65,.16), rgba(215,184,141,.08)); box-shadow: inset 0 0 22px rgba(122,36,65,.12); }
+.cube3d.ink .cube3d-ring { border-color: rgba(122,36,65,.3); }
+@media (prefers-reduced-motion: reduce) { .cube3d, .cube3d-ring { animation: none; } .tilt-on { transform: none !important; } }
+
 @keyframes revealUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes heroDrift { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-40px, 30px) scale(1.15); } }

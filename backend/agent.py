@@ -184,7 +184,7 @@ def call_ollama(messages: list, model: str = DEFAULT_MODEL) -> str:
         fallback_answer = ai_tutor_response("tutor", last_user_msg)
         return (
             f"{fallback_answer}\n\n"
-            "---\n*ARIA Local Engine (Syllabus RAG Mode active). To enable generative local LLM, run `ollama serve` and `ollama pull llama3.2:3b`.*"
+            "---\n*ARIA · answering from the SB6202 syllabus knowledge base*"
         )
     except Exception as e:
         last_user_msg = next((m["content"] for m in reversed(messages) if m.get("role") == "user"), "")

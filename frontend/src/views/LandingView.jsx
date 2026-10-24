@@ -39,8 +39,15 @@ const band = (() => {
 })();
 
 function ForecastVisual() {
+  const onMove = (e) => {
+    if (e.pointerType === 'touch') return;
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+    e.currentTarget.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+  };
+  const onLeave = (e) => { e.currentTarget.style.setProperty('--px', 0); e.currentTarget.style.setProperty('--py', 0); };
   return (
-    <div className="fp-visual">
+    <div className="fp-visual" onPointerMove={onMove} onPointerLeave={onLeave}>
       <div className="fp-chart-card">
         <div className="fp-chart-head">
           <div><strong>Retail Monthly Sales</strong><div>Holt-Winters · 8-month forecast</div></div>
@@ -325,6 +332,8 @@ export default function LandingView({ onSignIn }) {
 
       <header className="fp-hero">
         <span className="fp-blob fp-blob-a" /><span className="fp-blob fp-blob-b" />
+        <span className="fp-cube" style={{ left: '46%', top: 40 }} aria-hidden="true"><span className="cube3d-wrap" style={{ width: 54, height: 54, '--half': '27px' }}><span className="cube3d ink" style={{ animationDuration: '26s' }}><i /><i /><i /><i /><i /><i /></span></span></span>
+        <span className="fp-cube" style={{ left: '4%', bottom: 30 }} aria-hidden="true"><span className="cube3d-wrap" style={{ width: 70, height: 70, '--half': '35px' }}><span className="cube3d ink" style={{ animationDirection: 'reverse' }}><i /><i /><i /><i /><i /><i /><span className="cube3d-ring" /></span></span></span>
         <div className="fp-wrap fp-hero-grid">
           <div>
             <div className="reveal"><span className="fp-pill"><span className="pulse-dot" style={{ color: 'var(--color-accent)' }} /> RV University · School of Business · SB6202</span></div>

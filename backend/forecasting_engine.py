@@ -303,7 +303,7 @@ def run_classical_model(model_type, train_series, test_series, horizon=6, **kwar
         fitted_values = [round(float(v), 2) for v in fit.fittedvalues]
 
     # Evaluate against test if available
-    eval_target = y_test[:horizon] if y_test is not None and len(y_test) >= horizon else y_train[-horizon:]
+    eval_target = y_test[:horizon] if y_test is not None and len(y_test) > 0 else y_train[-horizon:]
     eval_pred = forecast_values[:len(eval_target)]
     metrics = calculate_metrics(eval_target, eval_pred)
 
@@ -359,7 +359,7 @@ def run_arima_model(train_series, test_series, p=1, d=1, q=1, P=0, D=0, Q=0, s=1
         fitted_values = [round(float(v), 2) for v in res.fittedvalues]
         residuals = [round(float(v), 2) for v in res.resid]
 
-        eval_target = y_test[:horizon] if y_test is not None and len(y_test) >= horizon else y_train[-horizon:]
+        eval_target = y_test[:horizon] if y_test is not None and len(y_test) > 0 else y_train[-horizon:]
         eval_pred = forecast_values[:len(eval_target)]
         metrics = calculate_metrics(eval_target, eval_pred)
 

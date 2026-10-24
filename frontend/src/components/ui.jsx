@@ -49,6 +49,7 @@ export function PageHero({ icon: Icon, eyebrow, title, subtitle, tone = 'student
   return (
     <section className={`hero-band tone-${tone} reveal`}>
       <span className="hero-grid" aria-hidden="true" />
+      <span className="cube3d-wrap" aria-hidden="true"><span className="cube3d"><i /><i /><i /><i /><i /><i /><span className="cube3d-ring" /></span></span>
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', gap: 16, alignItems: 'center', minWidth: 0 }}>
           {Icon && <div className="hero-icon"><Icon size={26} /></div>}

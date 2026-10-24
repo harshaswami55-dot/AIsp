@@ -668,29 +668,23 @@ def train_forecasting_model(req: ForecastTrainRequest, db: Session = Depends(get
     model_key = req.model_name.lower().replace(" ", "_")
     params = req.parameters or {}
 
+    fit = None  # (train, test) -> result, for models evaluated on a holdout and then refit for the real future
     if model_key in ["naive", "moving_average", "ses", "holt", "holt_winters"]:
-        result = run_classical_model(
-            model_type=model_key,
-            train_series=train_series,
-            test_series=test_series,
-            horizon=req.horizon,
-            **params
-        )
+        fit = lambda tr, te: run_classical_model(model_type=model_key, train_series=tr, test_series=te, horizon=req.horizon, **params)
 
     elif "arima" in model_key or "sarima" in model_key:
-        p = int(params.get("p", 1))
-        d = int(params.get("d", 1))
-        q = int(params.get("q", 1))
-        P = int(params.get("P", 0))
-        D = int(params.get("D", 0))
-        Q = int(params.get("Q", 0))
-        s = int(params.get("s", 12))
-        result = run_arima_model(
-            train_series=train_series,
-            test_series=test_series,
-            p=p, d=d, q=q, P=P, D=D, Q=Q, s=s,
-            horizon=req.horizon
-        )
+        orders = {k: int(params.get(k, default)) for k, default in (("p", 1), ("d", 1), ("q", 1), ("P", 0), ("D", 0), ("Q", 0), ("s", 12))}
+        fit = lambda tr, te: run_arima_model(train_series=tr, test_series=te, horizon=req.horizon, **orders)
+
+    if fit:
+        # Accuracy comes from the holdout; the plotted forecast comes from a refit on the full series,
+        # so it starts after the last observation instead of re-predicting the test months.
+        result = fit(train_series, test_series)
+        if "error" not in result:
+            future = fit(series, [])
+            if "error" not in future:
+                result["holdout_predictions"] = result.get("forecast_values", [])
+                result["forecast_values"] = future.get("forecast_values", result.get("forecast_values"))
 
     elif model_key in ["random_forest", "xgboost", "linear_regression", "decision_tree"]:
         result = run_ml_forecasting(

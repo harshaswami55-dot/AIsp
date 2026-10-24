@@ -35,8 +35,14 @@
 
 /* Hero visual */
 .fp-visual { position: relative; }
-.fp-chart-card { position: relative; padding: 18px 18px 10px; border-radius: 22px; background: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-xl); transform: perspective(1200px) rotateY(-6deg) rotateX(3deg); transition: transform .6s cubic-bezier(.2,.8,.2,1); }
-.fp-visual:hover .fp-chart-card { transform: perspective(1200px) rotateY(0) rotateX(0); }
+.fp-visual { --px: 0; --py: 0; perspective: 1200px; }
+.fp-chart-card { position: relative; padding: 18px 18px 10px; border-radius: 22px; background: var(--color-surface); border: 1px solid var(--color-border); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 40px 70px -30px rgba(58,15,31,.45), var(--shadow-md);
+  transform: rotateY(calc(-6deg + var(--px) * 14deg)) rotateX(calc(3deg - var(--py) * 10deg)); transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.fp-visual .fp-float { translate: calc(var(--px) * -26px) calc(var(--py) * -20px); transition: translate .5s cubic-bezier(.2,.8,.2,1); }
+.fp-visual .fp-float-b { translate: calc(var(--px) * 34px) calc(var(--py) * 26px); }
+.fp-visual .fp-float-c { translate: calc(var(--px) * 18px) calc(var(--py) * -30px); }
+.fp-cube { position: absolute; z-index: -1; pointer-events: none; }
+.fp-cube .cube3d-wrap { position: static; opacity: .9; }
 .fp-chart-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: .8rem; color: var(--color-text-3); }
 .fp-chart-head strong { color: var(--color-text); font-size: .92rem; }
 .fp-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.2s cubic-bezier(.4,0,.2,1) .3s forwards; }
