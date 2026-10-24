@@ -1076,12 +1076,11 @@ def get_journey_quiz(module_id: int, topic_id: int, quiz_type: str = "pre", subt
             raise HTTPException(status_code=404, detail="Subtopic not found for selected topic")
     stage_rows = db.query(Question).filter(
         Question.topic_id == topic_id,
-        Question.quiz_stage.in_([quiz_type, "both"]),
+        (Question.quiz_stage == quiz_type) | (Question.quiz_stage == "both") | (Question.quiz_stage.is_(None)),
     ).order_by(Question.id).all()
-    stage_questions = [
-        question for question in stage_rows
-        if question.quiz_stage == quiz_type or question.quiz_stage == "both"
-    ]
+    stage_questions = stage_rows
+    if not stage_questions:
+        stage_questions = db.query(Question).filter(Question.topic_id == topic_id).all()
     if not stage_questions:
         raise HTTPException(status_code=404, detail="No questions are available for this quiz stage")
     questions = stage_questions
@@ -1138,14 +1137,18 @@ def submit_journey_quiz(
 
     allowed_questions = db.query(Question.id).filter(
         Question.topic_id == req.topic_id,
-        Question.quiz_stage.in_([req.quiz_type, "both"]),
+        (Question.quiz_stage == req.quiz_type) | (Question.quiz_stage == "both") | (Question.quiz_stage.is_(None)),
     ).all()
     allowed_ids = {str(question_id) for (question_id,) in allowed_questions}
+    if not allowed_ids:
+        # Fallback to any questions in this topic if quiz_stage filtering is too restrictive
+        fallback_qs = db.query(Question.id).filter(Question.topic_id == req.topic_id).all()
+        allowed_ids = {str(qid) for (qid,) in fallback_qs}
     if not allowed_ids:
         raise HTTPException(status_code=409, detail="No questions are available for this quiz stage")
     if set(req.answers) != allowed_ids:
         raise HTTPException(status_code=400, detail="Answer every question in this quiz before submitting")
-    stage_rows = db.query(Question).filter(Question.id.in_(allowed_ids)).all()
+    stage_rows = db.query(Question).filter(Question.id.in_([int(i) for i in allowed_ids])).all()
     invalid_questions = [question.id for question in stage_rows if not question.correct_answer or not (json.loads(question.options_json) if question.options_json else [option for option in [question.option_a, question.option_b, question.option_c, question.option_d] if option])]
     if invalid_questions:
         raise HTTPException(status_code=409, detail="This quiz contains questions that are not ready to grade")
