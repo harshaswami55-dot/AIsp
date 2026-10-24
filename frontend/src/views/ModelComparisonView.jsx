@@ -5,7 +5,7 @@ import {
   HelpCircle, ShieldCheck, FileSpreadsheet, ChevronRight
 } from 'lucide-react';
 
-export default function ModelComparisonView() {
+export default function ModelComparisonView({ initialDatasetName } = {}) {
   const [datasets, setDatasets] = useState([]);
   const [selectedDatasetId, setSelectedDatasetId] = useState(1);
   const [comparison, setComparison] = useState(null);
@@ -27,7 +27,9 @@ export default function ModelComparisonView() {
       const data = await res.json();
       setDatasets(data.datasets || []);
       if (data.datasets?.length > 0) {
-        setSelectedDatasetId(data.datasets[0].id);
+        const wanted = initialDatasetName?.trim().toLowerCase();
+        const match = wanted && data.datasets.find(d => d.name?.trim().toLowerCase() === wanted);
+        setSelectedDatasetId((match || data.datasets[0]).id);
       }
     } catch (e) {
       console.error(e);
@@ -61,16 +63,16 @@ export default function ModelComparisonView() {
               <span className="badge badge-purple">Multi-Criteria Model Selection</span>
               <span className="badge badge-blue">Head-to-Head Tournament</span>
             </div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ffffff' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-text)' }}>
               Multi-Model Tournament & Benchmarking Matrix
             </h2>
-            <p style={{ color: '#94a3b8', fontSize: '0.88rem', marginTop: '2px' }}>
+            <p style={{ color: 'var(--color-text-2)', fontSize: '0.88rem', marginTop: '2px' }}>
               Evaluates statistical models vs ensemble machine learning across accuracy, board auditability, and operational complexity.
             </p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Evaluation Dataset:</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--color-text-2)' }}>Evaluation Dataset:</span>
             <select
               style={{ width: '220px', fontWeight: 600 }}
               value={selectedDatasetId}
@@ -99,10 +101,10 @@ export default function ModelComparisonView() {
             {/* Best Statistical */}
             <div className="glass-panel" style={{ padding: '20px', borderColor: 'rgba(59, 130, 246, 0.4)' }}>
               <span style={{ fontSize: '0.75rem', color: '#93c5fd', fontWeight: 700 }}>BEST STATISTICAL MODEL</span>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', marginTop: '6px' }}>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--color-text)', marginTop: '6px' }}>
                 {comparison.best_statistical}
               </div>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '6px' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--color-text-2)', marginTop: '6px' }}>
                 Optimal balance of formal hypothesis testability and parameter auditability.
               </p>
             </div>
@@ -110,10 +112,10 @@ export default function ModelComparisonView() {
             {/* Best ML */}
             <div className="glass-panel" style={{ padding: '20px', borderColor: 'rgba(139, 92, 246, 0.4)' }}>
               <span style={{ fontSize: '0.75rem', color: '#c4b5fd', fontWeight: 700 }}>BEST MACHINE LEARNING MODEL</span>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', marginTop: '6px' }}>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--color-text)', marginTop: '6px' }}>
                 {comparison.best_ml}
               </div>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '6px' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--color-text-2)', marginTop: '6px' }}>
                 Captures high-order multi-lag interactions and promotional discount impacts.
               </p>
             </div>
@@ -124,7 +126,7 @@ export default function ModelComparisonView() {
               <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#10b981', marginTop: '6px' }}>
                 {comparison.best_overall}
               </div>
-              <p style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: '6px' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--color-text-2)', marginTop: '6px' }}>
                 Selected for best accuracy-to-explainability risk profile.
               </p>
             </div>
@@ -132,13 +134,13 @@ export default function ModelComparisonView() {
 
           {/* Full Comparison Table */}
           <div className="glass-panel" style={{ padding: '24px', overflowX: 'auto' }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff', marginBottom: '16px' }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '16px' }}>
               Comprehensive Model Tournament Matrix
             </h3>
 
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.86rem', textAlign: 'left' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.12)', color: '#94a3b8' }}>
+                <tr style={{ borderBottom: '1px solid var(--color-border)', color: 'var(--color-text-2)' }}>
                   <th style={{ padding: '10px' }}>Model</th>
                   <th style={{ padding: '10px' }}>Type</th>
                   <th style={{ padding: '10px' }}>MAE</th>
@@ -157,17 +159,17 @@ export default function ModelComparisonView() {
                     <tr
                       key={idx}
                       style={{
-                        borderBottom: '1px solid rgba(255,255,255,0.05)',
+                        borderBottom: '1px solid var(--color-border)',
                         background: isWinner ? 'rgba(16, 185, 129, 0.08)' : 'transparent'
                       }}
                     >
-                      <td style={{ padding: '12px 10px', fontWeight: 700, color: '#ffffff' }}>
+                      <td style={{ padding: '12px 10px', fontWeight: 700, color: 'var(--color-text)' }}>
                         {row.model}
                         {isWinner && <span className="badge badge-emerald" style={{ marginLeft: '6px' }}>Top Pick</span>}
                       </td>
                       <td style={{ padding: '10px', color: '#93c5fd' }}>{row.type}</td>
-                      <td style={{ padding: '10px', color: '#cbd5e1' }}>{row.metrics.mae}</td>
-                      <td style={{ padding: '10px', color: '#cbd5e1' }}>{row.metrics.mse}</td>
+                      <td style={{ padding: '10px', color: 'var(--color-text-2)' }}>{row.metrics.mae}</td>
+                      <td style={{ padding: '10px', color: 'var(--color-text-2)' }}>{row.metrics.mse}</td>
                       <td style={{ padding: '10px', fontWeight: 700, color: '#f59e0b' }}>{row.metrics.rmse}</td>
                       <td style={{ padding: '10px', fontWeight: 700, color: '#10b981' }}>{row.metrics.mape}%</td>
                       <td style={{ padding: '10px' }}>
@@ -175,8 +177,8 @@ export default function ModelComparisonView() {
                           {row.interpretability}
                         </span>
                       </td>
-                      <td style={{ padding: '10px', color: '#94a3b8' }}>{row.complexity}</td>
-                      <td style={{ padding: '10px', color: '#cbd5e1', fontSize: '0.8rem' }}>{row.best_use_case}</td>
+                      <td style={{ padding: '10px', color: 'var(--color-text-2)' }}>{row.complexity}</td>
+                      <td style={{ padding: '10px', color: 'var(--color-text-2)', fontSize: '0.8rem' }}>{row.best_use_case}</td>
                     </tr>
                   );
                 })}
@@ -186,10 +188,10 @@ export default function ModelComparisonView() {
 
           {/* Executive Narrative */}
           <div className="glass-panel-glow" style={{ padding: '24px' }}>
-            <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', marginBottom: '10px' }}>
+            <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '10px' }}>
               MBA Executive Synthesis & Managerial Rationale
             </h4>
-            <p style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
               {comparison.narrative}
             </p>
           </div>

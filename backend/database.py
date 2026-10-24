@@ -321,6 +321,41 @@ class Reflection(Base):
     key_insight = Column(Text)
     self_score = Column(Integer, default=3)
     ai_suggested = Column(Boolean, default=False)
+    score = Column(Float, nullable=True)
+    feedback_json = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class QuizResult(Base):
+    """One row per submitted Quiz 1 / Quiz 2 - drives day-wise learning gain and relearn counts."""
+    __tablename__ = "quiz_results"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), index=True)
+    attempt_id = Column(Integer, ForeignKey("learning_journey_attempts.id"), nullable=True)
+    module_id = Column(Integer, ForeignKey("modules.id"))
+    topic_id = Column(Integer, ForeignKey("topics.id"), index=True)
+    topic_name = Column(String(150), default="")
+    quiz_type = Column(String(10))
+    score_pct = Column(Float, default=0.0)
+    correct = Column(Integer, default=0)
+    total = Column(Integer, default=0)
+    weak_concepts_json = Column(Text, default="[]")
+    tab_switches = Column(Integer, default=0)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class CaseletProject(Base):
+    """A student's project built on a caselet."""
+    __tablename__ = "caselet_projects"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), index=True)
+    caselet_id = Column(String(50))
+    model_name = Column(String(80))
+    metrics_json = Column(Text, default="{}")
+    skills_json = Column(Text, default="[]")
+    recommendation = Column(Text)
+    score = Column(Float, default=0.0)
+    feedback_json = Column(Text, default="{}")
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -332,8 +367,17 @@ def get_db():
         db.close()
 
 
+def _add_columns(table, columns):
+    with engine.begin() as connection:
+        existing = {column["name"] for column in inspect(connection).get_columns(table)}
+        for name, definition in columns.items():
+            if name not in existing:
+                connection.exec_driver_sql(f'ALTER TABLE "{table}" ADD COLUMN "{name}" {definition}')
+
+
 def init_db():
     Base.metadata.create_all(bind=engine)
+    _add_columns("reflections", {"score": "FLOAT", "feedback_json": "TEXT"})
     with engine.begin() as connection:
         question_columns = {column["name"] for column in inspect(connection).get_columns("questions")}
         question_additions = {

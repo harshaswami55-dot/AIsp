@@ -6,14 +6,14 @@ import {
 } from 'lucide-react';
 import InteractiveChart from '../components/InteractiveChart';
 
-export default function ForecastingLabView() {
+export default function ForecastingLabView({ initialDatasetName, initialModel, taskText } = {}) {
   const [datasets, setDatasets] = useState([]);
   const [selectedDatasetId, setSelectedDatasetId] = useState(1);
   const [datasetDetails, setDatasetDetails] = useState(null);
   const [analysisData, setAnalysisData] = useState(null);
 
   // Model training state
-  const [selectedModel, setSelectedModel] = useState('holt_winters');
+  const [selectedModel, setSelectedModel] = useState(initialModel || 'holt_winters');
   const [horizon, setHorizon] = useState(6);
   const [params, setParams] = useState({
     p: 1, d: 1, q: 1,
@@ -45,7 +45,9 @@ export default function ForecastingLabView() {
       const data = await res.json();
       setDatasets(data.datasets || []);
       if (data.datasets && data.datasets.length > 0) {
-        setSelectedDatasetId(data.datasets[0].id);
+        const wanted = initialDatasetName?.trim().toLowerCase();
+        const match = wanted && data.datasets.find(d => d.name?.trim().toLowerCase() === wanted);
+        setSelectedDatasetId((match || data.datasets[0]).id);
       }
     } catch (e) {
       console.error(e);
@@ -131,6 +133,11 @@ export default function ForecastingLabView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {taskText && (
+        <div className="card-inset" style={{ padding: '14px 18px', borderLeft: '3px solid var(--color-accent)', color: 'var(--color-text-2)', fontSize: '0.88rem', lineHeight: 1.55 }}>
+          <strong style={{ color: 'var(--color-text)' }}>Lab task: </strong>{taskText}
+        </div>
+      )}
       {/* Top Controls Header */}
       <div className="glass-panel" style={{ padding: '20px 24px' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
@@ -139,14 +146,14 @@ export default function ForecastingLabView() {
               <span className="badge badge-blue">Interactive Lab</span>
               <span className="badge badge-purple">Real Python Calculations</span>
             </div>
-            <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#ffffff' }}>
+            <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: 'var(--color-text)' }}>
               MBA Forecasting Lab & Statistical Laboratory
             </h2>
           </div>
 
           {/* Dataset Selector */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Dataset:</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--color-text-2)' }}>Dataset:</span>
             <select
               style={{ width: '230px', fontWeight: 600 }}
               value={selectedDatasetId}
@@ -167,14 +174,14 @@ export default function ForecastingLabView() {
         {/* Left Column: Model Selection & Parameters */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div className="glass-panel" style={{ padding: '20px' }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Sliders size={16} color="#3b82f6" /> Model Configuration
             </h3>
 
             {/* Model Family */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
-                <label style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600, display: 'block', marginBottom: '4px' }}>
+                <label style={{ fontSize: '0.78rem', color: 'var(--color-text-2)', fontWeight: 600, display: 'block', marginBottom: '4px' }}>
                   SELECT FORECASTING ALGORITHM
                 </label>
                 <select
@@ -203,7 +210,7 @@ export default function ForecastingLabView() {
 
               {/* Horizon */}
               <div>
-                <label style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600, display: 'block', marginBottom: '4px' }}>
+                <label style={{ fontSize: '0.78rem', color: 'var(--color-text-2)', fontWeight: 600, display: 'block', marginBottom: '4px' }}>
                   FORECAST HORIZON (PERIODS)
                 </label>
                 <input
@@ -217,21 +224,21 @@ export default function ForecastingLabView() {
 
               {/* ARIMA Parameters */}
               {isArima && (
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ background: 'var(--color-surface-2)', padding: '12px', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
                   <span style={{ fontSize: '0.75rem', color: '#60a5fa', fontWeight: 700, display: 'block', marginBottom: '8px' }}>
                     ARIMA Orders (p, d, q)
                   </span>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
                     <div>
-                      <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>p (AR)</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--color-text-2)' }}>p (AR)</span>
                       <input type="number" min="0" max="5" value={params.p} onChange={(e) => setParams({ ...params, p: parseInt(e.target.value) || 0 })} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>d (Diff)</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--color-text-2)' }}>d (Diff)</span>
                       <input type="number" min="0" max="2" value={params.d} onChange={(e) => setParams({ ...params, d: parseInt(e.target.value) || 0 })} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>q (MA)</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--color-text-2)' }}>q (MA)</span>
                       <input type="number" min="0" max="5" value={params.q} onChange={(e) => setParams({ ...params, q: parseInt(e.target.value) || 0 })} />
                     </div>
                   </div>
@@ -240,25 +247,25 @@ export default function ForecastingLabView() {
 
               {/* Seasonal Orders */}
               {selectedModel === 'sarima' && (
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ background: 'var(--color-surface-2)', padding: '12px', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
                   <span style={{ fontSize: '0.75rem', color: '#c4b5fd', fontWeight: 700, display: 'block', marginBottom: '8px' }}>
                     Seasonal Orders (P, D, Q)_s
                   </span>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '6px' }}>
                     <div>
-                      <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>P</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--color-text-2)' }}>P</span>
                       <input type="number" min="0" max="2" value={params.P} onChange={(e) => setParams({ ...params, P: parseInt(e.target.value) || 0 })} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>D</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--color-text-2)' }}>D</span>
                       <input type="number" min="0" max="1" value={params.D} onChange={(e) => setParams({ ...params, D: parseInt(e.target.value) || 0 })} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Q</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--color-text-2)' }}>Q</span>
                       <input type="number" min="0" max="2" value={params.Q} onChange={(e) => setParams({ ...params, Q: parseInt(e.target.value) || 0 })} />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>s (Cycle)</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--color-text-2)' }}>s (Cycle)</span>
                       <input type="number" min="2" max="24" value={params.s} onChange={(e) => setParams({ ...params, s: parseInt(e.target.value) || 12 })} />
                     </div>
                   </div>
@@ -267,7 +274,7 @@ export default function ForecastingLabView() {
 
               {selectedModel === 'moving_average' && (
                 <div>
-                  <label style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600, display: 'block', marginBottom: '4px' }}>
+                  <label style={{ fontSize: '0.75rem', color: 'var(--color-text-2)', fontWeight: 600, display: 'block', marginBottom: '4px' }}>
                     Window Size (k periods)
                   </label>
                   <input type="number" min="2" max="12" value={params.window} onChange={(e) => setParams({ ...params, window: parseInt(e.target.value) || 3 })} />
@@ -292,7 +299,7 @@ export default function ForecastingLabView() {
 
           {/* Upload Custom Dataset Card */}
           <div className="glass-panel" style={{ padding: '16px' }}>
-            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f1f5f9', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Upload size={14} /> Upload Custom CSV
             </h4>
             <form onSubmit={handleFileUpload} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -317,7 +324,7 @@ export default function ForecastingLabView() {
         {/* Right Column: Visualizer & Results */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* View Tabs */}
-          <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '10px' }}>
+          <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--color-border)', paddingBottom: '10px' }}>
             <button
               className={`btn ${activeTab === 'chart' ? 'btn-primary' : 'btn-secondary'}`}
               style={{ padding: '6px 14px', fontSize: '0.82rem' }}
@@ -375,47 +382,47 @@ export default function ForecastingLabView() {
               {modelResult?.model_result?.metrics && (
                 <div className="glass-panel" style={{ padding: '20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ffffff' }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-text)' }}>
                       Real Forecast Accuracy Metrics (Python Computed)
                     </h4>
                     <span className="badge badge-emerald">Out-of-Sample Evaluation</span>
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }}>
-                    <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600 }}>MAE (Absolute Error)</span>
+                    <div style={{ padding: '12px', background: 'var(--color-surface-2)', borderRadius: '10px', textAlign: 'center' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-text-2)', fontWeight: 600 }}>MAE (Absolute Error)</span>
                       <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8', marginTop: '4px' }}>
                         {modelResult.model_result.metrics.mae}
                       </div>
-                      <span style={{ fontSize: '0.68rem', color: '#64748b' }}>Original Units</span>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-3)' }}>Original Units</span>
                     </div>
 
-                    <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600 }}>MSE (Mean Squared)</span>
+                    <div style={{ padding: '12px', background: 'var(--color-surface-2)', borderRadius: '10px', textAlign: 'center' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-text-2)', fontWeight: 600 }}>MSE (Mean Squared)</span>
                       <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#818cf8', marginTop: '4px' }}>
                         {modelResult.model_result.metrics.mse}
                       </div>
-                      <span style={{ fontSize: '0.68rem', color: '#64748b' }}>Quadratic Penalty</span>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-3)' }}>Quadratic Penalty</span>
                     </div>
 
-                    <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600 }}>RMSE (Root MSE)</span>
+                    <div style={{ padding: '12px', background: 'var(--color-surface-2)', borderRadius: '10px', textAlign: 'center' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-text-2)', fontWeight: 600 }}>RMSE (Root MSE)</span>
                       <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f59e0b', marginTop: '4px' }}>
                         {modelResult.model_result.metrics.rmse}
                       </div>
-                      <span style={{ fontSize: '0.68rem', color: '#64748b' }}>Volatility Buffer</span>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-3)' }}>Volatility Buffer</span>
                     </div>
 
-                    <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', textAlign: 'center' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600 }}>MAPE (Percentage)</span>
+                    <div style={{ padding: '12px', background: 'var(--color-surface-2)', borderRadius: '10px', textAlign: 'center' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-text-2)', fontWeight: 600 }}>MAPE (Percentage)</span>
                       <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#10b981', marginTop: '4px' }}>
                         {modelResult.model_result.metrics.mape}%
                       </div>
-                      <span style={{ fontSize: '0.68rem', color: '#64748b' }}>Relative Deviation</span>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--color-text-3)' }}>Relative Deviation</span>
                     </div>
                   </div>
 
-                  <p style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '10px', fontStyle: 'italic' }}>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--color-text-2)', marginTop: '10px', fontStyle: 'italic' }}>
                     Footnote: {modelResult.model_result.metrics.note}
                   </p>
                 </div>
@@ -424,7 +431,7 @@ export default function ForecastingLabView() {
               {/* MANAGERIAL 3-LAYER INTERPRETATION */}
               {modelResult?.model_result?.managerial && (
                 <div className="glass-panel-glow" style={{ padding: '20px' }}>
-                  <h4 style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--color-text)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <FileText size={18} color="#3b82f6" /> Executive Decision Translation Layer
                   </h4>
 
@@ -432,7 +439,7 @@ export default function ForecastingLabView() {
                     {/* Layer 1: Forecast */}
                     <div style={{ background: 'rgba(59, 130, 246, 0.08)', padding: '12px 16px', borderRadius: '10px', borderLeft: '4px solid #3b82f6' }}>
                       <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#93c5fd' }}>1. STATISTICAL FORECAST STATEMENT</span>
-                      <p style={{ fontSize: '0.88rem', color: '#f1f5f9', marginTop: '4px' }}>
+                      <p style={{ fontSize: '0.88rem', color: 'var(--color-text)', marginTop: '4px' }}>
                         {modelResult.model_result.managerial.forecast_statement}
                       </p>
                     </div>
@@ -440,7 +447,7 @@ export default function ForecastingLabView() {
                     {/* Layer 2: Interpretation */}
                     <div style={{ background: 'rgba(245, 158, 11, 0.08)', padding: '12px 16px', borderRadius: '10px', borderLeft: '4px solid #f59e0b' }}>
                       <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#fcd34d' }}>2. BUSINESS INTERPRETATION & RISK ASSESSMENT</span>
-                      <p style={{ fontSize: '0.88rem', color: '#f1f5f9', marginTop: '4px' }}>
+                      <p style={{ fontSize: '0.88rem', color: 'var(--color-text)', marginTop: '4px' }}>
                         {modelResult.model_result.managerial.business_interpretation}
                       </p>
                     </div>
@@ -448,7 +455,7 @@ export default function ForecastingLabView() {
                     {/* Layer 3: Recommendation */}
                     <div style={{ background: 'rgba(16, 185, 129, 0.08)', padding: '12px 16px', borderRadius: '10px', borderLeft: '4px solid #10b981' }}>
                       <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#6ee7b7' }}>3. MANAGERIAL RECOMMENDATION FOR LEADERSHIP</span>
-                      <p style={{ fontSize: '0.88rem', color: '#f1f5f9', marginTop: '4px', whiteSpace: 'pre-wrap' }}>
+                      <p style={{ fontSize: '0.88rem', color: 'var(--color-text)', marginTop: '4px', whiteSpace: 'pre-wrap' }}>
                         {modelResult.model_result.managerial.managerial_recommendation}
                       </p>
                     </div>
@@ -462,7 +469,7 @@ export default function ForecastingLabView() {
           {activeTab === 'adf' && analysisData?.adf_test && (
             <div className="glass-panel" style={{ padding: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--color-text)' }}>
                   Augmented Dickey-Fuller (ADF) Unit Root Test
                 </h3>
                 <span className={`badge ${analysisData.adf_test.is_stationary ? 'badge-emerald' : 'badge-rose'}`} style={{ fontSize: '0.85rem' }}>
@@ -471,22 +478,22 @@ export default function ForecastingLabView() {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px', marginBottom: '20px' }}>
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '14px', borderRadius: '10px' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>ADF Test Statistic</span>
+                <div style={{ background: 'var(--color-surface-2)', padding: '14px', borderRadius: '10px' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-2)' }}>ADF Test Statistic</span>
                   <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8' }}>
                     {analysisData.adf_test.adf_statistic}
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '14px', borderRadius: '10px' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>p-Value (Threshold 0.05)</span>
+                <div style={{ background: 'var(--color-surface-2)', padding: '14px', borderRadius: '10px' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-2)' }}>p-Value (Threshold 0.05)</span>
                   <div style={{ fontSize: '1.4rem', fontWeight: 800, color: analysisData.adf_test.p_value < 0.05 ? '#10b981' : '#f43f5e' }}>
                     {analysisData.adf_test.p_value}
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '14px', borderRadius: '10px' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Critical Value (5%)</span>
+                <div style={{ background: 'var(--color-surface-2)', padding: '14px', borderRadius: '10px' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-2)' }}>Critical Value (5%)</span>
                   <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f59e0b' }}>
                     {analysisData.adf_test.critical_values?.['5%']}
                   </div>
@@ -495,14 +502,14 @@ export default function ForecastingLabView() {
 
               <div style={{ background: 'rgba(59, 130, 246, 0.1)', padding: '16px', borderRadius: '12px', borderLeft: '4px solid #3b82f6', marginBottom: '14px' }}>
                 <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#93c5fd' }}>EXPLANATION FOR MBA EXECUTIVES</div>
-                <p style={{ fontSize: '0.88rem', color: '#f1f5f9', marginTop: '6px', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.88rem', color: 'var(--color-text)', marginTop: '6px', lineHeight: 1.6 }}>
                   {analysisData.adf_test.explanation}
                 </p>
               </div>
 
               <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '16px', borderRadius: '12px', borderLeft: '4px solid #10b981' }}>
                 <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#6ee7b7' }}>ACTIONABLE MODELING RECOMMENDATION</div>
-                <p style={{ fontSize: '0.88rem', color: '#f1f5f9', marginTop: '6px' }}>
+                <p style={{ fontSize: '0.88rem', color: 'var(--color-text)', marginTop: '6px' }}>
                   {analysisData.adf_test.recommendation}
                 </p>
               </div>
@@ -552,12 +559,12 @@ export default function ForecastingLabView() {
           {/* TAB 5: DATA TABLE */}
           {activeTab === 'data' && datasetDetails && (
             <div className="glass-panel" style={{ padding: '20px', maxHeight: '480px', overflowY: 'auto' }}>
-              <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ffffff', marginBottom: '12px' }}>
+              <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '12px' }}>
                 Historical Observations ({datasetDetails.records?.length} rows)
               </h4>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', textAlign: 'left' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8' }}>
+                  <tr style={{ borderBottom: '1px solid var(--color-border)', color: 'var(--color-text-2)' }}>
                     <th style={{ padding: '8px' }}>Period</th>
                     <th style={{ padding: '8px' }}>Target ({datasetDetails.target_col})</th>
                     {datasetDetails.feature_cols?.map((col, i) => (
@@ -567,11 +574,11 @@ export default function ForecastingLabView() {
                 </thead>
                 <tbody>
                   {datasetDetails.records?.map((row, idx) => (
-                    <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <tr key={idx} style={{ borderBottom: '1px solid var(--color-border)' }}>
                       <td style={{ padding: '8px', color: '#93c5fd' }}>{row[datasetDetails.time_col]}</td>
-                      <td style={{ padding: '8px', fontWeight: 600, color: '#ffffff' }}>{row[datasetDetails.target_col]}</td>
+                      <td style={{ padding: '8px', fontWeight: 600, color: 'var(--color-text)' }}>{row[datasetDetails.target_col]}</td>
                       {datasetDetails.feature_cols?.map((col, i) => (
-                        <td key={i} style={{ padding: '8px', color: '#cbd5e1' }}>{row[col]}</td>
+                        <td key={i} style={{ padding: '8px', color: 'var(--color-text-2)' }}>{row[col]}</td>
                       ))}
                     </tr>
                   ))}

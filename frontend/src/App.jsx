@@ -41,14 +41,24 @@ export default function App() {
   };
 
   if (restoringSession) return <div className="public-loading" role="status">Restoring your session…</div>;
-  if (!currentUser) return <LoginView onLogin={handleLogin} onBack={() => {}} />;
-
-  if (currentUser.role === 'faculty') {
-    return <FacultyPortal currentUser={currentUser} onLogout={handleLogout} />;
+  if (!currentUser) {
+    return showLogin
+      ? <LoginView onLogin={handleLogin} onBack={() => setShowLogin(false)} />
+      : <LandingView onSignIn={() => { setShowLogin(true); window.scrollTo({ top: 0 }); }} />;
   }
 
-  if (currentUser.role === 'dean' || currentUser.role === 'admin') {
-    return <DeanPortal currentUser={currentUser} onLogout={handleLogout} />;
+  const isDean = currentUser.role === 'dean' || currentUser.role === 'admin';
+  // Deans also have faculty access, so they can switch between the two portals.
+  const switchPortal = (portal) => setCurrentUser(u => ({ ...u, portal }));
+
+  if (currentUser.role === 'faculty' || (isDean && currentUser.portal === 'faculty')) {
+    return <FacultyPortal currentUser={currentUser} onLogout={handleLogout}
+      switchTo={isDean ? { label: 'Switch to Dean portal', onClick: () => switchPortal('dean') } : undefined} />;
+  }
+
+  if (isDean) {
+    return <DeanPortal currentUser={currentUser} onLogout={handleLogout}
+      switchTo={{ label: 'Switch to Faculty portal', onClick: () => switchPortal('faculty') }} />;
   }
 
   return (

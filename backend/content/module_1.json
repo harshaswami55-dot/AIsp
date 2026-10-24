@@ -1,0 +1,2085 @@
+{
+ "module": 1,
+ "topics": [
+  {
+   "topic": "Nature and Importance of Forecasting",
+   "questions": [
+    {
+     "q": "Which statement best defines forecasting in a business context?",
+     "options": [
+      "Setting the sales figure that management wants the team to achieve next year, based on its growth ambitions",
+      "Predicting future values as accurately as possible using historical data and knowledge of likely future events",
+      "Recording and reporting last year's sales figures accurately so that the past performance is well understood",
+      "Guaranteeing what will happen in the future"
+     ],
+     "answer": "Predicting future values as accurately as possible using historical data and knowledge of likely future events",
+     "explanation": "Forecasting estimates what is likely to happen using data and judgement. Confusing it with target-setting is the most common mistake, because a target is what management wants, not what is likely.",
+     "difficulty": "easy",
+     "concept": "definition of forecasting"
+    },
+    {
+     "q": "How does a forecast differ from a goal (target)?",
+     "options": [
+      "A forecast is what is likely to happen; a goal is what management would like to happen",
+      "A forecast is always set higher than a goal so that the sales team stays motivated",
+      "A goal is based on data, while a forecast is based only on opinion",
+      "There is no difference; both words describe the same number"
+     ],
+     "answer": "A forecast is what is likely to happen; a goal is what management would like to happen",
+     "explanation": "Hyndman & Athanasopoulos stress that forecasts, goals and plans are different. Treating them as the same leads to forecasts inflated to match ambitions.",
+     "difficulty": "easy",
+     "concept": "forecast vs goal"
+    },
+    {
+     "q": "Which statement about forecasts is generally true?",
+     "options": [
+      "A good forecast should always equal the actual value exactly, otherwise the model is wrong",
+      "Forecasts are only needed when the future is certain",
+      "Forecast errors prove that forecasting has no business value",
+      "Forecasts are rarely exactly right, so an estimate of the likely error is useful"
+     ],
+     "answer": "Forecasts are rarely exactly right, so an estimate of the likely error is useful",
+     "explanation": "Because the future is uncertain, forecasts carry error; good practice reports a range or error measure. Expecting perfect accuracy is a misconception.",
+     "difficulty": "easy",
+     "concept": "forecasts are uncertain"
+    },
+    {
+     "q": "According to Hyndman & Athanasopoulos, which factor makes an event MORE predictable?",
+     "options": [
+      "The forecast itself changes how people involved behave",
+      "Very little historical data is available",
+      "We understand well the factors that drive it",
+      "The environment changes rapidly with no stable pattern"
+     ],
+     "answer": "We understand well the factors that drive it",
+     "explanation": "Predictability improves with good understanding of drivers, plenty of data and forecasts that do not affect the outcome. The other options all reduce predictability.",
+     "difficulty": "easy",
+     "concept": "predictability factors"
+    },
+    {
+     "q": "Qualitative (judgemental) forecasting methods are most appropriate when:",
+     "options": [
+      "Several years of clean monthly sales data are available for the product in question",
+      "Little or no relevant historical data is available, as for a new product",
+      "The company wants a purely automatic forecast with no human input",
+      "The variable follows a very stable seasonal pattern"
+     ],
+     "answer": "Little or no relevant historical data is available, as for a new product",
+     "explanation": "Judgemental methods are used when data are absent or not relevant. With plenty of stable history, quantitative methods are usually preferred.",
+     "difficulty": "easy",
+     "concept": "qualitative vs quantitative"
+    },
+    {
+     "q": "Quantitative forecasting methods require two conditions. Which pair is correct?",
+     "options": [
+      "Numerical data about the past exist, and some past patterns can be assumed to continue",
+      "Expert opinion is available from senior managers, and the future is known to be certain",
+      "A large marketing budget exists, and competitors share their data",
+      "Management has set a target, and the data are in percentages"
+     ],
+     "answer": "Numerical data about the past exist, and some past patterns can be assumed to continue",
+     "explanation": "Quantitative forecasting rests on past numeric data and the continuity assumption. Expert opinion belongs to qualitative forecasting.",
+     "difficulty": "easy",
+     "concept": "qualitative vs quantitative"
+    },
+    {
+     "q": "A manufacturer decides how many units to produce next month. Which function is using forecasts here?",
+     "options": [
+      "Statutory audit of last year's accounts",
+      "Legal and regulatory compliance",
+      "Investor relations reporting",
+      "Operations / production planning"
+     ],
+     "answer": "Operations / production planning",
+     "explanation": "Production scheduling depends on a demand forecast. The other functions mainly report on the past or on regulations rather than planning output.",
+     "difficulty": "easy",
+     "concept": "uses across functions"
+    },
+    {
+     "q": "A time series forecasting model predicts a variable using:",
+     "options": [
+      "Only the opinions and experience of senior managers",
+      "Other explanatory variables such as price and advertising, but not its own past values",
+      "Past values of the same variable recorded over time",
+      "Random numbers generated by a computer"
+     ],
+     "answer": "Past values of the same variable recorded over time",
+     "explanation": "Time series models extrapolate patterns in the variable's own history. Using other drivers describes an explanatory (causal) model.",
+     "difficulty": "easy",
+     "concept": "time series vs causal"
+    },
+    {
+     "q": "A model that predicts sales from price, advertising spend and competitor activity is called:",
+     "options": [
+      "A naive model",
+      "An explanatory (causal) model",
+      "A qualitative judgemental model",
+      "A pure time series model"
+     ],
+     "answer": "An explanatory (causal) model",
+     "explanation": "Explanatory models relate the forecast variable to its drivers. A pure time series model uses only the variable's own past.",
+     "difficulty": "easy",
+     "concept": "time series vs causal"
+    },
+    {
+     "q": "In forecasting, the term 'forecast horizon' refers to:",
+     "options": [
+      "How far into the future the forecast is made",
+      "The number of years of historical data used to fit the model",
+      "The accuracy level of the forecast",
+      "The geographical area the forecast covers"
+     ],
+     "answer": "How far into the future the forecast is made",
+     "explanation": "The horizon is the lead time between now and the period being forecast. It is often confused with the length of the history used.",
+     "difficulty": "easy",
+     "concept": "forecast horizon"
+    },
+    {
+     "q": "A Bengaluru bakery chain bakes each day's bread based on a next-day demand forecast. What is the main business benefit of a good forecast here?",
+     "options": [
+      "Higher prices for every product because customers expect freshness",
+      "Complete elimination of day-to-day demand uncertainty",
+      "No further need to record daily sales in the stores",
+      "Less wastage of unsold bread and fewer stock-outs"
+     ],
+     "answer": "Less wastage of unsold bread and fewer stock-outs",
+     "explanation": "For perishables, forecasts balance waste against lost sales. No forecast eliminates uncertainty, so claiming that is the main error.",
+     "difficulty": "medium",
+     "concept": "value of forecasting"
+    },
+    {
+     "q": "Why is next week's INR/USD exchange rate much harder to forecast than tomorrow's electricity demand in Mumbai?",
+     "options": [
+      "Exchange rates have no historical data available, while electricity demand has decades of recorded history",
+      "Electricity demand has no seasonal pattern, so it is simple to extrapolate from yesterday's value",
+      "Traders act on exchange-rate forecasts, so forecasts affect the outcome; electricity demand drivers are well understood",
+      "Exchange rates are fixed once a year by the government"
+     ],
+     "answer": "Traders act on exchange-rate forecasts, so forecasts affect the outcome; electricity demand drivers are well understood",
+     "explanation": "Hyndman & Athanasopoulos contrast these two cases: exchange rates are hard because forecasts feed back into trading, whereas electricity demand has well-understood drivers and long history.",
+     "difficulty": "medium",
+     "concept": "predictability factors"
+    },
+    {
+     "q": "A start-up is launching a new plant-based milk brand in India with no sales history. Which forecasting approach is most suitable at launch?",
+     "options": [
+      "A seasonal time series model fitted to the brand's own past monthly sales",
+      "Expert opinion, market surveys and analogy with similar launches",
+      "A naive forecast equal to last month's sales of the brand",
+      "Wait until three years of data exist before forecasting anything"
+     ],
+     "answer": "Expert opinion, market surveys and analogy with similar launches",
+     "explanation": "Without history, time series models cannot be fitted, so judgement and analogies are used. Waiting is not an option because launch decisions need numbers now.",
+     "difficulty": "medium",
+     "concept": "qualitative vs quantitative"
+    },
+    {
+     "q": "A sales head says: 'Our forecast for next year is Rs 12 crore because that is our target.' What is the main problem with this statement?",
+     "options": [
+      "It confuses a target with a forecast, which should be an unbiased estimate of what is likely",
+      "Forecasts should always be stated in units of product, never in rupees, so the figure is invalid",
+      "Targets should always be set lower than forecasts so that teams can beat them",
+      "There is no problem; forecasts and targets should be identical"
+     ],
+     "answer": "It confuses a target with a forecast, which should be an unbiased estimate of what is likely",
+     "explanation": "Plans built on a target dressed up as a forecast lead to over-stocking and over-hiring if the target is missed. Keep the forecast honest and treat any gap as a planning issue.",
+     "difficulty": "medium",
+     "concept": "forecast vs goal"
+    },
+    {
+     "q": "A forecast states: next month's demand is 1,000 units, with an 80% prediction interval of 850 to 1,150 units. What does this mean?",
+     "options": [
+      "Demand will be exactly 1,000 units, and the interval only shows rounding",
+      "Demand will be at least 80% of 1,000 units, that is 800 units or more",
+      "Demand is certain to lie between 850 and 1,150 units next month",
+      "There is about an 80% chance actual demand falls between 850 and 1,150 units"
+     ],
+     "answer": "There is about an 80% chance actual demand falls between 850 and 1,150 units",
+     "explanation": "A prediction interval expresses uncertainty with a stated probability. Reading it as certainty, or reading the point forecast as exact, are the common errors.",
+     "difficulty": "medium",
+     "concept": "point vs interval forecast"
+    },
+    {
+     "q": "Which situation is best suited to a time series forecasting approach?",
+     "options": [
+      "Forecasting sales of a product category that does not yet exist in India",
+      "Estimating how a 10% price cut will change demand for a detergent",
+      "Forecasting daily ATM cash withdrawals using three years of daily history",
+      "Assessing the demand effect of a new competitor entering the market"
+     ],
+     "answer": "Forecasting daily ATM cash withdrawals using three years of daily history",
+     "explanation": "Long, regular history of the same variable suits time series methods. The price-cut and competitor questions need explanatory (what-if) models or judgement.",
+     "difficulty": "medium",
+     "concept": "time series vs causal"
+    },
+    {
+     "q": "A firm predicts air-conditioner sales using forecasted temperature for the coming month. This approach is:",
+     "options": [
+      "A pure time series model, because temperature is itself recorded over time",
+      "An explanatory model, because sales are linked to an external driver",
+      "A qualitative method, because weather forecasts involve human judgement",
+      "A naive method, because it ignores past sales"
+     ],
+     "answer": "An explanatory model, because sales are linked to an external driver",
+     "explanation": "Using an external predictor (temperature) makes it explanatory. The fact that the predictor varies over time does not make it a pure time series model.",
+     "difficulty": "medium",
+     "concept": "time series vs causal"
+    },
+    {
+     "q": "A news report forecasts that a cooperative bank may fail, and depositors rush to withdraw money, causing the failure. This illustrates:",
+     "options": [
+      "A forecast influencing the very outcome it predicts",
+      "A purely seasonal pattern in bank withdrawals",
+      "A random error with no identifiable cause behind it",
+      "A highly predictable event with stable, well-understood drivers"
+     ],
+     "answer": "A forecast influencing the very outcome it predicts",
+     "explanation": "When forecasts change behaviour, the event becomes harder to predict, one of the predictability factors in Hyndman & Athanasopoulos.",
+     "difficulty": "medium",
+     "concept": "predictability factors"
+    },
+    {
+     "q": "Why do firms continue to forecast even though forecasts are never perfectly accurate?",
+     "options": [
+      "Because regulators require every company's sales forecast to be exactly correct each quarter",
+      "Because forecasting removes the need for planning and budgeting altogether",
+      "Because inaccurate forecasts are always cheaper to produce than accurate ones",
+      "Capacity, stock and staffing decisions must be made before demand is known, and a reasoned estimate beats guessing"
+     ],
+     "answer": "Capacity, stock and staffing decisions must be made before demand is known, and a reasoned estimate beats guessing",
+     "explanation": "Forecasting is valuable because lead times force early decisions. Its value lies in reducing, not eliminating, uncertainty.",
+     "difficulty": "medium",
+     "concept": "value of forecasting"
+    },
+    {
+     "q": "A retail chain estimates that Diwali demand will rise 20%, then decides to hire 50 temporary staff. Which part is the forecast?",
+     "options": [
+      "Deciding to hire 50 temporary staff for the season",
+      "Approving the budget for the temporary staff",
+      "Estimating the 20% rise in Diwali demand",
+      "Training the new staff before Diwali"
+     ],
+     "answer": "Estimating the 20% rise in Diwali demand",
+     "explanation": "The forecast is the estimate of what will happen; hiring is the plan made in response. Students often label the decision itself as the forecast.",
+     "difficulty": "medium",
+     "concept": "forecasting vs planning"
+    },
+    {
+     "q": "A dairy sells fresh milk with a one-day shelf life. An unsold litre costs Rs 20 (wasted), while a litre of unmet demand loses Rs 5 margin. The demand forecast is symmetric around 10,000 litres. What production decision is most sensible?",
+     "options": [
+      "Produce exactly 10,000 litres, because the decision should always equal the central forecast",
+      "Produce below 10,000 litres, near the 20th percentile of demand, since excess costs more than shortage",
+      "Produce above 10,000 litres, near the 80th percentile of demand, to avoid losing any customers",
+      "Produce 20,000 litres so that any possible demand can be covered"
+     ],
+     "answer": "Produce below 10,000 litres, near the 20th percentile of demand, since excess costs more than shortage",
+     "explanation": "The critical ratio is shortage cost / (shortage + excess cost) = 5/(5+20) = 0.20, so the best quantity is the 20th percentile. The 80th-percentile distractor flips the ratio (20/25).",
+     "difficulty": "hard",
+     "concept": "forecast vs decision"
+    },
+    {
+     "q": "An e-commerce firm has only 3 months of sales for a new 'smart home' category, but 5 years of data for a similar earlier category ('wearables'). What is the best forecasting approach?",
+     "options": [
+      "Use the wearables launch curve as an analogy, adjust it with expert judgement, and update as data arrive",
+      "Fit a complex seasonal model to the 3 months of smart home data alone, since recent data matter most",
+      "Ignore all data and use the category manager's sales target",
+      "Copy the wearables sales numbers exactly, without adjustment"
+     ],
+     "answer": "Use the wearables launch curve as an analogy, adjust it with expert judgement, and update as data arrive",
+     "explanation": "With short history, analogy plus judgement is the most defensible approach and it improves as data accumulate. Fitting seasonality to 3 months is impossible, and copying the analogue blindly ignores real differences.",
+     "difficulty": "hard",
+     "concept": "qualitative vs quantitative"
+    },
+    {
+     "q": "A retailer's forecasting model, built on five stable years of data, failed badly during the 2020 lockdown. Which assumption of quantitative forecasting was violated?",
+     "options": [
+      "That forecasts must always be expressed in percentage terms",
+      "That management judgement should never be used in forecasting",
+      "That the sales data contained no seasonal pattern",
+      "That past patterns would continue into the future"
+     ],
+     "answer": "That past patterns would continue into the future",
+     "explanation": "Quantitative methods assume continuity of past patterns. A structural shock breaks that assumption, which is when judgement and scenarios become essential.",
+     "difficulty": "hard",
+     "concept": "continuity assumption"
+    },
+    {
+     "q": "Using the predictability factors in Hyndman & Athanasopoulos, which of these is MOST predictable?",
+     "options": [
+      "The INR/USD exchange rate six months from now",
+      "The Sensex closing level on a particular date next year",
+      "Peak electricity demand in a city tomorrow afternoon",
+      "Sales of an entirely new product category three years from now"
+     ],
+     "answer": "Peak electricity demand in a city tomorrow afternoon",
+     "explanation": "Electricity demand has well-understood drivers, long history and is not affected by the forecast. Financial prices react to forecasts, and new categories lack data.",
+     "difficulty": "hard",
+     "concept": "predictability factors"
+    },
+    {
+     "q": "A manager argues: 'Our forecasts are often wrong, so let us stop forecasting and just react to demand.' What is the best response?",
+     "options": [
+      "Agree, because reacting to demand after it occurs is always cheaper than planning ahead of it",
+      "Every plan already assumes some future demand, so make it explicit, measure its error and set buffers",
+      "Agree, but only for products whose demand shows strong seasonal patterns",
+      "Disagree, because a better model will eventually make forecasts perfectly accurate"
+     ],
+     "answer": "Every plan already assumes some future demand, so make it explicit, measure its error and set buffers",
+     "explanation": "Lead times mean decisions are made before demand is known, so an implicit forecast exists anyway. Promising perfect accuracy is the opposite mistake.",
+     "difficulty": "hard",
+     "concept": "value of forecasting"
+    },
+    {
+     "q": "The statistical forecast shows 8% sales growth next year, but the board's target is 15%. What should management do?",
+     "options": [
+      "Plan operations on the 8% forecast and close the 7-point gap with specific initiatives",
+      "Raise the forecast to 15% so that production, inventory and hiring plans all match the board's target",
+      "Lower the target to 8%, because a target must always equal the forecast",
+      "Average the two figures and plan all operations for 11.5% growth"
+     ],
+     "answer": "Plan operations on the 8% forecast and close the 7-point gap with specific initiatives",
+     "explanation": "Forecasts should stay unbiased; the gap between forecast and target is what plans and initiatives must address. Inflating the forecast to the target leads to excess inventory and costs if the target is missed.",
+     "difficulty": "hard",
+     "concept": "forecast vs goal"
+    },
+    {
+     "q": "A 200-room Goa hotel forecasts 160 rooms sold for a December weekend (80% interval 130 to 195). A tour operator wants 30 rooms at a deep discount. What is the best assessment?",
+     "options": [
+      "Accept without further thought, because 160 + 30 = 190 rooms is below the 200-room capacity",
+      "Reject outright, because the point forecast alone already exceeds the hotel's capacity",
+      "The interval is irrelevant here; only the point forecast should guide the decision",
+      "It fits the point forecast (190 rooms), but the interval shows a real risk of displacing full-rate guests"
+     ],
+     "answer": "It fits the point forecast (190 rooms), but the interval shows a real risk of displacing full-rate guests",
+     "explanation": "If demand is near the upper end (195), adding 30 rooms would need 225 rooms, displacing full-rate guests. Ignoring the interval is the common mistake.",
+     "difficulty": "hard",
+     "concept": "point vs interval forecast"
+    },
+    {
+     "q": "A firm builds an explanatory model: ice-cream sales = f(temperature). What is a key practical limitation when using it to forecast next month's sales?",
+     "options": [
+      "Explanatory models cannot use numerical data such as temperature readings",
+      "Temperature has no relationship with ice-cream sales in Indian cities",
+      "Next month's temperature must itself be forecast, adding its uncertainty",
+      "The model can only reproduce past periods, never future ones"
+     ],
+     "answer": "Next month's temperature must itself be forecast, adding its uncertainty",
+     "explanation": "Explanatory models need future values of the predictors, which are often uncertain. This is why time series models are sometimes preferred for short-term forecasts.",
+     "difficulty": "hard",
+     "concept": "time series vs causal"
+    },
+    {
+     "q": "A company sells 2,000 SKUs. A low-value, stable SKU (Rs 50,000 annual sales) is forecast with a simple method. An analyst proposes a complex machine-learning model costing much more effort for this SKU. What is the best judgement?",
+     "options": [
+      "Always use the most complex model available for every SKU, since accuracy matters equally everywhere",
+      "Match effort to decision value: keep the simple method here and focus complex work on high-value items",
+      "Stop forecasting low-value SKUs entirely and reorder them at random intervals",
+      "Adopt the complex model, because added complexity always improves accuracy"
+     ],
+     "answer": "Match effort to decision value: keep the simple method here and focus complex work on high-value items",
+     "explanation": "Forecasting has a cost, and its benefit depends on the decision it supports. Complexity does not guarantee accuracy, especially for stable series.",
+     "difficulty": "hard",
+     "concept": "cost of forecasting"
+    },
+    {
+     "q": "Which statement about the nature of a good forecasting model is most accurate?",
+     "options": [
+      "It captures genuine patterns in the data without replicating one-off past events",
+      "It fits every past data point exactly, because a perfect historical fit guarantees good forecasts",
+      "It is always the most mathematically complex model available to the analyst",
+      "Its accuracy stays the same no matter how far ahead it forecasts"
+     ],
+     "answer": "It captures genuine patterns in the data without replicating one-off past events",
+     "explanation": "Hyndman & Athanasopoulos note good models capture real patterns but do not replicate one-off events. Perfect fit to history usually signals overfitting, and accuracy falls as the horizon grows.",
+     "difficulty": "hard",
+     "concept": "good forecast properties"
+    }
+   ],
+   "references": [
+    "Forecasting means estimating what is likely to happen in the future, such as next month's sales or next year's cash needs, using past data and knowledge about upcoming events. It is different from a target, which is what we want to happen, and from a plan, which is how we respond. Forecasts are never perfectly accurate, so a good forecast also tells us the likely range of error. Forecasting matters because most business decisions, like buying stock, hiring staff or building capacity, must be made before demand is known. Some things are easier to predict than others: we can forecast well when we understand the drivers, have enough data, and the forecast itself does not change the outcome.",
+    "Think of a supermarket chain like DMart planning for Diwali. It must order stock, schedule staff and arrange trucks weeks before customers arrive. A forecast gives the best estimate of demand, for example 25% higher than normal, based on past Diwali sales and this year's promotions. If they do not forecast, they will either run out of popular items or be stuck with unsold stock. The forecast will not be exact, so they also plan a buffer. When there is no history, like a new product, they use judgement, surveys and similar products. When there is plenty of data, they use quantitative methods such as time series or causal models.",
+    "As a manager, every decision involving the future already contains a forecast, whether stated or not. Forecasting makes that assumption explicit so we can plan inventory, production, staffing, budgets and capacity sensibly. A good forecast is an honest, unbiased estimate of what is likely, not the target we wish for, and it comes with a sense of uncertainty, such as a range. Forecasts can be qualitative, using expert judgement when data are scarce, or quantitative, using historical data and assuming past patterns continue. Their usefulness depends on predictability: well-understood drivers and good data help. Since errors are inevitable, we should measure accuracy and keep buffers rather than abandon forecasting."
+   ],
+   "key_concepts": [
+    "future",
+    "uncertainty",
+    "historical data",
+    "judgement",
+    "decision making",
+    "planning",
+    "qualitative",
+    "quantitative",
+    "time series",
+    "not a target",
+    "inventory",
+    "prediction interval",
+    "accuracy"
+   ]
+  },
+  {
+   "topic": "Components, Types of Forecasts: Short-term, Medium-term, Long-term",
+   "questions": [
+    {
+     "q": "Short-term forecasts typically cover a period of:",
+     "options": [
+      "3 months to 3 years",
+      "3 to 10 years",
+      "Days to a few months (usually up to about 3 months)",
+      "More than 10 years"
+     ],
+     "answer": "Days to a few months (usually up to about 3 months)",
+     "explanation": "Short-range forecasts usually run up to about 3 months (at most a year) and support scheduling and replenishment. 3 months to 3 years is the medium-term range.",
+     "difficulty": "easy",
+     "concept": "horizon definitions"
+    },
+    {
+     "q": "Medium-term forecasts typically cover a period of about:",
+     "options": [
+      "One day to one week",
+      "3 months to 3 years",
+      "Up to 3 months only",
+      "10 years or more"
+     ],
+     "answer": "3 months to 3 years",
+     "explanation": "Medium-range forecasts span roughly 3 months to 3 years and support aggregate planning and budgeting. Up to 3 months is short term.",
+     "difficulty": "easy",
+     "concept": "horizon definitions"
+    },
+    {
+     "q": "Long-term forecasts (usually 3 years or more) are mainly used for:",
+     "options": [
+      "Capacity expansion, facility location and new product or market strategy",
+      "Daily delivery route planning",
+      "Weekly shift rosters",
+      "Hourly call-centre staffing"
+     ],
+     "answer": "Capacity expansion, facility location and new product or market strategy",
+     "explanation": "Long-range forecasts guide strategic decisions that take years to implement. Routing and rosters are short-term operational decisions.",
+     "difficulty": "easy",
+     "concept": "horizon definitions"
+    },
+    {
+     "q": "Which decision relies mainly on a short-term forecast?",
+     "options": [
+      "Building a new manufacturing plant",
+      "Entering a new country market",
+      "Deciding the next five-year capital budget",
+      "Scheduling store staff for next week"
+     ],
+     "answer": "Scheduling store staff for next week",
+     "explanation": "Weekly staffing uses near-term demand. Plants, market entry and five-year budgets are long-term strategic decisions.",
+     "difficulty": "easy",
+     "concept": "horizon-decision match"
+    },
+    {
+     "q": "Which decision relies mainly on a long-term forecast?",
+     "options": [
+      "Placing tomorrow's vegetable order for a busy Koramangala restaurant",
+      "Allocating trucks for this week's deliveries",
+      "Deciding whether to set up a new manufacturing plant in Gujarat",
+      "Planning next month's overtime"
+     ],
+     "answer": "Deciding whether to set up a new manufacturing plant in Gujarat",
+     "explanation": "A new plant takes years to build and pay back, so it needs a long-range forecast. The others are short-term operational choices.",
+     "difficulty": "easy",
+     "concept": "horizon-decision match"
+    },
+    {
+     "q": "The trend component of a time series is:",
+     "options": [
+      "A pattern that repeats every year at the same time",
+      "The long-run upward or downward movement in the data",
+      "Unpredictable one-off fluctuations",
+      "Rises and falls of irregular length linked to the economy"
+     ],
+     "answer": "The long-run upward or downward movement in the data",
+     "explanation": "Trend is the long-term direction. A pattern repeating at fixed intervals is seasonality.",
+     "difficulty": "easy",
+     "concept": "trend component"
+    },
+    {
+     "q": "Seasonality in a time series refers to:",
+     "options": [
+      "A regular pattern that repeats over a fixed, known period such as a year or a week",
+      "A long-run steady increase",
+      "Fluctuations of varying length tied to business cycles",
+      "Random noise that cannot be explained"
+     ],
+     "answer": "A regular pattern that repeats over a fixed, known period such as a year or a week",
+     "explanation": "Seasonality has a fixed period (e.g., festive peaks every October-November). Fluctuations of varying length are cyclical, not seasonal.",
+     "difficulty": "easy",
+     "concept": "seasonal component"
+    },
+    {
+     "q": "The cyclical component of a time series refers to:",
+     "options": [
+      "Patterns that repeat every week",
+      "The long-run average growth rate",
+      "Errors made by the forecaster",
+      "Rises and falls that are not of fixed period, often linked to economic or business cycles lasting more than a year"
+     ],
+     "answer": "Rises and falls that are not of fixed period, often linked to economic or business cycles lasting more than a year",
+     "explanation": "Cycles have variable length and are usually tied to the economy. Fixed-period patterns are seasonal.",
+     "difficulty": "easy",
+     "concept": "cyclical component"
+    },
+    {
+     "q": "The irregular (random) component of a time series is:",
+     "options": [
+      "The steady growth in sales over years",
+      "A festive peak that occurs every year",
+      "Unpredictable fluctuations left after removing trend, seasonal and cyclical effects",
+      "The forecast made by the manager"
+     ],
+     "answer": "Unpredictable fluctuations left after removing trend, seasonal and cyclical effects",
+     "explanation": "The irregular component is the residual noise. It cannot be forecast, unlike trend and seasonality.",
+     "difficulty": "easy",
+     "concept": "irregular component"
+    },
+    {
+     "q": "A forecast of how quickly electric-vehicle battery costs will fall over the next decade is an example of:",
+     "options": [
+      "A demand forecast for next week",
+      "A technological forecast",
+      "A short-term sales forecast",
+      "An inventory reorder forecast"
+     ],
+     "answer": "A technological forecast",
+     "explanation": "Forecasts are also classified by subject: economic, technological and demand forecasts. Predicting the pace of technical change is technological forecasting.",
+     "difficulty": "easy",
+     "concept": "types by subject"
+    },
+    {
+     "q": "Ice-cream sales in Chennai peak every April-May and dip every December-January. This pattern is best described as:",
+     "options": [
+      "Seasonal",
+      "Cyclical",
+      "Trend",
+      "Irregular"
+     ],
+     "answer": "Seasonal",
+     "explanation": "The pattern repeats at the same time every year, so it is seasonal. Cyclical movements do not have a fixed period.",
+     "difficulty": "medium",
+     "concept": "seasonal component"
+    },
+    {
+     "q": "Passenger car sales in India fell during an economic slowdown and recovered over the following years as the economy improved, with no fixed timing. This movement is best described as:",
+     "options": [
+      "Seasonal",
+      "Irregular",
+      "Trend",
+      "Cyclical"
+     ],
+     "answer": "Cyclical",
+     "explanation": "Multi-year rises and falls linked to the economy, without a fixed period, are cyclical. Seasonality repeats at a fixed calendar interval.",
+     "difficulty": "medium",
+     "concept": "cyclical component"
+    },
+    {
+     "q": "A store's sales drop sharply on one day because of a local bandh, then return to normal. This is an example of:",
+     "options": [
+      "The trend component",
+      "The seasonal component",
+      "The irregular (random) component",
+      "The cyclical component"
+     ],
+     "answer": "The irregular (random) component",
+     "explanation": "A one-off unpredictable event shows up as irregular variation. It does not repeat at fixed intervals and is not long-run.",
+     "difficulty": "medium",
+     "concept": "irregular component"
+    },
+    {
+     "q": "UPI transaction volumes in India have risen steadily year after year since 2017. This is primarily:",
+     "options": [
+      "Seasonality",
+      "A trend",
+      "An irregular component",
+      "A cyclical component"
+     ],
+     "answer": "A trend",
+     "explanation": "A sustained long-run increase is a trend. Month-to-month festive bumps on top of it would be seasonality.",
+     "difficulty": "medium",
+     "concept": "trend component"
+    },
+    {
+     "q": "Generally, which forecasts tend to be more accurate, and why?",
+     "options": [
+      "Short-term forecasts, because there is less time for conditions and patterns to change",
+      "Long-term forecasts, because they use more years of data",
+      "Long-term forecasts, because random short-term errors cancel each other out over many years",
+      "All horizons are equally accurate if the same model is used"
+     ],
+     "answer": "Short-term forecasts, because there is less time for conditions and patterns to change",
+     "explanation": "Uncertainty grows with the horizon, so short-term forecasts are usually more accurate. More historical data does not offset the growing uncertainty of the far future.",
+     "difficulty": "medium",
+     "concept": "accuracy vs horizon"
+    },
+    {
+     "q": "An FMCG company sets workforce levels and monthly production rates for the next 6 to 12 months (aggregate planning). Which forecast type does it mainly need?",
+     "options": [
+      "Short-term forecast",
+      "Long-term forecast",
+      "Technological forecast",
+      "Medium-term forecast"
+     ],
+     "answer": "Medium-term forecast",
+     "explanation": "Aggregate planning over 6-12 months uses medium-range forecasts. Short-term forecasts are for days/weeks; long-term for strategic capacity.",
+     "difficulty": "medium",
+     "concept": "horizon-decision match"
+    },
+    {
+     "q": "Long-term forecasts are usually prepared at what level of detail?",
+     "options": [
+      "Individual SKU and store level by day, as long-term plans need the most detail",
+      "Hourly level for each employee",
+      "Aggregate level, such as total sales or product families",
+      "Single-transaction level"
+     ],
+     "answer": "Aggregate level, such as total sales or product families",
+     "explanation": "Long-range decisions (capacity, strategy) need aggregate numbers, and aggregates are also more predictable far ahead. SKU-day detail suits short-term forecasts.",
+     "difficulty": "medium",
+     "concept": "aggregation by horizon"
+    },
+    {
+     "q": "In a multiplicative model Y = T x S x I, the trend value for December is 1,000 units, the December seasonal index is 1.25 and the irregular factor is 1. What is the expected December value?",
+     "options": [
+      "1,001.25 units",
+      "1,250 units",
+      "800 units",
+      "1,025 units"
+     ],
+     "answer": "1,250 units",
+     "explanation": "1,000 x 1.25 x 1 = 1,250. Adding the index (1,001.25) treats a multiplicative index as additive; dividing (800) is the deseasonalising step, not forecasting.",
+     "difficulty": "medium",
+     "concept": "additive vs multiplicative"
+    },
+    {
+     "q": "In an additive model Y = T + S + I, the trend value is 500, the seasonal effect is +60 and the irregular effect is -10. What is Y?",
+     "options": [
+      "550",
+      "570",
+      "560",
+      "440"
+     ],
+     "answer": "550",
+     "explanation": "500 + 60 - 10 = 550. 570 ignores the minus sign on the irregular term and 560 drops the irregular term entirely.",
+     "difficulty": "medium",
+     "concept": "additive vs multiplicative"
+    },
+    {
+     "q": "A company wants to forecast the size of India's market for drone deliveries 10 years from now. Which method is most typical?",
+     "options": [
+      "A 3-month moving average of the last quarter's drone delivery sales figures",
+      "Simple exponential smoothing on weekly data",
+      "A naive forecast equal to this month's value",
+      "Judgemental methods such as Delphi panels and scenario analysis"
+     ],
+     "answer": "Judgemental methods such as Delphi panels and scenario analysis",
+     "explanation": "Long-term forecasts of emerging markets have little relevant data, so expert and scenario methods dominate. Smoothing methods suit short-term forecasting of stable series.",
+     "difficulty": "medium",
+     "concept": "methods by horizon"
+    },
+    {
+     "q": "A hotel's Q3 revenue was Rs 150 lakh and the Q3 seasonal index is 1.20. What is the deseasonalised Q3 revenue?",
+     "options": [
+      "Rs 180 lakh",
+      "Rs 148.8 lakh",
+      "Rs 125 lakh",
+      "Rs 30 lakh"
+     ],
+     "answer": "Rs 125 lakh",
+     "explanation": "Deseasonalise by dividing: 150 / 1.20 = 125. Multiplying (180) applies the seasonal effect twice instead of removing it.",
+     "difficulty": "hard",
+     "concept": "seasonal index"
+    },
+    {
+     "q": "A clothing retailer's festive peaks grow larger every year as overall sales grow (e.g., peak +20 lakh when base was 100, +40 lakh when base was 200). Which decomposition is more appropriate and why?",
+     "options": [
+      "Additive, because the seasonal swing stays constant in absolute terms",
+      "Multiplicative, because the size of the seasonal swing is proportional to the level of the series",
+      "Additive, because sales are measured in rupees",
+      "Neither; seasonality cannot coexist with a trend"
+     ],
+     "answer": "Multiplicative, because the size of the seasonal swing is proportional to the level of the series",
+     "explanation": "When seasonal swings scale with the level (here 20% each time), a multiplicative model fits. An additive model assumes a constant absolute swing, which is not the case here.",
+     "difficulty": "hard",
+     "concept": "additive vs multiplicative"
+    },
+    {
+     "q": "A cement company sees demand upswings lasting 3 to 5 years, of varying length, tied to construction booms. Why is this not seasonality, and what is the managerial implication?",
+     "options": [
+      "Its period is not fixed, so it is cyclical; its timing is hard to predict and should be handled with economic indicators and scenarios",
+      "It is seasonal because it repeats; a seasonal index will forecast it precisely",
+      "It is a trend because it lasts more than a year; extrapolate it linearly",
+      "It is irregular noise and should be ignored in planning"
+     ],
+     "answer": "Its period is not fixed, so it is cyclical; its timing is hard to predict and should be handled with economic indicators and scenarios",
+     "explanation": "Cycles vary in length, so seasonal indices cannot capture them and linear extrapolation misreads turning points. Leading indicators and scenarios are the usual approach.",
+     "difficulty": "hard",
+     "concept": "cyclical component"
+    },
+    {
+     "q": "An FMCG firm makes three decisions: (a) daily truck dispatch to distributors, (b) next year's quarterly volumes at contract manufacturers, (c) entering two new states in five years. Which mapping of forecast horizons is correct?",
+     "options": [
+      "(a) medium-term, (b) short-term, (c) long-term",
+      "(a) short-term, (b) long-term, (c) medium-term",
+      "(a) long-term, (b) medium-term, (c) short-term",
+      "(a) short-term, (b) medium-term, (c) long-term"
+     ],
+     "answer": "(a) short-term, (b) medium-term, (c) long-term",
+     "explanation": "Daily dispatch is short-term, a one-year contract-manufacturing plan is medium-term and five-year market entry is long-term. Confusing (b) with long-term is common because it involves annual numbers.",
+     "difficulty": "hard",
+     "concept": "horizon-decision match"
+    },
+    {
+     "q": "A firm's one-month-ahead forecasts have about 5% error, but its three-year forecasts were off by 35%. How should management use long-term forecasts?",
+     "options": [
+      "Stop using long-term forecasts because they are inaccurate",
+      "Use the same single-point approach as monthly forecasts and commit fully",
+      "Treat them as ranges or scenarios, review them regularly, and favour flexible decisions that can be adjusted as information improves",
+      "Average the monthly and three-year errors and assume 20% error for all horizons"
+     ],
+     "answer": "Treat them as ranges or scenarios, review them regularly, and favour flexible decisions that can be adjusted as information improves",
+     "explanation": "Error grows with horizon, so long-term forecasts should express uncertainty and support flexible decisions. Abandoning them leaves strategic decisions with no basis at all.",
+     "difficulty": "hard",
+     "concept": "accuracy vs horizon"
+    },
+    {
+     "q": "A multiplicative model has trend T = 200 + 5t (t in months) and a seasonal index of 0.90 for month t = 24. What is the forecast for month 24?",
+     "options": [
+      "320",
+      "288",
+      "319.1",
+      "355.6"
+     ],
+     "answer": "288",
+     "explanation": "Trend at t = 24 is 200 + 120 = 320; times 0.90 gives 288. 320 ignores seasonality, 319.1 subtracts the index additively and 355.6 divides by the index.",
+     "difficulty": "hard",
+     "concept": "additive vs multiplicative"
+    },
+    {
+     "q": "Why is the forecast of total shampoo sales across all 40 SKUs usually more accurate (in percentage terms) than the forecasts for individual SKUs?",
+     "options": [
+      "Random errors of individual SKUs partly offset each other when aggregated",
+      "The total uses a longer forecast horizon",
+      "Individual SKUs have no seasonality",
+      "Aggregated data always follow a straight-line trend"
+     ],
+     "answer": "Random errors of individual SKUs partly offset each other when aggregated",
+     "explanation": "Aggregation pools independent random variation, so relative error falls. This is why long-range plans use aggregate forecasts.",
+     "difficulty": "hard",
+     "concept": "aggregation by horizon"
+    },
+    {
+     "q": "A store sold 1,500 units in December (seasonal index 1.5) and 1,100 units in February (seasonal index 0.9). Which month showed stronger underlying performance after removing seasonality?",
+     "options": [
+      "December, because 1,500 is greater than 1,100",
+      "December, with deseasonalised sales of 2,250 units versus only 990 units for February",
+      "Both are equal once seasonality is removed",
+      "February, with deseasonalised sales of about 1,222 versus 1,000 for December"
+     ],
+     "answer": "February, with deseasonalised sales of about 1,222 versus 1,000 for December",
+     "explanation": "1,500/1.5 = 1,000 and 1,100/0.9 = 1,222. Comparing raw figures, or multiplying by the index, misses the seasonal adjustment.",
+     "difficulty": "hard",
+     "concept": "seasonal index"
+    },
+    {
+     "q": "School-bag sales in Kerala have grown about 6% a year, spike every May-June before schools reopen, and dipped sharply during the 2018 floods. Which components are present?",
+     "options": [
+      "Cyclical (the 6% annual growth), trend (the May-June spike) and seasonality (the 2018 floods)",
+      "Only seasonality, because school reopening drives everything",
+      "Trend (6% growth), seasonality (May-June spike) and an irregular component (2018 floods)",
+      "Trend (May-June spike), irregular (6% growth) and cyclical (floods)"
+     ],
+     "answer": "Trend (6% growth), seasonality (May-June spike) and an irregular component (2018 floods)",
+     "explanation": "Steady growth is trend, a fixed annual spike is seasonal, and a one-off disaster is irregular. Mislabelling the annual spike as trend or the flood as cyclical are typical errors.",
+     "difficulty": "hard",
+     "concept": "identifying components"
+    },
+    {
+     "q": "Which combination of method and data granularity is most appropriate?",
+     "options": [
+      "Short-term: Delphi expert panels and scenarios on annual aggregate data; long-term: exponential smoothing on daily SKU-level data",
+      "Short-term: exponential smoothing on weekly SKU-level data; long-term: judgemental or causal methods on annual aggregate data",
+      "Both horizons: a 3-month moving average on daily SKU data",
+      "Short-term: scenario planning on 10-year data; long-term: naive forecasts on hourly data"
+     ],
+     "answer": "Short-term: exponential smoothing on weekly SKU-level data; long-term: judgemental or causal methods on annual aggregate data",
+     "explanation": "Short horizons need detailed, quick, data-driven methods; long horizons need aggregate data and judgement or causal reasoning. Swapping them mismatches method to decision.",
+     "difficulty": "hard",
+     "concept": "methods by horizon"
+    }
+   ],
+   "references": [
+    "A forecast can be classified by how far ahead it looks. Short-term forecasts cover days to about three months and support scheduling, ordering and staffing. Medium-term forecasts, roughly three months to three years, support aggregate production plans, budgets and hiring. Long-term forecasts, three years or more, support capacity, new plants, products and markets. Accuracy falls as the horizon lengthens, so long-term forecasts are made at an aggregate level and with more judgement. The data we forecast usually has components: a trend (long-run direction), seasonality (repeating pattern with a fixed period), cyclical movements (longer, irregular-length business cycles) and an irregular random part that cannot be predicted. Components can combine additively or multiplicatively.",
+    "Take a paint company like Asian Paints. Each week it forecasts SKU demand at depots to plan dispatches; this is short-term. Each year it forecasts quarterly volumes to set production plans and budgets; this is medium-term. For a new factory it forecasts demand five to ten years out; this is long-term and relies on aggregate trends and scenarios. When it studies past sales, it sees a growing trend, a seasonal peak before Diwali when people repaint homes, cyclical swings with the real-estate cycle, and random bumps from events like heavy rain. Separating these components helps forecast each properly, and the shorter the horizon, the more accurate the forecast usually is.",
+    "For managers, the key is matching the forecast to the decision. Short-term forecasts drive operational decisions such as inventory replenishment and shift rosters, and can use statistical methods on detailed data. Medium-term forecasts drive tactical decisions like aggregate planning, budgets and workforce levels. Long-term forecasts drive strategic decisions like capacity and market entry, and should be given as ranges or scenarios because uncertainty grows with the horizon. Understanding the components of a series helps: trend shows direction, seasonality tells us when peaks occur, cycles warn of economic swings, and the irregular part reminds us some error is unavoidable. Seasonal indices let us deseasonalise data to compare months fairly."
+   ],
+   "key_concepts": [
+    "short-term",
+    "medium-term",
+    "long-term",
+    "horizon",
+    "trend",
+    "seasonality",
+    "cyclical",
+    "irregular",
+    "scheduling",
+    "aggregate planning",
+    "capacity",
+    "strategic",
+    "accuracy decreases",
+    "multiplicative",
+    "additive"
+   ]
+  },
+  {
+   "topic": "Forecasting Process: Steps and Challenges",
+   "questions": [
+    {
+     "q": "In the forecasting process described by Hyndman & Athanasopoulos, what is the first step?",
+     "options": [
+      "Choosing and fitting models",
+      "Gathering information",
+      "Using and evaluating the forecasting model",
+      "Problem definition"
+     ],
+     "answer": "Problem definition",
+     "explanation": "The process starts by defining what is to be forecast, for whom and how it will be used. Jumping to model choice first is a common mistake.",
+     "difficulty": "easy",
+     "concept": "process steps order"
+    },
+    {
+     "q": "Which step comes immediately after problem definition in the forecasting process?",
+     "options": [
+      "Choosing and fitting models",
+      "Evaluating forecast accuracy",
+      "Gathering information: data and the knowledge of people in the business",
+      "Preliminary (exploratory) analysis of the data to spot trends and outliers"
+     ],
+     "answer": "Gathering information: data and the knowledge of people in the business",
+     "explanation": "After defining the problem, the forecaster gathers data and judgemental knowledge. Exploratory analysis needs that data first.",
+     "difficulty": "easy",
+     "concept": "process steps order"
+    },
+    {
+     "q": "What is the main purpose of the preliminary (exploratory) analysis step?",
+     "options": [
+      "To publish the final forecast to management and explain how it was produced",
+      "To graph the data and spot trends, seasonality and outliers before modelling",
+      "To set the sales target for next year",
+      "To collect opinions from customers"
+     ],
+     "answer": "To graph the data and spot trends, seasonality and outliers before modelling",
+     "explanation": "Plotting and summarising data reveals patterns and problems that guide model choice. Publishing forecasts happens at the end of the process.",
+     "difficulty": "easy",
+     "concept": "exploratory analysis"
+    },
+    {
+     "q": "What happens in the final step, 'using and evaluating a forecasting model'?",
+     "options": [
+      "Forecasts are used for decisions and their accuracy is checked against actuals",
+      "The problem is defined and the users of the forecast are identified for the first time",
+      "Raw data are collected from databases",
+      "Outliers are identified by plotting the data"
+     ],
+     "answer": "Forecasts are used for decisions and their accuracy is checked against actuals",
+     "explanation": "The last step closes the loop by comparing forecasts with actuals. Defining the problem and collecting data are earlier steps.",
+     "difficulty": "easy",
+     "concept": "evaluate and monitor"
+    },
+    {
+     "q": "Why is problem definition often described as the most difficult part of forecasting?",
+     "options": [
+      "It involves the most complex mathematics of the whole process, such as estimating many model parameters and checking every statistical assumption",
+      "It requires the largest amount of data",
+      "It can only be done after the model is chosen",
+      "It requires understanding how the forecasts will be used, who needs them and how forecasting fits into the organisation"
+     ],
+     "answer": "It requires understanding how the forecasts will be used, who needs them and how forecasting fits into the organisation",
+     "explanation": "Hyndman & Athanasopoulos note that defining the problem requires talking to everyone involved. The maths comes later and is often easier.",
+     "difficulty": "easy",
+     "concept": "problem definition"
+    },
+    {
+     "q": "Why do forecasters keep a 'test set' of recent data aside when building a model?",
+     "options": [
+      "To give the model more data to fit, so that it matches the training period as closely as possible",
+      "To increase the amount of data used for fitting",
+      "To check accuracy on data the model has not seen, giving a realistic estimate of forecast error",
+      "To remove seasonality from the data"
+     ],
+     "answer": "To check accuracy on data the model has not seen, giving a realistic estimate of forecast error",
+     "explanation": "Accuracy on fitted data is optimistic; a held-out test set mimics real forecasting. Using all data to fit makes evaluation unreliable.",
+     "difficulty": "easy",
+     "concept": "train-test evaluation"
+    },
+    {
+     "q": "A sudden, lasting change in the pattern of a time series, for example after a major policy change, is called:",
+     "options": [
+      "A seasonal index",
+      "A structural break",
+      "A moving average",
+      "A forecast horizon"
+     ],
+     "answer": "A structural break",
+     "explanation": "A structural break means the old pattern no longer holds, a key forecasting challenge.",
+     "difficulty": "easy",
+     "concept": "structural change challenge"
+    },
+    {
+     "q": "An unusually high sales figure caused by a one-off bulk order from a single client is best described as:",
+     "options": [
+      "An outlier",
+      "A trend",
+      "A seasonal pattern",
+      "A forecast horizon"
+     ],
+     "answer": "An outlier",
+     "explanation": "An outlier is an observation far from the usual pattern. Treating it as trend would distort future forecasts.",
+     "difficulty": "easy",
+     "concept": "outliers and data quality"
+    },
+    {
+     "q": "Why is input from domain experts (e.g., sales and marketing staff) valuable in the forecasting process?",
+     "options": [
+      "They can replace all historical data, so statistical models are no longer needed once their opinions have been collected",
+      "They guarantee forecasts will be exactly right",
+      "They remove the need for evaluating accuracy",
+      "They know about upcoming events such as promotions, price changes or new competitors that are not in historical data"
+     ],
+     "answer": "They know about upcoming events such as promotions, price changes or new competitors that are not in historical data",
+     "explanation": "Judgement adds information about the future that data cannot contain. Over-relying on it without checking bias is the opposite risk.",
+     "difficulty": "easy",
+     "concept": "role of judgement"
+    },
+    {
+     "q": "Which is a common data challenge in forecasting?",
+     "options": [
+      "Having too few forecasting textbooks",
+      "Using graphs during exploratory analysis, which tends to hide outliers and distort the patterns",
+      "Missing values, recording errors and changes in how data are defined over time",
+      "Reporting forecasts to managers"
+     ],
+     "answer": "Missing values, recording errors and changes in how data are defined over time",
+     "explanation": "Real business data are messy; cleaning them is a large part of the process. Graphs are a tool for finding such problems, not the problem itself.",
+     "difficulty": "easy",
+     "concept": "outliers and data quality"
+    },
+    {
+     "q": "Which sequence correctly lists the five basic steps of a forecasting task?",
+     "options": [
+      "Gathering information, choosing models, problem definition, preliminary analysis, evaluating the model",
+      "Problem definition, gathering information, preliminary analysis, choosing and fitting models, using and evaluating the model",
+      "Choosing models, problem definition, gathering information, evaluating, preliminary analysis",
+      "Problem definition, choosing and fitting models, gathering information, evaluating, preliminary analysis"
+     ],
+     "answer": "Problem definition, gathering information, preliminary analysis, choosing and fitting models, using and evaluating the model",
+     "explanation": "You must know the problem and see the data before choosing a model, and evaluation comes last. Choosing a model before exploring data is the typical error.",
+     "difficulty": "medium",
+     "concept": "process steps order"
+    },
+    {
+     "q": "A retailer's sales history understates true demand in weeks when products were out of stock. This challenge is known as:",
+     "options": [
+      "Censored (constrained) demand: recorded sales are not equal to true demand during stock-outs",
+      "Seasonality in the data",
+      "Overfitting, because the model learns the stock-out weeks as if they were genuine low-demand weeks",
+      "A long forecast horizon"
+     ],
+     "answer": "Censored (constrained) demand: recorded sales are not equal to true demand during stock-outs",
+     "explanation": "When shelves are empty, sales stop even if customers still want the product. Forecasting from raw sales then under-forecasts demand.",
+     "difficulty": "medium",
+     "concept": "sales vs demand data"
+    },
+    {
+     "q": "An analyst plots three years of monthly sales and notices sharp spikes every October-November. In which step did this discovery happen, and what does it suggest?",
+     "options": [
+      "Problem definition; it suggests the forecasting problem was wrongly defined and must be restated",
+      "Evaluation; it suggests the model is overfitting",
+      "Gathering information; it suggests the data are missing",
+      "Preliminary analysis; it suggests a seasonal (festive) pattern that the model must capture"
+     ],
+     "answer": "Preliminary analysis; it suggests a seasonal (festive) pattern that the model must capture",
+     "explanation": "Exploratory graphs reveal patterns such as festive seasonality, which guide model selection.",
+     "difficulty": "medium",
+     "concept": "exploratory analysis"
+    },
+    {
+     "q": "A firm has 36 months of data. It fits a model to the first 30 months and checks accuracy on the last 6. Why?",
+     "options": [
+      "To make the model fit the first 30 months perfectly",
+      "Because the last 6 months are always outliers",
+      "To estimate how accurately the model forecasts data it has not seen",
+      "To remove the trend from the data"
+     ],
+     "answer": "To estimate how accurately the model forecasts data it has not seen",
+     "explanation": "A holdout test mirrors real use, where the future is unknown. Judging accuracy on fitting data gives an over-optimistic picture.",
+     "difficulty": "medium",
+     "concept": "train-test evaluation"
+    },
+    {
+     "q": "A week of very high sales was caused by a planned promotion. What is the best way to handle it when building a forecasting model?",
+     "options": [
+      "Delete the week from the data without further checking, since unusual values always distort models and carry no useful information",
+      "Investigate the cause and model it explicitly (e.g., a promotion indicator) rather than blindly deleting or ignoring it",
+      "Treat it as normal demand and let it raise all future forecasts",
+      "Replace all data with the promotion week's value"
+     ],
+     "answer": "Investigate the cause and model it explicitly (e.g., a promotion indicator) rather than blindly deleting or ignoring it",
+     "explanation": "Known causes such as promotions should be modelled so future promotions can be forecast. Blind deletion loses information; ignoring it inflates baseline forecasts.",
+     "difficulty": "medium",
+     "concept": "outliers and data quality"
+    },
+    {
+     "q": "During problem definition for a sales forecast, who should the forecaster talk to?",
+     "options": [
+      "The people who will use the forecasts and those who collect and maintain the data, such as sales, finance, operations and IT",
+      "Only the statistician who will build the model, since problem definition is mainly about choosing the right technique and software",
+      "Only external consultants",
+      "No one; problem definition is a purely technical task"
+     ],
+     "answer": "The people who will use the forecasts and those who collect and maintain the data, such as sales, finance, operations and IT",
+     "explanation": "Problem definition requires understanding how forecasts will be used and what data exist. Treating it as purely technical leads to forecasts nobody can use.",
+     "difficulty": "medium",
+     "concept": "problem definition"
+    },
+    {
+     "q": "In the 'choosing and fitting models' step, the choice of model mainly depends on:",
+     "options": [
+      "Whichever model is the most mathematically complex, since sophisticated models capture more patterns and so always forecast more accurately",
+      "The model used by the largest competitor",
+      "The manager's preferred target",
+      "The availability of historical data, the strength of relationships between variables and how the forecasts will be used"
+     ],
+     "answer": "The availability of historical data, the strength of relationships between variables and how the forecasts will be used",
+     "explanation": "Model choice should fit the data and the decision. Complexity alone does not guarantee accuracy.",
+     "difficulty": "medium",
+     "concept": "model selection"
+    },
+    {
+     "q": "Six months after a model goes live, its forecast errors begin growing steadily each month. What is the best response?",
+     "options": [
+      "Ignore it, because errors always grow",
+      "Stop collecting actual data",
+      "Re-examine the model and data for changes in pattern, and refit or replace the model if needed",
+      "Keep the model unchanged, because it was accurate at launch and frequent changes confuse the planners who use it"
+     ],
+     "answer": "Re-examine the model and data for changes in pattern, and refit or replace the model if needed",
+     "explanation": "Rising errors signal that conditions have changed. Ongoing evaluation exists precisely to catch this.",
+     "difficulty": "medium",
+     "concept": "evaluate and monitor"
+    },
+    {
+     "q": "Finance wants monthly revenue forecasts for budgeting while operations wants daily SKU-level forecasts for replenishment. What does this illustrate?",
+     "options": [
+      "One forecast at a single level is always enough for everyone, so the finance team's monthly view should simply be adopted",
+      "Different users need different horizons and levels of detail, so the forecasting problem must be defined for each use",
+      "Finance and operations should not use forecasts",
+      "Only the operations forecast matters"
+     ],
+     "answer": "Different users need different horizons and levels of detail, so the forecasting problem must be defined for each use",
+     "explanation": "Problem definition includes the horizon, frequency and aggregation each user needs. A single forecast rarely serves all decisions well.",
+     "difficulty": "medium",
+     "concept": "problem definition"
+    },
+    {
+     "q": "Why should a sophisticated forecasting model be compared with a simple benchmark such as the naive forecast?",
+     "options": [
+      "To check that the added complexity actually improves accuracy",
+      "Because naive forecasts are always the most accurate",
+      "Because complex models cannot be evaluated directly",
+      "Because benchmarks remove seasonality"
+     ],
+     "answer": "To check that the added complexity actually improves accuracy",
+     "explanation": "A model that cannot beat a naive benchmark is not worth its cost. Assuming the complex model must be better is the trap.",
+     "difficulty": "medium",
+     "concept": "model selection"
+    },
+    {
+     "q": "A model achieves 2% MAPE on the training data but 18% MAPE on the test data. What is the most likely explanation?",
+     "options": [
+      "The model is excellent, because a low training error shows it has captured all the patterns in the data",
+      "The test data must be wrong because the error is higher",
+      "The model is underfitting and needs fewer variables",
+      "The model is overfitting: it has fitted noise in the training data and does not generalise"
+     ],
+     "answer": "The model is overfitting: it has fitted noise in the training data and does not generalise",
+     "explanation": "A large gap between training and test error is the classic sign of overfitting. Judging a model by its training fit is the main mistake.",
+     "difficulty": "hard",
+     "concept": "train-test evaluation"
+    },
+    {
+     "q": "GST implementation in July 2017 changed how a distributor recorded and timed invoices, shifting the sales pattern. What is the best way to handle this in forecasting?",
+     "options": [
+      "Ignore it, because more data always gives better forecasts",
+      "Delete all data after July 2017",
+      "Account for the break, for example by modelling it with an intervention variable, adjusting earlier data, or relying mainly on post-change data",
+      "Average pre- and post-GST data without adjustment"
+     ],
+     "answer": "Account for the break, for example by modelling it with an intervention variable, adjusting earlier data, or relying mainly on post-change data",
+     "explanation": "A structural break means pre-change patterns may mislead. Ignoring it mixes two regimes; deleting post-change data discards the most relevant information.",
+     "difficulty": "hard",
+     "concept": "structural change challenge"
+    },
+    {
+     "q": "A store open 7 days a week sold 120 units of a product and stocked out at the end of day 3. Assuming demand is spread evenly across the week, what is the best estimate of unconstrained weekly demand?",
+     "options": [
+      "120 units",
+      "280 units",
+      "160 units",
+      "210 units"
+     ],
+     "answer": "280 units",
+     "explanation": "Daily demand is about 120 / 3 = 40, so weekly demand is about 40 x 7 = 280. Using 120 treats censored sales as true demand.",
+     "difficulty": "hard",
+     "concept": "sales vs demand data"
+    },
+    {
+     "q": "Sales reps' bonuses depend on beating targets set from their own forecasts, and their forecasts are consistently too low. Which process safeguard is most effective?",
+     "options": [
+      "Separate forecasting from target-setting and track each judgemental input's bias over time",
+      "Remove all statistical forecasts and rely only on the reps",
+      "Increase every forecast by a random amount",
+      "Stop measuring forecast accuracy to avoid conflict"
+     ],
+     "answer": "Separate forecasting from target-setting and track each judgemental input's bias over time",
+     "explanation": "Incentives create deliberate bias (sandbagging). Decoupling forecasts from rewards and monitoring bias addresses the cause.",
+     "difficulty": "hard",
+     "concept": "role of judgement"
+    },
+    {
+     "q": "A grocery chain has 10 years of data, but quick-commerce apps changed customer buying patterns two years ago. What is the most sensible data strategy?",
+     "options": [
+      "Use all 10 years equally, because more data always means better forecasts",
+      "Use only data from before quick commerce, because it is more stable",
+      "Use no data and rely on the CEO's target",
+      "Give more weight to recent data (or use mainly post-change data), accepting fewer observations in exchange for relevance"
+     ],
+     "answer": "Give more weight to recent data (or use mainly post-change data), accepting fewer observations in exchange for relevance",
+     "explanation": "When the pattern has changed, relevance beats volume. Older data reflect a market that no longer exists.",
+     "difficulty": "hard",
+     "concept": "structural change challenge"
+    },
+    {
+     "q": "A bank asks its analytics team to 'forecast cash demand'. What is the most important clarification before any modelling?",
+     "options": [
+      "Which forecasting software has the best user interface",
+      "Whether the forecast should use the most complex model available",
+      "Which ATMs or branches, at what frequency and horizon, and how the forecast will drive cash replenishment decisions",
+      "Whether forecast errors should be hidden from management"
+     ],
+     "answer": "Which ATMs or branches, at what frequency and horizon, and how the forecast will drive cash replenishment decisions",
+     "explanation": "Problem definition fixes the level, horizon and use of the forecast. Choosing software or models first puts tools before the problem.",
+     "difficulty": "hard",
+     "concept": "problem definition"
+    },
+    {
+     "q": "During exploration, an analyst finds that sales were recorded in lakhs of rupees until 2020 and in rupees afterwards. What should be done?",
+     "options": [
+      "Model the data as-is, since the model will detect the change automatically",
+      "Convert the data to consistent units before modelling; otherwise the model will see a false structural break",
+      "Treat the post-2020 values as outliers and delete them",
+      "Average the two periods to smooth the difference"
+     ],
+     "answer": "Convert the data to consistent units before modelling; otherwise the model will see a false structural break",
+     "explanation": "Inconsistent units create artificial jumps that look like a huge increase. Harmonising definitions is essential data preparation.",
+     "difficulty": "hard",
+     "concept": "outliers and data quality"
+    },
+    {
+     "q": "Test-period actual sales are 100, 110, 105 and 120 units (the last training value was 95). A one-step naive forecast uses the previous actual each month. A new model forecast 102, 108, 110 and 112. Using MAE, does the new model beat the naive benchmark?",
+     "options": [
+      "Yes: model MAE = 4.25 versus naive MAE = 8.75",
+      "No: model MAE = 8.75 versus naive MAE = 4.25",
+      "Yes: model MAE = 17 versus naive MAE = 35",
+      "They are equal: both have MAE = 4.25"
+     ],
+     "answer": "Yes: model MAE = 4.25 versus naive MAE = 8.75",
+     "explanation": "Naive forecasts are 95, 100, 110, 105, giving errors 5, 10, 5, 15 (MAE 8.75). Model errors are 2, 2, 5, 8 (MAE 4.25). 17 and 35 are sums of absolute errors, not averages.",
+     "difficulty": "hard",
+     "concept": "model selection"
+    },
+    {
+     "q": "Why is time series cross-validation (rolling forecast origin) preferred over random k-fold cross-validation for forecasting models?",
+     "options": [
+      "Random k-fold always gives a lower error estimate, which makes every model look misleadingly good regardless of its true forecasting ability",
+      "Time series cross-validation uses less computing power",
+      "Random k-fold cannot be used with more than 100 observations",
+      "Each forecast must be made using only data from before the forecast period; random folds let future information leak into training"
+     ],
+     "answer": "Each forecast must be made using only data from before the forecast period; random folds let future information leak into training",
+     "explanation": "Forecasting respects time order; mixing future and past observations flatters accuracy. The point is avoiding information leakage, not computing cost.",
+     "difficulty": "hard",
+     "concept": "train-test evaluation"
+    },
+    {
+     "q": "An e-commerce company must forecast weekly demand for 5,000 SKUs with a team of three analysts. What is the most practical approach?",
+     "options": [
+      "Have analysts hand-build a complex custom model for each SKU",
+      "Forecast only the top 10 SKUs and ignore the rest",
+      "Use an automated, simple and robust method for all SKUs, and focus analyst judgement on high-value or volatile SKUs",
+      "Use the same fixed number for every SKU"
+     ],
+     "answer": "Use an automated, simple and robust method for all SKUs, and focus analyst judgement on high-value or volatile SKUs",
+     "explanation": "At scale, automation with targeted judgement is the realistic choice. Custom models for 5,000 SKUs are infeasible, and ignoring SKUs leaves stocking decisions blind.",
+     "difficulty": "hard",
+     "concept": "model selection"
+    }
+   ],
+   "references": [
+    "Forecasting follows a process. First, define the problem: what exactly is forecast, at what level, for which horizon and for which decision. Second, gather information, meaning historical data plus the knowledge of people in sales, marketing and operations. Third, do preliminary analysis by plotting the data to see trend, seasonality, outliers and relationships. Fourth, choose and fit candidate models and compare them, including with simple benchmarks. Fifth, use the forecasts and evaluate them against actual results, updating the model when it drifts. Common challenges include poor or missing data, outliers, sales data that hide true demand during stock-outs, structural breaks such as GST, overfitting, and biased judgement.",
+    "Suppose a hotel chain wants to forecast room demand. We first ask who needs it: revenue managers want daily forecasts for pricing, while finance wants monthly totals. Then we collect booking history and talk to sales teams about upcoming conferences. Plotting the data shows weekend peaks, a December season and some odd spikes from one-off events. We try a few models, keeping the last few months aside as a test set to see which really forecasts best, and compare against a naive forecast. Once in use, we track errors every month. Challenges include COVID-like breaks, data errors, outliers, and sales staff padding their forecasts to hit targets.",
+    "For a manager, the forecasting process is a cycle, not a one-time calculation. It starts with clear problem definition, because a forecast at the wrong level or horizon is useless however accurate. Next comes gathering data and expert judgement, then exploratory analysis to understand patterns and clean the data. Only then do we select and fit models, judging them on held-out test data rather than on how well they fit the past, to avoid overfitting. Finally, we use the forecast for decisions and monitor accuracy, refitting when patterns change. The main challenges are data quality, censored demand, structural change, judgemental bias and limited analyst time across many products."
+   ],
+   "key_concepts": [
+    "problem definition",
+    "gathering information",
+    "preliminary analysis",
+    "choosing models",
+    "evaluation",
+    "data quality",
+    "outliers",
+    "structural break",
+    "test set",
+    "overfitting",
+    "judgement",
+    "monitoring",
+    "benchmark",
+    "stock-outs"
+   ]
+  },
+  {
+   "topic": "Role of Forecasting in Managerial Planning and Control",
+   "questions": [
+    {
+     "q": "In managerial planning, forecasts are mainly used to:",
+     "options": [
+      "Set budgets, production plans and staffing levels",
+      "Record last year's transactions for the statutory audit",
+      "Replace the need for any control or performance review",
+      "Fix the share price of the company on the stock exchange"
+     ],
+     "answer": "Set budgets, production plans and staffing levels",
+     "explanation": "Plans need an estimate of future demand and costs, which forecasts provide. Forecasts do not replace control; they feed it.",
+     "difficulty": "easy",
+     "concept": "forecast as planning input"
+    },
+    {
+     "q": "In management, 'control' refers to:",
+     "options": [
+      "Preparing a forecast for the first time without any reference to past data or plans",
+      "Setting a long-term vision statement for the company",
+      "Hiring new staff whenever sales increase",
+      "Comparing actual results with plans or forecasts and taking corrective action"
+     ],
+     "answer": "Comparing actual results with plans or forecasts and taking corrective action",
+     "explanation": "Control closes the loop: measure actuals, compare with plan, investigate deviations, and act.",
+     "difficulty": "easy",
+     "concept": "planning-control loop"
+    },
+    {
+     "q": "Which forecast is usually the starting point of a company's annual master budget?",
+     "options": [
+      "The capital expenditure forecast for new machinery",
+      "The forecast of employee attrition",
+      "The sales forecast",
+      "The forecast of tax refunds due"
+     ],
+     "answer": "The sales forecast",
+     "explanation": "Production, purchase, labour and cash budgets are all derived from expected sales. Starting elsewhere leaves those budgets without a demand basis.",
+     "difficulty": "easy",
+     "concept": "budgeting"
+    },
+    {
+     "q": "In budgetary control, a variance is:",
+     "options": [
+      "The average of all forecasts made during the year",
+      "The difference between the actual result and the budgeted or forecast figure",
+      "The sales target set by the board",
+      "The number of months in the planning horizon"
+     ],
+     "answer": "The difference between the actual result and the budgeted or forecast figure",
+     "explanation": "Variance analysis is the core control tool: actual minus budget, investigated when large.",
+     "difficulty": "easy",
+     "concept": "variance analysis"
+    },
+    {
+     "q": "Demand forecasts and their error are used in inventory management mainly to set:",
+     "options": [
+      "Reorder points and safety stock",
+      "Employee salaries and annual bonuses",
+      "The company's dividend policy",
+      "The rate of income tax payable"
+     ],
+     "answer": "Reorder points and safety stock",
+     "explanation": "Reorder levels cover expected lead-time demand and safety stock covers forecast error.",
+     "difficulty": "easy",
+     "concept": "inventory planning"
+    },
+    {
+     "q": "Capacity planning, such as adding a new production line, mainly relies on:",
+     "options": [
+      "Tomorrow's sales forecast for each store",
+      "Hourly website traffic forecasts",
+      "Next week's delivery schedule",
+      "Long-term demand forecasts"
+     ],
+     "answer": "Long-term demand forecasts",
+     "explanation": "Capacity takes years to add and lasts years, so it needs long-range forecasts.",
+     "difficulty": "easy",
+     "concept": "capacity planning"
+    },
+    {
+     "q": "A hospital uses patient-volume forecasts to decide how many nurses to roster each shift. This is an example of forecasting supporting:",
+     "options": [
+      "Capital structure decisions",
+      "Brand positioning strategy",
+      "Workforce (staff) planning",
+      "Statutory financial reporting"
+     ],
+     "answer": "Workforce (staff) planning",
+     "explanation": "Staffing is set ahead of demand, so it depends on forecasts of workload.",
+     "difficulty": "easy",
+     "concept": "workforce planning"
+    },
+    {
+     "q": "A cash flow forecast mainly helps a business to:",
+     "options": [
+      "Calculate the depreciation on fixed assets for the balance sheet",
+      "Anticipate cash shortfalls or surpluses and arrange funds in advance",
+      "Decide the colour scheme of its packaging",
+      "Measure customer satisfaction scores"
+     ],
+     "answer": "Anticipate cash shortfalls or surpluses and arrange funds in advance",
+     "explanation": "Cash forecasts reveal when borrowing or investing will be needed, avoiding liquidity crises.",
+     "difficulty": "easy",
+     "concept": "cash flow forecasting"
+    },
+    {
+     "q": "The tracking signal in forecast control is used to:",
+     "options": [
+      "Detect persistent bias in a forecast",
+      "Measure the share price of the company",
+      "Calculate the seasonal index for each month",
+      "Rank employees by their sales performance"
+     ],
+     "answer": "Detect persistent bias in a forecast",
+     "explanation": "Tracking signal = cumulative forecast error / MAD; large values show forecasts are consistently too high or too low.",
+     "difficulty": "easy",
+     "concept": "tracking signal"
+    },
+    {
+     "q": "A rolling forecast is one that:",
+     "options": [
+      "Is prepared once a year and never changed",
+      "Covers only the remaining months of the current financial year, shrinking as the year passes",
+      "Uses only the previous month's actual value",
+      "Is updated regularly and always extends a fixed period ahead, such as the next 12 months"
+     ],
+     "answer": "Is updated regularly and always extends a fixed period ahead, such as the next 12 months",
+     "explanation": "Rolling forecasts add a new period each time one passes, keeping a constant look-ahead. A static annual budget shrinks toward year-end.",
+     "difficulty": "easy",
+     "concept": "rolling forecast"
+    },
+    {
+     "q": "The running sum of forecast errors (RSFE, actual minus forecast) is 30 units and the mean absolute deviation (MAD) is 10 units. What is the tracking signal?",
+     "options": [
+      "0.33",
+      "300",
+      "3.0",
+      "20"
+     ],
+     "answer": "3.0",
+     "explanation": "Tracking signal = RSFE / MAD = 30 / 10 = 3.0. 0.33 inverts the ratio and 300 multiplies instead of dividing.",
+     "difficulty": "medium",
+     "concept": "tracking signal"
+    },
+    {
+     "q": "A firm uses control limits of +/-4 MAD. The tracking signal (errors = actual minus forecast) is +5.2. What should management conclude?",
+     "options": [
+      "The forecast is in control because the signal is positive",
+      "The forecast is out of control and is consistently under-forecasting demand",
+      "The forecast is out of control and is consistently over-forecasting customer demand",
+      "The forecast is unbiased, but its errors are very small"
+     ],
+     "answer": "The forecast is out of control and is consistently under-forecasting demand",
+     "explanation": "A signal beyond +4 indicates bias. With errors defined as actual minus forecast, a positive signal means actuals keep exceeding forecasts, i.e., under-forecasting.",
+     "difficulty": "medium",
+     "concept": "tracking signal"
+    },
+    {
+     "q": "Weekly demand forecast error has a standard deviation of 40 units, lead time is 1 week, and the firm wants a 95% service level (z = 1.65). What safety stock is required?",
+     "options": [
+      "66 units",
+      "40 units",
+      "24.2 units",
+      "106 units"
+     ],
+     "answer": "66 units",
+     "explanation": "Safety stock = z x sigma = 1.65 x 40 = 66. 24.2 divides by z, and 106 adds z-adjusted and raw values.",
+     "difficulty": "medium",
+     "concept": "inventory planning"
+    },
+    {
+     "q": "A firm budgeted sales of 5,000 units at Rs 200 each, but sold 4,600 units at Rs 200. What is the sales revenue variance?",
+     "options": [
+      "Rs 80,000 favourable",
+      "Rs 400 adverse",
+      "Rs 9,20,000 adverse",
+      "Rs 80,000 adverse"
+     ],
+     "answer": "Rs 80,000 adverse",
+     "explanation": "(4,600 - 5,000) x 200 = -80,000, an adverse variance. Rs 400 is the unit shortfall without the price, and 9,20,000 is actual revenue.",
+     "difficulty": "medium",
+     "concept": "variance analysis"
+    },
+    {
+     "q": "A hotel forecasts 180 occupied rooms tomorrow. Each housekeeper can clean 12 rooms per shift. How many housekeepers should be scheduled?",
+     "options": [
+      "12",
+      "18",
+      "15",
+      "2,160"
+     ],
+     "answer": "15",
+     "explanation": "180 / 12 = 15 housekeepers. 2,160 multiplies instead of dividing.",
+     "difficulty": "medium",
+     "concept": "workforce planning"
+    },
+    {
+     "q": "A business has an opening cash balance of Rs 10 lakh, forecast inflows of Rs 25 lakh, outflows of Rs 32 lakh, and must keep a minimum balance of Rs 5 lakh. How much must it arrange to borrow?",
+     "options": [
+      "Rs 7 lakh",
+      "Rs 2 lakh",
+      "Rs 3 lakh",
+      "Nothing; the closing balance is positive"
+     ],
+     "answer": "Rs 2 lakh",
+     "explanation": "Closing cash = 10 + 25 - 32 = 3 lakh, which is 2 lakh below the 5 lakh minimum. Rs 7 lakh ignores the opening balance; 'nothing' ignores the minimum.",
+     "difficulty": "medium",
+     "concept": "cash flow forecasting"
+    },
+    {
+     "q": "What is the main advantage of a rolling 12-month forecast over a static annual budget?",
+     "options": [
+      "It incorporates new information regularly, so plans stay relevant as conditions change",
+      "It never needs to be revised once it has been approved by the board",
+      "It guarantees that actual results will match the plan each month",
+      "It removes the need to compare actual results with plans"
+     ],
+     "answer": "It incorporates new information regularly, so plans stay relevant as conditions change",
+     "explanation": "Rolling forecasts are updated with each new period of data. Static budgets become stale as the year progresses.",
+     "difficulty": "medium",
+     "concept": "rolling forecast"
+    },
+    {
+     "q": "Under 'management by exception', how should a manager use forecast-versus-actual reports?",
+     "options": [
+      "Investigate every rupee of difference between actual and forecast with equal effort",
+      "Ignore all deviations, because forecasts are always imperfect",
+      "Change the forecast so that it always equals the actual figure",
+      "Focus attention on deviations that are large or persistent"
+     ],
+     "answer": "Focus attention on deviations that are large or persistent",
+     "explanation": "Control effort should go to significant deviations. Chasing every small variance wastes time; ignoring all of them abandons control.",
+     "difficulty": "medium",
+     "concept": "planning-control loop"
+    },
+    {
+     "q": "Actual monthly sales have fallen 15% below forecast for three months in a row. What is the appropriate control response?",
+     "options": [
+      "Keep the original forecast unchanged until the year-end review",
+      "Increase production to make up for the lower sales",
+      "Investigate the causes, then revise the forecast and adjust production and purchase plans",
+      "Stop forecasting until sales recover to the old level"
+     ],
+     "answer": "Investigate the causes, then revise the forecast and adjust production and purchase plans",
+     "explanation": "Persistent deviations signal a changed situation; control means diagnosing and updating plans. Holding the old forecast builds excess inventory.",
+     "difficulty": "medium",
+     "concept": "planning-control loop"
+    },
+    {
+     "q": "A company forecasts demand of 12,000 units next quarter, has opening inventory of 2,000 units and wants closing inventory of 3,000 units. What production is required?",
+     "options": [
+      "11,000 units",
+      "13,000 units",
+      "12,000 units",
+      "17,000 units"
+     ],
+     "answer": "13,000 units",
+     "explanation": "Production = demand + desired closing - opening = 12,000 + 3,000 - 2,000 = 13,000. 11,000 reverses the inventory adjustment; 17,000 adds both inventories.",
+     "difficulty": "medium",
+     "concept": "forecast as planning input"
+    },
+    {
+     "q": "Monthly forecast errors (actual minus forecast) for six months are +8, +12, -4, +10, +6, +10. Control limits are +/-4 MAD. What is the tracking signal and conclusion?",
+     "options": [
+      "5.04; it exceeds +4, so the forecast is persistently too low",
+      "0.84; it is well within limits, so no action is needed",
+      "5.04; it is within limits, so the forecast is in control",
+      "4.20; it exceeds +4, so the forecast is persistently too high"
+     ],
+     "answer": "5.04; it exceeds +4, so the forecast is persistently too low",
+     "explanation": "RSFE = 42 and MAD = 50/6 = 8.33, so TS = 42/8.33 = 5.04, beyond +4. Positive errors mean actual exceeds forecast (under-forecasting). 0.84 divides by the sum of absolute errors instead of MAD.",
+     "difficulty": "hard",
+     "concept": "tracking signal"
+    },
+    {
+     "q": "A distributor forecasts 400 units of weekly demand. Weekly forecast error has standard deviation 50 units, lead time is 4 weeks, and z = 1.65. Assuming independent weekly errors, what is the reorder point?",
+     "options": [
+      "1,930 units",
+      "1,682.5 units",
+      "1,600 units",
+      "1,765 units"
+     ],
+     "answer": "1,765 units",
+     "explanation": "Lead-time demand = 4 x 400 = 1,600; lead-time sigma = 50 x sqrt(4) = 100; safety stock = 165; ROP = 1,765. 1,930 scales sigma by 4 instead of sqrt(4); 1,682.5 ignores lead time in the sigma.",
+     "difficulty": "hard",
+     "concept": "inventory planning"
+    },
+    {
+     "q": "A consumer-durables firm's forecasts have been about 10% too high for every month this year, leading to excess stock and blocked working capital. What is the best corrective action?",
+     "options": [
+      "Keep the forecasts and simply add warehouse space for the extra stock it creates",
+      "Hold larger safety stocks to protect against the inaccurate forecasts",
+      "Identify and correct the source of the bias in the forecasting process",
+      "Ignore it, since a 10% error is within the normal range for durables"
+     ],
+     "answer": "Identify and correct the source of the bias in the forecasting process",
+     "explanation": "A consistent one-direction error is bias, which can be removed at source. Adding buffers treats a symptom and makes overstock worse.",
+     "difficulty": "hard",
+     "concept": "bias in planning"
+    },
+    {
+     "q": "Budgeted variable cost is Rs 50 per unit on a forecast of 10,000 units. Actual output was 9,000 units with actual variable cost of Rs 4,80,000. What is the correct cost variance for control?",
+     "options": [
+      "Rs 20,000 favourable, because actual cost is below the original budget of Rs 5,00,000",
+      "Rs 30,000 adverse against the flexible budget, though it looks Rs 20,000 favourable against the static budget",
+      "Rs 30,000 favourable against the flexible budget of Rs 4,50,000",
+      "Rs 80,000 adverse against the static budget"
+     ],
+     "answer": "Rs 30,000 adverse against the flexible budget, though it looks Rs 20,000 favourable against the static budget",
+     "explanation": "Flexible budget = 9,000 x 50 = 4,50,000, so actual 4,80,000 is 30,000 adverse. Comparing with the static 5,00,000 wrongly credits the manager for lower volume.",
+     "difficulty": "hard",
+     "concept": "variance analysis"
+    },
+    {
+     "q": "A Jaipur hotel's demand forecast for a wedding-season weekend is well above capacity, while a mid-week in July is forecast at 40% occupancy. How should revenue managers use these forecasts?",
+     "options": [
+      "Raise rates and restrict discounts on the peak weekend; offer promotions and packages for the low mid-week",
+      "Keep the same rates on both dates, because forecasts should not influence pricing decisions",
+      "Offer deep discounts on the peak weekend to build customer loyalty for the future",
+      "Close the hotel mid-week and run at full price only on weekends"
+     ],
+     "answer": "Raise rates and restrict discounts on the peak weekend; offer promotions and packages for the low mid-week",
+     "explanation": "Revenue management uses demand forecasts to set prices and inventory controls. Discounting when demand exceeds capacity gives away revenue.",
+     "difficulty": "hard",
+     "concept": "forecast-driven pricing"
+    },
+    {
+     "q": "A firm forecasts demand in five years of between 80,000 and 1,20,000 units per year. Options: build a 1,20,000-unit plant now, or build 80,000 units now with space to expand. What is the soundest approach?",
+     "options": [
+      "Build 1,20,000 units now, because capacity is cheaper to build in one step than in two",
+      "Build 1,00,000 units now, because it is the midpoint of the forecast range",
+      "Postpone all capacity decisions until demand is known with certainty",
+      "Build 80,000 units with an expansion option, triggered when demand signals confirm growth"
+     ],
+     "answer": "Build 80,000 units with an expansion option, triggered when demand signals confirm growth",
+     "explanation": "With a wide forecast range, flexibility reduces the risk of idle capacity while keeping upside. Waiting for certainty means losing sales, and building for the top end risks large idle cost.",
+     "difficulty": "hard",
+     "concept": "capacity planning"
+    },
+    {
+     "q": "Forecast errors (actual minus forecast) over four weeks are +10, -10, +10, -10. What do the tracking signal and MAD tell the manager?",
+     "options": [
+      "TS = 4, so the forecast is biased upward and should be corrected",
+      "TS = 0 and MAD = 0, so the forecast is perfect",
+      "TS = 0, so there is no bias, but MAD = 10 units may still be too large for planning",
+      "TS = 1, so the forecast is under-forecasting slightly every week"
+     ],
+     "answer": "TS = 0, so there is no bias, but MAD = 10 units may still be too large for planning",
+     "explanation": "RSFE = 0 so TS = 0 (unbiased), while MAD = 10. Being unbiased is not the same as being accurate; treating TS = 0 as perfect is the main error.",
+     "difficulty": "hard",
+     "concept": "tracking signal"
+    },
+    {
+     "q": "What is the main role of the forecast in a Sales and Operations Planning (S&OP) process?",
+     "options": [
+      "Each department keeps its own separate forecast so that every team can meet its own targets",
+      "It provides one consensus demand plan that sales, operations and finance align their plans to",
+      "The forecast is used only by the finance team to report last month's results",
+      "It replaces the need for operations to plan capacity"
+     ],
+     "answer": "It provides one consensus demand plan that sales, operations and finance align their plans to",
+     "explanation": "S&OP reconciles demand and supply around one agreed forecast each month. Separate departmental numbers are exactly the problem it solves.",
+     "difficulty": "hard",
+     "concept": "S&OP integration"
+    },
+    {
+     "q": "A bank's call centre forecasts 4,800 calls per day. Each agent handles 60 calls per shift, and 20% of rostered agents are typically unavailable (leave, training). How many agents should be rostered?",
+     "options": [
+      "100",
+      "96",
+      "80",
+      "64"
+     ],
+     "answer": "100",
+     "explanation": "Productive agents needed = 4,800 / 60 = 80; rostered = 80 / (1 - 0.20) = 100. 96 adds 20% to 80, which under-covers shrinkage; 64 subtracts it.",
+     "difficulty": "hard",
+     "concept": "workforce planning"
+    },
+    {
+     "q": "In the first 3 days of a 10-day festive sale, an e-commerce firm's electronics sales run 30% above forecast. What is the best control action?",
+     "options": [
+      "Keep the original forecast unchanged, because sale forecasts should only be reviewed afterwards",
+      "Assume the 30% uplift will continue for the whole year and raise annual plans",
+      "Cut prices further to push sales even higher",
+      "Reforecast the remaining days with the new data and reallocate stock, checking if demand is merely pulled forward"
+     ],
+     "answer": "Reforecast the remaining days with the new data and reallocate stock, checking if demand is merely pulled forward",
+     "explanation": "Early actuals are valuable information; control means updating forecasts and reallocating inventory. Extrapolating a festival spike to the whole year is a typical error.",
+     "difficulty": "hard",
+     "concept": "planning-control loop"
+    }
+   ],
+   "references": [
+    "Planning means deciding in advance what to do, and every plan rests on a forecast. The sales forecast drives the budget, production plan, purchasing, inventory levels, staffing and cash requirements, while long-term forecasts drive capacity and investment. Control means comparing actual results with these plans, analysing variances and taking corrective action. Forecasting supports control in two ways: it sets the benchmark against which actuals are judged, and forecast errors themselves are monitored, for example using a tracking signal, to detect bias. When deviations are large or persistent, managers investigate, update the forecast and adjust plans. Rolling forecasts keep this planning and control cycle current.",
+    "Consider a hotel chain. Its forecast of room nights for the next quarter sets the revenue budget, decides how many housekeepers and chefs to roster, and guides room pricing: higher rates when demand exceeds capacity, discounts when it is weak. The finance team uses the same forecast for cash planning. Each month, actual occupancy is compared with the forecast. If actuals keep falling short, the variance is investigated, the forecast is revised and staffing and purchases are cut. A tracking signal shows whether forecasts are consistently too high or too low. So forecasting is the starting point of planning and the yardstick for control.",
+    "For managers, forecasting links planning and control in a continuous loop: forecast, plan, act, measure, compare and correct. Short-term forecasts set inventory reorder points, safety stock and shift rosters; medium-term forecasts set budgets and aggregate production plans; long-term forecasts guide capacity and strategy. Control uses variance analysis, management by exception and flexible budgets to judge performance fairly. Forecast errors also need control: a tracking signal outside its limits signals bias that should be fixed at source rather than covered with extra stock. Processes like S&OP align sales, operations and finance around one forecast, and rolling forecasts keep plans updated as new information arrives."
+   ],
+   "key_concepts": [
+    "planning",
+    "control",
+    "budget",
+    "variance",
+    "corrective action",
+    "inventory",
+    "safety stock",
+    "staffing",
+    "capacity",
+    "cash flow",
+    "tracking signal",
+    "bias",
+    "rolling forecast",
+    "feedback"
+   ]
+  },
+  {
+   "topic": "Forecast Accuracy: MAE, MSE, RMSE, MAPE",
+   "questions": [
+    {
+     "q": "MAE stands for:",
+     "options": [
+      "Maximum Average Error",
+      "Mean Absolute Error",
+      "Mean Adjusted Estimate",
+      "Median Absolute Error"
+     ],
+     "answer": "Mean Absolute Error",
+     "explanation": "MAE is the average of the absolute forecast errors. 'Median' absolute error is a different, less common measure.",
+     "difficulty": "easy",
+     "concept": "MAE definition"
+    },
+    {
+     "q": "Which accuracy measure is expressed as a percentage of the actual values?",
+     "options": [
+      "MAPE",
+      "MAE",
+      "MSE",
+      "RMSE"
+     ],
+     "answer": "MAPE",
+     "explanation": "MAPE averages |error| / actual x 100. MAE, MSE and RMSE are in the units (or squared units) of the data.",
+     "difficulty": "easy",
+     "concept": "MAPE definition"
+    },
+    {
+     "q": "RMSE is calculated as:",
+     "options": [
+      "The square of the mean absolute error",
+      "The mean of the square roots of the absolute errors",
+      "The mean absolute error divided by the mean of actuals",
+      "The square root of the mean squared error"
+     ],
+     "answer": "The square root of the mean squared error",
+     "explanation": "RMSE = sqrt(MSE), which brings the measure back to the original units. Squaring MAE is a common confusion.",
+     "difficulty": "easy",
+     "concept": "RMSE definition"
+    },
+    {
+     "q": "Forecast error for a period is usually defined as:",
+     "options": [
+      "Forecast value minus the previous period's forecast",
+      "Actual value divided by forecast value",
+      "Actual value minus forecast value",
+      "Forecast value plus actual value"
+     ],
+     "answer": "Actual value minus forecast value",
+     "explanation": "e = A - F is the standard definition (Hyndman uses y minus y-hat). A ratio of actual to forecast is not an error measure.",
+     "difficulty": "easy",
+     "concept": "forecast error definition"
+    },
+    {
+     "q": "Which measure penalises large errors most heavily because it squares them?",
+     "options": [
+      "MAE",
+      "MSE",
+      "MAPE",
+      "Mean error (bias)"
+     ],
+     "answer": "MSE",
+     "explanation": "Squaring makes a 10-unit error count 100 and a 2-unit error count 4. MAE weights errors linearly.",
+     "difficulty": "easy",
+     "concept": "MSE penalises large errors"
+    },
+    {
+     "q": "If demand is measured in units, MSE is expressed in:",
+     "options": [
+      "Squared units",
+      "Units",
+      "Percentage",
+      "It has no units at all"
+     ],
+     "answer": "Squared units",
+     "explanation": "MSE averages squared errors, so its unit is units squared. RMSE returns to the original units.",
+     "difficulty": "easy",
+     "concept": "units of measures"
+    },
+    {
+     "q": "What happens to MAPE when an actual value in the data is zero?",
+     "options": [
+      "It becomes exactly zero",
+      "It equals the MAE",
+      "It is unaffected by that period",
+      "It becomes undefined (division by zero)"
+     ],
+     "answer": "It becomes undefined (division by zero)",
+     "explanation": "MAPE divides by the actual value, so a zero actual makes it undefined or infinite. This is a key weakness for intermittent demand.",
+     "difficulty": "easy",
+     "concept": "MAPE zero-demand issue"
+    },
+    {
+     "q": "When comparing two forecasting methods on the same data, a lower MAE indicates:",
+     "options": [
+      "Worse accuracy on average",
+      "More forecast bias",
+      "Better accuracy on average",
+      "A longer forecast horizon"
+     ],
+     "answer": "Better accuracy on average",
+     "explanation": "Error measures are 'smaller is better'. Lower MAE means forecasts were closer to actuals on average.",
+     "difficulty": "easy",
+     "concept": "interpreting lower error"
+    },
+    {
+     "q": "Which measure is best for comparing forecast accuracy across products measured in different units (e.g., litres of milk and number of TVs)?",
+     "options": [
+      "MAE",
+      "MAPE",
+      "MSE",
+      "RMSE"
+     ],
+     "answer": "MAPE",
+     "explanation": "MAPE is a percentage, so it is scale-independent. MAE, MSE and RMSE depend on the units of the data.",
+     "difficulty": "easy",
+     "concept": "scale independence"
+    },
+    {
+     "q": "With error defined as actual minus forecast, a consistently positive error means the forecast is:",
+     "options": [
+      "Too low (under-forecasting)",
+      "Too high (over-forecasting)",
+      "Perfectly accurate",
+      "Unbiased but noisy"
+     ],
+     "answer": "Too low (under-forecasting)",
+     "explanation": "Positive A - F means actual exceeded forecast, so forecasts were too low. Reversing the sign convention is the common slip.",
+     "difficulty": "easy",
+     "concept": "forecast bias direction"
+    },
+    {
+     "q": "Actual sales for three weeks were 100, 120 and 110 units; forecasts were 90, 125 and 110. What is the MAE?",
+     "options": [
+      "1.67 units",
+      "41.67 units",
+      "15 units",
+      "5 units"
+     ],
+     "answer": "5 units",
+     "explanation": "Absolute errors are 10, 5, 0; MAE = 15/3 = 5. 1.67 averages signed errors (10 - 5 + 0)/3, and 15 is the sum rather than the mean.",
+     "difficulty": "medium",
+     "concept": "MAE calculation"
+    },
+    {
+     "q": "Actual sales for three weeks were 100, 120 and 110 units; forecasts were 90, 125 and 110. What is the MSE?",
+     "options": [
+      "5",
+      "6.45",
+      "41.67",
+      "125"
+     ],
+     "answer": "41.67",
+     "explanation": "Squared errors are 100, 25, 0; MSE = 125/3 = 41.67. 6.45 is the RMSE and 125 is the sum of squares without averaging.",
+     "difficulty": "medium",
+     "concept": "MSE calculation"
+    },
+    {
+     "q": "A forecasting model has an MSE of 64 (units squared). What is its RMSE?",
+     "options": [
+      "32 units",
+      "8 units",
+      "4,096 units",
+      "16 units"
+     ],
+     "answer": "8 units",
+     "explanation": "RMSE = sqrt(64) = 8. 32 halves instead of square-rooting, and 4,096 squares again.",
+     "difficulty": "medium",
+     "concept": "RMSE calculation"
+    },
+    {
+     "q": "A supermarket's actual sales of rice were 200 kg and the forecast was 180 kg. What is the absolute percentage error for this period?",
+     "options": [
+      "10%",
+      "11.11%",
+      "20%",
+      "90%"
+     ],
+     "answer": "10%",
+     "explanation": "|200 - 180| / 200 x 100 = 10%. Dividing by the forecast (20/180) gives 11.11%, a common mistake.",
+     "difficulty": "medium",
+     "concept": "MAPE calculation"
+    },
+    {
+     "q": "Actual demand for three periods was 50, 100 and 200 units; forecasts were 45, 110 and 190. What is the MAPE?",
+     "options": [
+      "7.14%",
+      "8.49%",
+      "25%",
+      "8.33%"
+     ],
+     "answer": "8.33%",
+     "explanation": "APEs are 10%, 10% and 5%; mean = 8.33%. 7.14% is total absolute error / total actual (a weighted measure), 8.49% divides by forecasts, and 25% sums APEs.",
+     "difficulty": "medium",
+     "concept": "MAPE calculation"
+    },
+    {
+     "q": "A sales forecast has a MAPE of 4%. What is the correct interpretation?",
+     "options": [
+      "Exactly 4% of the forecasts were wrong and the rest were perfect",
+      "The forecasts were on average 4 units away from actual sales",
+      "On average, the forecasts were off by about 4% of actual sales",
+      "The forecasts were biased upward by about 4% of actual sales"
+     ],
+     "answer": "On average, the forecasts were off by about 4% of actual sales",
+     "explanation": "MAPE is the average absolute percentage error. It says nothing about direction (bias), and it is not in units.",
+     "difficulty": "medium",
+     "concept": "interpreting MAPE"
+    },
+    {
+     "q": "Method A has MAE 10 and RMSE 11; Method B has MAE 9 and RMSE 15 on the same data. What does this suggest?",
+     "options": [
+      "A is better on every measure, so B's lower MAE must be a calculation error in the report",
+      "B is slightly better on average but makes some large errors, as its RMSE is far above its MAE",
+      "B is better on every measure, since it has the lower MAE of the two methods",
+      "Both methods are equally accurate, because their MAE values are so similar"
+     ],
+     "answer": "B is slightly better on average but makes some large errors, as its RMSE is far above its MAE",
+     "explanation": "RMSE much greater than MAE signals a few big errors. Which method to prefer depends on whether big errors are especially costly.",
+     "difficulty": "medium",
+     "concept": "RMSE vs MAE comparison"
+    },
+    {
+     "q": "Errors (actual minus forecast) over four months were +5, -3, +4 and +6. What is the mean error and what does it indicate?",
+     "options": [
+      "Mean error = 3; the forecast tends to under-predict demand",
+      "Mean error = 4.5; the forecast tends to over-predict demand",
+      "Mean error = 3; the forecast tends to over-predict demand",
+      "Mean error = 12; the forecast is unbiased overall"
+     ],
+     "answer": "Mean error = 3; the forecast tends to under-predict demand",
+     "explanation": "(5 - 3 + 4 + 6)/4 = 3. A positive mean error (A - F) means actuals exceed forecasts, i.e., under-forecasting. 4.5 is the MAE, and 12 is the sum.",
+     "difficulty": "medium",
+     "concept": "mean error bias"
+    },
+    {
+     "q": "Errors over four periods are +4, -4, +4 and -4. What are the MAE and RMSE?",
+     "options": [
+      "MAE = 0 and RMSE = 4",
+      "MAE = 4 and RMSE = 16",
+      "MAE = 4 and RMSE = 2",
+      "MAE = 4 and RMSE = 4"
+     ],
+     "answer": "MAE = 4 and RMSE = 4",
+     "explanation": "All absolute errors equal 4, so MAE = 4 and RMSE = sqrt(16) = 4. RMSE equals MAE only when all errors have the same size; 0 is the mean signed error, and 16 is the MSE.",
+     "difficulty": "medium",
+     "concept": "RMSE vs MAE comparison"
+    },
+    {
+     "q": "A hotel's room-night forecast has an MSE of 900. What is the RMSE and in what units?",
+     "options": [
+      "900 room-nights",
+      "30 percent",
+      "30 room-nights",
+      "450 room-nights squared"
+     ],
+     "answer": "30 room-nights",
+     "explanation": "RMSE = sqrt(900) = 30, in the original units (room-nights). MSE itself is in squared units, and RMSE is not a percentage.",
+     "difficulty": "medium",
+     "concept": "units of measures"
+    },
+    {
+     "q": "Actual weekly sales were 200, 220, 210, 230. Method X forecast 210, 210, 220, 220; Method Y forecast 200, 220, 210, 254. Which method does each measure prefer?",
+     "options": [
+      "Both prefer Y (MAE 6 vs 10; RMSE 6 vs 10)",
+      "MAE prefers Y (6 vs 10); RMSE prefers X (10 vs 12)",
+      "MAE prefers X (10 vs 6); RMSE prefers Y (12 vs 10)",
+      "Both prefer X (MAE 10 vs 12; RMSE 10 vs 12)"
+     ],
+     "answer": "MAE prefers Y (6 vs 10); RMSE prefers X (10 vs 12)",
+     "explanation": "X errors: -10, 10, -10, 10 (MAE 10, RMSE 10). Y errors: 0, 0, 0, -24 (MAE 6, RMSE sqrt(576/4) = 12). RMSE punishes Y's single large miss.",
+     "difficulty": "hard",
+     "concept": "RMSE vs MAE comparison"
+    },
+    {
+     "q": "A slow-moving SKU had actual sales of 2, 50 and 100 units, with forecasts 4, 48 and 95. What is the MAPE, and why can it mislead?",
+     "options": [
+      "36.33%; it is inflated by the 100% error in the low-volume period",
+      "5.92%; MAPE weights each period by its sales volume",
+      "19.81%; it is inflated by the low-volume first period",
+      "3.00%; the error is small, so the forecast is clearly excellent"
+     ],
+     "answer": "36.33%; it is inflated by the 100% error in the low-volume period",
+     "explanation": "APEs are 100%, 4% and 5%, so MAPE = 36.33%. A 2-unit miss on a tiny base dominates. 5.92% is total error/total actual, 19.81% divides by forecasts, and 3.00 is the MAE in units.",
+     "difficulty": "hard",
+     "concept": "MAPE low-volume distortion"
+    },
+    {
+     "q": "Actual monthly sales (Rs lakh) were 500, 520, 480, 510, 530; forecasts were 490, 530, 500, 500, 520. What is the RMSE?",
+     "options": [
+      "Rs 160 lakh",
+      "Rs 12 lakh",
+      "Rs 28.28 lakh",
+      "Rs 12.65 lakh"
+     ],
+     "answer": "Rs 12.65 lakh",
+     "explanation": "Errors 10, -10, -20, 10, 10; squares sum to 800; MSE = 160; RMSE = 12.65. 160 is the MSE, 12 is the MAE and 28.28 is the square root of the sum without averaging.",
+     "difficulty": "hard",
+     "concept": "RMSE calculation"
+    },
+    {
+     "q": "SKU A (soap) has mean weekly demand 10,000 units and MAE 500. SKU B (premium shampoo) has mean demand 200 units and MAE 50. Which is forecast better relative to its volume?",
+     "options": [
+      "SKU B, because its MAE of 50 units is ten times smaller than SKU A's",
+      "SKU A, because its MAE of 500 units is ten times larger than SKU B's",
+      "SKU A, as its error is about 5% of demand versus 25% for SKU B",
+      "Both are equally good, because MAE cannot be compared across products"
+     ],
+     "answer": "SKU A, as its error is about 5% of demand versus 25% for SKU B",
+     "explanation": "Relative error is 500/10,000 = 5% for A and 50/200 = 25% for B. Comparing raw MAE across different scales is misleading.",
+     "difficulty": "hard",
+     "concept": "scale independence"
+    },
+    {
+     "q": "A sweet shop's forecast errors over five weeks were 5, 5, 5, 5 and 60 units (the last during Diwali). What is the RMSE and what does it reveal?",
+     "options": [
+      "16 units; it equals the MAE, so all of the errors are of a similar size",
+      "27.20 units; it is far above the MAE of 16, showing one large error dominates",
+      "740 units; it is far above the MAE, so the forecast is completely unusable",
+      "27.20 units; it is close to the MAE, so the weekly errors are consistent"
+     ],
+     "answer": "27.20 units; it is far above the MAE of 16, showing one large error dominates",
+     "explanation": "Squares: 4 x 25 + 3,600 = 3,700; MSE = 740; RMSE = 27.20, versus MAE = 80/5 = 16. A large RMSE-MAE gap flags occasional big misses.",
+     "difficulty": "hard",
+     "concept": "RMSE vs MAE comparison"
+    },
+    {
+     "q": "A bank stocks cash in ATMs. Small forecast misses are cheap, but a large shortfall (ATM running dry) causes big costs and complaints. Which measure should guide model choice?",
+     "options": [
+      "RMSE (or MSE), as squaring makes large errors weigh much more heavily",
+      "MAPE, because percentage errors are always the most useful measure for managers",
+      "MAE, because it treats every unit of error equally regardless of its size",
+      "Mean error, because only the overall bias matters for cash planning"
+     ],
+     "answer": "RMSE (or MSE), as squaring makes large errors weigh much more heavily",
+     "explanation": "When large errors are disproportionately costly, a squared-error measure aligns with the business cost. MAE treats big and small misses linearly.",
+     "difficulty": "hard",
+     "concept": "choosing accuracy measure"
+    },
+    {
+     "q": "Case 1: actual 100, forecast 150. Case 2: actual 150, forecast 100. Both have an absolute error of 50. What are the absolute percentage errors?",
+     "options": [
+      "50% in both cases, because the absolute error is 50 units in each case",
+      "33.33% and 50%; MAPE penalises under-forecasts more at the same absolute error",
+      "50% and 66.67%; MAPE divides the absolute error by the forecast value",
+      "50% and 33.33%; MAPE penalises over-forecasts more at the same absolute error"
+     ],
+     "answer": "50% and 33.33%; MAPE penalises over-forecasts more at the same absolute error",
+     "explanation": "50/100 = 50% and 50/150 = 33.33%. Dividing by the actual makes over-forecasts on small actuals look worse, a known asymmetry of MAPE.",
+     "difficulty": "hard",
+     "concept": "MAPE asymmetry"
+    },
+    {
+     "q": "Method P has errors +10, +10, +10, +10. Method Q has errors +15, -15, +15, -15. Which statement is correct?",
+     "options": [
+      "P is better on every count, because its errors are smaller and also perfectly consistent",
+      "Q is better on every count, because its mean error of zero shows it is the more accurate",
+      "Q is unbiased but less accurate (MAE 15 vs 10); adding 10 to P's forecasts would remove its bias",
+      "Both methods are equally good, because their mean errors are both less than 15 units"
+     ],
+     "answer": "Q is unbiased but less accurate (MAE 15 vs 10); adding 10 to P's forecasts would remove its bias",
+     "explanation": "P: mean error 10, MAE 10 (biased). Q: mean error 0, MAE 15 (unbiased, noisier). Correcting P's constant bias would make its errors zero, so bias and accuracy must be judged separately.",
+     "difficulty": "hard",
+     "concept": "bias vs accuracy"
+    },
+    {
+     "q": "Over five months, a forecast's MAE was 6 units. In the sixth month the absolute error was 18 units. What is the new MAE over six months?",
+     "options": [
+      "12 units",
+      "8 units",
+      "9.6 units",
+      "24 units"
+     ],
+     "answer": "8 units",
+     "explanation": "Total absolute error = 5 x 6 + 18 = 48; 48/6 = 8. 12 averages the two MAEs, and 9.6 divides by 5 instead of 6.",
+     "difficulty": "hard",
+     "concept": "MAE calculation"
+    },
+    {
+     "q": "An auto spare-parts dealer has many months with zero demand for slow-moving parts. Which accuracy measure is most appropriate?",
+     "options": [
+      "MAE (or a scaled measure such as MASE), as MAPE is undefined when demand is zero",
+      "MAPE, because it is scale-free and therefore suits every kind of demand pattern",
+      "MAPE, after deleting the zero-demand months from the data before calculation",
+      "No measure can be used, because intermittent demand cannot be evaluated"
+     ],
+     "answer": "MAE (or a scaled measure such as MASE), as MAPE is undefined when demand is zero",
+     "explanation": "Zero actuals make MAPE undefined; deleting them hides real errors. Absolute or scaled measures work with intermittent demand.",
+     "difficulty": "hard",
+     "concept": "MAPE zero-demand issue"
+    }
+   ],
+   "references": [
+    "Forecast accuracy tells us how close forecasts are to actual values. The forecast error is actual minus forecast. MAE, the mean absolute error, averages the absolute errors and is easy to explain because it is in the same units as the data. MSE, the mean squared error, averages squared errors, so it penalises large errors heavily but is in squared units. RMSE is the square root of MSE, returning to the original units while still emphasising big misses; it is always at least as large as MAE. MAPE averages absolute errors as a percentage of actuals, so it is scale-independent and useful for comparing products, but it breaks down when actual values are zero or very small.",
+    "Suppose a retail store forecast 90, 125 and 110 units and actually sold 100, 120 and 110. The errors are 10, -5 and 0. MAE is 5 units, meaning we were off by 5 units on average. MSE is 41.67 and RMSE about 6.45 units, a bit higher because the 10-unit miss is weighted more. If the errors are expressed as percentages of actual sales, the MAPE is about 4.7%, which lets us compare this store with a much larger one. If a forecast has one huge Diwali miss, RMSE jumps far above MAE, flagging outliers. For items with zero sales in some weeks, MAPE cannot be computed.",
+    "As a manager, I use accuracy measures to choose between forecasting methods and to decide how much buffer stock to hold. The choice of measure should match the cost of errors. MAE is simple and treats all errors equally, in units we understand. When large errors are very costly, such as stock-outs of critical items, RMSE or MSE is better because squaring punishes big misses. MAPE is a percentage, so it is good for comparing accuracy across products or regions of different scale, but it is unreliable for low-volume or zero-demand items and is asymmetric. These measures show accuracy, not bias, so I also check the mean error."
+   ],
+   "key_concepts": [
+    "absolute error",
+    "squared error",
+    "square root",
+    "percentage",
+    "actual minus forecast",
+    "same units",
+    "scale-dependent",
+    "scale-independent",
+    "outliers",
+    "large errors",
+    "zero demand",
+    "compare methods",
+    "average",
+    "bias"
+   ]
+  }
+ ]
+}

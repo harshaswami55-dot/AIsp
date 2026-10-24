@@ -1,0 +1,540 @@
+{
+  "roles": [
+    {
+      "id": "demand-planner",
+      "title": "Demand Planner",
+      "industry": "FMCG / Retail",
+      "description": "A demand planner produces the SKU- and region-level sales forecast that drives production, procurement and distribution plans. In FMCG and retail, a few percentage points of forecast error translate directly into stock-outs during festive peaks or crores of working capital locked in excess inventory.",
+      "day_in_life": "Monday starts with reviewing last week's actuals against forecast and flagging SKUs whose MAPE has drifted above tolerance. Mid-week you adjust the baseline for upcoming promotions and Diwali loading, then present the consensus forecast to sales and supply teams in the S&OP meeting.",
+      "salary_band": "₹7–12 LPA (entry to 3 yrs); ₹14–22 LPA (4–8 yrs)",
+      "skills": [
+        {
+          "id": "demand-pattern-decomposition",
+          "name": "Demand pattern decomposition",
+          "why": "Before choosing any model, a planner must separate trend, festive seasonality and noise so that a Q4 spike is not mistaken for permanent growth.",
+          "topics": ["Data Patterns: Trend, Seasonality, Cyclical, and Random", "Forecasting time series data with seasonal variation"],
+          "learning_points": [
+            "A time series = trend + seasonality + cyclical + random components; identify each visually before modelling.",
+            "Additive decomposition suits constant seasonal swings; multiplicative suits swings that grow with the level.",
+            "Seasonal indices tell you how much above or below the trend a given month typically sits (e.g. October at 1.25 = 25% above trend).",
+            "Random residuals left after decomposition should look patternless; visible structure means the model is missing something."
+          ],
+          "lab": {
+            "dataset": "Retail Monthly Sales",
+            "model": "holt_winters",
+            "task": "Fit Holt-Winters on Retail Monthly Sales and study the decomposition plot to estimate the size of the Q4 festive peak relative to trend. Note the MAPE on the holdout and check whether residuals still show a seasonal pattern."
+          }
+        },
+        {
+          "id": "exponential-smoothing",
+          "name": "Exponential smoothing",
+          "why": "Smoothing models are the workhorse of SKU-level planning because they are fast, explainable and update automatically as new weeks of sales arrive.",
+          "topics": ["Simple exponential Smoothing(ES)", "Double Exponential Smoothing(SES)", "HOLT-WINTER model"],
+          "learning_points": [
+            "Simple ES weights recent observations more heavily via alpha; it suits level-only series with no trend.",
+            "Holt's double smoothing adds a beta parameter for trend, so forecasts slope instead of staying flat.",
+            "Holt-Winters adds a gamma parameter for seasonality and is the default choice for monthly retail data.",
+            "High alpha reacts quickly but chases noise; low alpha is stable but lags genuine shifts in demand."
+          ],
+          "lab": {
+            "dataset": "FMCG Product Demand",
+            "model": "ses",
+            "task": "Run SES on FMCG Product Demand, then run Holt on the same data and compare MAE and RMSE. Observe how both models lag the promotion surges and explain why a level-only model cannot anticipate them."
+          }
+        },
+        {
+          "id": "promotion-driver-modelling",
+          "name": "Promotion and price driver modelling",
+          "why": "Trade promotions and price changes cause the biggest demand swings in FMCG, so the planner must quantify uplift rather than rely on gut feel.",
+          "topics": ["Linear Regression"],
+          "learning_points": [
+            "Regress demand on price and a promotion dummy; the dummy's coefficient is the average promotional uplift in units.",
+            "The price coefficient approximates price sensitivity; a log-log model gives elasticity directly.",
+            "Check residuals for leftover seasonality or autocorrelation, which signals missing drivers.",
+            "Regression forecasts need future values of drivers, so they depend on an agreed promotion calendar."
+          ],
+          "lab": {
+            "dataset": "FMCG Product Demand",
+            "model": "linear_regression",
+            "task": "Fit linear regression on FMCG Product Demand and read the coefficients for price and promotion_active to estimate uplift per promotion week. Compare its MAPE with the SES baseline to see the value of drivers."
+          }
+        },
+        {
+          "id": "forecast-accuracy-tracking",
+          "name": "Forecast accuracy tracking",
+          "why": "Planners are judged on forecast accuracy KPIs, and choosing between models or overriding them requires a consistent error metric.",
+          "topics": ["Forecast Accuracy: MAE, MSE, RMSE, MAPE", "Forecasting Process: Steps and Challenges"],
+          "learning_points": [
+            "MAE is the average absolute miss in units; RMSE penalises large misses more heavily.",
+            "MAPE expresses error as a percentage, making SKUs of different scale comparable, but it explodes when actuals are near zero.",
+            "Always compare a model against a naive benchmark; a model that cannot beat naive adds no value.",
+            "Track bias (consistent over- or under-forecasting) separately from accuracy."
+          ],
+          "lab": {
+            "dataset": "Retail Monthly Sales",
+            "model": "naive",
+            "task": "Run the naive model on Retail Monthly Sales to set a benchmark MAE, RMSE and MAPE. Then run Holt-Winters and calculate the percentage improvement in MAPE over naive."
+          }
+        }
+      ]
+    },
+    {
+      "id": "supply-chain-analyst",
+      "title": "Supply Chain Analyst",
+      "industry": "Manufacturing / Logistics / FMCG",
+      "description": "A supply chain analyst turns demand forecasts into replenishment, warehousing and transport plans. Forecasting matters because lead times of weeks mean every order is placed against a predicted future, and forecast error directly sizes the safety stock a company must carry.",
+      "day_in_life": "You pull weekly shipment data from the ERP, refresh replenishment forecasts and recalculate reorder points for fast-moving SKUs. In the afternoon you explain to the warehouse head why next month's inbound volume will rise and which lanes need extra trucks.",
+      "salary_band": "₹6–11 LPA (entry to 3 yrs); ₹12–20 LPA (4–8 yrs)",
+      "skills": [
+        {
+          "id": "moving-average-smoothing",
+          "name": "Moving average baselines",
+          "why": "Moving averages give a quick, robust baseline for replenishment of stable SKUs and are easy to explain to warehouse and procurement teams.",
+          "topics": ["Moving Average Method", "Data Patterns: Trend, Seasonality, Cyclical, and Random"],
+          "learning_points": [
+            "A k-period moving average forecasts the next value as the mean of the last k observations.",
+            "Larger windows smooth more noise but react slowly to genuine changes in demand.",
+            "Moving averages lag behind trends and cannot anticipate seasonality or promotions.",
+            "They are useful as a sanity-check baseline for more complex models."
+          ],
+          "lab": {
+            "dataset": "FMCG Product Demand",
+            "model": "moving_average",
+            "task": "Fit a moving average on FMCG Product Demand and compare MAE across short and long windows. Look at how the forecast lags each promotion surge and what that implies for safety stock."
+          }
+        },
+        {
+          "id": "stationarity-testing",
+          "name": "Stationarity testing and differencing",
+          "why": "ARIMA-family models used in replenishment engines assume a stationary series, so the analyst must test for and remove trend before fitting.",
+          "topics": ["Stationarity and Unit Root Tests (ADF Test)", "Differencing a time series, Lags"],
+          "learning_points": [
+            "A stationary series has constant mean and variance over time; trending sales are not stationary.",
+            "The ADF test's null hypothesis is a unit root (non-stationary); a p-value below 0.05 rejects it.",
+            "First differencing (y_t − y_{t−1}) removes a linear trend; seasonal differencing at lag 12 removes yearly seasonality.",
+            "Over-differencing adds noise, so difference only as much as the ADF test requires."
+          ],
+          "lab": {
+            "dataset": "Retail Monthly Sales",
+            "model": "arima",
+            "task": "Run ARIMA on Retail Monthly Sales and read the ADF test result on the raw series and after differencing. Record the p-values and state how many differences (d) the series needs."
+          }
+        },
+        {
+          "id": "arima-modelling",
+          "name": "ARIMA modelling",
+          "why": "ARIMA captures week-to-week momentum in shipments that smoothing models miss, which improves short-horizon replenishment forecasts.",
+          "topics": ["Autocorrelation and Partial Autocorrelation (ACF, PACF)", "Autoregressive Process – AR(p)", "ARIMA process"],
+          "learning_points": [
+            "ARIMA(p,d,q) combines autoregressive lags (p), differencing (d) and moving-average error terms (q).",
+            "A PACF that cuts off after lag p suggests an AR(p) term; an ACF that cuts off after lag q suggests MA(q).",
+            "Residuals of a good ARIMA model should show no significant autocorrelation.",
+            "Compare candidate orders using holdout RMSE or AIC rather than picking the most complex model."
+          ],
+          "lab": {
+            "dataset": "FMCG Product Demand",
+            "model": "arima",
+            "task": "Fit ARIMA on FMCG Product Demand and inspect the ACF and PACF plots to justify the chosen p and q. Compare its RMSE with the moving average baseline."
+          }
+        },
+        {
+          "id": "forecast-horizon-planning",
+          "name": "Forecast horizon planning",
+          "why": "Supply decisions span different horizons, from next week's truck booking to next year's warehouse capacity, and each needs a different forecast type and granularity.",
+          "topics": ["Components, Types of Forecasts: Short-term, Medium-term, Long-term", "Role of Forecasting in Managerial Planning and Control"],
+          "learning_points": [
+            "Short-term forecasts (days to weeks) drive scheduling and replenishment; long-term forecasts drive capacity and network design.",
+            "Error grows with horizon, so long-term plans need ranges and scenarios, not single numbers.",
+            "Trend-capturing models like Holt are better for medium-term capacity than level-only models.",
+            "Forecasts feed control loops: compare actual vs plan, investigate variances, then re-plan."
+          ],
+          "lab": {
+            "dataset": "Retail Monthly Sales",
+            "model": "holt",
+            "task": "Fit Holt on Retail Monthly Sales and compare its forecast for the next 3 months with the next 12 months. Note how the trend projection supports a capacity decision and where missing seasonality inflates RMSE."
+          }
+        },
+        {
+          "id": "ml-demand-forecasting",
+          "name": "Tree-based ML demand forecasting",
+          "why": "Tree models capture non-linear interactions such as promotions working differently at different price points, which linear models miss.",
+          "topics": ["Decision Tree", "Random Forest"],
+          "learning_points": [
+            "A decision tree splits data on features like price and promotion into rules that predict demand.",
+            "A random forest averages many trees built on bootstrapped samples, reducing overfitting.",
+            "Feature importance shows which drivers matter most to demand.",
+            "Tree models cannot extrapolate beyond the range of training data, so they struggle with strong trends."
+          ],
+          "lab": {
+            "dataset": "FMCG Product Demand",
+            "model": "random_forest",
+            "task": "Train a random forest on FMCG Product Demand and check feature importance for price and promotion_active. Compare its MAE and MAPE with linear regression and ARIMA."
+          }
+        }
+      ]
+    },
+    {
+      "id": "fpa-analyst",
+      "title": "FP&A / Financial Analyst",
+      "industry": "Corporate Finance (cross-industry)",
+      "description": "An FP&A analyst builds the revenue, cost and cash-flow forecasts behind budgets, rolling forecasts and board guidance. Forecasting matters because leadership commits capital, hiring and investor expectations to these numbers, and large variances damage credibility.",
+      "day_in_life": "You close the month by explaining revenue variance against budget to business heads, then refresh the rolling 12-month forecast with the latest actuals. Before the quarterly review you run upside and downside scenarios for the CFO's presentation.",
+      "salary_band": "₹8–14 LPA (entry to 3 yrs); ₹16–28 LPA (4–8 yrs)",
+      "skills": [
+        {
+          "id": "trend-forecasting",
+          "name": "Trend forecasting",
+          "why": "Revenue plans depend on a defensible growth trajectory, and the analyst must project trend without overreacting to one strong month.",
+          "topics": ["Double Exponential Smoothing(SES)", "Linear Regression"],
+          "learning_points": [
+            "Holt's double exponential smoothing updates level and trend each period, so the growth rate adapts over time.",
+            "A linear regression on time gives a constant-slope trend that is simple to explain to leadership.",
+            "Damped trends are safer for long horizons because unchecked linear growth rarely persists.",
+            "Validate trend models on the latest months held out, not on the data used to fit them."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "holt",
+            "task": "Fit Holt on E-Commerce Order Volume and compare its 12-month projection with linear regression. Use RMSE and MAPE on the holdout to decide which growth trajectory is more credible for the budget."
+          }
+        },
+        {
+          "id": "budget-variance-accuracy",
+          "name": "Budget variance and accuracy analysis",
+          "why": "FP&A must explain why actuals differed from forecast and quantify forecast quality so leadership knows how much to trust the plan.",
+          "topics": ["Forecast Accuracy: MAE, MSE, RMSE, MAPE", "Role of Forecasting in Managerial Planning and Control"],
+          "learning_points": [
+            "Variance = actual − forecast; separate volume, price and mix effects when explaining it.",
+            "MAPE is the most board-friendly accuracy metric; RMSE highlights months with large misses.",
+            "Forecast error sets the width of the planning range presented to leadership.",
+            "Planning and control form a loop: plan, measure variance, diagnose, reforecast."
+          ],
+          "lab": {
+            "dataset": "Retail Monthly Sales",
+            "model": "holt_winters",
+            "task": "Fit Holt-Winters on Retail Monthly Sales and treat the forecast as the budget. Use the holdout MAE and MAPE to compute a plus/minus planning range and identify the months with the largest misses."
+          }
+        },
+        {
+          "id": "arma-time-series",
+          "name": "ARMA time-series modelling",
+          "why": "Financial series like monthly revenue often show momentum and shock carry-over that ARMA terms model explicitly.",
+          "topics": ["ARMA process", "Moving Average process MA(q)", "Autoregressive Process – AR(p)"],
+          "learning_points": [
+            "An AR(p) term models how past values influence the current value (momentum).",
+            "An MA(q) term models how past forecast errors or shocks carry into the current value.",
+            "ARMA(p,q) combines both but requires a stationary series; add differencing to get ARIMA.",
+            "Keep orders small (p, q ≤ 2) for monthly business data to avoid overfitting."
+          ],
+          "lab": {
+            "dataset": "Retail Monthly Sales",
+            "model": "arima",
+            "task": "Fit ARIMA on Retail Monthly Sales, read the AR and MA terms from the ACF and PACF, and check the ADF result after differencing. Compare RMSE with Holt-Winters to judge whether ARMA dynamics alone handle the festive season."
+          }
+        },
+        {
+          "id": "scenario-driver-planning",
+          "name": "Driver-based scenario planning",
+          "why": "CFOs ask what revenue looks like if marketing spend or price changes, which requires forecasts linked to business drivers rather than history alone.",
+          "topics": ["VAR model", "VARIMAX model", "Linear Regression"],
+          "learning_points": [
+            "Driver-based models link revenue to levers like ad spend and price, enabling what-if scenarios.",
+            "A VAR model treats several series (e.g. sales and spend) as jointly influencing each other over lags.",
+            "VARIMAX extends VAR with external variables and moving-average terms for richer multivariate dynamics.",
+            "Scenarios should flex one driver at a time and report the range of outcomes, not one number."
+          ],
+          "lab": {
+            "dataset": "Advertising Spend vs Sales",
+            "model": "linear_regression",
+            "task": "Fit linear regression on Advertising Spend vs Sales using digital_ad_spend, tv_ad_spend and unit_price as drivers. Use the coefficients to estimate sales under a 10% budget cut and report the model's MAPE as the scenario's uncertainty."
+          }
+        },
+        {
+          "id": "rolling-forecast-process",
+          "name": "Rolling forecast process",
+          "why": "Most Indian corporates have moved from static annual budgets to rolling forecasts, and the analyst owns the process that keeps them current.",
+          "topics": ["Forecasting Process: Steps and Challenges", "Nature and Importance of Forecasting"],
+          "learning_points": [
+            "The process: define purpose, gather data, choose model, validate, forecast, monitor and revise.",
+            "A rolling forecast always looks a fixed horizon ahead (e.g. 12 months) and is refreshed monthly.",
+            "Common challenges: data breaks, one-off events, management bias and changing business models.",
+            "Document assumptions so variances can be traced to the assumption that failed."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "naive",
+            "task": "Run the naive model on E-Commerce Order Volume and then Holt on the same data. Compare MAPE to show leadership why a structured forecasting process beats last-month-repeated planning."
+          }
+        }
+      ]
+    },
+    {
+      "id": "marketing-analytics-manager",
+      "title": "Marketing Analytics Manager",
+      "industry": "Consumer Brands / Media / D2C",
+      "description": "A marketing analytics manager measures how advertising, pricing and campaigns drive sales and forecasts the return on future spend. Forecasting matters because media budgets worth crores are allocated across TV and digital based on predicted sales response.",
+      "day_in_life": "You start by checking campaign dashboards and updating the sales response model with last week's spend. Later you build a forecast for the brand team showing expected sales if 20% of TV budget moves to digital, and defend the assumptions with the CMO.",
+      "salary_band": "₹10–16 LPA (entry to 3 yrs); ₹18–32 LPA (4–8 yrs)",
+      "skills": [
+        {
+          "id": "marketing-mix-regression",
+          "name": "Marketing mix regression",
+          "why": "Budget allocation requires knowing the incremental sales from each rupee of TV versus digital spend, which regression coefficients estimate.",
+          "topics": ["Linear Regression"],
+          "learning_points": [
+            "Regress sales on spend by channel and price; each coefficient estimates incremental sales per unit of driver.",
+            "Correlated channels (multicollinearity) make individual coefficients unstable; check signs make business sense.",
+            "R-squared measures fit on training data, but holdout MAPE measures forecasting usefulness.",
+            "Advertising often has lagged and diminishing effects that a simple linear model only approximates."
+          ],
+          "lab": {
+            "dataset": "Advertising Spend vs Sales",
+            "model": "linear_regression",
+            "task": "Fit linear regression on Advertising Spend vs Sales and compare the coefficients on digital_ad_spend and tv_ad_spend. Report the holdout MAPE and state which channel has the higher marginal return."
+          }
+        },
+        {
+          "id": "exogenous-driver-forecasting",
+          "name": "Forecasting with exogenous drivers",
+          "why": "Marketing forecasts must combine the seasonal rhythm of sales with planned spend, which SARIMAX-style models handle in one framework.",
+          "topics": ["SARIMAX model", "VARIMAX model"],
+          "learning_points": [
+            "SARIMAX = seasonal ARIMA plus eXogenous regressors such as ad spend or price.",
+            "Exogenous variables must be known or planned for the forecast horizon.",
+            "VARIMAX is used when drivers and sales influence each other, e.g. higher sales prompting more spend.",
+            "Compare against pure SARIMA to see whether drivers genuinely improve accuracy."
+          ],
+          "lab": {
+            "dataset": "Advertising Spend vs Sales",
+            "model": "sarima",
+            "task": "Fit SARIMA on sales_volume in Advertising Spend vs Sales and compare its RMSE with linear regression on the spend drivers. Discuss what a SARIMAX combining both would add."
+          }
+        },
+        {
+          "id": "campaign-lift-ml",
+          "name": "ML campaign response modelling",
+          "why": "Campaign response is non-linear, with saturation and festive interactions, and boosted trees capture these patterns better than linear models.",
+          "topics": ["Gradient Boosting with XG Boost", "Random Forest"],
+          "learning_points": [
+            "Gradient boosting builds trees sequentially, each correcting the errors of the previous ones.",
+            "Key XGBoost hyperparameters are learning rate, number of trees and max depth; tune them on a validation set.",
+            "Random forest is a robust baseline; XGBoost usually wins when tuned but overfits small datasets more easily.",
+            "With only 36 monthly rows, keep models shallow and validate carefully."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "xgboost",
+            "task": "Train XGBoost on E-Commerce Order Volume using marketing_spend_k and month as features. Compare MAE and MAPE with random forest and check whether festive spikes are captured."
+          }
+        },
+        {
+          "id": "segment-rule-modelling",
+          "name": "Rule-based and similarity models",
+          "why": "Brand teams trust forecasts they can read as rules, such as 'when digital spend exceeds X, sales jump', and analogous past periods help sense-check new plans.",
+          "topics": ["Decision Tree", "KNN model"],
+          "learning_points": [
+            "A decision tree produces readable if-then splits on spend and price thresholds.",
+            "KNN forecasts by averaging outcomes of the k most similar past periods in feature space.",
+            "KNN needs scaled features, otherwise large-valued variables dominate the distance.",
+            "Both methods cannot extrapolate beyond historical ranges of spend."
+          ],
+          "lab": {
+            "dataset": "Advertising Spend vs Sales",
+            "model": "decision_tree",
+            "task": "Fit a decision tree on Advertising Spend vs Sales and read the top splits on spend and unit_price. Compare its MAPE with linear regression and note whether the tree overfits."
+          }
+        }
+      ]
+    },
+    {
+      "id": "revenue-manager",
+      "title": "Revenue Manager",
+      "industry": "Hospitality / Travel",
+      "description": "A revenue manager forecasts occupancy and demand to set room rates and inventory controls that maximise revenue per available room. Forecasting matters because rooms are perishable: an unsold night is lost forever, while underpricing a peak weekend leaves money on the table.",
+      "day_in_life": "Each morning you review on-the-books bookings against the occupancy forecast for the next 90 days. You raise rates for long weekends where pickup is running ahead, open promotions for soft monsoon dates, and brief the sales team on group quotas.",
+      "salary_band": "₹6–10 LPA (entry to 3 yrs); ₹12–24 LPA (4–8 yrs)",
+      "skills": [
+        {
+          "id": "seasonal-occupancy-forecasting",
+          "name": "Seasonal occupancy forecasting",
+          "why": "Hotel demand follows strong holiday and summer seasons, so the revenue manager must forecast the seasonal shape to plan rates months ahead.",
+          "topics": ["HOLT-WINTER model", "Forecasting time series data with seasonal variation"],
+          "learning_points": [
+            "Holt-Winters models level, trend and seasonality, matching the shape of monthly occupancy.",
+            "Use multiplicative seasonality when peak-season swings grow as overall demand grows.",
+            "Seasonal indices identify which months justify premium pricing.",
+            "You need at least two full seasonal cycles (24 months) to estimate seasonality reliably."
+          ],
+          "lab": {
+            "dataset": "Hotel Occupancy Rate",
+            "model": "holt_winters",
+            "task": "Fit Holt-Winters on Hotel Occupancy Rate and read the decomposition to identify the peak and lean months. Record MAPE and note which months have the largest errors."
+          }
+        },
+        {
+          "id": "sarima-modelling",
+          "name": "SARIMA modelling",
+          "why": "SARIMA handles both short-term momentum and yearly seasonality, giving revenue managers a statistically rigorous alternative to Holt-Winters.",
+          "topics": ["Seasonal ARIMA (SARIMA)", "Differencing a time series, Lags"],
+          "learning_points": [
+            "SARIMA(p,d,q)(P,D,Q)s adds seasonal AR, differencing and MA terms at the seasonal lag s (12 for monthly).",
+            "Seasonal differencing at lag 12 removes the repeating yearly pattern.",
+            "Significant ACF spikes at lags 12 and 24 signal the need for seasonal terms.",
+            "With short histories, keep seasonal orders at 0 or 1 to avoid unstable estimates."
+          ],
+          "lab": {
+            "dataset": "Hotel Occupancy Rate",
+            "model": "sarima",
+            "task": "Fit SARIMA on Hotel Occupancy Rate and check the ACF for spikes at lag 12. Compare RMSE and MAPE with Holt-Winters to choose the forecasting engine."
+          }
+        },
+        {
+          "id": "acf-pacf-diagnostics",
+          "name": "ACF and PACF diagnostics",
+          "why": "Reading autocorrelation plots tells the revenue manager how strongly this month's occupancy depends on recent months, which guides model order.",
+          "topics": ["Autocorrelation and Partial Autocorrelation (ACF, PACF)", "Moving Average process MA(q)"],
+          "learning_points": [
+            "ACF measures correlation between the series and its own lagged values.",
+            "PACF measures correlation at a lag after removing the effect of shorter lags.",
+            "An ACF that cuts off after lag q points to an MA(q) process; slow decay points to an AR process or non-stationarity.",
+            "Bars outside the confidence band are statistically significant."
+          ],
+          "lab": {
+            "dataset": "Hotel Occupancy Rate",
+            "model": "arima",
+            "task": "Fit ARIMA on Hotel Occupancy Rate and interpret the ACF and PACF plots to justify the AR and MA orders. Note whether residual autocorrelation remains at the seasonal lag."
+          }
+        },
+        {
+          "id": "pricing-driver-analysis",
+          "name": "Rate and demand driver analysis",
+          "why": "Revenue managers must understand how average daily rate interacts with occupancy to avoid pricing that kills demand.",
+          "topics": ["Decision Tree", "Linear Regression"],
+          "learning_points": [
+            "Regress occupancy on average daily rate and month to estimate rate sensitivity.",
+            "In hotels, rate and occupancy often move together because both rise in peak season; do not read this as causal.",
+            "Decision trees reveal thresholds, e.g. occupancy drops sharply above a certain rate in off-season.",
+            "Combine driver insights with time-series forecasts rather than replacing them."
+          ],
+          "lab": {
+            "dataset": "Hotel Occupancy Rate",
+            "model": "decision_tree",
+            "task": "Fit a decision tree on Hotel Occupancy Rate using average_daily_rate and month. Read the splits to find rate thresholds by season and compare MAPE with Holt-Winters."
+          }
+        },
+        {
+          "id": "short-term-pickup-forecasting",
+          "name": "Short-term pickup forecasting",
+          "why": "Rate decisions for the next few weeks rely on short-term forecasts that react quickly to recent demand shifts.",
+          "topics": ["Components, Types of Forecasts: Short-term, Medium-term, Long-term", "Moving Average Method"],
+          "learning_points": [
+            "Short-term forecasts drive tactical rate changes; long-term forecasts drive budgets and renovation plans.",
+            "Moving averages smooth recent noise but lag behind turning points such as the start of peak season.",
+            "Short windows react faster; long windows are more stable.",
+            "Compare short-term forecast error with seasonal models to see the cost of ignoring seasonality."
+          ],
+          "lab": {
+            "dataset": "Hotel Occupancy Rate",
+            "model": "moving_average",
+            "task": "Fit a moving average on Hotel Occupancy Rate and compare its MAE with Holt-Winters. Identify the months around season changes where the moving average lags most."
+          }
+        }
+      ]
+    },
+    {
+      "id": "business-data-analyst",
+      "title": "Business / Data Analyst",
+      "industry": "E-commerce / Quick Commerce",
+      "description": "A business or data analyst in e-commerce forecasts orders, traffic and GMV to plan warehouse capacity, delivery fleets and marketing budgets. Forecasting matters because growth is fast and festive sales create order spikes several times normal volume that operations must be ready for.",
+      "day_in_life": "You write SQL to pull daily orders, refresh the forecasting notebook and publish a dashboard for the ops team. Before the Big Festive Sale you work with category managers to forecast peak-day orders and stress-test fulfilment capacity.",
+      "salary_band": "₹8–15 LPA (entry to 3 yrs); ₹16–30 LPA (4–8 yrs)",
+      "skills": [
+        {
+          "id": "growth-trend-detection",
+          "name": "Growth trend detection",
+          "why": "In a fast-growing platform, separating underlying growth from festive spikes determines how much capacity to add permanently.",
+          "topics": ["Data Patterns: Trend, Seasonality, Cyclical, and Random", "Stationarity and Unit Root Tests (ADF Test)"],
+          "learning_points": [
+            "Plot the series and its rolling mean to see whether growth is linear or accelerating.",
+            "A failed ADF test (p-value above 0.05) confirms a trend or unit root that must be handled.",
+            "Log transforms convert exponential growth into a linear trend.",
+            "Distinguish permanent growth from one-off spikes before projecting forward."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "holt",
+            "task": "Fit Holt on E-Commerce Order Volume and record the ADF result in the output. Compare the trend-only forecast with actual festive months to see how much error comes from missing seasonality."
+          }
+        },
+        {
+          "id": "festive-spike-sarima",
+          "name": "Festive spike forecasting with SARIMA/SARIMAX",
+          "why": "Sale events recur every year and are partly driven by marketing spend, so seasonal models with exogenous drivers give the best peak forecasts.",
+          "topics": ["Seasonal ARIMA (SARIMA)", "SARIMAX model", "ARIMA process"],
+          "learning_points": [
+            "SARIMA captures the yearly repeat of festive spikes through seasonal terms at lag 12.",
+            "SARIMAX adds drivers such as marketing spend to explain spike size.",
+            "Check that the festive month residuals are small; large misses mean the spike size changes year to year.",
+            "Peak forecasts should come with an upper bound for capacity planning."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "sarima",
+            "task": "Fit SARIMA on E-Commerce Order Volume and compare its RMSE and MAPE with Holt. Check how closely it predicts the festive sale months."
+          }
+        },
+        {
+          "id": "gradient-boosting-forecasting",
+          "name": "Gradient boosting forecasting",
+          "why": "E-commerce teams commonly use XGBoost for demand forecasting because it handles many features and non-linear effects with strong accuracy.",
+          "topics": ["Gradient Boosting with XG Boost", "Random Forest"],
+          "learning_points": [
+            "Convert time series into a supervised problem with features like month, lags and marketing spend.",
+            "XGBoost learns non-linear effects such as spend saturation and festive interactions.",
+            "Tree models cannot extrapolate trend, so include a trend feature or detrend first.",
+            "Always validate with a time-ordered split, never a random shuffle."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "xgboost",
+            "task": "Train XGBoost on E-Commerce Order Volume and compare MAE, RMSE and MAPE against SARIMA. Check whether XGBoost underpredicts the latest months because of the growth trend."
+          }
+        },
+        {
+          "id": "model-benchmarking",
+          "name": "Model benchmarking",
+          "why": "Analysts must show stakeholders that a sophisticated model genuinely beats simple alternatives before it is deployed.",
+          "topics": ["Forecast Accuracy: MAE, MSE, RMSE, MAPE", "Nature and Importance of Forecasting"],
+          "learning_points": [
+            "Start with a naive forecast; every proposed model must beat it on the holdout.",
+            "Report MAE in orders for ops, MAPE in percent for leadership.",
+            "MSE and RMSE magnify large misses, which matters most during peak events.",
+            "Prefer the simplest model within a small accuracy margin of the best."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "naive",
+            "task": "Run naive on E-Commerce Order Volume to set the benchmark, then compare Holt, SARIMA and XGBoost. Build a small table of MAE, RMSE and MAPE and pick the winner."
+          }
+        },
+        {
+          "id": "similarity-tree-models",
+          "name": "Similarity and tree models",
+          "why": "Quick, interpretable models help analysts answer ad hoc questions such as which past months resemble an upcoming sale.",
+          "topics": ["KNN model", "Decision Tree"],
+          "learning_points": [
+            "KNN predicts orders from the k most similar historical months based on features like spend and month.",
+            "Decision trees give interpretable splits that explain high-order months.",
+            "Both need enough history covering similar conditions to work well.",
+            "Use them as interpretable complements to time-series models."
+          ],
+          "lab": {
+            "dataset": "E-Commerce Order Volume",
+            "model": "decision_tree",
+            "task": "Fit a decision tree on E-Commerce Order Volume and read the top splits on marketing_spend_k and month. Compare MAPE with XGBoost and explain the trade-off between interpretability and accuracy."
+          }
+        }
+      ]
+    }
+  ]
+}

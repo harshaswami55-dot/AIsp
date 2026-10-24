@@ -1,266 +1,223 @@
 import React, { useEffect, useState } from 'react';
-import { BookOpen, Plus, Star, RefreshCw, ChevronDown, ChevronUp, Lightbulb, CheckCircle2, Edit3, Trash2, Brain } from 'lucide-react';
+import { BookOpen, Send, CheckCircle2, XCircle, AlertTriangle, CalendarDays, PenLine, Library } from 'lucide-react';
 import { authFetch } from '../api';
+import { PageHero, Stagger, SectionTitle, Skeleton, AnimatedNumber } from '../components/ui';
 
-const TOPICS = [
-  'ADF Test & Stationarity',
-  'ACF & PACF Interpretation',
-  'ARIMA Model Selection',
-  'SARIMA for Seasonal Data',
-  'Model Diagnostics',
-];
+const MAX = 500;
 
-const INITIAL_REFLECTIONS = [
-  {
-    id: 1,
-    topic: 'ADF Test & Stationarity',
-    date: '2026-10-20',
-    understanding: 'I now understand that the ADF test\'s null hypothesis is that the series HAS a unit root (non-stationary). I used to get this backwards.',
-    confusion: 'Still confused about when to use trend vs intercept specifications in the ADF test.',
-    keyInsight: 'A p-value < 0.05 means we REJECT non-stationarity — the series IS stationary.',
-    selfScore: 4,
-    aiSuggested: true,
-  },
-  {
-    id: 2,
-    topic: 'ACF & PACF Interpretation',
-    date: '2026-10-18',
-    understanding: 'Learned that ACF tailing off + PACF cutting off at lag q indicates an AR(q) process.',
-    confusion: 'Mixed processes are still tricky — when both tail off slowly, I find it hard to determine the right orders.',
-    keyInsight: 'For ARIMA, I look at the differenced series ACF/PACF, not the original.',
-    selfScore: 3,
-    aiSuggested: false,
-  },
-];
+async function api(url, options) {
+  const res = await authFetch(url, options);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.detail || `Request failed (${res.status})`);
+  return data;
+}
 
-function StarRating({ value, onChange }) {
+export const scoreColor = s => (s >= 70 ? 'var(--color-ok)' : s >= 50 ? 'var(--color-warn)' : 'var(--color-danger)');
+
+/** Animated circular score (0–100). The arc grows from 0 on mount and on every value change. */
+export function ScoreRing({ value, size = 104, stroke = 10, color, label = '/100' }) {
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const target = Math.max(0, Math.min(100, Number(value) || 0));
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setShown(target));
+    return () => cancelAnimationFrame(id);
+  }, [target]);
+  const stroke2 = color || scoreColor(target);
   return (
-    <div style={{ display: 'flex', gap: 4 }}>
-      {[1, 2, 3, 4, 5].map(n => (
-        <button key={n} onClick={() => onChange?.(n)} style={{ background: 'none', border: 'none', cursor: onChange ? 'pointer' : 'default', padding: 0, lineHeight: 1 }}>
-          <Star size={18} fill={n <= value ? 'var(--color-accent)' : 'none'} color={n <= value ? 'var(--color-accent)' : 'var(--color-text-3)'} />
-        </button>
+    <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--color-surface-3)" strokeWidth={stroke} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={stroke2} strokeWidth={stroke} strokeLinecap="round"
+          strokeDasharray={`${(shown / 100) * c} ${c}`} transform={`rotate(-90 ${size / 2} ${size / 2})`}
+          style={{ transition: 'stroke-dasharray 1.1s cubic-bezier(.2,.8,.2,1), stroke .4s' }} />
+      </svg>
+      <div style={{ position: 'absolute', inset: 0, display: 'grid', placeContent: 'center', textAlign: 'center' }}>
+        <div style={{ fontSize: size * 0.27, fontWeight: 800, lineHeight: 1, color: 'var(--color-text)', fontVariantNumeric: 'tabular-nums' }}>
+          <AnimatedNumber value={value} decimals={Number.isInteger(Number(value)) ? 0 : 1} />
+        </div>
+        {label && <div style={{ fontSize: '.68rem', color: 'var(--color-text-3)', fontWeight: 700 }}>{label}</div>}
+      </div>
+    </div>
+  );
+}
+
+/** Concept chips: matched = ok tint, missing = warn tint. */
+export function ConceptChips({ items, ok, empty }) {
+  if (!items?.length) return <span style={{ color: 'var(--color-text-3)', fontSize: '.84rem' }}>{empty}</span>;
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+      {items.map(i => (
+        <span key={i} className={`badge ${ok ? 'badge-ok' : 'badge-warn'}`} style={{ gap: 4 }}>
+          {ok ? <CheckCircle2 size={11} /> : <XCircle size={11} />}{i}
+        </span>
       ))}
     </div>
   );
 }
 
-function ReflectionCard({ reflection, onDelete }) {
-  const [expanded, setExpanded] = useState(false);
+function MiniBar({ label, value }) {
   return (
-    <div className="card" style={{ overflow: 'hidden' }}>
-      <div
-        style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
-        onClick={() => setExpanded(e => !e)}
-      >
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-            <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-text)' }}>{reflection.topic}</span>
-            {reflection.aiSuggested && <span className="badge badge-gold">AI Suggested</span>}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-3)' }}>{reflection.date}</span>
-            <StarRating value={reflection.selfScore} />
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button onClick={(e) => { e.stopPropagation(); onDelete(reflection.id); }}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-3)', padding: 4 }}>
-            <Trash2 size={15} />
-          </button>
-          {expanded ? <ChevronUp size={16} color="var(--color-text-3)" /> : <ChevronDown size={16} color="var(--color-text-3)" />}
+    <div style={{ minWidth: 0 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: '.78rem', color: 'var(--color-text-2)', marginBottom: 4 }}>
+        <span>{label}</span><strong style={{ color: 'var(--color-text)' }}>{value ?? '–'}%</strong>
+      </div>
+      <div className="progress-track"><div className="progress-fill" style={{ width: `${value || 0}%`, background: scoreColor(value || 0) }} /></div>
+    </div>
+  );
+}
+
+export function RecallFeedback({ feedback, references }) {
+  if (!feedback) return null;
+  return (
+    <div className="reveal" style={{ display: 'grid', gap: 14 }}>
+      <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center' }}>
+        <ScoreRing value={feedback.score} />
+        <div style={{ display: 'grid', gap: 10, flex: '1 1 220px', minWidth: 0 }}>
+          <span className="badge badge-gold" style={{ justifySelf: 'start' }}>{feedback.band}</span>
+          <MiniBar label="Key concepts covered" value={feedback.concept_coverage_pct} />
+          <MiniBar label="Closeness to reference" value={feedback.reference_similarity_pct} />
         </div>
       </div>
-
-      {expanded && (
-        <div style={{ borderTop: '1px solid var(--color-border)', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 14, background: 'var(--color-surface-2)' }}>
-          {[
-            { label: 'What I understood', icon: CheckCircle2, color: 'var(--color-ok)', text: reflection.understanding },
-            { label: 'What I\'m still confused about', icon: Brain, color: 'var(--color-warn)', text: reflection.confusion },
-            { label: 'Key insight', icon: Lightbulb, color: 'var(--color-accent)', text: reflection.keyInsight },
-          ].map(({ label, icon: Icon, color, text }) => (
-            <div key={label}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
-                <Icon size={14} color={color} />
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</span>
-              </div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--color-text-2)', lineHeight: 1.6, paddingLeft: 20 }}>{text}</p>
-            </div>
-          ))}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
+        <div className="card-inset" style={{ padding: 12, display: 'grid', gap: 8 }}>
+          <div style={{ fontWeight: 700, fontSize: '.82rem', color: 'var(--color-ok)', display: 'flex', gap: 6, alignItems: 'center' }}><CheckCircle2 size={14} /> You covered</div>
+          <ConceptChips items={feedback.matched_concepts} ok empty="none of the key concepts yet" />
+        </div>
+        <div className="card-inset" style={{ padding: 12, display: 'grid', gap: 8 }}>
+          <div style={{ fontWeight: 700, fontSize: '.82rem', color: 'var(--color-warn)', display: 'flex', gap: 6, alignItems: 'center' }}><XCircle size={14} /> Missing</div>
+          <ConceptChips items={feedback.missing_concepts} empty="nothing important" />
+        </div>
+      </div>
+      {feedback.misconceptions?.map(m => (
+        <div key={m.name} className="card-inset" style={{ padding: 12, borderLeft: '3px solid var(--color-danger)', color: 'var(--color-text-2)', fontSize: '.85rem' }}>
+          <strong style={{ color: 'var(--color-danger)' }}>{m.name}:</strong> {m.explanation}
+        </div>
+      ))}
+      {references?.length > 0 && (
+        <div>
+          <SectionTitle icon={Library}>Reference models</SectionTitle>
+          <Stagger step={80} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 10 }}>
+            {references.map((r, i) => {
+              const closest = feedback.closest_reference_index === i + 1;
+              return (
+                <div key={i} className="card-inset hover-lift" style={{ padding: 12, height: '100%', boxSizing: 'border-box', outline: closest ? '2px solid var(--color-accent)' : 'none', background: closest ? 'var(--color-surface)' : undefined }}>
+                  <div style={{ fontSize: '.75rem', fontWeight: 700, color: closest ? 'var(--color-accent)' : 'var(--color-text-3)', marginBottom: 4 }}>
+                    REFERENCE {i + 1}{closest ? ' · closest to yours' : ''}
+                  </div>
+                  <div style={{ color: 'var(--color-text-2)', fontSize: '.84rem', lineHeight: 1.55 }}>{r}</div>
+                </div>
+              );
+            })}
+          </Stagger>
         </div>
       )}
     </div>
   );
 }
 
-export default function ReflectionsView({ currentUser }) {
-  const [reflections, setReflections] = useState(INITIAL_REFLECTIONS);
-  const [showNew, setShowNew] = useState(false);
-  const [form, setForm] = useState({ topic: TOPICS[0], understanding: '', confusion: '', keyInsight: '', selfScore: 3 });
-  const [saving, setSaving] = useState(false);
+export default function ReflectionsView() {
+  const [topics, setTopics] = useState(null);
+  const [topicId, setTopicId] = useState('');
+  const [text, setText] = useState('');
+  const [result, setResult] = useState(null);
+  const [history, setHistory] = useState(null);
+  const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
+  const loadHistory = () => api('/api/reflections/mine').then(setHistory).catch(e => { setHistory(h => h ?? []); setError(e.message); });
   useEffect(() => {
-    if (!currentUser?.id) return;
-    authFetch(`/api/reflections/${currentUser.id}`)
-      .then(res => { if (!res.ok) throw new Error('Could not load reflections'); return res.json(); })
-      .then(rows => setReflections(rows.map(row => ({
-        id: row.id,
-        topic: row.topic_name || TOPICS[0],
-        topicId: row.topic_id,
-        understanding: row.understanding,
-        confusion: row.confusion,
-        keyInsight: row.key_insight,
-        selfScore: row.self_score,
-        aiSuggested: row.ai_suggested,
-        date: row.created_at?.slice(0, 10) || '',
-      }))))
-      .catch(() => setError('Could not load saved reflections.'));
-  }, [currentUser?.id]);
+    api('/api/topics/completed').then(t => {
+      const withRefs = t.filter(x => x.has_reference);
+      setTopics(withRefs);
+      setTopicId(withRefs[0]?.id ?? '');
+    }).catch(e => { setTopics([]); setError(e.message); });
+    loadHistory();
+  }, []);
 
-  const handleSave = async () => {
-    if (!form.understanding.trim()) return;
-    setSaving(true);
-    setError('');
+  const submit = async () => {
+    setBusy(true); setError('');
     try {
-      const res = await authFetch('/api/reflections', {
-        method: 'POST',
-        body: {
-          user_id: currentUser?.id,
-          topic_id: null,
-          topic_name: form.topic,
-          understanding: form.understanding.trim(),
-          confusion: form.confusion.trim(),
-          key_insight: form.keyInsight.trim(),
-          self_score: form.selfScore,
-          ai_suggested: false,
-        },
-      });
-      if (!res.ok) throw new Error('Could not save reflection');
-      const saved = await res.json();
-      setReflections(prev => [{ id: saved.id, ...form, date: new Date().toISOString().slice(0, 10), aiSuggested: false }, ...prev]);
-      setForm({ topic: TOPICS[0], understanding: '', confusion: '', keyInsight: '', selfScore: 3 });
-      setShowNew(false);
-    } catch {
-      setError('Could not save reflection. Please try again.');
-    } finally {
-      setSaving(false);
-    }
+      setResult(await api('/api/reflections/recall', { method: 'POST', body: { topic_id: Number(topicId), recall_text: text } }));
+      loadHistory();
+    } catch (e) { setError(e.message); } finally { setBusy(false); }
   };
 
-  const handleDelete = async (id) => {
-    setError('');
-    try {
-      const res = await authFetch(`/api/reflections/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Could not delete reflection');
-      setReflections(prev => prev.filter(r => r.id !== id));
-    } catch {
-      setError('Could not delete reflection. Please try again.');
-    }
-  };
-
-  const avgScore = reflections.length ? (reflections.reduce((a, r) => a + r.selfScore, 0) / reflections.length).toFixed(1) : 0;
+  const today = new Date().toDateString();
+  const byDay = (history || []).reduce((acc, r) => {
+    const day = new Date(r.created_at).toDateString();
+    (acc[day] ||= []).push(r);
+    return acc;
+  }, {});
+  const scored = (history || []).filter(r => r.score !== null && r.score !== undefined);
+  const avg = scored.length ? scored.reduce((s, r) => s + r.score, 0) / scored.length : null;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Header */}
-      <div className="glass-panel-glow" style={{ padding: '24px 28px' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-              <BookOpen size={20} color="var(--color-accent)" />
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-text)', letterSpacing: '-0.02em' }}>
-                Learning Reflections
-              </h2>
-            </div>
-            <p style={{ color: 'var(--color-text-3)', fontSize: '0.88rem' }}>
-              Record what you understood, what confused you, and key insights after each learning session. AI uses these to guide your next steps.
-            </p>
-          </div>
-          <button className="btn btn-primary" onClick={() => setShowNew(s => !s)}>
-            <Plus size={15} /> New Reflection
-          </button>
-        </div>
-      </div>
+    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 18, maxWidth: 1000, margin: '0 auto' }}>
+      <PageHero
+        icon={BookOpen}
+        tone="reflections"
+        eyebrow="Daily recall"
+        title="Reflections"
+        subtitle="Write today's recall of a topic from memory. It's compared with three reference models and scored. One recall per topic per day; writing again today replaces it."
+        stats={history ? [
+          { label: 'Recalls today', value: byDay[today]?.length ?? 0 },
+          { label: 'Total recalls', value: history.length },
+          { label: 'Average score', value: avg, decimals: 1 },
+          { label: 'Best score', value: scored.length ? Math.max(...scored.map(r => r.score)) : null },
+        ] : []}
+      />
 
-      {error && <p role="alert" className="card" style={{ padding: 12, color: 'var(--color-danger)' }}>{error}</p>}
+      {error && <div className="card reveal" style={{ padding: 14, color: 'var(--color-danger)', display: 'flex', gap: 8 }}><AlertTriangle size={16} /> {error}</div>}
 
-      {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14 }}>
-        {[
-          { label: 'Total Reflections', value: reflections.length, color: 'var(--color-student)' },
-          { label: 'Avg. Self-Score', value: `${avgScore}/5`, color: 'var(--color-accent)' },
-          { label: 'AI Suggested', value: reflections.filter(r => r.aiSuggested).length, color: 'var(--color-faculty)' },
-          { label: 'Topics Covered', value: new Set(reflections.map(r => r.topic)).size, color: 'var(--color-dean)' },
-        ].map(({ label, value, color }) => (
-          <div key={label} className="stat-tile" style={{ padding: '16px 20px' }}>
-            <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>{label}</div>
-            <div style={{ fontSize: '1.7rem', fontWeight: 700, color, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* New Reflection Form */}
-      {showNew && (
-        <div className="card" style={{ padding: 24 }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: 20 }}>Add Reflection</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div>
-              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-text-3)', display: 'block', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Topic</label>
-              <select value={form.topic} onChange={e => setForm(f => ({ ...f, topic: e.target.value }))}>
-                {TOPICS.map(t => <option key={t}>{t}</option>)}
+      <div className="card reveal" style={{ padding: 20, display: 'grid', gap: 12, '--delay': '120ms' }}>
+        <SectionTitle icon={PenLine}>Add recall for {today}</SectionTitle>
+        {topics === null ? <Skeleton rows={2} height={56} /> : topics.length === 0 ? (
+          <p style={{ color: 'var(--color-text-3)', margin: 0 }}>Complete a quiz in the AI Study Planner first — you recall topics you've studied.</p>
+        ) : (
+          <>
+            <label style={{ display: 'grid', gap: 6, fontWeight: 600, color: 'var(--color-text-2)', fontSize: '.85rem' }}>Topic
+              <select value={topicId} onChange={e => { setTopicId(e.target.value); setResult(null); }}>
+                {topics.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
               </select>
+            </label>
+            <label style={{ display: 'grid', gap: 6, fontWeight: 600, color: 'var(--color-text-2)', fontSize: '.85rem' }}>
+              What do you remember about this topic? (no notes)
+              <textarea rows={6} maxLength={MAX} value={text} onChange={e => setText(e.target.value)} placeholder="Explain the idea, the key terms, and how a manager would use it…" style={{ resize: 'vertical' }} />
+            </label>
+            <div className="progress-track" style={{ height: 4 }} aria-hidden="true">
+              <div style={{ height: '100%', width: `${(text.length / MAX) * 100}%`, borderRadius: 'inherit', background: text.length > MAX - 50 ? 'var(--color-warn)' : 'var(--color-accent)', transition: 'width .2s, background .3s' }} />
             </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '.8rem', color: text.length > MAX - 50 ? 'var(--color-warn)' : 'var(--color-text-3)' }}>{text.length} / {MAX} characters</span>
+              <button className="btn btn-primary" disabled={busy || !text.trim() || !topicId} onClick={submit}><Send size={14} /> {busy ? 'Scoring…' : 'Compare with references & score'}</button>
+            </div>
+          </>
+        )}
+        {result && <RecallFeedback feedback={result.feedback} references={result.references} />}
+      </div>
 
-            {[
-              { key: 'understanding', label: 'What I understood', placeholder: 'Describe in your own words what clicked for you...' },
-              { key: 'confusion', label: 'What I\'m still confused about', placeholder: 'Be specific about the gap...' },
-              { key: 'keyInsight', label: 'Key insight / aha moment', placeholder: 'The one thing you\'ll remember...' },
-            ].map(({ key, label, placeholder }) => (
-              <div key={key}>
-                <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-text-3)', display: 'block', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</label>
-                <textarea
-                  rows={2}
-                  placeholder={placeholder}
-                  value={form[key]}
-                  onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
-                  style={{ resize: 'vertical' }}
-                />
+      <div className="card reveal" style={{ padding: 20, '--delay': '200ms' }}>
+        <SectionTitle icon={CalendarDays} right={history?.length ? <span className="badge badge-gold">{history.length} total</span> : null}>My recalls</SectionTitle>
+        {history === null ? <Skeleton rows={3} height={48} /> : history.length === 0 ? <p style={{ color: 'var(--color-text-3)', margin: 0 }}>No recalls yet.</p> : (
+          <Stagger step={60}>
+            {Object.entries(byDay).map(([day, rows]) => (
+              <div key={day} style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: '.78rem', fontWeight: 700, color: day === today ? 'var(--color-accent)' : 'var(--color-text-3)', marginBottom: 6 }}>{day === today ? `Today · ${day}` : day}</div>
+                {rows.map(r => (
+                  <details key={r.id} className="card-inset"style={{ padding: 12, marginBottom: 8, borderLeft: `3px solid ${r.score === null ? 'var(--color-border-md)' : scoreColor(r.score)}` }}>
+                    <summary style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap', color: 'var(--color-text)' }}>
+                      <span style={{ minWidth: 0 }}>{r.topic_name}</span>
+                      <strong style={{ color: r.score === null ? 'var(--color-text-3)' : scoreColor(r.score) }}>{r.score === null ? 'not scored' : `${r.score}/100`}</strong>
+                    </summary>
+                    <p style={{ color: 'var(--color-text-2)', fontSize: '.86rem', whiteSpace: 'pre-wrap' }}>{r.recall_text}</p>
+                    {r.feedback && <RecallFeedback feedback={r.feedback} />}
+                  </details>
+                ))}
               </div>
             ))}
-
-            <div>
-              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-text-3)', display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Self-assessment</label>
-              <StarRating value={form.selfScore} onChange={v => setForm(f => ({ ...f, selfScore: v }))} />
-            </div>
-
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn btn-primary" onClick={handleSave} disabled={!form.understanding.trim() || saving}>
-                {saving ? <RefreshCw size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
-                {saving ? 'Saving…' : 'Save Reflection'}
-              </button>
-              <button className="btn btn-ghost" onClick={() => setShowNew(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Reflection list */}
-      <div>
-        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-text-3)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>
-          Your Reflections ({reflections.length})
-        </h3>
-        {reflections.length === 0 ? (
-          <div className="card" style={{ padding: 40, textAlign: 'center' }}>
-            <BookOpen size={32} color="var(--color-text-3)" style={{ margin: '0 auto 12px' }} />
-            <p style={{ color: 'var(--color-text-3)' }}>No reflections yet. Add your first one above.</p>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {reflections.map(r => (
-              <ReflectionCard key={r.id} reflection={r} onDelete={handleDelete} />
-            ))}
-          </div>
+          </Stagger>
         )}
       </div>
     </div>

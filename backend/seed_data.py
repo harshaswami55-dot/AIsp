@@ -36,7 +36,8 @@ ROSTER_ROLES = {"student": "student", "faculty": "faculty", "admin": "admin", "d
 
 def load_roster():
     """Creates/updates accounts from the roster CSV (name,email,password,role,status,usn).
-    Inactive rows lose their password; demo accounts are disabled in production."""
+    Inactive rows lose their password. Demo accounts can't log in in production, and once a real
+    roster exists they are retired (role 'retired') so they drop out of every student/faculty/dean list."""
     db = SessionLocal()
     try:
         if os.getenv("ENVIRONMENT") == "production":
@@ -48,6 +49,11 @@ def load_roster():
             print("WARNING: no roster CSV found; no new accounts loaded.")
             db.commit()
             return
+        db.query(User).filter(User.username.in_(DEMO_USERNAMES)).update(
+            {User.hashed_password: "", User.role: "retired"}, synchronize_session=False
+        )
+        # Seeded sample interventions carry invented cohort statistics; real ones (triggered by faculty) have no pre_mastery.
+        db.query(FacultyIntervention).filter(FacultyIntervention.pre_mastery.is_not(None)).delete(synchronize_session=False)
         with open(path, newline="", encoding="utf-8-sig") as f:
             for row in csv.DictReader(f):
                 email = (row.get("email") or "").strip().lower()

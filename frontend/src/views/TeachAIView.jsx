@@ -1,174 +1,94 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { GraduationCap, Send, Shuffle, AlertTriangle, MessageSquareText, ListChecks } from 'lucide-react';
 import { authFetch } from '../api';
-import {
-  GraduationCap, Send, CheckCircle2, AlertTriangle, Award,
-  Sparkles, RefreshCw, BarChart2
-} from 'lucide-react';
+import { PageHero, Stagger, SectionTitle, Skeleton } from '../components/ui';
+import { RecallFeedback, scoreColor } from './ReflectionsView';
+
+async function api(url, options) {
+  const res = await authFetch(url, options);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.detail || `Request failed (${res.status})`);
+  return data;
+}
 
 export default function TeachAIView() {
-  const [topic, setTopic] = useState('MAPE');
-  const [explanation, setExplanation] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [evaluation, setEvaluation] = useState(null);
+  const [topic, setTopic] = useState(null);
+  const [answer, setAnswer] = useState('');
+  const [result, setResult] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
 
-  const samplePrompts = [
-    { title: "Explain MAPE to me", topic: "MAPE", prompt: "Explain how Mean Absolute Percentage Error is calculated, why executives use it, and what happens when actual sales equal zero." },
-    { title: "Explain ARIMA", topic: "ARIMA", prompt: "Explain the three components of ARIMA(p,d,q), how stationarity is required, and how an operations director benefits from it." },
-    { title: "Why Stationarity Matters", topic: "Stationarity", prompt: "Explain why time series stationarity is required before Box-Jenkins modeling and how the ADF test verifies it." },
-    { title: "ARIMA vs SARIMA", topic: "SARIMA", prompt: "Explain why regular differencing d=1 is insufficient for seasonal data and how SARIMA(p,d,q)x(P,D,Q)_s models recurring annual waves." },
-    { title: "When to Use XGBoost", topic: "XGBoost", prompt: "Explain how supervised ML uses lag features to forecast demand and when XGBoost outperforms classical ARIMA." }
-  ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!explanation.trim()) return;
-
-    setSubmitting(true);
-    try {
-      const res = await authFetch('/api/ai/teach', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, explanation })
-      });
-      const data = await res.json();
-      setEvaluation(data);
-    } catch (err) {
-      console.error(err);
-      alert("Evaluation failed. Please verify backend connectivity.");
-    } finally {
-      setSubmitting(false);
-    }
+  const pickTopic = async (exclude) => {
+    setBusy(true); setError(''); setResult(null); setAnswer('');
+    try { setTopic(await api(`/api/teach/topic${exclude ? `?exclude=${exclude}` : ''}`)); }
+    catch (e) { setError(e.message); setTopic(null); }
+    finally { setBusy(false); }
   };
+  useEffect(() => { pickTopic(); }, []);
+
+  const evaluate = async () => {
+    setBusy(true); setError('');
+    try { setResult(await api('/api/teach/evaluate', { method: 'POST', body: { topic_id: topic.topic_id, explanation: answer } })); }
+    catch (e) { setError(e.message); }
+    finally { setBusy(false); }
+  };
+  const words = answer.trim() ? answer.trim().split(/\s+/).length : 0;
+  const inRange = words >= 80 && words <= 200;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '960px', margin: '0 auto' }}>
-      {/* Header */}
-      <div className="glass-panel-glow" style={{ padding: '24px 28px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(139, 92, 246, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c4b5fd' }}>
-            <GraduationCap size={22} />
-          </div>
+    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 18, maxWidth: 1000, margin: '0 auto' }}>
+      <PageHero
+        icon={GraduationCap}
+        tone="teach"
+        eyebrow="Learn by teaching"
+        title="Teach the AI"
+        subtitle="The AI picks a topic from the syllabus you've completed, leaning towards your weaker ones. Teach it in your own words and you're scored against reference answers using the CIE rubric."
+        actions={topic && <button className="btn-hero btn-hero-ghost" disabled={busy} onClick={() => pickTopic(topic.topic_id)}><Shuffle size={14} /> Another topic</button>}
+        stats={topic ? [
+          { label: 'Your best quiz score', value: topic.your_best_quiz_score ?? null, suffix: '%' },
+          { label: 'Words written', value: String(words) }, // string: AnimatedNumber restarts from 0 on each keystroke
+          { label: 'Teaching score', value: result?.score ?? null, suffix: '/100' },
+        ] : []}
+      />
+
+      {error && <div className="card reveal" style={{ padding: 14, color: 'var(--color-danger)', display: 'flex', gap: 8 }}><AlertTriangle size={16} /> {error}</div>}
+
+      {!topic && busy && <Skeleton rows={2} height={120} />}
+
+      {topic && (
+        <div key={topic.topic_id} className="card reveal" style={{ padding: 20, display: 'grid', gap: 12, '--delay': '120ms' }}>
           <div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ffffff' }}>
-              Teach-the-AI Mode
-            </h2>
-            <p style={{ color: '#94a3b8', fontSize: '0.88rem' }}>
-              "The highest proof of mastery is the ability to teach." Explain a forecasting concept in your own words. The AI evaluates you against the RV University CIE Rubric.
-            </p>
+            <div style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.08em', color: 'var(--color-text-3)', marginBottom: 6 }}>YOUR TOPIC</div>
+            <SectionTitle icon={MessageSquareText}>{topic.topic_name}</SectionTitle>
+          </div>
+          <p className="card-inset" style={{ margin: 0, padding: 14, color: 'var(--color-text)', lineHeight: 1.6, borderLeft: '3px solid var(--color-accent)' }}>{topic.prompt}</p>
+          <textarea rows={8} maxLength={3000} value={answer} onChange={e => setAnswer(e.target.value)} placeholder="Answer in your own words…" style={{ resize: 'vertical' }} />
+          <div className="progress-track" style={{ height: 4 }} aria-hidden="true">
+            <div style={{ height: '100%', width: `${Math.min(100, (words / 200) * 100)}%`, borderRadius: 'inherit', background: inRange ? 'var(--color-ok)' : words > 200 ? 'var(--color-warn)' : 'var(--color-accent)', transition: 'width .25s, background .3s' }} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span style={{ fontSize: '.8rem', color: inRange ? 'var(--color-ok)' : 'var(--color-text-3)' }}>{words} words · aim for 80–200</span>
+            <button className="btn btn-primary" disabled={busy || !answer.trim()} onClick={evaluate}><Send size={14} /> {busy ? 'Scoring…' : 'Submit & score'}</button>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Concept Selector Buttons */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-        {samplePrompts.map((p, i) => (
-          <button
-            key={i}
-            className={`btn ${topic === p.topic ? 'btn-purple' : 'btn-secondary'}`}
-            style={{ fontSize: '0.82rem', padding: '8px 14px' }}
-            onClick={() => {
-              setTopic(p.topic);
-              setEvaluation(null);
-            }}
-          >
-            {p.title}
-          </button>
-        ))}
-      </div>
-
-      {/* Main Form & Evaluation Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: evaluation ? '1fr 1fr' : '1fr', gap: '20px' }}>
-        {/* Input Form */}
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <div style={{ marginBottom: '14px' }}>
-            <span style={{ fontSize: '0.78rem', color: '#c4b5fd', fontWeight: 700 }}>SELECTED TOPIC</span>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff', marginTop: '2px' }}>
-              Explain: {topic}
-            </h3>
-            <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginTop: '4px' }}>
-              {samplePrompts.find(p => p.topic === topic)?.prompt}
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <textarea
-              rows="10"
-              placeholder="Write your explanation here. Include formulas, reasons, business implications, and potential pitfalls..."
-              value={explanation}
-              onChange={(e) => setExplanation(e.target.value)}
-              style={{ lineHeight: 1.6 }}
-            />
-
-            <button
-              type="submit"
-              className="btn btn-purple"
-              style={{ width: '100%', padding: '12px' }}
-              disabled={submitting || !explanation.trim()}
-            >
-              {submitting ? 'AI Rubric Evaluating...' : 'Submit Explanation for Rubric Grading'} <Send size={16} />
-            </button>
-          </form>
+      {result && (
+        <div className="card reveal" style={{ padding: 20, display: 'grid', gap: 14 }}>
+          <SectionTitle icon={ListChecks}>Rubric breakdown</SectionTitle>
+          <Stagger step={70} style={{ display: 'grid', gap: 12 }}>
+            {result.criteria.map(c => (
+              <div key={c.criterion}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: '.85rem', color: 'var(--color-text-2)', marginBottom: 4 }}>
+                  <span>{c.criterion} <span style={{ color: 'var(--color-text-3)' }}>({c.weight}%)</span></span><strong style={{ color: scoreColor(c.score) }}>{c.score}</strong>
+                </div>
+                <div className="progress-track"><div className="progress-fill" style={{ width: `${c.score}%`, background: scoreColor(c.score) }} /></div>
+              </div>
+            ))}
+          </Stagger>
+          <RecallFeedback feedback={result} references={result.references} />
         </div>
-
-        {/* Evaluation Output */}
-        {evaluation && (
-          <div className="glass-panel-glow" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {/* Score Banner */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '14px' }}>
-              <div>
-                <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 700 }}>EVALUATION SCORE</span>
-                <div style={{ fontSize: '2rem', fontWeight: 800, color: '#c4b5fd' }}>
-                  {evaluation.overall_score}%
-                </div>
-              </div>
-              <span className={`badge ${evaluation.overall_score >= 80 ? 'badge-emerald' : (evaluation.overall_score >= 60 ? 'badge-blue' : 'badge-amber')}`} style={{ fontSize: '0.85rem' }}>
-                {evaluation.grade}
-              </span>
-            </div>
-
-            {/* Rubric Breakdown */}
-            <div>
-              <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff', marginBottom: '10px' }}>
-                RV University CIE Rubric Breakdown
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {Object.entries(evaluation.rubric_breakdown || {}).map(([crit, data]) => (
-                  <div key={crit} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem' }}>
-                    <span style={{ textTransform: 'capitalize', color: '#cbd5e1' }}>
-                      {crit.replace(/_/g, ' ')} ({data.weight})
-                    </span>
-                    <span style={{ fontWeight: 700, color: data.score >= 3 ? '#10b981' : (data.score === 2 ? '#f59e0b' : '#f43f5e') }}>
-                      Level {data.score} / {data.max}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Misconceptions Alert */}
-            {evaluation.detected_misconceptions?.length > 0 && (
-              <div style={{ background: 'rgba(244, 63, 94, 0.1)', padding: '12px 14px', borderRadius: '10px', borderLeft: '3px solid #f43f5e' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#fda4af', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <AlertTriangle size={14} /> Misconception Detected
-                </div>
-                {evaluation.detected_misconceptions.map((m, i) => (
-                  <p key={i} style={{ fontSize: '0.82rem', color: '#f8fafc', marginTop: '4px' }}>
-                    {m}
-                  </p>
-                ))}
-              </div>
-            )}
-
-            {/* Feedback */}
-            <div style={{ background: 'rgba(59, 130, 246, 0.08)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #3b82f6' }}>
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#93c5fd' }}>AI TUTOR FEEDBACK</span>
-              <p style={{ fontSize: '0.85rem', color: '#f1f5f9', marginTop: '4px', lineHeight: 1.6 }}>
-                {evaluation.ai_tutor_feedback}
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }

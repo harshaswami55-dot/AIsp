@@ -1,0 +1,130 @@
+{
+  "caselets": [
+    {
+      "id": "festive-inventory-build",
+      "title": "Getting Diwali Right: Inventory Build for Q4",
+      "industry": "Retail",
+      "company": "Annapoorna Home Mart",
+      "context": "Annapoorna Home Mart is a mid-sized chain of 60 home and kitchen stores across Karnataka and Tamil Nadu. Last year the chain ran out of best-selling cookware and appliances in the second week of October, losing an estimated ₹3 crore in sales, while January ended with heavy markdowns on slow-moving stock. The new head of planning wants a statistically grounded monthly sales forecast to set the Q4 inventory build. Four years of monthly sales data show a steady upward trend as new stores opened, with sharp peaks every October to December driven by Diwali, weddings and year-end sales. The festive peaks also appear to grow larger as the business grows. Suppliers need purchase orders at least 10 weeks in advance, so the forecast must be locked by early August. Working capital is tight: the CFO has capped additional inventory at ₹12 crore, and every rupee of excess stock costs roughly 14% a year to carry. The planning team currently uses last year's same-month sales plus 10%, which ignores how the trend and the festive spike interact. You must recommend a forecasting approach and a Q4 stocking level, including a buffer that reflects forecast uncertainty.",
+      "business_question": "Which forecasting model should Annapoorna use to set its Q4 inventory build, and how much safety buffer should it hold above the forecast?",
+      "dataset": "Retail Monthly Sales",
+      "recommended_models": ["holt_winters", "sarima", "naive"],
+      "skills": ["demand-pattern-decomposition", "exponential-smoothing", "forecast-accuracy-tracking"],
+      "tasks": [
+        "Explore Retail Monthly Sales: plot the series and use the decomposition to describe the trend and the size of the Q4 festive peak.",
+        "Decide whether seasonality is additive or multiplicative by checking whether the Q4 peak grows with the level of sales.",
+        "Fit naive as a benchmark, then fit Holt-Winters and SARIMA in the lab, recording MAE, RMSE and MAPE for each on the holdout.",
+        "Choose the model with the best holdout accuracy, using RMSE to size a safety buffer for the Q4 months.",
+        "Write a recommendation to the head of planning covering the chosen model, the Q4 stocking level logic, the buffer and key risks."
+      ],
+      "deliverable": "A 120-250 word managerial recommendation to the head of planning stating the chosen model, accuracy evidence versus the naive benchmark, the Q4 stocking approach with a safety buffer, and the main risk.",
+      "key_concepts": ["seasonality", "trend", "holt-winters", "multiplicative seasonality", "mape", "rmse", "naive benchmark", "safety stock", "working capital", "festive peak", "decomposition"],
+      "reference_recommendation": "I recommend Holt-Winters with multiplicative seasonality as Annapoorna's Q4 forecasting model. The decomposition shows a clear upward trend and an October to December peak that grows with the level of sales, which is exactly the structure Holt-Winters models. On the holdout it should be compared with naive and SARIMA; if Holt-Winters delivers the lowest MAPE (for example around 6% against roughly 15% for naive), it is both the most accurate and the easiest to explain to suppliers. Set the Q4 purchase plan at the Holt-Winters forecast plus a safety buffer of about 1.65 times the holdout RMSE, which covers roughly 95% of demand scenarios. If that buffer pushes the build above the ₹12 crore cap, prioritise the buffer for high-margin cookware and appliances and accept tighter cover on low-margin lines. Caveat: with only four festive seasons in the data, an unusual Diwali date shift or a weak monsoon could move the peak, so review the forecast again in early September."
+    },
+    {
+      "id": "detergent-promotion-planning",
+      "title": "Do Promotions Pay? Planning Trade Deals for a Detergent Brand",
+      "industry": "FMCG",
+      "company": "Sunveda Consumer Products",
+      "context": "Sunveda Consumer Products sells a popular mid-priced detergent through general trade and modern retail across western India. The brand runs frequent trade promotions, including price-offs and buy-two-get-one deals, and the sales team claims each promotion week lifts volumes dramatically. The supply chain team complains that promotion surges cause stock-outs at distributors followed by weeks of excess stock. A year of weekly data shows demand, shelf price and whether a promotion was active. Demand jumps sharply during promotion weeks and appears to dip when price rises, but the baseline outside promotions is fairly stable. The current forecast is a four-week moving average, which consistently underestimates promotion weeks and overestimates the weeks after. The factory needs a firm weekly production plan two weeks in advance, and the marketing team must decide next quarter's promotion calendar within a fixed trade budget of ₹4 crore. Leadership wants to know how large the true promotional uplift is, how price-sensitive demand is, and which forecasting approach the planning team should adopt so production can be aligned to the promotion calendar.",
+      "business_question": "Which forecasting approach should Sunveda use to plan weekly production around promotions, and what does it imply about promotional uplift and price sensitivity?",
+      "dataset": "FMCG Product Demand",
+      "recommended_models": ["linear_regression", "random_forest", "moving_average"],
+      "skills": ["promotion-driver-modelling", "ml-demand-forecasting", "moving-average-smoothing"],
+      "tasks": [
+        "Explore FMCG Product Demand: plot weekly demand and mark promotion weeks to see the size and pattern of the surges.",
+        "Fit the moving average model as the current-practice baseline and record its MAE, RMSE and MAPE.",
+        "Fit linear regression with price and promotion_active, read the coefficients for uplift and price sensitivity, and record accuracy metrics.",
+        "Fit a random forest and compare its accuracy and feature importance with linear regression; choose the model with the best holdout MAPE balanced against interpretability.",
+        "Write a recommendation covering the chosen model, the estimated uplift and price effect, and how production planning should change."
+      ],
+      "deliverable": "A 120-250 word managerial recommendation to the supply chain and marketing heads stating the chosen model, accuracy evidence versus the moving average, the estimated promotional uplift, and production planning implications.",
+      "key_concepts": ["promotional uplift", "price elasticity", "linear regression", "coefficient", "random forest", "feature importance", "moving average", "mape", "mae", "production planning", "stock-out"],
+      "reference_recommendation": "Sunveda should replace the four-week moving average with a linear regression on price and promotion_active. The moving average lags every surge because it only looks backwards, so its MAE is inflated in promotion weeks and the weeks after. Regression explains demand with the levers the business actually controls: the promotion coefficient gives the average uplift in units per promotion week, and the price coefficient shows how many units are lost per rupee of price increase. If regression cuts MAPE substantially versus the moving average and the random forest only improves it marginally, regression is preferable because the coefficients can be shared with marketing for budget planning. Production should then be set at the baseline forecast plus the estimated uplift for every week on the promotion calendar, with distributors pre-loaded one week ahead. Caveat: regression assumes uplift is the same for every promotion type and ignores post-promotion dips; if residuals after promotions stay negative, add a lagged promotion variable."
+    },
+    {
+      "id": "resort-season-pricing",
+      "title": "Pricing the Peak: Occupancy Forecasting at a Coastal Resort Group",
+      "industry": "Hospitality",
+      "company": "Konkan Shores Resorts",
+      "context": "Konkan Shores Resorts operates five mid-premium beach properties between Ratnagiri and Goa. Occupancy is highly seasonal: it peaks during summer holidays and the October to January festive and winter season, and collapses during the monsoon. Three years of monthly data show occupancy rate, average daily rate and month. The revenue team currently sets rates using last year's occupancy for the same month, which led to underpricing during an unexpectedly strong Christmas season and heavy discounting through a weak monsoon. The owners plan to raise peak-season rates by up to 15% next year but fear losing guests to newer competitors. They also need an occupancy forecast to plan seasonal staff hiring, since housekeeping and kitchen contracts are signed three months in advance. The data is short, with only three full seasonal cycles, so complex models risk overfitting. As revenue manager, you must recommend a forecasting model for monthly occupancy, explain which months can support higher rates, and indicate how confident the business should be in the forecast when signing staffing contracts.",
+      "business_question": "Which model should Konkan Shores use to forecast monthly occupancy for rate setting and staffing, and in which months can it safely raise rates?",
+      "dataset": "Hotel Occupancy Rate",
+      "recommended_models": ["holt_winters", "sarima", "decision_tree"],
+      "skills": ["seasonal-occupancy-forecasting", "sarima-modelling", "pricing-driver-analysis"],
+      "tasks": [
+        "Explore Hotel Occupancy Rate: plot occupancy and use decomposition to identify peak and lean months and any trend.",
+        "Check the ACF for spikes at lag 12 and the ADF result to confirm seasonal structure and whether seasonal differencing is needed.",
+        "Fit Holt-Winters and SARIMA in the lab and compare MAE, RMSE and MAPE on the holdout months.",
+        "Fit a decision tree with average_daily_rate and month to see whether occupancy drops above certain rate levels in each season.",
+        "Write a recommendation covering the chosen model, months suitable for rate increases, staffing implications and a key caveat."
+      ],
+      "deliverable": "A 120-250 word managerial recommendation to the owners stating the chosen occupancy model with accuracy evidence, the months where rates can rise, staffing guidance and risks.",
+      "key_concepts": ["seasonality", "holt-winters", "sarima", "seasonal differencing", "acf", "mape", "rmse", "average daily rate", "revpar", "overfitting", "demand forecast"],
+      "reference_recommendation": "I recommend Holt-Winters as Konkan Shores' occupancy forecasting model, with SARIMA as a cross-check. Decomposition shows strong, repeating peaks in summer and October to January and a monsoon trough, and the ACF spike at lag 12 confirms yearly seasonality. With only three cycles, Holt-Winters is less prone to overfitting than SARIMA; if its holdout MAPE is similar or lower, the simpler model wins. The forecast and seasonal indices identify the months where occupancy reliably exceeds about 80%; these can absorb a 10–15% rate increase, and the decision tree splits help confirm that occupancy does not fall sharply at higher rates in those months. Shoulder and monsoon months should keep current rates with targeted packages to protect RevPAR. Staffing contracts should be sized to the forecast minus one RMSE, with temporary staff covering the upside. Caveat: three years of data cannot capture new competitor openings, so track weekly pickup against forecast and revise rates if bookings lag."
+    },
+    {
+      "id": "festive-sale-capacity",
+      "title": "Ready for the Big Sale: Fulfilment Capacity at an E-commerce Platform",
+      "industry": "E-commerce",
+      "company": "Cartwala Online",
+      "context": "Cartwala Online is a fast-growing e-commerce marketplace focused on tier-2 and tier-3 cities. Monthly orders have grown rapidly over three years, and every October to November the Big Festive Sale produces order spikes far above normal months. Last year the fulfilment network was overwhelmed: delivery times stretched to nine days, cancellations rose, and customer ratings fell. The operations head must now decide how much temporary warehouse space and how many delivery partners to contract for this year's sale, and contracts must be signed four months in advance. The data includes monthly orders, marketing spend in thousands of rupees and month. Marketing spend rises sharply before each sale, so part of each spike may be driven by spend rather than the calendar alone. The finance team warns that over-contracting capacity costs about ₹40 lakh per idle warehouse per month, while under-contracting risks another reputational hit. The analytics team must recommend a forecasting approach for peak-month orders, explain how much of the spike is trend versus seasonality versus marketing, and propose a capacity number with a reasonable buffer.",
+      "business_question": "Which forecasting model should Cartwala use to plan fulfilment capacity for the festive sale, and what capacity buffer should it contract?",
+      "dataset": "E-Commerce Order Volume",
+      "recommended_models": ["sarima", "xgboost", "holt"],
+      "skills": ["festive-spike-sarima", "gradient-boosting-forecasting", "growth-trend-detection", "model-benchmarking"],
+      "tasks": [
+        "Explore E-Commerce Order Volume: plot orders and marketing_spend_k together and describe the growth trend and festive spikes.",
+        "Check the ADF result to confirm non-stationarity and note the differencing the ARIMA-family models apply.",
+        "Fit Holt, SARIMA and XGBoost in the lab and compare MAE, RMSE and MAPE, paying attention to errors in the festive months.",
+        "Select the model that best predicts peak months, and use its holdout RMSE to size a capacity buffer.",
+        "Write a recommendation to the operations head covering the model choice, peak order estimate logic, capacity buffer and risks."
+      ],
+      "deliverable": "A 120-250 word managerial recommendation to the operations head stating the chosen model, accuracy evidence focused on peak months, the capacity planning approach with a buffer, and risks.",
+      "key_concepts": ["trend", "seasonality", "sarima", "sarimax", "xgboost", "stationarity", "adf test", "rmse", "mape", "capacity planning", "marketing spend", "buffer"],
+      "reference_recommendation": "Cartwala should use SARIMA for festive capacity planning, extended to SARIMAX with marketing spend when the sale budget is confirmed. The series is non-stationary (ADF p-value above 0.05) with strong growth and a repeating October to November spike, which SARIMA handles through regular and seasonal differencing. Holt captures growth but misses the spikes, and XGBoost tends to underpredict the latest months because trees cannot extrapolate trend. If SARIMA shows the lowest RMSE and MAPE in festive holdout months, it should drive the plan. Contract base capacity at the SARIMA peak-month forecast and add a buffer of roughly one to 1.5 RMSE through flexible delivery partners rather than fixed warehouses, since idle space costs ₹40 lakh per month while partner capacity can be released. Caveat: spike size depends heavily on marketing spend, so if the sale budget rises materially versus last year, rerun the forecast with SARIMAX before signing contracts."
+    },
+    {
+      "id": "tv-to-digital-shift",
+      "title": "TV or Digital? Reallocating the Media Budget",
+      "industry": "Consumer Beverages",
+      "company": "Nimbus Beverages",
+      "context": "Nimbus Beverages sells packaged juices and flavoured milk across India. Its annual media budget of about ₹60 crore is split between television and digital advertising, with TV historically taking the larger share. The new CMO believes digital delivers better returns and proposes moving 30% of TV spend to digital next year, but the sales director worries that TV builds the reach needed in smaller towns. Three years of monthly data show sales volume, digital ad spend, TV ad spend and unit price. Both spend lines rise ahead of summer, when beverage demand naturally peaks, so spend and sales move together partly because of seasonality. Unit price was raised twice during the period. The board wants a forecast of next year's sales under the current mix and the proposed mix before approving the budget, along with an honest view of how reliable that forecast is. The analytics team must build a driver-based forecasting model, compare it against alternatives, and translate the results into a clear recommendation on the media mix, while being careful not to overstate causality from observational data.",
+      "business_question": "Should Nimbus shift 30% of its TV budget to digital, and what sales impact does a driver-based forecast predict?",
+      "dataset": "Advertising Spend vs Sales",
+      "recommended_models": ["linear_regression", "random_forest", "xgboost"],
+      "skills": ["marketing-mix-regression", "exogenous-driver-forecasting", "campaign-lift-ml", "scenario-driver-planning"],
+      "tasks": [
+        "Explore Advertising Spend vs Sales: plot sales_volume against each spend line and unit price, and note the seasonal co-movement.",
+        "Fit linear regression with digital_ad_spend, tv_ad_spend and unit_price, and read the coefficients for marginal returns.",
+        "Fit random forest and XGBoost on the same drivers and compare MAE, RMSE and MAPE against regression on the holdout.",
+        "Use the chosen model to simulate sales under the current and proposed media mix, and use holdout error to express uncertainty.",
+        "Write a recommendation to the board covering the model choice, the scenario result, and limitations of the evidence."
+      ],
+      "deliverable": "A 120-250 word managerial recommendation to the board stating the chosen model with accuracy evidence, the forecast sales impact of the proposed media shift, and caveats about causality.",
+      "key_concepts": ["marketing mix", "linear regression", "coefficient", "multicollinearity", "scenario analysis", "sarimax", "xgboost", "mape", "rmse", "diminishing returns", "causality"],
+      "reference_recommendation": "I recommend linear regression on digital spend, TV spend and price as Nimbus' scenario model. Its coefficients directly show incremental sales per rupee by channel, which the board can audit, and if its holdout MAPE is close to random forest and XGBoost, the transparency outweighs a small accuracy gain. If the digital coefficient is clearly higher than the TV coefficient, moving 30% of TV budget to digital raises forecast sales by roughly the shifted amount multiplied by the coefficient difference. I would present that uplift with a range of plus or minus the model's RMSE. However, because both spends rise ahead of summer, part of their effect is seasonality; a SARIMAX check with spend as exogenous drivers should confirm the channel gap survives once seasonality is modelled. Recommendation: shift 15% now as a controlled test across matched regions, and move the remaining 15% only if digital outperforms. Caveat: correlated channels make coefficients unstable, and regression ignores TV's long-term brand-building effect."
+    },
+    {
+      "id": "annual-operating-plan",
+      "title": "Building the Annual Operating Plan: ARIMA or Holt-Winters?",
+      "industry": "Retail / Corporate Finance",
+      "company": "Saptarishi Lifestyle Stores",
+      "context": "Saptarishi Lifestyle Stores, a regional apparel and lifestyle chain, is preparing its annual operating plan. The CFO has been embarrassed two years running: actual revenue missed the budget by more than 12% in the first half and beat it in the festive quarter, leading to poor hiring and inventory decisions. The FP&A team currently sets the budget by applying a single growth rate to last year's total and spreading it evenly across months. Four years of monthly sales show a clear upward trend and recurring festive peaks in the final quarter. A newly hired analyst argues that ARIMA is the most rigorous method, while the planning head prefers Holt-Winters because it is easier to explain to the board. The CFO wants a monthly revenue budget that respects seasonality, a defensible view of forecast accuracy, and a planning range that business heads can use for hiring and store openings. The budget must be presented to the board in three weeks, and the chosen method will be used for monthly rolling reforecasts throughout the year, so it must be maintainable by a small team.",
+      "business_question": "Should Saptarishi build its monthly revenue budget with ARIMA, SARIMA or Holt-Winters, and what planning range should it present to the board?",
+      "dataset": "Retail Monthly Sales",
+      "recommended_models": ["arima", "sarima", "holt_winters"],
+      "skills": ["stationarity-testing", "arima-modelling", "budget-variance-accuracy", "rolling-forecast-process"],
+      "tasks": [
+        "Explore Retail Monthly Sales and run the ADF test on the raw series; record the p-value and decide how much differencing is needed.",
+        "Inspect ACF and PACF after differencing, noting spikes at lag 12 that indicate seasonality.",
+        "Fit ARIMA, SARIMA and Holt-Winters in the lab and compare MAE, RMSE and MAPE on the holdout.",
+        "Choose the model balancing accuracy and explainability, and use holdout MAPE to set a plus/minus planning range.",
+        "Write a recommendation to the CFO covering the model, monthly budget phasing, planning range and the rolling reforecast process."
+      ],
+      "deliverable": "A 120-250 word managerial recommendation to the CFO stating the chosen budgeting model with ADF and accuracy evidence, how monthly phasing changes, the planning range, and caveats.",
+      "key_concepts": ["stationarity", "adf test", "differencing", "acf", "pacf", "arima", "sarima", "holt-winters", "mape", "budget variance", "rolling forecast", "planning range"],
+      "reference_recommendation": "Saptarishi should budget with Holt-Winters, using SARIMA as a validation check, rather than plain ARIMA. The ADF test on raw sales fails to reject a unit root, so differencing is required, and after first differencing the ACF still shows a spike at lag 12. Plain ARIMA ignores this seasonality, so it will repeat the current mistake of under-budgeting the festive quarter and over-budgeting the first half. Holt-Winters and SARIMA both model the seasonal peak; if their holdout MAPEs are close, Holt-Winters is preferable because the board understands level, trend and seasonal indices and the small team can refresh it monthly. Phase the budget using the model's monthly forecasts instead of an even spread, and present a planning range of plus or minus one holdout MAPE around each month, so hiring and store openings are triggered only when actuals track the upper half. Caveat: four years include few festive cycles, so reforecast monthly and document assumptions so variances can be traced."
+    }
+  ]
+}

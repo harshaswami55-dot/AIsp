@@ -1,0 +1,1254 @@
+{
+  "module": 4,
+  "topics": [
+    {
+      "topic": "VAR model",
+      "questions": [
+        {
+          "q": "In multivariate time series forecasting, what does VAR stand for?",
+          "options": [
+            "Vector Autoregression",
+            "Variance Analysis Regression",
+            "Value at Risk",
+            "Variable Autoregressive Ranking"
+          ],
+          "answer": "Vector Autoregression",
+          "explanation": "VAR is Vector Autoregression: a system of equations where each variable is regressed on lags of all variables. 'Value at Risk' shares the acronym but is a risk-management measure, not a forecasting model.",
+          "difficulty": "easy",
+          "concept": "var definition"
+        },
+        {
+          "q": "How are the variables treated in a standard VAR model?",
+          "options": [
+            "One variable is chosen as the target and all the other variables enter its single equation as fixed external inputs",
+            "Each variable is explained only by its own past values, with a separate autoregression fitted for every series",
+            "Variables are explained by current values of the other variables only",
+            "All variables are endogenous and each is explained by lags of itself and of every other variable"
+          ],
+          "answer": "All variables are endogenous and each is explained by lags of itself and of every other variable",
+          "explanation": "In a VAR every variable is endogenous and has its own equation containing lags of all variables. Treating others as fixed inputs describes a regression/ARIMAX set-up, and own-lags-only describes separate univariate AR models.",
+          "difficulty": "easy",
+          "concept": "endogenous vs exogenous"
+        },
+        {
+          "q": "A VAR(2) is built for three Indian macro series: CPI inflation, the repo rate and IIP growth. What does the inflation equation contain on the right-hand side?",
+          "options": [
+            "An intercept plus lags 1 and 2 of inflation only, since each equation models just its own variable's past",
+            "Current values of the repo rate and IIP growth only",
+            "An intercept plus lags 1 and 2 of inflation, the repo rate and IIP growth",
+            "Lag 2 of inflation, the repo rate and IIP growth only, because a VAR(2) skips lag 1"
+          ],
+          "answer": "An intercept plus lags 1 and 2 of inflation, the repo rate and IIP growth",
+          "explanation": "VAR(p) includes all lags from 1 to p of every variable in every equation. A common mistake is thinking VAR(2) uses only lag 2, or that each equation uses only its own past.",
+          "difficulty": "easy",
+          "concept": "var structure"
+        },
+        {
+          "q": "What does p denote in a VAR(p) model?",
+          "options": [
+            "The number of variables (time series) modelled jointly, with one equation for each variable",
+            "The number of past periods (lags) of each variable included in every equation",
+            "The number of periods to forecast ahead",
+            "The order of differencing applied to each series to make it stationary before fitting"
+          ],
+          "answer": "The number of past periods (lags) of each variable included in every equation",
+          "explanation": "p is the lag order. The number of variables is usually written k, and differencing is a separate pre-processing choice (d in ARIMA notation).",
+          "difficulty": "easy",
+          "concept": "lag order"
+        },
+        {
+          "q": "What is usually required of the series before fitting a standard VAR?",
+          "options": [
+            "They must all be measured in the same units",
+            "They should be stationary, for example after differencing or transformation",
+            "They must all share exactly the same seasonal pattern and peak in the same months of the year",
+            "They must be independent of each other, so that no variable's past helps to predict another"
+          ],
+          "answer": "They should be stationary, for example after differencing or transformation",
+          "explanation": "A standard VAR assumes stationary series, so trending series are typically differenced first. Units need not match, and the whole point of VAR is that the series are related, not independent.",
+          "difficulty": "easy",
+          "concept": "stationarity requirement"
+        },
+        {
+          "q": "What does a Granger causality test check?",
+          "options": [
+            "Whether past values of one variable improve the prediction of another beyond that variable's own past",
+            "Whether one variable truly causes another in an economic sense, as a controlled experiment with an intervention would show",
+            "Whether two variables have a high contemporaneous correlation, measured within the same time period",
+            "Whether a series has a unit root"
+          ],
+          "answer": "Whether past values of one variable improve the prediction of another beyond that variable's own past",
+          "explanation": "Granger causality is about predictive content of lagged values. It is not proof of true economic causation, which is the most common misreading.",
+          "difficulty": "easy",
+          "concept": "granger causality"
+        },
+        {
+          "q": "What does an impulse response function (IRF) from a VAR show?",
+          "options": [
+            "The share of each variable's forecast error variance that is explained by shocks to each of the variables in the system",
+            "The correlation between each pair of variables at lag zero",
+            "The fitted values of the model over the training period",
+            "How a one-time shock to one variable affects each variable in the system over the following periods"
+          ],
+          "answer": "How a one-time shock to one variable affects each variable in the system over the following periods",
+          "explanation": "An IRF traces the dynamic path of responses to a shock. The share of forecast error variance is the variance decomposition, a different tool.",
+          "difficulty": "easy",
+          "concept": "impulse response"
+        },
+        {
+          "q": "What does forecast error variance decomposition (FEVD) tell a manager?",
+          "options": [
+            "How much each variable's estimated coefficients change when additional lags are added to the model",
+            "The percentage of observations that are forecast correctly",
+            "What proportion of the uncertainty in a variable's forecast comes from shocks to each variable in the system",
+            "How a one-time shock to one variable moves each of the other variables up or down over the following periods"
+          ],
+          "answer": "What proportion of the uncertainty in a variable's forecast comes from shocks to each variable in the system",
+          "explanation": "FEVD splits forecast error variance by source of shock. Tracing the movement over time after a shock is the impulse response function, which students often confuse with FEVD.",
+          "difficulty": "easy",
+          "concept": "variance decomposition"
+        },
+        {
+          "q": "Which tools are most commonly used to choose the lag order p of a VAR?",
+          "options": [
+            "The Durbin-Watson statistic of the first equation",
+            "The R-squared of each equation, choosing the highest",
+            "Information criteria such as AIC and BIC",
+            "The ADF unit root test"
+          ],
+          "answer": "Information criteria such as AIC and BIC",
+          "explanation": "AIC/BIC trade off fit against the number of parameters. R-squared always rises with more lags, so choosing the highest R-squared overfits; ADF tests stationarity, not lag order.",
+          "difficulty": "easy",
+          "concept": "lag order selection"
+        },
+        {
+          "q": "Which situation is the most natural fit for a VAR model?",
+          "options": [
+            "Forecasting a single product's daily sales using only that product's own sales history and its seasonality",
+            "Jointly forecasting a bank's deposits, credit growth and lending rate, which all influence each other",
+            "Classifying customers into churn and non-churn groups",
+            "Estimating the effect of a one-off price cut on sales at one store, using a single cross-section with no time dimension"
+          ],
+          "answer": "Jointly forecasting a bank's deposits, credit growth and lending rate, which all influence each other",
+          "explanation": "VAR is designed for several time series with two-way feedback. A single series with only its own history is a univariate (ARIMA/ES) problem, and classification is not a time-series forecasting task.",
+          "difficulty": "easy",
+          "concept": "var use case"
+        },
+        {
+          "q": "A VAR(2) is fitted to three variables (sales, ad spend, price index) with an intercept in each equation. How many coefficients are estimated in total (ignoring the error covariance matrix)?",
+          "options": [
+            "21",
+            "18",
+            "12",
+            "7"
+          ],
+          "answer": "21",
+          "explanation": "Total = k + p*k^2 = 3 + 2*9 = 21. Forgetting the three intercepts gives 18, and 7 is the count for a single equation (1 + 2*3).",
+          "difficulty": "medium",
+          "concept": "parameter count"
+        },
+        {
+          "q": "For a VAR on monthly FMCG sales and distribution reach, AIC values are: p=1: -5.21, p=2: -5.48, p=3: -5.43, p=4: -5.39. Which lag order does AIC select?",
+          "options": [
+            "p = 1",
+            "p = 4",
+            "p = 3",
+            "p = 2"
+          ],
+          "answer": "p = 2",
+          "explanation": "AIC chooses the lowest (most negative) value, -5.48 at p=2. Picking p=4 assumes more lags is always better, and picking p=1 confuses 'lowest number' with 'smallest absolute value'.",
+          "difficulty": "medium",
+          "concept": "lag order selection"
+        },
+        {
+          "q": "Granger tests on monthly data give: H0 'repo rate does not Granger-cause home-loan demand' p = 0.003; H0 'home-loan demand does not Granger-cause repo rate' p = 0.41. What is the correct reading at 5% significance?",
+          "options": [
+            "Past home-loan demand helps predict the repo rate, but past repo rates do not help predict home-loan demand",
+            "There is two-way feedback, with the repo rate and home-loan demand each helping to predict the other",
+            "Neither variable helps predict the other",
+            "Past repo rates help predict home-loan demand, but past loan demand does not help predict the repo rate"
+          ],
+          "answer": "Past repo rates help predict home-loan demand, but past loan demand does not help predict the repo rate",
+          "explanation": "Only the first null is rejected (0.003 < 0.05), so causality runs from repo rate to loan demand in the predictive sense. Reversing the direction comes from misreading which hypothesis has the small p-value.",
+          "difficulty": "medium",
+          "concept": "granger causality"
+        },
+        {
+          "q": "An IRF shows that after a one-standard-deviation shock to the repo rate, car-loan disbursements fall, reach their lowest point in month 3 and return to zero by month 8. What is the best interpretation?",
+          "options": [
+            "A rate hike permanently lowers the level of disbursements by the month-3 amount, so long-run loan volumes stay lower",
+            "Disbursements cause the repo rate to rise after three months",
+            "A rate hike has a temporary negative effect on disbursements that peaks after about a quarter and fades out",
+            "The model is unstable, because a stable VAR would show the same constant response in every month after the shock"
+          ],
+          "answer": "A rate hike has a temporary negative effect on disbursements that peaks after about a quarter and fades out",
+          "explanation": "A response that peaks and decays to zero is a temporary effect, typical of a stable VAR. A changing response is not instability; instability means responses explode rather than fade.",
+          "difficulty": "medium",
+          "concept": "impulse response"
+        },
+        {
+          "q": "At a 12-month horizon, FEVD for an FMCG brand's sales shows: 65% own shocks, 30% advertising shocks, 5% price shocks. What should the brand manager conclude?",
+          "options": [
+            "Advertising spend increases the brand's sales by about 30%, so the ad budget should be raised",
+            "Advertising shocks are a meaningful source of uncertainty in sales forecasts, while price shocks contribute little",
+            "Price has no relationship with sales at any horizon, so pricing can be dropped from future sales planning entirely",
+            "Sales forecasts are 65% accurate at 12 months"
+          ],
+          "answer": "Advertising shocks are a meaningful source of uncertainty in sales forecasts, while price shocks contribute little",
+          "explanation": "FEVD shares describe sources of forecast uncertainty, not effect sizes or accuracy. Reading 30% as a sales uplift is a frequent mistake; a small share also does not prove zero relationship.",
+          "difficulty": "medium",
+          "concept": "variance decomposition"
+        },
+        {
+          "q": "ADF tests show that monthly GST collections and IIP are both non-stationary, and there is no evidence of cointegration. How should a VAR be specified?",
+          "options": [
+            "Fit the VAR to the differenced (growth) series",
+            "Fit the VAR to the levels because VAR handles trends automatically",
+            "Drop the VAR and use a single-equation regression in levels",
+            "Add more lags until the trend disappears"
+          ],
+          "answer": "Fit the VAR to the differenced (growth) series",
+          "explanation": "Without cointegration, the usual remedy is a VAR in differences. Fitting non-stationary levels risks spurious relationships, and adding lags does not remove a stochastic trend.",
+          "difficulty": "medium",
+          "concept": "stationarity requirement"
+        },
+        {
+          "q": "For the same VAR, AIC selects p = 3 but BIC selects p = 1. Why do the criteria disagree?",
+          "options": [
+            "BIC penalises extra parameters more heavily than AIC, so it favours a more parsimonious model",
+            "AIC penalises extra parameters more heavily than BIC, so AIC should normally pick the smaller model",
+            "One of the criteria must have been computed incorrectly",
+            "BIC ignores how well the model fits the data and simply counts parameters, so it always picks the smallest lag"
+          ],
+          "answer": "BIC penalises extra parameters more heavily than AIC, so it favours a more parsimonious model",
+          "explanation": "BIC's penalty grows with log(n), which is larger than AIC's 2 per parameter for typical sample sizes, so BIC often picks fewer lags. Disagreement is normal, not a calculation error.",
+          "difficulty": "medium",
+          "concept": "lag order selection"
+        },
+        {
+          "q": "After fitting a VAR(1), a portmanteau test on the residuals rejects the null of no residual autocorrelation. What is the most sensible next step?",
+          "options": [
+            "Accept the model since residual autocorrelation does not affect forecasts",
+            "Remove the intercepts from all equations",
+            "Reduce the forecast horizon to one step",
+            "Increase the lag order or re-specify the model and re-check the residuals"
+          ],
+          "answer": "Increase the lag order or re-specify the model and re-check the residuals",
+          "explanation": "Autocorrelated residuals mean the model has left predictable dynamics unexplained, which more lags usually capture. Ignoring it leads to inefficient forecasts and invalid inference.",
+          "difficulty": "medium",
+          "concept": "residual diagnostics"
+        },
+        {
+          "q": "How does a VAR produce a 3-step-ahead forecast for all variables?",
+          "options": [
+            "It requires the actual future values of the other variables as inputs, just like a regression with known future predictors",
+            "It fits a separate direct model for each horizon, so the 3-step forecast ignores the 1- and 2-step forecasts",
+            "Recursively: the 1-step forecasts of all variables are fed back in to produce the 2-step forecasts, and so on",
+            "It forecasts each variable using only its own past values"
+          ],
+          "answer": "Recursively: the 1-step forecasts of all variables are fed back in to produce the 2-step forecasts, and so on",
+          "explanation": "Since all variables are endogenous, VAR forecasts them jointly and recursively, so no external future values are needed. Needing future inputs is a feature of models with exogenous regressors (VARX/SARIMAX).",
+          "difficulty": "medium",
+          "concept": "var forecasting"
+        },
+        {
+          "q": "A retail chain finds that weekly footfall Granger-causes weekly sales. The regional head says, 'So footfall is proven to cause sales.' What is the best response?",
+          "options": [
+            "Correct, a significant Granger test is a formal proof of causation, so footfall can be treated as the direct cause of sales in all planning",
+            "It shows past footfall improves sales prediction; true causation needs more evidence because a third factor such as festivals could drive both",
+            "Wrong, Granger causality only measures the contemporaneous correlation between footfall and sales in the same week, not any lagged effect",
+            "Wrong, the result actually means sales cause footfall"
+          ],
+          "answer": "It shows past footfall improves sales prediction; true causation needs more evidence because a third factor such as festivals could drive both",
+          "explanation": "Granger causality is predictive precedence, not proof of causal mechanism; omitted common drivers can create it. It is based on lags, not contemporaneous correlation.",
+          "difficulty": "medium",
+          "concept": "granger causality"
+        },
+        {
+          "q": "An analyst wants a VAR(4) with 6 macro variables using 40 quarterly observations. What is the main problem?",
+          "options": [
+            "Six variables is too few for a VAR to work, because a VAR needs many variables to capture enough feedback between the series",
+            "Each equation has 25 coefficients (150 in total), too many for 40 observations, so estimates will be unreliable and forecasts poor",
+            "VAR cannot be estimated on quarterly data, because the lag structure requires monthly observations",
+            "A VAR(4) needs at least four years of data, which is exactly what 40 quarters gives, so there is no problem"
+          ],
+          "answer": "Each equation has 25 coefficients (150 in total), too many for 40 observations, so estimates will be unreliable and forecasts poor",
+          "explanation": "Per equation: 1 + 4*6 = 25 parameters, total 6*25 = 150, against only 36 usable observations per equation. The fix is fewer variables or lags (e.g. BIC) or shrinkage such as Bayesian VAR.",
+          "difficulty": "hard",
+          "concept": "curse of dimensionality"
+        },
+        {
+          "q": "A VAR(3) with an intercept is fitted to four monthly series. How many coefficients are estimated in total?",
+          "options": [
+            "52",
+            "48",
+            "13",
+            "16"
+          ],
+          "answer": "52",
+          "explanation": "Total = k + p*k^2 = 4 + 3*16 = 52. Dropping the intercepts gives 48, and 13 is the count per equation (1 + 3*4), which students often report as the total.",
+          "difficulty": "hard",
+          "concept": "parameter count"
+        },
+        {
+          "q": "A bank's treasury team believes deposit growth, credit growth and the bank's lending rate all react to each other with lags. Which approach best fits this belief?",
+          "options": [
+            "Separate ARIMA models for each series, because they are simpler",
+            "A SARIMAX for credit growth with deposits and lending rate as known exogenous inputs",
+            "A single linear regression of credit growth on current deposits",
+            "A VAR on the three series, because it models two-way feedback among them"
+          ],
+          "answer": "A VAR on the three series, because it models two-way feedback among them",
+          "explanation": "Mutual lagged feedback is exactly what VAR captures. SARIMAX would treat deposits and rates as externally given and need their future values, ignoring the feedback the team believes exists.",
+          "difficulty": "hard",
+          "concept": "var vs univariate"
+        },
+        {
+          "q": "A manager notices that the orthogonalised impulse responses from a VAR change when the order of variables is changed. Why?",
+          "options": [
+            "Reordering the variables changes the estimated VAR coefficients and point forecasts, so every ordering is effectively a different model fitted to the data",
+            "Impulse responses are random draws from a simulation and change every time they are computed, regardless of the ordering",
+            "With correlated residuals, Cholesky-based shocks depend on variable ordering, which imposes an assumption about which variables react within the same period",
+            "Reordering changes the lag order selected by AIC"
+          ],
+          "answer": "With correlated residuals, Cholesky-based shocks depend on variable ordering, which imposes an assumption about which variables react within the same period",
+          "explanation": "Ordering does not change the VAR's estimated coefficients or forecasts, but orthogonalising correlated shocks requires an identification assumption, and Cholesky ordering is that assumption. Results should be checked for robustness to ordering.",
+          "difficulty": "hard",
+          "concept": "shock identification"
+        },
+        {
+          "q": "Monthly petrol prices and diesel prices in India are each I(1) but move together in a stable long-run relationship (cointegrated). What is the better modelling choice?",
+          "options": [
+            "A VAR in first differences, since differencing is always the correct treatment for I(1) data and removes spurious results",
+            "A VAR in levels with no further thought, since cointegration makes all series stationary",
+            "A vector error correction model (VECM), which keeps the long-run relationship while modelling short-run dynamics",
+            "Two separate ARIMA models, one for petrol and one for diesel, because each price is best forecast from its own history"
+          ],
+          "answer": "A vector error correction model (VECM), which keeps the long-run relationship while modelling short-run dynamics",
+          "explanation": "Differencing cointegrated series throws away the error-correction (long-run) information. A VECM is the VAR form that includes it; cointegration does not make each individual series stationary.",
+          "difficulty": "hard",
+          "concept": "cointegration and vecm"
+        },
+        {
+          "q": "After estimating a VAR, the largest eigenvalue of the companion matrix has modulus 1.08. What does this imply?",
+          "options": [
+            "The VAR is stable, because an eigenvalue close to 1 just means shocks are persistent and decay slowly over many periods",
+            "The VAR is not stable: shocks would grow instead of dying out, so IRFs and long-horizon forecasts are unreliable",
+            "The model has too few lags and is otherwise fine",
+            "The series must be cointegrated, so the long-run forecasts from the model will improve"
+          ],
+          "answer": "The VAR is not stable: shocks would grow instead of dying out, so IRFs and long-horizon forecasts are unreliable",
+          "explanation": "Stability requires all companion-matrix eigenvalues to have modulus below 1 (equivalently, characteristic roots outside the unit circle). A value above 1 implies explosive behaviour, often a sign of unhandled non-stationarity.",
+          "difficulty": "hard",
+          "concept": "var stability"
+        },
+        {
+          "q": "Monthly data show advertising does not Granger-cause sales for a D2C brand, yet the marketing team adjusts and sees the sales effect of ad spend within the same month. What best explains the test result?",
+          "options": [
+            "Granger tests use only lagged effects, so an effect that occurs within the same month is not captured at monthly frequency",
+            "Advertising definitely has no effect on sales, so the brand can cut its ad budget without hurting monthly sales at all",
+            "The test proves that sales drive advertising, so causality runs only from sales to ad spend",
+            "Granger tests only work on annual data"
+          ],
+          "answer": "Granger tests use only lagged effects, so an effect that occurs within the same month is not captured at monthly frequency",
+          "explanation": "Granger causality is about lagged predictive content; contemporaneous effects and temporal aggregation can hide real relationships. A non-significant result is not proof of no effect.",
+          "difficulty": "hard",
+          "concept": "granger causality"
+        },
+        {
+          "q": "On a hotel chain's occupancy and ADR data, VAR(3) has the best in-sample fit, but VAR(1) has a lower RMSE on the last 12 months held out. Which should be used for forecasting and why?",
+          "options": [
+            "VAR(3), because in-sample fit uses the whole history and is the best guide to future forecast accuracy",
+            "VAR(3), because more lags always capture more seasonality",
+            "Average them, because a 12-month hold-out period is too short to separate the two models",
+            "VAR(1), because better hold-out accuracy indicates VAR(3) is overfitting the training data"
+          ],
+          "answer": "VAR(1), because better hold-out accuracy indicates VAR(3) is overfitting the training data",
+          "explanation": "More lags always improve in-sample fit, so out-of-sample error is the fairer test of forecasting ability. Preferring in-sample fit is the classic overfitting mistake.",
+          "difficulty": "hard",
+          "concept": "overfitting"
+        },
+        {
+          "q": "A planner has a VAR in inflation, the repo rate and GDP growth and wants to ask, 'What if the RBI raises the repo rate by 50 bp next quarter?' What is the right approach?",
+          "options": [
+            "Simply read the VAR's unconditional forecast, since the model already learns the RBI's rate-hike behaviour from history, so its baseline path includes the 50 bp hike",
+            "Increase the lag order until the forecast path of the repo rate shows a 50 bp rise next quarter",
+            "Use Granger causality p-values as the scenario forecast",
+            "Use a conditional forecast or treat the repo rate as exogenous (VARX) with the assumed path, recognising that this removes its feedback from the other variables"
+          ],
+          "answer": "Use a conditional forecast or treat the repo rate as exogenous (VARX) with the assumed path, recognising that this removes its feedback from the other variables",
+          "explanation": "A standard VAR forecasts the repo rate itself, so imposing a policy path needs conditional forecasting or exogenous treatment. The unconditional forecast reflects only historical dynamics, not a chosen policy.",
+          "difficulty": "hard",
+          "concept": "scenario analysis"
+        },
+        {
+          "q": "In a Cholesky-ordered VAR, FEVD at horizon 1 shows 100% of the first-ordered variable's forecast error variance coming from its own shocks. Why?",
+          "options": [
+            "The first variable is unrelated to the other variables at all horizons, so its own past alone explains its forecasts",
+            "The model has a coding error",
+            "The ordering assumes the first variable is not affected by other variables' shocks in the same period",
+            "Own shocks always explain all of a variable's forecast error at short horizons in any VAR, whatever the ordering"
+          ],
+          "answer": "The ordering assumes the first variable is not affected by other variables' shocks in the same period",
+          "explanation": "With Cholesky identification, the first variable responds only to its own shock contemporaneously, so its horizon-1 FEVD is 100% own. It says nothing about longer horizons, where other shocks can matter.",
+          "difficulty": "hard",
+          "concept": "shock identification"
+        }
+      ],
+      "references": [
+        "A Vector Autoregression (VAR) is a forecasting model for several time series that influence each other. Instead of one equation, there is one equation per variable, and each equation uses past values (lags) of its own variable and of all the other variables. Every variable is treated as endogenous, so the model forecasts all of them together. We choose the number of lags p using AIC or BIC, and the series should usually be stationary, so we difference them first if they trend. After fitting, Granger causality tests tell us which variables help predict others, impulse response functions show how a shock spreads through the system over time, and variance decomposition shows which shocks drive forecast uncertainty.",
+        "Think of a bank's deposits, credit growth and lending rate. A rise in rates may slow credit growth next quarter, and slower credit may in turn push the bank to change rates. A VAR captures this two-way feedback by regressing each series on the past few quarters of all three. If we use two lags, each equation has an intercept plus six lag coefficients. Once fitted, we can forecast all three series together, test whether the rate Granger-causes credit growth (meaning its past improves prediction, not proof of cause), and trace an impulse response, for example how credit growth reacts over the next eight quarters to a surprise rate increase.",
+        "As a manager, I would use a VAR when my key numbers move together and feed back into each other, for example sales, ad spend and price, and I want joint forecasts without supplying future values of any input. The cost is parameters: with k variables and p lags it needs k + p times k-squared coefficients, so too many variables or lags on short data will overfit. I would keep it small, pick lags with AIC or BIC, make the data stationary, check residuals are white noise, and validate on a hold-out period. Impulse responses and variance decomposition then help me explain which drivers matter, but Granger causality only shows predictive power, not true cause."
+      ],
+      "key_concepts": [
+        "vector autoregression",
+        "multiple time series",
+        "endogenous",
+        "lags of all variables",
+        "lag order",
+        "aic",
+        "stationarity",
+        "differencing",
+        "granger causality",
+        "impulse response",
+        "variance decomposition",
+        "feedback",
+        "joint forecast",
+        "parameters",
+        "overfitting"
+      ]
+    },
+    {
+      "topic": "VARIMAX model",
+      "questions": [
+        {
+          "q": "VARIMAX (VARMAX) extends a basic VAR model by adding which components?",
+          "options": [
+            "Moving average terms in the errors and exogenous regressors",
+            "Seasonal differencing terms and decision-tree splits on lagged values",
+            "Only additional autoregressive lags of the endogenous variables",
+            "Exponential smoothing weights"
+          ],
+          "answer": "Moving average terms in the errors and exogenous regressors",
+          "explanation": "VARMAX = Vector AutoRegressive Moving Average with eXogenous variables. Adding more AR lags just gives a larger VAR, not a VARMAX.",
+          "difficulty": "easy",
+          "concept": "varmax definition"
+        },
+        {
+          "q": "What does the 'X' in VARMAX/VARIMAX refer to?",
+          "options": [
+            "Extra lags of the endogenous variables beyond the chosen AR order p",
+            "Cross-validation that is used to select the AR and MA orders of the model",
+            "The error correction term",
+            "Exogenous variables that affect the system but are determined outside it"
+          ],
+          "answer": "Exogenous variables that affect the system but are determined outside it",
+          "explanation": "X stands for exogenous inputs. Extra lags of endogenous variables are part of the AR component, not X.",
+          "difficulty": "easy",
+          "concept": "exogenous regressors"
+        },
+        {
+          "q": "Which statement correctly describes an exogenous variable in a VARMAX model?",
+          "options": [
+            "It is forecast jointly with the other series inside the model, using its own lags",
+            "It is always a lag of the dependent variable",
+            "It influences the modelled series but is not itself influenced by them",
+            "It must be uncorrelated with every modelled series"
+          ],
+          "answer": "It influences the modelled series but is not itself influenced by them",
+          "explanation": "Exogenous means one-way influence from outside. Being forecast jointly inside the model is the definition of endogenous; an exogenous variable is useful precisely because it is correlated with the targets.",
+          "difficulty": "easy",
+          "concept": "endogenous vs exogenous"
+        },
+        {
+          "q": "In VARMAX(p, q), what do p and q represent?",
+          "options": [
+            "p is the number of endogenous variables in the system and q is the number of exogenous inputs it uses",
+            "p is the number of autoregressive lags and q is the number of moving average (lagged error) terms",
+            "p is the order of differencing applied and q is the length of the seasonal period",
+            "p is the forecast horizon and q is the number of lags"
+          ],
+          "answer": "p is the number of autoregressive lags and q is the number of moving average (lagged error) terms",
+          "explanation": "As in ARMA, p is the AR order and q the MA order, now in matrix form. Mixing p with the number of variables (k) is a common slip.",
+          "difficulty": "easy",
+          "concept": "model orders"
+        },
+        {
+          "q": "A hotel chain models monthly occupancy and average room rate together with a VARMAX. Which is the most natural exogenous variable?",
+          "options": [
+            "Last month's occupancy rate across the chain's properties",
+            "A dummy for major festival or holiday months",
+            "The hotel's own average room rate for the month",
+            "The model's residuals from last month"
+          ],
+          "answer": "A dummy for major festival or holiday months",
+          "explanation": "Festival calendars are set outside the hotel's system and known in advance. Last month's occupancy and the room rate are already endogenous parts of the model.",
+          "difficulty": "easy",
+          "concept": "choosing exogenous variables"
+        },
+        {
+          "q": "If a VARMAX has q = 0 and no exogenous variables, what model does it reduce to?",
+          "options": [
+            "A VAR(p) model",
+            "A univariate ARIMA model",
+            "A SARIMAX model",
+            "A simple moving average model"
+          ],
+          "answer": "A VAR(p) model",
+          "explanation": "Removing the MA and X parts leaves the pure vector autoregression. It stays multivariate, so it is not a univariate ARIMA.",
+          "difficulty": "easy",
+          "concept": "nested models"
+        },
+        {
+          "q": "To produce forecasts 6 months ahead from a VARMAX model, what must be supplied?",
+          "options": [
+            "Nothing, since the model generates all of its inputs internally by recursion",
+            "Actual future values of the endogenous variables for the next 6 months",
+            "A new model fitted for every month ahead",
+            "Values of the exogenous variables for each of the next 6 months"
+          ],
+          "answer": "Values of the exogenous variables for each of the next 6 months",
+          "explanation": "Exogenous variables are not forecast by the model, so their future values must be known or forecast separately. Students often assume, as in a pure VAR, that nothing external is needed.",
+          "difficulty": "easy",
+          "concept": "future exogenous values"
+        },
+        {
+          "q": "Before fitting a VARMAX to trending series such as monthly UPI transaction values, what is usually done first?",
+          "options": [
+            "Remove all exogenous variables",
+            "Sort the observations from the largest to the smallest value to remove the trend",
+            "Difference or transform the series to make them stationary (the 'I' step)",
+            "Convert the monthly data to annual totals so the trend is smoothed out"
+          ],
+          "answer": "Difference or transform the series to make them stationary (the 'I' step)",
+          "explanation": "VARMAX assumes stationary endogenous series, so trending series are differenced (integration) or log-transformed first. Sorting would destroy the time order.",
+          "difficulty": "easy",
+          "concept": "stationarity requirement"
+        },
+        {
+          "q": "How many series does a VARMAX model forecast?",
+          "options": [
+            "Exactly one target series, with every other series treated as an input",
+            "Only the exogenous variables",
+            "Several endogenous series jointly, using exogenous inputs as given",
+            "One series for each exogenous variable included in the model"
+          ],
+          "answer": "Several endogenous series jointly, using exogenous inputs as given",
+          "explanation": "Like VAR, VARMAX produces joint forecasts for all its endogenous series. A single-target model with exogenous inputs is SARIMAX/ARIMAX.",
+          "difficulty": "easy",
+          "concept": "varmax definition"
+        },
+        {
+          "q": "In Python's statsmodels, how are exogenous variables supplied to a VARMAX model?",
+          "options": [
+            "They are added as extra endogenous columns in the data frame passed to fit",
+            "Through the exog argument when fitting, and again through exog when forecasting",
+            "They are entered inside the order (p, q) tuple alongside the AR and MA lag orders",
+            "They cannot be included in statsmodels"
+          ],
+          "answer": "Through the exog argument when fitting, and again through exog when forecasting",
+          "explanation": "statsmodels' VARMAX takes exogenous regressors via exog, and their future values must be passed again at forecast time. Adding them as endogenous columns would make the model forecast them too.",
+          "difficulty": "easy",
+          "concept": "software implementation"
+        },
+        {
+          "q": "An FMCG company models monthly rural sales and distribution reach jointly, with monsoon rainfall as an input. Why is rainfall treated as exogenous?",
+          "options": [
+            "Rainfall affects sales but the company's sales cannot affect rainfall",
+            "Rainfall is measured in different units (millimetres) from sales, so it cannot be endogenous",
+            "Rainfall is more volatile than sales",
+            "Rainfall has no seasonal pattern"
+          ],
+          "answer": "Rainfall affects sales but the company's sales cannot affect rainfall",
+          "explanation": "The defining test is direction of influence: rainfall drives demand but there is no feedback from sales. Units and volatility are irrelevant to the endogenous/exogenous decision.",
+          "difficulty": "medium",
+          "concept": "endogenous vs exogenous"
+        },
+        {
+          "q": "A VARX(2) has two endogenous variables (sales, ad spend), one exogenous variable (festival dummy) and an intercept in each equation. How many coefficients are estimated in total?",
+          "options": [
+            "10",
+            "11",
+            "14",
+            "12"
+          ],
+          "answer": "12",
+          "explanation": "Intercepts 2 + AR coefficients 2*2^2 = 8 + exogenous coefficients 2*1 = 2, giving 12. Forgetting that the dummy enters both equations gives 11; forgetting intercepts gives 10.",
+          "difficulty": "medium",
+          "concept": "parameter count"
+        },
+        {
+          "q": "In the occupancy equation of a hotel VARMAX, the festival-month dummy has a significant coefficient of 6.2 (percentage points). What does it mean?",
+          "options": [
+            "Festival months permanently raise occupancy by 6.2% in every following month of the year, not only in festival months",
+            "Occupancy causes 6.2 more festivals per year",
+            "6.2% of the variance in occupancy forecasts is explained by festival shocks",
+            "In festival months, occupancy is about 6.2 points higher than otherwise, given the same past values in the system"
+          ],
+          "answer": "In festival months, occupancy is about 6.2 points higher than otherwise, given the same past values in the system",
+          "explanation": "A dummy's coefficient is the shift in the equation when the dummy is 1, holding the lagged terms fixed. It is not a variance share or a permanent effect.",
+          "difficulty": "medium",
+          "concept": "interpreting exogenous coefficients"
+        },
+        {
+          "q": "Why might an analyst add moving average (MA) terms to a VAR, making it a VARMA/VARMAX?",
+          "options": [
+            "To remove the need for stationarity, so trending series can be modelled in levels",
+            "To include outside variables such as rainfall or the repo rate as drivers of the system",
+            "To capture short-lived shock effects more parsimoniously than adding many AR lags",
+            "To guarantee better forecasts at every horizon"
+          ],
+          "answer": "To capture short-lived shock effects more parsimoniously than adding many AR lags",
+          "explanation": "MA terms model lingering effects of past errors with few parameters. Outside variables are the X part, and MA terms do not relax the stationarity requirement.",
+          "difficulty": "medium",
+          "concept": "role of ma terms"
+        },
+        {
+          "q": "For a bank's deposit and credit series with the repo rate as exogenous, AIC values are: VARMAX(1,0) = 812.4, VARMAX(1,1) = 805.1, VARMAX(2,1) = 808.9, VARMAX(2,2) = 815.3. Which is preferred by AIC?",
+          "options": [
+            "VARMAX(2,2)",
+            "VARMAX(1,1)",
+            "VARMAX(1,0)",
+            "VARMAX(2,1)"
+          ],
+          "answer": "VARMAX(1,1)",
+          "explanation": "Lower AIC is better, and 805.1 is lowest. Choosing the largest model assumes more parameters always helps, ignoring AIC's penalty.",
+          "difficulty": "medium",
+          "concept": "model order selection"
+        },
+        {
+          "q": "A retail chain includes its planned discount percentage as an exogenous variable in a VARMAX for sales and footfall. Why is this a practical choice?",
+          "options": [
+            "The company sets its own discount calendar, so future values are known when forecasting",
+            "Discounts never really affect sales, so including them is harmless and cannot make forecasts any worse",
+            "Discounts make the series stationary",
+            "Exogenous variables do not need future values"
+          ],
+          "answer": "The company sets its own discount calendar, so future values are known when forecasting",
+          "explanation": "Controllable, pre-planned inputs are ideal exogenous variables because their future values are available. Every exogenous variable needs future values at forecast time.",
+          "difficulty": "medium",
+          "concept": "future exogenous values"
+        },
+        {
+          "q": "Television advertising by an insurance company affects policy sales mainly in the following month. How should this be reflected in a VARMAX?",
+          "options": [
+            "Include the one-month lag of advertising as an exogenous regressor",
+            "Only include current-month advertising",
+            "Increase the MA order q so the model picks up last month's advertising",
+            "Leave advertising out of the model because a delayed effect cannot be captured by regressors"
+          ],
+          "answer": "Include the one-month lag of advertising as an exogenous regressor",
+          "explanation": "Exogenous regressors can enter with lags when effects are delayed. MA terms model past errors, not a known input's delayed effect.",
+          "difficulty": "medium",
+          "concept": "lagged exogenous effects"
+        },
+        {
+          "q": "How is a VARMAX model typically estimated, compared with a pure VAR?",
+          "options": [
+            "By ordinary least squares on each equation separately, exactly as a pure VAR is estimated, since MA terms are just extra lags",
+            "By grid search over decision-tree splits",
+            "By taking simple averages of past values",
+            "By maximum likelihood (often in state-space form), which is slower than the equation-by-equation OLS used for a VAR"
+          ],
+          "answer": "By maximum likelihood (often in state-space form), which is slower than the equation-by-equation OLS used for a VAR",
+          "explanation": "The MA terms depend on unobserved past errors, so OLS cannot be applied directly; maximum likelihood via the Kalman filter is used. Pure VAR can be estimated by OLS per equation.",
+          "difficulty": "medium",
+          "concept": "estimation"
+        },
+        {
+          "q": "An analyst differences the endogenous sales series but leaves a strongly trending exogenous variable (cumulative store count) in levels. What is the risk?",
+          "options": [
+            "No risk, because exogenous variables are never checked for stationarity and only the endogenous series must be stationary",
+            "The model will automatically difference the exogenous variable",
+            "A mismatch between a stationary target and a trending input can create a misleading, spurious-looking relationship",
+            "The MA terms will become negative"
+          ],
+          "answer": "A mismatch between a stationary target and a trending input can create a misleading, spurious-looking relationship",
+          "explanation": "Exogenous inputs should be on a comparable footing, e.g. using the change in store count. Assuming exogenous variables never need checking is the common mistake.",
+          "difficulty": "medium",
+          "concept": "stationarity requirement"
+        },
+        {
+          "q": "Why do practitioners often keep q small (or use VARX instead of VARMAX) in practice?",
+          "options": [
+            "Because MA terms cannot be estimated with standard software and must be calculated by hand, which is impractical",
+            "VARMA models can have identification problems, where different parameter sets describe the same process, making estimation unstable",
+            "Because MA terms always make forecasts worse",
+            "Because the MA order q must always equal the number of exogenous variables, so it is fixed by how many external inputs the analyst includes"
+          ],
+          "answer": "VARMA models can have identification problems, where different parameter sets describe the same process, making estimation unstable",
+          "explanation": "Multivariate MA parts raise identification and convergence issues, so simpler VARX models are popular. MA terms can help, but their cost in complexity is real.",
+          "difficulty": "medium",
+          "concept": "identification"
+        },
+        {
+          "q": "An e-commerce firm forecasts orders and returns with a VARMAX using a competitor price index as an exogenous variable. Future competitor prices are unknown. What is the key implication?",
+          "options": [
+            "No implication, since VARMAX forecasts the exogenous variables automatically along with orders and returns, so their uncertainty is already included",
+            "The competitor index must itself be forecast, and if those forecasts are treated as known, the model's prediction intervals will be too narrow",
+            "The variable should be dropped because it is correlated with orders",
+            "The model can only be used for in-sample fitting, never forecasting"
+          ],
+          "answer": "The competitor index must itself be forecast, and if those forecasts are treated as known, the model's prediction intervals will be too narrow",
+          "explanation": "VARMAX conditions on exogenous paths, so uncertainty in those paths is not reflected in the intervals. Assuming the model forecasts X internally confuses exogenous with endogenous.",
+          "difficulty": "hard",
+          "concept": "future exogenous values"
+        },
+        {
+          "q": "A mid-sized private bank models its deposit growth and credit growth. The RBI repo rate influences both, but the bank's own numbers have no influence on RBI policy. What is the best specification?",
+          "options": [
+            "A VARX/VARMAX with deposits and credit as endogenous and the repo rate as exogenous",
+            "A VAR with deposits, credit and the repo rate all as endogenous, since the three series are correlated",
+            "Separate univariate ARIMA models without the repo rate",
+            "A VAR on the repo rate alone"
+          ],
+          "answer": "A VARX/VARMAX with deposits and credit as endogenous and the repo rate as exogenous",
+          "explanation": "One bank's numbers do not feed back to monetary policy, so the repo rate is exogenous to this system. Making it endogenous just because it is correlated adds parameters and forecasts a variable better taken as a policy scenario.",
+          "difficulty": "hard",
+          "concept": "endogenous vs exogenous"
+        },
+        {
+          "q": "A company sets its price each month in response to last month's demand, but the analyst treats price as an exogenous variable in a VARMAX for demand. What is the main problem?",
+          "options": [
+            "There is no problem, because any variable chosen by the company itself is automatically exogenous to its demand model",
+            "Price should be removed because it is not stationary",
+            "The model will have too few parameters to estimate",
+            "Price is really endogenous, so its feedback from demand is ignored and its estimated effect may be biased"
+          ],
+          "answer": "Price is really endogenous, so its feedback from demand is ignored and its estimated effect may be biased",
+          "explanation": "Being controlled by the company does not make a variable exogenous if it reacts to the system's own variables. Here price belongs among the endogenous variables or needs careful identification.",
+          "difficulty": "hard",
+          "concept": "endogeneity bias"
+        },
+        {
+          "q": "Which managerial question is a VARMAX with a GST-rate exogenous variable best suited to answer?",
+          "options": [
+            "What will our GST rate be next year?",
+            "Which customers are most likely to churn?",
+            "How would our sales and inventory paths change over the next year under alternative GST-rate scenarios?",
+            "What is the long-run average level of our sales if we ignore all external drivers and inputs over the next year?"
+          ],
+          "answer": "How would our sales and inventory paths change over the next year under alternative GST-rate scenarios?",
+          "explanation": "Feeding different exogenous paths into a fitted VARMAX gives what-if forecasts for the endogenous series. The model does not forecast the exogenous GST rate itself.",
+          "difficulty": "hard",
+          "concept": "scenario analysis"
+        },
+        {
+          "q": "An analyst fits a VARMAX(2,2) to three short monthly series and receives convergence warnings and very large standard errors. What is the most sensible action?",
+          "options": [
+            "Increase p and q further to capture more dynamics",
+            "Ignore the warnings, since point forecasts are still produced and standard errors do not affect the forecasts at all",
+            "Simplify, for example reduce q or use a VARX, and compare candidates by AIC/BIC and hold-out accuracy",
+            "Remove the intercepts to free up degrees of freedom"
+          ],
+          "answer": "Simplify, for example reduce q or use a VARX, and compare candidates by AIC/BIC and hold-out accuracy",
+          "explanation": "Convergence warnings and huge standard errors point to over-parameterisation and identification problems. Adding more terms worsens this, and unreliable estimates make the forecasts unreliable too.",
+          "difficulty": "hard",
+          "concept": "identification"
+        },
+        {
+          "q": "A VARX(1) with three endogenous variables, two exogenous variables and an intercept in each equation is estimated. How many coefficients are there in total?",
+          "options": [
+            "15",
+            "18",
+            "12",
+            "14"
+          ],
+          "answer": "18",
+          "explanation": "Intercepts 3 + AR 1*3^2 = 9 + exogenous 3*2 = 6, total 18. Counting each exogenous variable once instead of once per equation gives 14, forgetting intercepts gives 15, and omitting the exogenous terms gives 12.",
+          "difficulty": "hard",
+          "concept": "parameter count"
+        },
+        {
+          "q": "Sales and footfall for a mall operator collapsed during the 2020 lockdown. How should this be handled in a VARMAX used for 2027 forecasts?",
+          "options": [
+            "Add an exogenous lockdown dummy so the unusual period does not distort the estimated dynamics, and set it to 0 for the forecast period",
+            "Leave the data as is, because the model will learn the lockdown collapse as part of the normal seasonal pattern and adjust for it",
+            "Set the dummy to 1 for the forecast period to be conservative",
+            "Delete the variables most affected by the lockdown"
+          ],
+          "answer": "Add an exogenous lockdown dummy so the unusual period does not distort the estimated dynamics, and set it to 0 for the forecast period",
+          "explanation": "An intervention dummy absorbs the one-off shock so the coefficients reflect normal behaviour; with no lockdown expected, its future value is 0. Ignoring it lets an extreme event bias the AR estimates.",
+          "difficulty": "hard",
+          "concept": "intervention dummies"
+        },
+        {
+          "q": "Granger tests show no significant lagged feedback between a brand's sales in two regions, but both respond to a national ad campaign that is planned in advance. Which approach is likely sufficient?",
+          "options": [
+            "A large VARMAX with many lags for both regions, because a multivariate model always forecasts better than single-series models",
+            "A VAR without the ad campaign variable",
+            "A single regression pooling both regions without any time dynamics",
+            "Separate SARIMAX models for each region with the ad campaign as an exogenous variable"
+          ],
+          "answer": "Separate SARIMAX models for each region with the ad campaign as an exogenous variable",
+          "explanation": "Without cross-series feedback, a joint model adds parameters with little gain, so simpler single-series models with the known exogenous input often forecast as well. 'Multivariate is always better' is a common misconception.",
+          "difficulty": "hard",
+          "concept": "model choice"
+        },
+        {
+          "q": "A VARMAX using the crude oil price as an exogenous variable forecasts an oil marketing company's sales well one month ahead but poorly twelve months ahead. What is the most likely reason?",
+          "options": [
+            "VARMAX models cannot forecast beyond one step",
+            "The MA terms have a growing effect at longer horizons, adding more error the further ahead the forecast goes",
+            "Crude oil prices are really endogenous to the company's sales, so the variable should be dropped from the model",
+            "Errors in the forecast oil price grow with the horizon and feed directly into the sales forecasts"
+          ],
+          "answer": "Errors in the forecast oil price grow with the horizon and feed directly into the sales forecasts",
+          "explanation": "Exogenous forecasts become less accurate further out, and the model's quality is capped by them. MA terms actually stop contributing beyond q steps.",
+          "difficulty": "hard",
+          "concept": "future exogenous values"
+        },
+        {
+          "q": "In a VARMAX(1,1), how do the MA terms affect forecasts more than one step ahead?",
+          "options": [
+            "They have a larger effect the further ahead you forecast, because past errors accumulate and compound through every future step of the forecast",
+            "They replace the AR part at long horizons",
+            "They affect only the one-step forecast; beyond that, forecasts are driven by the AR part and the exogenous inputs because future shocks have expected value zero",
+            "They affect all forecast horizons equally, since the estimated MA coefficients are the same at every step"
+          ],
+          "answer": "They affect only the one-step forecast; beyond that, forecasts are driven by the AR part and the exogenous inputs because future shocks have expected value zero",
+          "explanation": "An MA(q) component uses past errors, and errors beyond the data are expected to be zero, so its direct influence ends after q steps. Assuming MA effects grow with the horizon is the main misconception.",
+          "difficulty": "hard",
+          "concept": "role of ma terms"
+        }
+      ],
+      "references": [
+        "VARIMAX, more formally VARMAX, is a multivariate model that extends a VAR in two ways. It adds moving average terms, so past forecast errors help explain current values, and it adds exogenous variables, the X, which affect the system but are not affected by it. Several endogenous series such as sales and footfall are modelled and forecast jointly, while inputs like a festival calendar, rainfall or the repo rate enter as given. Orders p and q are chosen with AIC or BIC, series are differenced if they are non-stationary, and the model is estimated by maximum likelihood. To forecast, we must supply future values of the exogenous variables.",
+        "Suppose a hotel chain wants to forecast occupancy and average room rate, which influence each other month to month. Festival months and big conferences also lift both, but the hotel cannot change when Diwali happens. A VARMAX models occupancy and room rate as endogenous, with lags of both and possibly lagged error terms, and adds a festival dummy as an exogenous variable. The dummy coefficient tells us how much occupancy rises in a festival month, holding past values fixed. Because the festival calendar is known in advance, we can plug it in for next year and get joint forecasts of occupancy and rate.",
+        "I would choose VARMAX when I have several interlinked business series plus outside drivers that are not influenced by my numbers, such as the RBI repo rate for a single bank's deposits and credit. Treating such drivers as exogenous saves parameters and lets me run what-if scenarios by feeding different future paths. The catch is that I need those future values; if they are themselves forecasts, my prediction intervals will be too narrow. I must also avoid calling a variable exogenous when it really reacts to my sales, like my own price, and keep the MA order small because VARMA models are hard to estimate and identify."
+      ],
+      "key_concepts": [
+        "varmax",
+        "multivariate",
+        "endogenous",
+        "exogenous variables",
+        "autoregressive",
+        "moving average",
+        "lags",
+        "future values of exogenous",
+        "stationarity",
+        "aic",
+        "scenario analysis",
+        "one-way influence",
+        "joint forecast",
+        "maximum likelihood"
+      ]
+    },
+    {
+      "topic": "SARIMAX model",
+      "questions": [
+        {
+          "q": "What does SARIMAX stand for?",
+          "options": [
+            "Seasonal AutoRegressive Integrated Moving Average with eXogenous regressors",
+            "Simple Average Regression with Integrated Moving Average eXtension",
+            "Seasonal Autocorrelation Regression Index with Multiple eXplanatory variables",
+            "Standard ARIMA with eXponential smoothing of the seasonal component"
+          ],
+          "answer": "Seasonal AutoRegressive Integrated Moving Average with eXogenous regressors",
+          "explanation": "SARIMAX adds exogenous regressors (X) to a seasonal ARIMA model. It is not an exponential smoothing method.",
+          "difficulty": "easy",
+          "concept": "sarimax definition"
+        },
+        {
+          "q": "In SARIMAX(p,d,q)(P,D,Q)m, what does m represent?",
+          "options": [
+            "The number of exogenous variables included in the model",
+            "The number of moving average terms",
+            "The number of months to forecast",
+            "The number of periods in one seasonal cycle"
+          ],
+          "answer": "The number of periods in one seasonal cycle",
+          "explanation": "m is the seasonal period, e.g. 12 for monthly data with yearly seasonality. The number of exogenous variables is not part of the order notation.",
+          "difficulty": "easy",
+          "concept": "model notation"
+        },
+        {
+          "q": "For monthly retail sales with a yearly pattern, what is the seasonal period m?",
+          "options": [
+            "4",
+            "7",
+            "12",
+            "52"
+          ],
+          "answer": "12",
+          "explanation": "Monthly data with an annual cycle repeats every 12 observations. 4 is for quarterly data, 7 for daily data with a weekly cycle, and 52 for weekly data.",
+          "difficulty": "easy",
+          "concept": "seasonal period"
+        },
+        {
+          "q": "How many series does a SARIMAX model forecast?",
+          "options": [
+            "All the exogenous variables and the target series jointly, as one system",
+            "One target series, using the exogenous variables as given inputs",
+            "Exactly two series",
+            "As many series as there are seasonal lags"
+          ],
+          "answer": "One target series, using the exogenous variables as given inputs",
+          "explanation": "SARIMAX is a single-equation model: the target is forecast and the X variables are inputs. Joint forecasting of several series is the job of VAR/VARMAX.",
+          "difficulty": "easy",
+          "concept": "univariate vs multivariate"
+        },
+        {
+          "q": "In SARIMAX(p,d,q)(P,D,Q)m, what does D represent?",
+          "options": [
+            "The number of dummy variables",
+            "The order of seasonal differencing",
+            "The order of non-seasonal differencing",
+            "The number of seasonal autoregressive terms"
+          ],
+          "answer": "The order of seasonal differencing",
+          "explanation": "D is seasonal differencing (e.g. y_t - y_{t-12}); lower-case d is non-seasonal differencing and P is the seasonal AR order.",
+          "difficulty": "easy",
+          "concept": "model notation"
+        },
+        {
+          "q": "Which is a sensible exogenous variable for a SARIMAX forecasting daily sales of a quick-commerce store in Bengaluru?",
+          "options": [
+            "A dummy for public holidays and big sale days",
+            "Yesterday's sales of the same store, used as an external input",
+            "The model's own fitted values",
+            "The seasonal period m"
+          ],
+          "answer": "A dummy for public holidays and big sale days",
+          "explanation": "Holiday and sale-day indicators are external and known in advance. Yesterday's sales are already captured by the AR part.",
+          "difficulty": "easy",
+          "concept": "choosing exogenous variables"
+        },
+        {
+          "q": "If no exogenous variables are included, a SARIMAX model reduces to what?",
+          "options": [
+            "A VAR model",
+            "A linear regression",
+            "A Holt-Winters model",
+            "A SARIMA model"
+          ],
+          "answer": "A SARIMA model",
+          "explanation": "Without X, SARIMAX is just seasonal ARIMA. It does not become multivariate (VAR).",
+          "difficulty": "easy",
+          "concept": "nested models"
+        },
+        {
+          "q": "What must be provided to forecast the next 3 months with a SARIMAX model that uses price as an exogenous variable?",
+          "options": [
+            "Nothing extra, because SARIMAX forecasts the future price path itself from its history",
+            "Last year's sales for the same 3 months",
+            "The price values (planned or forecast) for each of the next 3 months",
+            "The residuals for the next 3 months"
+          ],
+          "answer": "The price values (planned or forecast) for each of the next 3 months",
+          "explanation": "SARIMAX does not model the exogenous variable, so its future values must be supplied. Assuming the model forecasts X is a frequent error.",
+          "difficulty": "easy",
+          "concept": "future exogenous values"
+        },
+        {
+          "q": "For monthly data, what does a seasonal difference with D = 1 compute?",
+          "options": [
+            "y_t - y_{t-1}",
+            "y_t / y_{t-12}",
+            "y_t - y_{t-12}",
+            "(y_t + y_{t-12}) / 2"
+          ],
+          "answer": "y_t - y_{t-12}",
+          "explanation": "Seasonal differencing subtracts the value from the same month last year. y_t - y_{t-1} is the ordinary first difference (d = 1).",
+          "difficulty": "easy",
+          "concept": "seasonal differencing"
+        },
+        {
+          "q": "What does SARIMAX assume about the relationship between the target and an exogenous variable?",
+          "options": [
+            "The two variables influence each other equally",
+            "The exogenous variable influences the target, but the target does not feed back into it",
+            "The exogenous variable must be a lagged copy of the target series itself, such as last month's sales",
+            "There is no relationship between them"
+          ],
+          "answer": "The exogenous variable influences the target, but the target does not feed back into it",
+          "explanation": "SARIMAX assumes one-way influence. Two-way feedback calls for a VAR-type model.",
+          "difficulty": "easy",
+          "concept": "endogenous vs exogenous"
+        },
+        {
+          "q": "A hotel models monthly occupancy with yearly seasonality, needs one seasonal difference, and adds festival and conference dummies. Which specification fits?",
+          "options": [
+            "SARIMAX(1,0,1)(1,1,1)12 with the two dummies as exog",
+            "SARIMAX(1,0,1)(1,1,1)4 with the two dummies as exog",
+            "SARIMAX(1,1,1)(0,0,0)12 with no exogenous variables at all",
+            "VAR(12) on occupancy and the two dummies"
+          ],
+          "answer": "SARIMAX(1,0,1)(1,1,1)12 with the two dummies as exog",
+          "explanation": "Monthly data needs m = 12, and D = 1 gives the seasonal difference, with dummies as exogenous inputs. m = 4 is for quarterly data, and a VAR would wrongly try to forecast the dummies.",
+          "difficulty": "medium",
+          "concept": "model notation"
+        },
+        {
+          "q": "In a weekly SARIMAX for a detergent brand, the price coefficient is -120 (units per Rs 1 increase), and is significant. How should it be read?",
+          "options": [
+            "A Rs 1 increase in price cuts the brand's weekly sales by 120% of the average level, because the coefficient is measured in percentage terms",
+            "Sales cause price to fall by Rs 120",
+            "Price explains 120% of the variance in sales",
+            "A Rs 1 increase in price is associated with about 120 fewer units sold that week, after accounting for the series' time-series dynamics"
+          ],
+          "answer": "A Rs 1 increase in price is associated with about 120 fewer units sold that week, after accounting for the series' time-series dynamics",
+          "explanation": "The X coefficient gives the change in the target per unit change in the regressor, with the ARIMA part handling autocorrelation. It is in units, not percent, and not a variance share.",
+          "difficulty": "medium",
+          "concept": "interpreting exogenous coefficients"
+        },
+        {
+          "q": "Daily sales on an Indian e-commerce app peak every weekend. What seasonal period should be used in a SARIMAX?",
+          "options": [
+            "12",
+            "30",
+            "365",
+            "7"
+          ],
+          "answer": "7",
+          "explanation": "A weekly cycle in daily data repeats every 7 observations. 12 is for monthly data, and 365 would model yearly seasonality, which is impractical as a SARIMA seasonal lag.",
+          "difficulty": "medium",
+          "concept": "seasonal period"
+        },
+        {
+          "q": "A SARIMA for monthly two-wheeler sales has AIC = 2410. Adding a festival-promotion dummy as exog gives a SARIMAX with AIC = 2365 on the same data. What should be concluded?",
+          "options": [
+            "The SARIMA is preferred because its AIC is higher",
+            "AIC cannot be used to compare models with and without exogenous variables, so a hold-out test is the only option",
+            "The SARIMAX is preferred, as the promotion variable improves fit enough to justify the extra parameter",
+            "Both are equally good because the difference is under 5%"
+          ],
+          "answer": "The SARIMAX is preferred, as the promotion variable improves fit enough to justify the extra parameter",
+          "explanation": "Lower AIC is better, and 45 points is a large difference. A higher AIC does not mean better; with the same data and differencing, AIC comparisons are valid.",
+          "difficulty": "medium",
+          "concept": "model selection"
+        },
+        {
+          "q": "Diwali falls in October in some years and November in others. Why is a Diwali dummy in a SARIMAX better than relying only on the seasonal (m = 12) terms?",
+          "options": [
+            "Seasonal terms cannot handle any festivals",
+            "Seasonal terms assume the effect sits in the same calendar month every year, while the dummy follows the festival to whichever month it falls in",
+            "The dummy removes the need for seasonal differencing",
+            "Diwali has no real effect on sales, so the dummy only acts as a control while the seasonal terms already capture everything relevant"
+          ],
+          "answer": "Seasonal terms assume the effect sits in the same calendar month every year, while the dummy follows the festival to whichever month it falls in",
+          "explanation": "Moving holidays break the fixed-month assumption of seasonal lags, so an explicit regressor captures them correctly. The seasonal part is still needed for the regular annual pattern.",
+          "difficulty": "medium",
+          "concept": "moving holidays"
+        },
+        {
+          "q": "A supermarket finds that a promotion boosts sales in the promotion week and also in the following week. How should this be modelled in SARIMAX?",
+          "options": [
+            "Include both the current promotion indicator and its one-week lag as exogenous variables",
+            "Include only the current promotion indicator, since the ARIMA terms will automatically carry the effect into the next week",
+            "Increase the seasonal period to 2",
+            "Add a second order of differencing"
+          ],
+          "answer": "Include both the current promotion indicator and its one-week lag as exogenous variables",
+          "explanation": "Lagged exogenous variables capture effects that carry over. Changing m or differencing does not model a promotion's delayed effect.",
+          "difficulty": "medium",
+          "concept": "lagged exogenous effects"
+        },
+        {
+          "q": "A SARIMAX for monthly bank credit card spends has a Ljung-Box test on residuals with p-value 0.45. What does this suggest?",
+          "options": [
+            "No evidence of remaining autocorrelation in the residuals, so the model has captured the dynamics adequately",
+            "The residuals are strongly autocorrelated, because a p-value above 0.05 means the test has detected significant autocorrelation",
+            "The exogenous variables are not significant",
+            "The forecasts will be 45% accurate"
+          ],
+          "answer": "No evidence of remaining autocorrelation in the residuals, so the model has captured the dynamics adequately",
+          "explanation": "Ljung-Box tests the null of no autocorrelation; a large p-value means we do not reject it, which is what we want. It says nothing directly about regressor significance.",
+          "difficulty": "medium",
+          "concept": "residual diagnostics"
+        },
+        {
+          "q": "A SARIMAX(1,1,1)(1,1,1)12 with two exogenous variables and no constant is fitted. Excluding the error variance, how many coefficients are estimated?",
+          "options": [
+            "4",
+            "8",
+            "14",
+            "6"
+          ],
+          "answer": "6",
+          "explanation": "AR(1), MA(1), seasonal AR(1), seasonal MA(1) and two exogenous coefficients make 6. Forgetting the regressors gives 4, and 14 comes from treating m = 12 as a count of parameters.",
+          "difficulty": "medium",
+          "concept": "parameter count"
+        },
+        {
+          "q": "For a 3-month SARIMAX forecast of an ice-cream brand's sales, which exogenous variable is easiest to supply for the future?",
+          "options": [
+            "Actual daily maximum temperature in each city",
+            "Competitor's actual prices",
+            "The company's planned promotion calendar",
+            "Actual footfall in modern-trade retail outlets"
+          ],
+          "answer": "The company's planned promotion calendar",
+          "explanation": "Inputs the firm controls are known in advance; temperature, competitor prices and footfall would all need their own forecasts, adding uncertainty.",
+          "difficulty": "medium",
+          "concept": "future exogenous values"
+        },
+        {
+          "q": "Why could adding temperature as an exogenous variable improve an ice-cream brand's SARIMAX forecasts compared with a plain SARIMA?",
+          "options": [
+            "It removes the need for a seasonal component",
+            "It explains deviations from the usual seasonal pattern, such as an unusually hot April",
+            "It makes the series stationary",
+            "It guarantees a lower forecast error in every single month, because adding a variable can never hurt accuracy"
+          ],
+          "answer": "It explains deviations from the usual seasonal pattern, such as an unusually hot April",
+          "explanation": "Seasonal terms capture the typical yearly pattern; the X variable explains year-specific departures from it. It does not replace seasonality or guarantee improvement in every period.",
+          "difficulty": "medium",
+          "concept": "what the x adds"
+        },
+        {
+          "q": "A SARIMAX for electricity demand uses forecast temperatures as future exog values. The reported 95% prediction intervals look tight. What should the analyst tell management?",
+          "options": [
+            "The intervals are exact, because SARIMAX automatically accounts for all sources of error, including uncertainty in temperature",
+            "The intervals assume the temperature inputs are exact, so they understate the true uncertainty",
+            "The intervals are too wide because temperature is easy to predict",
+            "Prediction intervals do not exist for SARIMAX models"
+          ],
+          "answer": "The intervals assume the temperature inputs are exact, so they understate the true uncertainty",
+          "explanation": "SARIMAX forecasts are conditional on the supplied X path, so uncertainty in the temperature forecasts is not included. Scenario ranges or simulating X can give a more honest range.",
+          "difficulty": "hard",
+          "concept": "future exogenous values"
+        },
+        {
+          "q": "An FMCG brand wants to forecast monthly sales of one shampoo. Ad spend is fixed in the annual budget and does not react to sales within the year. Which model fits best?",
+          "options": [
+            "SARIMAX with ad spend as an exogenous variable",
+            "A VAR on sales and ad spend, since both are time series",
+            "A SARIMA ignoring ad spend, since it is known in advance",
+            "A VARMAX forecasting ad spend jointly with sales"
+          ],
+          "answer": "SARIMAX with ad spend as an exogenous variable",
+          "explanation": "With one target and a one-way, pre-planned input, SARIMAX is the right tool and the budget supplies future X. A VAR would wrongly forecast ad spend as if it reacted to sales.",
+          "difficulty": "hard",
+          "concept": "model choice"
+        },
+        {
+          "q": "An analyst forecasts tomorrow's store sales using a SARIMAX with tomorrow's actual footfall as an exogenous variable. Back-tests look excellent. What is wrong?",
+          "options": [
+            "Nothing is wrong; footfall is a valid exogenous variable, and the excellent back-test accuracy shows the model will work well in production",
+            "Footfall should be differenced twice",
+            "The seasonal period should be changed to 1",
+            "Tomorrow's footfall is not known when the forecast is made, so the back-test uses information that will not be available (look-ahead bias)"
+          ],
+          "answer": "Tomorrow's footfall is not known when the forecast is made, so the back-test uses information that will not be available (look-ahead bias)",
+          "explanation": "Back-tests must use only information available at forecast time. Using realised future X makes accuracy look far better than it will be in production.",
+          "difficulty": "hard",
+          "concept": "data leakage"
+        },
+        {
+          "q": "In a SARIMAX for weekly sales, 'shelf price' and 'discount %' are both included as exogenous variables and are highly correlated. Their coefficients flip sign between samples. What is the best interpretation?",
+          "options": [
+            "Price and discount truly change direction every few weeks",
+            "The ARIMA part has already absorbed both price and discount effects, so all exogenous regressors should be removed from the model",
+            "Multicollinearity makes individual coefficients unstable; keep one variable or combine them into an effective price",
+            "The seasonal period is wrong"
+          ],
+          "answer": "Multicollinearity makes individual coefficients unstable; keep one variable or combine them into an effective price",
+          "explanation": "Highly correlated regressors share information, so their separate effects cannot be estimated reliably even if forecasts are fine. Combining or dropping one gives interpretable coefficients.",
+          "difficulty": "hard",
+          "concept": "multicollinearity"
+        },
+        {
+          "q": "A Delhi retailer has weekly sales with an annual cycle (about 52.18 weeks). Why might Fourier terms as exogenous regressors be better than a seasonal period of m = 52?",
+          "options": [
+            "Fourier terms remove the need for any AR or MA terms",
+            "m = 52 cannot be used at all, because SARIMAX only allows seasonal periods up to 12, so Fourier terms are the only possible option for weekly data",
+            "Fourier terms handle long and non-integer seasonal periods smoothly with few parameters, whereas m = 52 seasonal ARIMA is slow and assumes an integer period",
+            "Fourier terms forecast the exogenous variables automatically"
+          ],
+          "answer": "Fourier terms handle long and non-integer seasonal periods smoothly with few parameters, whereas m = 52 seasonal ARIMA is slow and assumes an integer period",
+          "explanation": "Dynamic harmonic regression (Hyndman & Athanasopoulos) uses sine/cosine terms as X to model long seasonality, with ARIMA errors for short-run dynamics. The ARMA terms are still needed, and m = 52 is allowed but heavy.",
+          "difficulty": "hard",
+          "concept": "fourier terms"
+        },
+        {
+          "q": "Why is a SARIMAX (regression with seasonal ARIMA errors) preferred over plain OLS regression of sales on price for monthly data?",
+          "options": [
+            "OLS cannot include price as a variable",
+            "OLS ignores autocorrelated errors, which makes its standard errors too small and coefficients look more significant than they are",
+            "OLS cannot be used for time-series data at all, because its coefficient estimates are always biased towards zero with monthly data",
+            "SARIMAX does not need any data on price"
+          ],
+          "answer": "OLS ignores autocorrelated errors, which makes its standard errors too small and coefficients look more significant than they are",
+          "explanation": "With autocorrelated errors, OLS inference is unreliable and its forecasts ignore error dynamics. SARIMAX models those errors explicitly.",
+          "difficulty": "hard",
+          "concept": "regression with arima errors"
+        },
+        {
+          "q": "A SARIMAX shows an insignificant promotion coefficient, but the sales team is sure promotions work. All promotions were run in October-November festive months. What is the most likely explanation?",
+          "options": [
+            "The promotion effect is confounded with seasonality, so the seasonal terms absorb most of it",
+            "Promotions definitely have no effect",
+            "The model must have too few observations to estimate any coefficients, so all reported significance levels are meaningless",
+            "Promotions should be treated as endogenous in a VAR"
+          ],
+          "answer": "The promotion effect is confounded with seasonality, so the seasonal terms absorb most of it",
+          "explanation": "When an input always coincides with the seasonal peak, the model cannot separate the two effects. Running some promotions outside festive months would help identify the true effect.",
+          "difficulty": "hard",
+          "concept": "confounding with seasonality"
+        },
+        {
+          "q": "A model is y_t = 500 + 40*promo_t + n_t, where the error n_t follows AR(1) with phi = 0.6. The last estimated error is n_T = 50, and a promotion is planned for T+1 (promo = 1). What is the forecast for T+1?",
+          "options": [
+            "540",
+            "590",
+            "530",
+            "570"
+          ],
+          "answer": "570",
+          "explanation": "Forecast error = 0.6*50 = 30, so forecast = 500 + 40 + 30 = 570. Ignoring the AR error gives 540, using the full 50 gives 590, and leaving out the promotion gives 530.",
+          "difficulty": "hard",
+          "concept": "forecast calculation"
+        },
+        {
+          "q": "An analyst applies both d = 1 and D = 1 to a monthly series that only needed seasonal differencing. The residual ACF at lag 1 is about -0.5. What does this indicate?",
+          "options": [
+            "The model is well specified, because a negative lag-1 autocorrelation shows that the trend and seasonality have both been removed",
+            "More differencing is needed",
+            "The exogenous variables are irrelevant",
+            "Over-differencing, which introduces a strong negative lag-1 autocorrelation; drop the extra non-seasonal difference"
+          ],
+          "answer": "Over-differencing, which introduces a strong negative lag-1 autocorrelation; drop the extra non-seasonal difference",
+          "explanation": "Unnecessary differencing creates a non-invertible MA pattern, seen as lag-1 autocorrelation near -0.5. Adding more differencing makes it worse.",
+          "difficulty": "hard",
+          "concept": "over-differencing"
+        },
+        {
+          "q": "GST was introduced in July 2017, causing a permanent level shift in a consumer durables firm's monthly sales. How should this be handled in a SARIMAX?",
+          "options": [
+            "Include a pulse dummy equal to 1 only in July 2017 and 0 in every other month, including the forecast period",
+            "Ignore it, because seasonal differencing at lag 12 automatically removes all level shifts, including the GST change",
+            "Include a step dummy (0 before July 2017, 1 from then on) as an exogenous variable, set to 1 in the forecast period",
+            "Drop all data after July 2017"
+          ],
+          "answer": "Include a step dummy (0 before July 2017, 1 from then on) as an exogenous variable, set to 1 in the forecast period",
+          "explanation": "A permanent level shift is captured by a step dummy, which stays at 1 in the future. A pulse dummy models a one-month spike, the common mistake for permanent changes.",
+          "difficulty": "hard",
+          "concept": "intervention dummies"
+        }
+      ],
+      "references": [
+        "SARIMAX stands for Seasonal ARIMA with exogenous regressors. It forecasts one target series using its own past values, past errors, differencing to remove trend, and seasonal terms that repeat every m periods, such as 12 for monthly data. On top of that it adds outside variables, called exogenous regressors, like price, promotions, holidays or temperature, which influence the target but are not influenced by it. The notation is SARIMAX(p,d,q)(P,D,Q)m plus a list of X variables. In effect it is a regression on the X variables with seasonal ARIMA errors. To forecast, we must provide future values of the exogenous variables.",
+        "Take an ice-cream brand's monthly sales in India. Sales follow a clear yearly pattern, peaking in summer, which a seasonal ARIMA with m equal to 12 can capture. But some years are hotter than others, and promotions and Holi or Diwali, which move between months, also shift sales. SARIMAX adds temperature, a promotion indicator and festival dummies as exogenous variables. The promotion coefficient might show, say, 2,000 extra units in promotion months. For next quarter's forecast we plug in our planned promotion calendar and a temperature forecast, and the seasonal ARIMA part handles the remaining pattern and autocorrelation.",
+        "As a manager I would use SARIMAX when I need to forecast one seasonal series and I know some drivers that push it around, especially ones I control, like discounts or ad budgets, or ones known in advance, like holidays. It gives better forecasts than SARIMA when the drivers explain deviations from the usual season, and it supports what-if planning. I must remember that forecasts are only as good as the future X values I supply; uncertain inputs make intervals too narrow, and using information not available at forecast time is leakage. If the drivers react to my sales, a VAR-type model is more appropriate."
+      ],
+      "key_concepts": [
+        "seasonal arima",
+        "exogenous variables",
+        "seasonality",
+        "seasonal period",
+        "differencing",
+        "autoregressive",
+        "moving average",
+        "single target series",
+        "holiday dummies",
+        "promotions",
+        "future values of exogenous",
+        "regression with arima errors",
+        "aic",
+        "what-if"
+      ]
+    }
+  ]
+}

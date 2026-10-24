@@ -104,10 +104,10 @@ export default function FloatingAssistant({ currentView }) {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative' }}>
               {/* Minimize / Close buttons overlay */}
               <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '4px', zIndex: 2 }}>
-                <button onClick={() => setIsMinimized(true)} title="Minimize" style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '3px 6px', cursor: 'pointer', color: '#94a3b8', display: 'flex' }}>
+                <button onClick={() => setIsMinimized(true)} title="Minimize" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '3px 6px', cursor: 'pointer', color: 'var(--color-text-2)', display: 'flex' }}>
                   <Minimize2 size={13} />
                 </button>
-                <button onClick={() => setIsOpen(false)} title="Close" style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '3px 6px', cursor: 'pointer', color: '#94a3b8', display: 'flex' }}>
+                <button onClick={() => setIsOpen(false)} title="Close" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '3px 6px', cursor: 'pointer', color: 'var(--color-text-2)', display: 'flex' }}>
                   <X size={13} />
                 </button>
               </div>

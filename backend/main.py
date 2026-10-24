@@ -8,6 +8,7 @@ import json
 import io
 import pandas as pd
 import numpy as np
+from collections import Counter
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form, status
@@ -23,7 +24,7 @@ from database import (
     StudentMisconception, ForecastDataset, ForecastRun,
     IndependenceSession, FacultyIntervention, DiagnosticAttempt,
     LearningJourneyAttempt, LearningFatigueLog, Reflection,
-    LearningRecommendation
+    LearningRecommendation, QuizResult
 )
 from seed_data import seed_database, load_roster
 from auth import (
@@ -43,6 +44,8 @@ from ai_engine import (
     evaluate_independence_attempt
 )
 from agent import agent_chat, check_ollama_status, clear_history
+import learning
+from learning import select_quiz, options_of, level, topics_to_study, PASS_MARK
 
 app = FastAPI(
     title="AI Learning Partner 360 - MBA Business Forecasting",
@@ -56,6 +59,9 @@ def initialize_database():
     init_db()
     seed_database()
     load_roster()
+    learning.sync_question_bank()
+
+app.include_router(learning.router)
 
 cors_origins = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",") if origin.strip()]
 app.add_middleware(
@@ -132,6 +138,7 @@ class QuizSubmitRequest(BaseModel):
     subtopic_id: Optional[int] = None
     quiz_type: str  # "pre" or "post"
     answers: Dict[str, str]  # {str(question_id): selected_answer_text}
+    tab_switches: int = 0
 
 class MarkNotesReadRequest(BaseModel):
     attempt_id: int
@@ -139,7 +146,7 @@ class MarkNotesReadRequest(BaseModel):
 
 class PracticeCompletionRequest(BaseModel):
     attempt_id: int
-    subtopic_id: int
+    subtopic_id: Optional[int] = None
 
 
 # ====================================================
@@ -182,101 +189,6 @@ def get_authenticated_user(payload: dict = Depends(get_current_user_payload), db
 # ====================================================
 # STUDENT DASHBOARD & LEARNING PROFILE
 # ====================================================
-@app.get("/api/student/dashboard")
-def get_student_dashboard(
-    user_id: Optional[int] = None,
-    db: Session = Depends(get_db),
-    payload: dict = Depends(require_student),
-):
-    """Returns student analytics derived from persisted attempts."""
-    if user_id is not None:
-        ensure_user_access(payload, user_id)
-    elif payload.get("sub"):
-        user_id = int(payload["sub"])
-    else:
-        raise HTTPException(status_code=401, detail="Authenticated user is missing from token")
-
-    user = db.query(User).filter(User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="Student account not found")
-    last_diag = db.query(DiagnosticAttempt).filter(DiagnosticAttempt.user_id == user_id).order_by(DiagnosticAttempt.created_at.desc()).first()
-
-    # Module masteries
-    modules = db.query(Module).order_by(Module.module_number).all()
-    mod_mastery = {}
-    if last_diag and last_diag.module_mastery_json:
-        mod_mastery = json.loads(last_diag.module_mastery_json)
-    else:
-        mod_mastery = {"1": 78.0, "2": 72.0, "3": 58.0, "4": 62.0, "5": 70.0}
-
-    module_list = []
-    for m in modules:
-        score = mod_mastery.get(str(m.module_number), 65.0)
-        level = "Needs Foundation" if score < 40 else ("Developing" if score < 60 else ("Proficient" if score < 80 else "Advanced"))
-        module_list.append({
-            "module_number": m.module_number,
-            "title": m.title,
-            "hours": m.teaching_hours,
-            "mastery_score": score,
-            "mastery_level": level
-        })
-
-    # Strong vs Needs Attention Topics
-    strong_topics = [
-        {"name": "Forecast Accuracy: MAE, MSE, RMSE, MAPE", "module": "Module 1", "score": 85},
-        {"name": "Moving Average Method", "module": "Module 2", "score": 80},
-        {"name": "Simple Exponential Smoothing", "module": "Module 2", "score": 75}
-    ]
-
-    needs_attention = [
-        {"name": "Stationarity and Unit Root Tests (ADF Test)", "module": "Module 3", "score": 44, "reason": "Failed to reject unit root null hypothesis"},
-        {"name": "Differencing a time series, Lags", "module": "Module 3", "score": 52, "reason": "Over-differenced stationary series"},
-        {"name": "Seasonal ARIMA (SARIMA)", "module": "Module 3", "score": 50, "reason": "Confused seasonal period order s with lag p"}
-    ]
-
-    # Course Outcomes progress
-    cos = db.query(CourseOutcome).all()
-    co_scores = {"CO1": 80.0, "CO2": 74.0, "CO3": 56.0, "CO4": 64.0, "CO5": 72.0}
-    co_list = []
-    for co in cos:
-        score = co_scores.get(co.code, 70.0)
-        co_list.append({
-            "code": co.code,
-            "description": co.description,
-            "mastery": score,
-            "evidence": ["Diagnostic Test", "Lab Execution", "Socratic Dialogue", "Teach-the-AI"]
-        })
-
-    overall_mastery = last_diag.score_percentage if last_diag else 68.0
-
-    return {
-        "student_name": user.full_name if user else "John Doe",
-        "course_title": "SB6202 Business Forecasting",
-        "instructor": "Dr Veena A",
-        "school": "RV University - School of Business (SOB)",
-        "overall_mastery": overall_mastery,
-        "mastery_level": "Proficient" if overall_mastery >= 60 else "Developing",
-        "module_mastery": module_list,
-        "strong_topics": strong_topics,
-        "needs_attention_topics": needs_attention,
-        "todays_goal": {
-            "title": "Mastering Stationarity & Seasonal ARIMA Modeling",
-            "steps": [
-                {"step": 1, "task": "Understand stationarity and unit root hypothesis in ADF test", "status": "pending"},
-                {"step": 2, "task": "Practice ADF stationarity check in Forecasting Lab", "status": "pending"},
-                {"step": 3, "task": "Fit SARIMA model on Retail Monthly Sales dataset", "status": "pending"},
-                {"step": 4, "task": "Complete Level 3 AI Independence Challenge", "status": "ready"}
-            ]
-        },
-        "learning_gain": "+22.5 percentage points",
-        "retention_rate": "86%",
-        "independent_performance": "82%",
-        "ai_independence_gain": "+32 percentage points",
-        "ai_support_level": "Level 2: Hints Only (Fading Scaffolding Active)",
-        "course_outcomes": co_list
-    }
-
-
 # ====================================================
 # DIAGNOSTIC TEST ENDPOINTS
 # ====================================================
@@ -933,7 +845,7 @@ def get_faculty_dashboard(db: Session = Depends(get_db), _: dict = Depends(requi
     Interventions, and measured Learning Gain.
     """
     interventions = db.query(FacultyIntervention).all()
-    journey_attempts = db.query(LearningJourneyAttempt).filter(LearningJourneyAttempt.post_completed_at.is_not(None)).all()
+    journey_attempts = db.query(LearningJourneyAttempt).filter(LearningJourneyAttempt.post_completed_at.is_not(None), LearningJourneyAttempt.user_id.in_(db.query(User.id).filter(User.role == "student"))).all()
     students = {student.id: student for student in db.query(User).all()}
     student_aggregates = {}
     topic_aggregates = {}
@@ -954,7 +866,9 @@ def get_faculty_dashboard(db: Session = Depends(get_db), _: dict = Depends(requi
         for concept in weak:
             label = concept.get("category") or concept.get("question") or "Uncategorized misconception"
             stats["misconceptions"][label] = stats["misconceptions"].get(label, 0) + 1
-        stats["relearn_suggestions"] = sum(stats["misconceptions"].values())
+    relearn_counts = Counter(tid for (tid,) in db.query(QuizResult.topic_id).filter(QuizResult.score_pct < PASS_MARK))
+    for stats in topic_aggregates.values():
+        stats["relearn_suggestions"] = relearn_counts.get(stats["topic_id"], 0)
     for row in student_aggregates.values():
         count = row["attempts"]
         for key in ("average_pre_score", "average_post_score", "average_learning_gain"):
@@ -1050,7 +964,7 @@ def get_journey_modules(db: Session = Depends(get_db), payload: dict = Depends(r
     return {"subjects": courses, "modules": out}
 
 @app.get("/api/journey/quiz")
-def get_journey_quiz(module_id: int, topic_id: int, quiz_type: str = "pre", subtopic_id: Optional[int] = None, db: Session = Depends(get_db), _: dict = Depends(require_student)):
+def get_journey_quiz(module_id: int, topic_id: int, quiz_type: str = "pre", subtopic_id: Optional[int] = None, db: Session = Depends(get_db), payload: dict = Depends(require_student)):
     """
     Fetches targeted quiz questions for a topic.
     quiz_type: 'pre' (baseline testing) or 'post' (mastery testing).
@@ -1064,16 +978,9 @@ def get_journey_quiz(module_id: int, topic_id: int, quiz_type: str = "pre", subt
         subtopic = db.query(SubTopic).filter(SubTopic.id == subtopic_id, SubTopic.topic_id == topic_id).first()
         if not subtopic:
             raise HTTPException(status_code=404, detail="Subtopic not found for selected topic")
-    stage_rows = db.query(Question).filter(
-        Question.topic_id == topic_id,
-        (Question.quiz_stage == quiz_type) | (Question.quiz_stage == "both") | (Question.quiz_stage.is_(None)),
-    ).order_by(Question.id).all()
-    stage_questions = stage_rows
-    if not stage_questions:
-        stage_questions = db.query(Question).filter(Question.topic_id == topic_id).all()
-    if not stage_questions:
-        raise HTTPException(status_code=404, detail="No questions are available for this quiz stage")
-    questions = stage_questions
+    questions = select_quiz(db, int(payload["sub"]), topic_id, quiz_type)
+    if not questions:
+        raise HTTPException(status_code=404, detail="No questions are available for this topic yet")
 
     items = []
     for q in questions:
@@ -1085,8 +992,8 @@ def get_journey_quiz(module_id: int, topic_id: int, quiz_type: str = "pre", subt
         items.append({
             "id": q.id,
             "question_text": clean_text,
-            "options": json.loads(q.options_json) if q.options_json else [option for option in [q.option_a, q.option_b, q.option_c, q.option_d] if option],
-            "difficulty": q.difficulty,
+            "options": options_of(q),
+            "difficulty": level(q),
             "category": q.category or q.co_tag or q.difficulty,
             "blooms_level": q.blooms_level
         })
@@ -1125,10 +1032,7 @@ def submit_journey_quiz(
     topic_name = topic.name if topic else f"Topic {req.topic_id}"
     module_title = module.title if module else f"Module {req.module_id}"
 
-    allowed_questions = db.query(Question.id).filter(
-        Question.topic_id == req.topic_id,
-        (Question.quiz_stage == req.quiz_type) | (Question.quiz_stage == "both") | (Question.quiz_stage.is_(None)),
-    ).all()
+    allowed_questions = db.query(Question.id).filter(Question.topic_id == req.topic_id).all()
     allowed_ids = {str(question_id) for (question_id,) in allowed_questions}
     if not allowed_ids:
         fallback_qs = db.query(Question.id).filter(Question.topic_id == req.topic_id).all()
@@ -1171,7 +1075,7 @@ def submit_journey_quiz(
                 "student_answer": student_ans,
                 "correct_answer": q.correct_answer,
                 "explanation": q.explanation,
-                "category": q.co_tag or q.difficulty,
+                "category": q.category or q.co_tag or q.difficulty,
                 "difficulty": q.difficulty
             })
 
@@ -1195,7 +1099,7 @@ def submit_journey_quiz(
         raise HTTPException(status_code=403, detail="Attempt does not belong to this student")
     if attempt and (attempt.topic_id != req.topic_id or attempt.module_id != req.module_id or attempt.subtopic_id != req.subtopic_id):
         raise HTTPException(status_code=400, detail="Attempt does not match the selected learning path")
-    if attempt and ((req.quiz_type == "pre" and attempt.pre_completed_at) or (req.quiz_type == "post" and attempt.post_completed_at)):
+    if attempt and req.quiz_type == "pre" and attempt.pre_completed_at:
         raise HTTPException(status_code=409, detail="This quiz has already been completed")
     if not attempt and req.quiz_type == "post":
         raise HTTPException(status_code=409, detail="Complete Quiz 1 before Quiz 2")
@@ -1229,8 +1133,7 @@ def submit_journey_quiz(
     else:
         if attempt.pre_completed_at is None:
             raise HTTPException(status_code=409, detail="Complete Quiz 1 before Quiz 2")
-        completed_practice = json.loads(attempt.practice_completed_subtopics_json or "[]")
-        if (attempt.pre_score_pct or 0) < 80 and req.subtopic_id not in completed_practice:
+        if (attempt.pre_score_pct or 0) < PASS_MARK and not attempt.practice_problems_completed:
             raise HTTPException(status_code=409, detail="Complete targeted practice before Quiz 2")
         attempt.post_score_pct = score_pct
         attempt.post_answers_json = json.dumps(graded_details)
@@ -1240,7 +1143,7 @@ def submit_journey_quiz(
         attempt.score_gain_pct = gain
 
         # Determine mastery status
-        if score_pct >= 85.0:
+        if score_pct >= PASS_MARK:
             attempt.mastery_status = "Mastered"
         elif score_pct >= 60.0:
             attempt.mastery_status = "Competent"
@@ -1257,12 +1160,21 @@ def submit_journey_quiz(
             recs.append("Excellent mastery! You are ready to tackle the advanced multi-step forecasting challenge in the Lab.")
         attempt.revision_recommended_json = json.dumps(recs)
 
+    if req.quiz_type == "pre" and score_pct >= PASS_MARK:
+        attempt.mastery_status = "Mastered"
+    db.add(QuizResult(
+        user_id=req.user_id, attempt_id=attempt.id, module_id=req.module_id, topic_id=req.topic_id,
+        topic_name=topic_name, quiz_type=req.quiz_type, score_pct=score_pct, correct=correct_count,
+        total=total_count, weak_concepts_json=json.dumps(weak_concepts), tab_switches=max(0, req.tab_switches),
+    ))
     db.commit()
     db.refresh(attempt)
 
     return {
         "attempt_id": attempt.id,
         "quiz_type": req.quiz_type,
+        "passed": score_pct >= PASS_MARK,
+        "topics_to_study": topics_to_study(weak_concepts, topic, db, score_pct >= PASS_MARK),
         "score_percentage": score_pct,
         "correct_count": correct_count,
         "total_questions": total_count,
@@ -1301,18 +1213,11 @@ def complete_journey_practice(req: PracticeCompletionRequest, db: Session = Depe
     if not attempt:
         raise HTTPException(status_code=404, detail="Attempt not found")
     ensure_user_access(payload, attempt.user_id)
-    if not attempt.pre_completed_at or (attempt.pre_score_pct or 0) >= 80:
-        raise HTTPException(status_code=409, detail="Targeted practice is not required for this attempt")
-    subtopic = db.query(SubTopic).filter(SubTopic.id == req.subtopic_id, SubTopic.topic_id == attempt.topic_id).first()
-    if not subtopic:
-        raise HTTPException(status_code=404, detail="Subtopic not found for this attempt")
-    completed = json.loads(attempt.practice_completed_subtopics_json or "[]")
-    if req.subtopic_id not in completed:
-        completed.append(req.subtopic_id)
-        attempt.practice_completed_subtopics_json = json.dumps(completed)
-        attempt.practice_problems_completed = len(completed)
+    if not attempt.pre_completed_at:
+        raise HTTPException(status_code=409, detail="Complete Quiz 1 before practice")
+    attempt.practice_problems_completed = (attempt.practice_problems_completed or 0) + 1
     db.commit()
-    return {"status": "success", "completed_subtopics": completed}
+    return {"status": "success", "practice_sessions": attempt.practice_problems_completed}
 
 
 @app.post("/api/journey/mark-notes-read")
@@ -1428,7 +1333,7 @@ class ActionRecommendationRequest(BaseModel):
 
 
 def ensure_user_access(payload: dict, user_id: int):
-    if payload.get("sub") != str(user_id) and payload.get("role") not in {"admin", "dean"}:
+    if payload.get("sub") != str(user_id) and payload.get("role") not in {"faculty", "admin", "dean"}:
         raise HTTPException(status_code=403, detail="Cannot access another user's data")
 
 
@@ -1590,7 +1495,7 @@ def get_department_overview(
     total_students = db.query(User).filter(User.role == "student").count()
     students = db.query(User).filter(User.role == "student").all()
     student_names = {student.id: student.full_name for student in students}
-    completed = db.query(LearningJourneyAttempt).filter(LearningJourneyAttempt.post_completed_at.is_not(None)).all()
+    completed = db.query(LearningJourneyAttempt).filter(LearningJourneyAttempt.post_completed_at.is_not(None), LearningJourneyAttempt.user_id.in_(db.query(User.id).filter(User.role == "student"))).all()
     scores_by_student = {}
     for attempt in completed:
         scores_by_student.setdefault(attempt.user_id, []).append(attempt.post_score_pct or 0)
@@ -1613,7 +1518,7 @@ def get_department_overview(
     } for module in modules]
     courses = db.query(Course).order_by(Course.id).all()
     interventions = db.query(FacultyIntervention).all()
-    faculty = db.query(User).filter(User.role == "faculty").order_by(User.full_name).all()
+    faculty = db.query(User).filter(User.role.in_(["faculty", "admin"])).order_by(User.full_name).all()
     return {
         "total_students": total_students,
         "avg_department_mastery": avg_mastery,

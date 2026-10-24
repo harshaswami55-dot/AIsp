@@ -1,0 +1,2498 @@
+{
+ "module": 2,
+ "topics": [
+  {
+   "topic": "Data Patterns: Trend, Seasonality, Cyclical, and Random",
+   "questions": [
+    {
+     "q": "In time series analysis, what does the 'trend' component describe?",
+     "options": [
+      "A pattern that repeats at a fixed interval within each year",
+      "Unpredictable short-term fluctuations left after other components are removed",
+      "Rises and falls of variable length linked to the business cycle",
+      "The long-term upward or downward movement in the level of the series"
+     ],
+     "answer": "The long-term upward or downward movement in the level of the series",
+     "explanation": "Trend is the long-run increase or decrease in the series. The fixed-interval repeating pattern is seasonality, which students often confuse with trend.",
+     "difficulty": "easy",
+     "concept": "trend definition"
+    },
+    {
+     "q": "Which feature best defines a seasonal pattern?",
+     "options": [
+      "A pattern that repeats over a fixed and known period, such as every year, quarter or week",
+      "A long-term increase in average sales over many years",
+      "Waves of expansion and contraction that last several years and have no fixed length or timing",
+      "One-off spikes caused by unexpected events"
+     ],
+     "answer": "A pattern that repeats over a fixed and known period, such as every year, quarter or week",
+     "explanation": "Seasonality has a fixed, known period (e.g., 12 months, 7 days). Multi-year waves of variable length are cyclical, not seasonal.",
+     "difficulty": "easy",
+     "concept": "seasonality definition"
+    },
+    {
+     "q": "Rises and falls in a series that are not of a fixed period and usually last two years or more are called:",
+     "options": [
+      "Seasonal variation",
+      "Random variation",
+      "Secular trend",
+      "Cyclical variation"
+     ],
+     "answer": "Cyclical variation",
+     "explanation": "Cyclical movements are tied to economic or business cycles and have no fixed length. Seasonal variation, by contrast, has a fixed known period.",
+     "difficulty": "easy",
+     "concept": "cyclical pattern"
+    },
+    {
+     "q": "The irregular (random) component of a time series is best described as:",
+     "options": [
+      "The repeating festive-season spike in sales",
+      "The long-run growth path of the series",
+      "Unpredictable fluctuations that remain after trend, seasonal and cyclical effects are removed",
+      "A slow multi-year wave in sales that follows the interest-rate cycle and the wider economy"
+     ],
+     "answer": "Unpredictable fluctuations that remain after trend, seasonal and cyclical effects are removed",
+     "explanation": "The random or irregular component is the unexplained 'noise' left after systematic patterns are removed; it cannot be forecast.",
+     "difficulty": "easy",
+     "concept": "random component"
+    },
+    {
+     "q": "Which of the following is the clearest example of seasonality?",
+     "options": [
+      "Ice-cream sales in Chennai peaking every April to June",
+      "Cement demand rising for four years and then falling for three",
+      "A one-day drop in sales because of a power outage",
+      "Steady growth in a bank's deposits over ten years"
+     ],
+     "answer": "Ice-cream sales in Chennai peaking every April to June",
+     "explanation": "A peak in the same months every year is seasonality. The multi-year rise-and-fall in cement demand is cyclical.",
+     "difficulty": "easy",
+     "concept": "seasonality example"
+    },
+    {
+     "q": "The main difference between seasonal and cyclical patterns is that:",
+     "options": [
+      "Seasonal patterns last longer than cyclical patterns",
+      "Cyclical patterns occur only in monthly data",
+      "Seasonal patterns are always caused by recessions, while cyclical ones come from weather and festivals",
+      "Seasonal patterns have a fixed, known period while cyclical patterns have variable length"
+     ],
+     "answer": "Seasonal patterns have a fixed, known period while cyclical patterns have variable length",
+     "explanation": "The fixed period is the defining feature of seasonality; cycles vary in length and are usually longer than a year.",
+     "difficulty": "easy",
+     "concept": "seasonal vs cyclical"
+    },
+    {
+     "q": "In an additive time series model, the observed value Y is written as:",
+     "options": [
+      "Y = Trend × Seasonal × Random",
+      "Y = Trend + Seasonal + Random",
+      "Y = Trend × (Seasonal + Random)",
+      "Y = Trend − Seasonal − Random"
+     ],
+     "answer": "Y = Trend + Seasonal + Random",
+     "explanation": "In the additive model the components are added together. The multiplicative form (T × S × R) is used when seasonal swings grow with the level.",
+     "difficulty": "easy",
+     "concept": "additive decomposition"
+    },
+    {
+     "q": "In a multiplicative time series model, the observed value Y is written as:",
+     "options": [
+      "Y = Trend + Seasonal + Random",
+      "Y = Trend + Seasonal × Random",
+      "Y = Trend ÷ Seasonal",
+      "Y = Trend × Seasonal × Random"
+     ],
+     "answer": "Y = Trend × Seasonal × Random",
+     "explanation": "The multiplicative model multiplies the components, so seasonal effects are proportions of the level rather than fixed amounts.",
+     "difficulty": "easy",
+     "concept": "multiplicative decomposition"
+    },
+    {
+     "q": "What is usually the first step in identifying the patterns present in a sales history?",
+     "options": [
+      "Fit a Holt-Winters model immediately and read its parameters",
+      "Plot the data against time and look at it",
+      "Compute the MAPE of a naive forecast",
+      "Remove all outliers from the data"
+     ],
+     "answer": "Plot the data against time and look at it",
+     "explanation": "A time plot reveals trend, seasonality, cycles and unusual observations before any model is chosen; fitting a model first skips this diagnosis.",
+     "difficulty": "easy",
+     "concept": "time plot first step"
+    },
+    {
+     "q": "A week-long transporters' strike that halts deliveries and cuts one week's sales is an example of which component?",
+     "options": [
+      "Seasonal variation",
+      "Irregular (random) variation",
+      "Trend",
+      "Cyclical (business-cycle) variation"
+     ],
+     "answer": "Irregular (random) variation",
+     "explanation": "A one-off, unpredictable event is irregular variation. It does not repeat at a fixed interval, so it is not seasonal.",
+     "difficulty": "easy",
+     "concept": "random component"
+    },
+    {
+     "q": "Monthly room occupancy at a Goa hotel has grown about 8% a year for five years and peaks every December-January. Which patterns are present?",
+     "options": [
+      "Only seasonality",
+      "Trend and seasonality",
+      "Cyclical and random variation only",
+      "Only trend"
+     ],
+     "answer": "Trend and seasonality",
+     "explanation": "Steady year-on-year growth is a trend and the December-January peak every year is seasonality; a peak in the same months each year is not cyclical.",
+     "difficulty": "medium",
+     "concept": "identifying patterns"
+    },
+    {
+     "q": "A retailer's seasonal swings get larger as its overall sales level grows. Which model form is more suitable?",
+     "options": [
+      "Additive, because seasonal effects are constant in size",
+      "Additive, because the trend is increasing",
+      "Multiplicative, because seasonal effects are proportional to the level",
+      "Neither, because growing swings indicate a cyclical pattern"
+     ],
+     "answer": "Multiplicative, because seasonal effects are proportional to the level",
+     "explanation": "Seasonal variation that grows with the level is the signature of multiplicative seasonality; additive seasonality keeps swings of roughly constant size.",
+     "difficulty": "medium",
+     "concept": "additive vs multiplicative"
+    },
+    {
+     "q": "A dairy cooperative's monthly milk collection rises by roughly 2 lakh litres every monsoon season, regardless of whether the annual total is high or low. Which model form fits?",
+     "options": [
+      "Multiplicative, because seasonal effects are percentages",
+      "Multiplicative, because milk collection is growing",
+      "Cyclical model, because monsoon timing varies",
+      "Additive, because the seasonal effect is a roughly constant amount"
+     ],
+     "answer": "Additive, because the seasonal effect is a roughly constant amount",
+     "explanation": "A seasonal effect of about the same absolute size each year suits an additive model; multiplicative is for effects that scale with the level.",
+     "difficulty": "medium",
+     "concept": "additive vs multiplicative"
+    },
+    {
+     "q": "In a multiplicative model, trend = 500 units, seasonal index = 1.2 and irregular factor = 1.0. What is the expected value?",
+     "options": [
+      "501.2 units",
+      "600 units",
+      "416.67 units",
+      "520 units"
+     ],
+     "answer": "600 units",
+     "explanation": "Multiply the components: 500 × 1.2 × 1.0 = 600. Adding the index (501.2) treats a multiplicative index as if it were an additive amount.",
+     "difficulty": "medium",
+     "concept": "multiplicative decomposition"
+    },
+    {
+     "q": "In an additive model, trend = 500, seasonal component = −40 and irregular = +10. What is the observed value?",
+     "options": [
+      "550",
+      "450",
+      "470",
+      "490"
+     ],
+     "answer": "470",
+     "explanation": "Add all components: 500 − 40 + 10 = 470. Ignoring the sign of the seasonal component gives 550.",
+     "difficulty": "medium",
+     "concept": "additive decomposition"
+    },
+    {
+     "q": "A mall records daily footfall, which is always highest on Saturdays and Sundays. What is the seasonal period m of this pattern?",
+     "options": [
+      "12",
+      "7",
+      "52",
+      "30"
+     ],
+     "answer": "7",
+     "explanation": "The pattern repeats every week, so with daily data m = 7. Twelve applies to monthly data with a yearly pattern.",
+     "difficulty": "medium",
+     "concept": "seasonal period"
+    },
+    {
+     "q": "Actual quarterly sales are 660 and the multiplicative seasonal index for that quarter is 1.1. What are the deseasonalised sales?",
+     "options": [
+      "726",
+      "659",
+      "550",
+      "600"
+     ],
+     "answer": "600",
+     "explanation": "Deseasonalised value = actual ÷ index = 660 ÷ 1.1 = 600. Multiplying by the index (726) adds the seasonal effect instead of removing it.",
+     "difficulty": "medium",
+     "concept": "deseasonalising"
+    },
+    {
+     "q": "Using an additive model, actual monthly sales are 820 and the seasonal component for that month is +70. What are the seasonally adjusted sales?",
+     "options": [
+      "890",
+      "750",
+      "820",
+      "11.71"
+     ],
+     "answer": "750",
+     "explanation": "In an additive model you subtract the seasonal component: 820 − 70 = 750. Adding it (890) doubles the seasonal effect.",
+     "difficulty": "medium",
+     "concept": "deseasonalising"
+    },
+    {
+     "q": "Why are cyclical patterns generally harder to forecast than seasonal patterns?",
+     "options": [
+      "Their length and timing vary, so the next turning point is not known in advance",
+      "They always contain more random noise than seasonal data",
+      "They only appear in annual data, so there are too few observations to estimate them",
+      "They cannot be seen on a time plot"
+     ],
+     "answer": "Their length and timing vary, so the next turning point is not known in advance",
+     "explanation": "Seasonal patterns have a fixed, known period, while cycles vary in duration and amplitude, making turning points hard to predict.",
+     "difficulty": "medium",
+     "concept": "cyclical forecasting difficulty"
+    },
+    {
+     "q": "Monthly sales data show a strong positive autocorrelation at lag 12 (and at lag 24). This mainly suggests:",
+     "options": [
+      "A purely random series",
+      "A cyclical pattern of about 12 years",
+      "That the data contain no trend",
+      "A yearly seasonal pattern"
+     ],
+     "answer": "A yearly seasonal pattern",
+     "explanation": "High autocorrelation at multiples of 12 in monthly data means values resemble those a year earlier, which is yearly seasonality.",
+     "difficulty": "medium",
+     "concept": "autocorrelation seasonality"
+    },
+    {
+     "q": "Average quarterly sales over several years are Q1 = 80, Q2 = 100, Q3 = 90 and Q4 = 130 (overall quarterly average = 100). This year's actual Q4 sales are 156. What are the deseasonalised Q4 sales?",
+     "options": [
+      "202.8",
+      "120",
+      "26",
+      "156"
+     ],
+     "answer": "120",
+     "explanation": "The Q4 index is 130 ÷ 100 = 1.30, so deseasonalised sales = 156 ÷ 1.30 = 120. Multiplying (202.8) adds seasonality instead of removing it, and subtracting 130 (26) mixes up additive and multiplicative logic.",
+     "difficulty": "hard",
+     "concept": "seasonal index calculation"
+    },
+    {
+     "q": "A cement company's annual sales rose from 2012 to 2016, fell in 2017-2018, rose again until 2022 and then dipped, moving with construction investment. The upswings and downswings have different lengths. How should a manager classify this pattern?",
+     "options": [
+      "Seasonal, because the pattern repeats",
+      "Random, because the swings are not of equal length",
+      "Trend, because sales are higher at the end than the start",
+      "Cyclical, because the waves are multi-year and of variable length"
+     ],
+     "answer": "Cyclical, because the waves are multi-year and of variable length",
+     "explanation": "Multi-year rises and falls of irregular length that follow the economy are cyclical. 'It repeats' is not enough for seasonality, which needs a fixed period such as a year.",
+     "difficulty": "hard",
+     "concept": "cyclical pattern"
+    },
+    {
+     "q": "An analyst has 15 years of annual revenue data for an FMCG firm. Which pattern cannot be identified from this data?",
+     "options": [
+      "Long-term trend",
+      "Business cycles",
+      "Irregular fluctuations",
+      "Seasonality within the year"
+     ],
+     "answer": "Seasonality within the year",
+     "explanation": "Annual totals hide everything that happens inside a year, so within-year seasonality cannot be observed; trend, cycles and irregular shocks still can.",
+     "difficulty": "hard",
+     "concept": "seasonal period"
+    },
+    {
+     "q": "A jeweller's Diwali-month sales were ₹2 crore above a normal month when normal monthly sales were ₹10 crore; five years later the Diwali uplift is ₹6 crore on normal sales of ₹30 crore. Which description is correct?",
+     "options": [
+      "Additive seasonality: the uplift is a fixed rupee amount",
+      "Multiplicative seasonality: the uplift has stayed at about 20% of the base level",
+      "Additive seasonality: the trend is linear",
+      "No seasonality: the uplift changed, so it is cyclical"
+     ],
+     "answer": "Multiplicative seasonality: the uplift has stayed at about 20% of the base level",
+     "explanation": "The uplift grew from ₹2 cr to ₹6 cr but stayed 20% of the base level, which is the signature of multiplicative seasonality. Additive seasonality would require a constant rupee uplift.",
+     "difficulty": "hard",
+     "concept": "additive vs multiplicative"
+    },
+    {
+     "q": "Deseasonalised quarterly sales follow the trend T = 200 + 5t. For t = 10 the quarter's seasonal index is 0.9. What is the forecast for t = 10?",
+     "options": [
+      "225",
+      "250",
+      "277.78",
+      "245"
+     ],
+     "answer": "225",
+     "explanation": "Trend at t = 10 is 250; multiply by the index: 250 × 0.9 = 225. Dividing by the index (277.78) is the deseasonalising step, not the reseasonalising one.",
+     "difficulty": "hard",
+     "concept": "multiplicative decomposition"
+    },
+    {
+     "q": "Which transformation converts a multiplicative time series (Y = T × S × R) into an additive one?",
+     "options": [
+      "Taking first differences",
+      "Squaring the series",
+      "Dividing every value by the overall series mean",
+      "Taking logarithms of the series"
+     ],
+     "answer": "Taking logarithms of the series",
+     "explanation": "log(T × S × R) = log T + log S + log R, so logs turn multiplicative components into additive ones. Differencing removes trend but does not change the multiplicative structure.",
+     "difficulty": "hard",
+     "concept": "log transformation"
+    },
+    {
+     "q": "After fitting a trend-only model to monthly sales, the residuals show a spike every December. What does this tell the analyst?",
+     "options": [
+      "The model is adequate because residuals are always random",
+      "Seasonality has not been captured and should be added to the model",
+      "The series has a cyclical pattern of 12 years",
+      "The trend is too steep and should be removed"
+     ],
+     "answer": "Seasonality has not been captured and should be added to the model",
+     "explanation": "Residuals should look like random noise. A recurring December spike is leftover seasonal pattern, so the model is missing a seasonal component.",
+     "difficulty": "hard",
+     "concept": "residual diagnostics"
+    },
+    {
+     "q": "December sales at an apparel retailer were 40% higher than November sales. The marketing head claims the new campaign drove 40% growth. What is the best response?",
+     "options": [
+      "Accept the claim, because month-on-month growth measures campaign impact",
+      "Compare with December of last year or use seasonally adjusted figures, because December is normally a peak month",
+      "Compare December with the annual average, because that removes the trend",
+      "Ignore the data, because seasonal months cannot be analysed"
+     ],
+     "answer": "Compare with December of last year or use seasonally adjusted figures, because December is normally a peak month",
+     "explanation": "Month-on-month comparisons across a seasonal peak mix campaign impact with normal seasonality. Year-on-year or deseasonalised comparisons isolate the real change.",
+     "difficulty": "hard",
+     "concept": "comparing seasonal periods"
+    },
+    {
+     "q": "Quarterly multiplicative seasonal indices must average 1. If three indices are 0.85, 1.10 and 0.95, what must the fourth be?",
+     "options": [
+      "1.1",
+      "1",
+      "0.1",
+      "1.05"
+     ],
+     "answer": "1.1",
+     "explanation": "Multiplicative quarterly indices sum to 4, so the fourth is 4 − 2.90 = 1.10. Answering 0.10 wrongly assumes the indices must sum to 1 rather than average 1.",
+     "difficulty": "hard",
+     "concept": "seasonal index normalisation"
+    },
+    {
+     "q": "Additive quarterly seasonal components must sum to zero. If Q1 = −30, Q2 = +10 and Q3 = +45, what is the Q4 component?",
+     "options": [
+      "25",
+      "0",
+      "-25",
+      "85"
+     ],
+     "answer": "-25",
+     "explanation": "−30 + 10 + 45 = +25, so Q4 must be −25 to make the total zero. Answering +25 repeats the sum without changing its sign.",
+     "difficulty": "hard",
+     "concept": "additive seasonal components"
+    }
+   ],
+   "references": [
+    "A time series is data recorded over time, like monthly sales, and it usually contains four patterns. Trend is the long-term upward or downward direction. Seasonality is a pattern that repeats over a fixed, known period, such as higher sales every Diwali or every weekend. Cyclical movement is a longer rise and fall, usually over several years, linked to the business or economic cycle, and its length is not fixed. The random or irregular part is the unpredictable noise left over, such as a one-off strike. These parts can be combined additively when seasonal swings are a constant amount, or multiplicatively when swings grow with the level. Identifying them tells us which forecasting method to use.",
+    "Think of a hotel in Goa. Over the years occupancy keeps rising; that is the trend. Every December and January rooms fill up and every monsoon they empty; that is seasonality, because it repeats each year at the same time. When the economy slows for two or three years, corporate travel drops and then recovers; that is a cyclical pattern, with no fixed length. And a sudden cancellation wave because of a storm is random or irregular variation, which nobody can forecast. If the festive peak grows in proportion to occupancy, we use a multiplicative model; if it is a fixed number of rooms, an additive model. Plotting the data first shows which patterns exist.",
+    "Before choosing any forecasting method, a manager should know which patterns the data contain, because the method must match the pattern. If there is only a stable level with random noise, a moving average or simple exponential smoothing is enough. If there is a trend, we need a method like Holt's that projects growth. If there is seasonality, a fixed repeating pattern within the year or week, we need seasonal indices or Holt-Winters. Cycles are multi-year waves of variable length tied to the economy, so they are hard to forecast and are usually handled with judgement or economic indicators. Random variation cannot be forecast, only measured, and it sets the limit on accuracy. Comparing year-on-year avoids mistaking seasonality for growth."
+   ],
+   "key_concepts": [
+    "trend",
+    "seasonality",
+    "cyclical",
+    "random",
+    "irregular",
+    "fixed period",
+    "business cycle",
+    "long-term",
+    "additive",
+    "multiplicative",
+    "decomposition",
+    "time plot",
+    "noise",
+    "seasonal index"
+   ]
+  },
+  {
+   "topic": "Moving Average Method",
+   "questions": [
+    {
+     "q": "In the simple moving average method, the forecast for the next period is:",
+     "options": [
+      "The average of the most recent k observations",
+      "The average of all observations since the start of the data",
+      "The most recent observation, carried forward unchanged",
+      "A weighted average with exponentially declining weights on all past data"
+     ],
+     "answer": "The average of the most recent k observations",
+     "explanation": "A k-period moving average uses only the latest k values, dropping older ones. Averaging all history is the overall mean, and exponentially declining weights describe exponential smoothing.",
+     "difficulty": "easy",
+     "concept": "simple moving average"
+    },
+    {
+     "q": "Increasing the number of periods k in a moving average generally makes the forecast:",
+     "options": [
+      "More responsive to recent changes but noisier",
+      "Smoother but slower to react to genuine changes",
+      "Able to capture an upward trend automatically",
+      "Identical to the naive forecast for every period"
+     ],
+     "answer": "Smoother but slower to react to genuine changes",
+     "explanation": "Averaging more periods smooths out noise but also delays the response to real shifts. Greater responsiveness comes from a smaller k.",
+     "difficulty": "easy",
+     "concept": "choice of k"
+    },
+    {
+     "q": "A smaller number of periods k in a moving average makes the forecast:",
+     "options": [
+      "More responsive to recent changes but also more affected by noise",
+      "Smoother and less affected by random noise in the data",
+      "Better at removing the seasonal pattern from monthly data",
+      "Less dependent on recent data and more on older history"
+     ],
+     "answer": "More responsive to recent changes but also more affected by noise",
+     "explanation": "Fewer periods means each recent value has more influence, so the forecast reacts faster but also follows noise more closely.",
+     "difficulty": "easy",
+     "concept": "choice of k"
+    },
+    {
+     "q": "How does a weighted moving average differ from a simple moving average?",
+     "options": [
+      "It uses all past data with equal weights for every period",
+      "It always uses exactly three periods with fixed weights",
+      "It adds a separate trend term to the average of past values",
+      "It assigns different weights, typically more to recent observations"
+     ],
+     "answer": "It assigns different weights, typically more to recent observations",
+     "explanation": "A weighted moving average lets recent data count more; the simple moving average weights each of the k values equally.",
+     "difficulty": "easy",
+     "concept": "weighted moving average"
+    },
+    {
+     "q": "In a weighted moving average, the weights must:",
+     "options": [
+      "Increase with the age of the observation",
+      "Sum to 1 (or the result is divided by their total)",
+      "All be equal to one another, i.e. 1/k each",
+      "Sum to the number of periods k in the window"
+     ],
+     "answer": "Sum to 1 (or the result is divided by their total)",
+     "explanation": "Weights summing to 1 keep the forecast on the same scale as the data. If raw weights such as 3, 2, 1 are used, the weighted sum must be divided by 6.",
+     "difficulty": "easy",
+     "concept": "weighted moving average"
+    },
+    {
+     "q": "What is the main limitation of a simple moving average when the data show a clear upward trend?",
+     "options": [
+      "The forecast over-shoots and systematically over-forecasts",
+      "It cannot be computed at all when the data are trending",
+      "It becomes identical to simple exponential smoothing",
+      "The forecast lags behind and systematically under-forecasts"
+     ],
+     "answer": "The forecast lags behind and systematically under-forecasts",
+     "explanation": "Averaging past values in a rising series always produces a value below the current level, so forecasts lag the trend.",
+     "difficulty": "easy",
+     "concept": "moving average limitation"
+    },
+    {
+     "q": "In a 5-period simple moving average, what weight does each of the five observations receive?",
+     "options": [
+      "0.5",
+      "1",
+      "0.2",
+      "0.05"
+     ],
+     "answer": "0.2",
+     "explanation": "Each of k observations receives weight 1/k = 1/5 = 0.2; all older observations receive zero weight.",
+     "difficulty": "easy",
+     "concept": "equal weights"
+    },
+    {
+     "q": "A moving average with k = 1 is the same as which forecasting method?",
+     "options": [
+      "The overall mean method (forecast = average of all data)",
+      "Simple exponential smoothing with α = 0",
+      "The seasonal naive method (same period last year)",
+      "The naive method (forecast = last actual value)"
+     ],
+     "answer": "The naive method (forecast = last actual value)",
+     "explanation": "With k = 1 the 'average' is just the last observation, which is the naive forecast. SES with α = 0 never updates, which is different.",
+     "difficulty": "easy",
+     "concept": "naive forecast link"
+    },
+    {
+     "q": "In classical decomposition, a centred moving average is mainly used to:",
+     "options": [
+      "Produce the final multi-step forecast for next year",
+      "Estimate the trend-cycle component of the series",
+      "Estimate the random component of the series directly",
+      "Choose the best smoothing constant α for the data"
+     ],
+     "answer": "Estimate the trend-cycle component of the series",
+     "explanation": "Centred moving averages smooth out seasonality and noise to reveal the trend-cycle, which is then used to calculate seasonal indices.",
+     "difficulty": "easy",
+     "concept": "centred moving average"
+    },
+    {
+     "q": "A 3-month moving average forecast for month 13 is 500 units. Using the same data, what is the forecast for month 15?",
+     "options": [
+      "500 units",
+      "1,500 units",
+      "Cannot be computed yet",
+      "166.67 units"
+     ],
+     "answer": "500 units",
+     "explanation": "A simple moving average produces a flat forecast: all future periods get the same value until new data arrive. It does not project any trend.",
+     "difficulty": "easy",
+     "concept": "flat multi-step forecast"
+    },
+    {
+     "q": "Weekly sales of a biscuit brand were 42, 45, 48, 51 and 54 (thousand packs). What is the 3-week moving average forecast for week 6?",
+     "options": [
+      "51",
+      "54",
+      "48",
+      "57"
+     ],
+     "answer": "51",
+     "explanation": "Average the last three weeks: (48 + 51 + 54) ÷ 3 = 51. Using all five weeks gives 48, and 54 is the naive forecast.",
+     "difficulty": "medium",
+     "concept": "simple moving average"
+    },
+    {
+     "q": "Monthly loan applications at a bank branch were 120, 135, 150 and 145. What is the 4-month moving average forecast for the next month?",
+     "options": [
+      "145",
+      "143.33",
+      "550",
+      "137.5"
+     ],
+     "answer": "137.5",
+     "explanation": "(120 + 135 + 150 + 145) ÷ 4 = 137.5. Forgetting to divide gives 550, and using only the last three gives 143.33.",
+     "difficulty": "medium",
+     "concept": "simple moving average"
+    },
+    {
+     "q": "Daily orders on an e-commerce site were 200 (two days ago), 220 (yesterday) and 250 (today). Using weights 0.5 for the most recent day, 0.3 for the previous and 0.2 for the oldest, what is tomorrow's forecast?",
+     "options": [
+      "216",
+      "231",
+      "223.33",
+      "250"
+     ],
+     "answer": "231",
+     "explanation": "0.5×250 + 0.3×220 + 0.2×200 = 125 + 66 + 40 = 231. Applying the largest weight to the oldest value gives 216, a common reversal mistake.",
+     "difficulty": "medium",
+     "concept": "weighted moving average"
+    },
+    {
+     "q": "A pharmacy's daily demand for a generic medicine fluctuates randomly around a stable average with no trend. Which moving average setting is most appropriate?",
+     "options": [
+      "k = 1, so the forecast reacts to every daily change",
+      "A relatively large k, to average out the random noise",
+      "A small k, because a stable mean needs fast reaction",
+      "None: a moving average cannot be used for stable demand"
+     ],
+     "answer": "A relatively large k, to average out the random noise",
+     "explanation": "When the underlying level is stable, more periods average away noise without much lag cost. A very small k would chase random fluctuations.",
+     "difficulty": "medium",
+     "concept": "choice of k"
+    },
+    {
+     "q": "A 3-month moving average of 50 was based on 45, 50 and 55. The next month's actual value is 62. What is the new 3-month moving average?",
+     "options": [
+      "55.67",
+      "53",
+      "62",
+      "70.67"
+     ],
+     "answer": "55.67",
+     "explanation": "Drop the oldest value (45) and add the newest: (50 + 55 + 62) ÷ 3 = 55.67. Keeping all four values (53) is no longer a 3-period average.",
+     "difficulty": "medium",
+     "concept": "updating moving average"
+    },
+    {
+     "q": "Why is a 4-quarter moving average of quarterly data usually 'centred' by averaging two consecutive 4-quarter averages (a 2×4 MA)?",
+     "options": [
+      "An even-order average falls between two quarters; centring aligns it with one",
+      "To give more weight to the most recent quarter than to older ones",
+      "To remove the upward trend from the series before forecasting",
+      "Because four quarters are not enough to remove the seasonality"
+     ],
+     "answer": "An even-order average falls between two quarters; centring aligns it with one",
+     "explanation": "A 4-period average sits between periods 2 and 3; averaging two adjacent 4-MAs places the result exactly on a quarter. It does not weight recent data more.",
+     "difficulty": "medium",
+     "concept": "centred moving average"
+    },
+    {
+     "q": "With 12 months of data, how many one-step-ahead 3-month moving average forecasts can be compared with actual values?",
+     "options": [
+      "12",
+      "10",
+      "3",
+      "9"
+     ],
+     "answer": "9",
+     "explanation": "The first forecast is for month 4 (needing months 1-3), so forecasts for months 4-12 can be checked: 9 forecasts. The month-13 forecast has no actual yet, so 10 is wrong.",
+     "difficulty": "medium",
+     "concept": "forecast evaluation count"
+    },
+    {
+     "q": "A moving average is applied to monthly sales that are growing steadily. Compared with actual sales, the forecasts will most likely be:",
+     "options": [
+      "Consistently above actual sales",
+      "Consistently below actual sales",
+      "Equal to actual sales on average",
+      "Above in odd and below in even months"
+     ],
+     "answer": "Consistently below actual sales",
+     "explanation": "In a rising series, the average of past values is always below the current level, so errors are mostly positive (under-forecasting).",
+     "difficulty": "medium",
+     "concept": "moving average limitation"
+    },
+    {
+     "q": "In a 4-week moving average, how much weight does the observation from 6 weeks ago receive?",
+     "options": [
+      "0",
+      "0.25",
+      "0.0625",
+      "0.1667"
+     ],
+     "answer": "0",
+     "explanation": "A 4-week MA uses only the last four weeks, each at 0.25; anything older is dropped entirely and gets zero weight, unlike exponential smoothing.",
+     "difficulty": "medium",
+     "concept": "equal weights"
+    },
+    {
+     "q": "Which situation best justifies using a weighted moving average instead of a simple moving average?",
+     "options": [
+      "The data contain a strong and stable monthly seasonal pattern",
+      "All observations in the window are equally relevant to demand",
+      "Recent weeks are believed to be more relevant to next week's demand",
+      "There is very little historical data, only one or two periods"
+     ],
+     "answer": "Recent weeks are believed to be more relevant to next week's demand",
+     "explanation": "Weighted MAs are useful when recent data carry more information. They still do not model seasonality on their own.",
+     "difficulty": "medium",
+     "concept": "weighted moving average"
+    },
+    {
+     "q": "Sales for six periods were 20, 24, 22, 26, 30, 28. Comparing one-step forecasts for periods 4-6, which moving average performs better by MAE?",
+     "options": [
+      "3-period MA (MAE 3.0 vs 4.0 for the 2-period MA)",
+      "3-period MA, because a longer window always averages out more error",
+      "Both perform equally well, with an MAE of 3.5 each over periods 4-6",
+      "2-period MA (MAE 3.0 vs 4.0 for the 3-period MA)"
+     ],
+     "answer": "2-period MA (MAE 3.0 vs 4.0 for the 3-period MA)",
+     "explanation": "2-MA forecasts 23, 24, 28 give errors 3, 6, 0 (MAE 3.0); 3-MA forecasts 22, 24, 26 give errors 4, 6, 2 (MAE 4.0). The shorter MA tracks the rising series better.",
+     "difficulty": "hard",
+     "concept": "comparing k by error"
+    },
+    {
+     "q": "Demand rises exactly 10 units a month: 100, 110, 120, 130, 140. If the trend continues, by how much will the 3-month moving average forecast for month 6 fall short of actual demand?",
+     "options": [
+      "20 units",
+      "10 units",
+      "30 units",
+      "0 units"
+     ],
+     "answer": "20 units",
+     "explanation": "Forecast = (120 + 130 + 140) ÷ 3 = 130 while actual will be 150, a shortfall of 20 units, equal to slope × (k + 1) ÷ 2. Answering 10 assumes the MA lags by only one period.",
+     "difficulty": "hard",
+     "concept": "trend lag"
+    },
+    {
+     "q": "Using raw weights 3, 2 and 1 (3 for the most recent), compute the weighted moving average forecast when the last three months were 300 (oldest), 330 and 360 (most recent).",
+     "options": [
+      "2,040",
+      "320",
+      "330",
+      "340"
+     ],
+     "answer": "340",
+     "explanation": "(3×360 + 2×330 + 1×300) ÷ 6 = 2040 ÷ 6 = 340. Not dividing by the weight total gives 2040, and reversing the weights gives 320.",
+     "difficulty": "hard",
+     "concept": "weighted moving average"
+    },
+    {
+     "q": "Quarterly sales are 80, 120, 100, 140, 90. What is the centred (2×4) moving average aligned with the third quarter?",
+     "options": [
+      "111.25",
+      "110",
+      "112.5",
+      "106"
+     ],
+     "answer": "111.25",
+     "explanation": "The two 4-quarter averages are 110 and 112.5; averaging them gives 111.25, centred on quarter 3. Stopping at 110 leaves the average between quarters 2 and 3.",
+     "difficulty": "hard",
+     "concept": "centred moving average"
+    },
+    {
+     "q": "A store normally sells about 1,000 units a week, but a one-off promotion added 200 extra units in week 10. Using a 4-week moving average, how does this spike affect later forecasts?",
+     "options": [
+      "Only the week-11 forecast is overstated, by the full 200 units",
+      "Forecasts for weeks 11-14 are each overstated by 200 units",
+      "Forecasts for weeks 11-14 are each overstated by about 50 units",
+      "Forecasts for weeks 11-12 are each overstated by 100 units"
+     ],
+     "answer": "Forecasts for weeks 11-14 are each overstated by about 50 units",
+     "explanation": "The spike stays in the 4-week window for four forecasts and contributes 200 ÷ 4 = 50 to each, then drops out abruptly. It is diluted, not passed through in full.",
+     "difficulty": "hard",
+     "concept": "outlier effect"
+    },
+    {
+     "q": "One-step forecast errors from a 3-month moving average were 4, −2, 5 and −3. What is the mean squared error (MSE)?",
+     "options": [
+      "3.5",
+      "54",
+      "13.5",
+      "3.67"
+     ],
+     "answer": "13.5",
+     "explanation": "MSE = (16 + 4 + 25 + 9) ÷ 4 = 13.5. 3.5 is the MAE and 3.67 is the RMSE, both different measures.",
+     "difficulty": "hard",
+     "concept": "error measurement"
+    },
+    {
+     "q": "A two-period weighted moving average uses forecast = 0.6 × (latest value) + 0.4 × (previous value). The forecast was 268 and the latest value was 280. What was the previous value?",
+     "options": [
+      "100",
+      "250",
+      "260",
+      "256"
+     ],
+     "answer": "250",
+     "explanation": "0.4 × previous = 268 − 168 = 100, so previous = 250. Forgetting to divide by 0.4 leaves 100; swapping the weights gives 260.",
+     "difficulty": "hard",
+     "concept": "weighted moving average"
+    },
+    {
+     "q": "Weekly demand was steady at 100 units, then shifted permanently to 130 units from week 21 onwards. With a 5-week moving average, the forecast first fully reflects the new level for which week?",
+     "options": [
+      "Week 22",
+      "Week 25",
+      "Week 30",
+      "Week 26"
+     ],
+     "answer": "Week 26",
+     "explanation": "The forecast for week 26 is the first that averages only weeks 21-25 (all 130). The week-22 forecast is only (4×100 + 130) ÷ 5 = 106.",
+     "difficulty": "hard",
+     "concept": "level shift response"
+    },
+    {
+     "q": "A 3-month moving average is used for monthly sales of a strongly seasonal product (peak in October-November). What is the most likely problem?",
+     "options": [
+      "Forecasts trail the seasonal swings: too low before the peak, too high after it",
+      "Forecasts will match the peaks exactly because they use recent data",
+      "The method will remove the trend but keep the seasonal pattern",
+      "Forecasts will be too volatile because three months is too long"
+     ],
+     "answer": "Forecasts trail the seasonal swings: too low before the peak, too high after it",
+     "explanation": "A short moving average follows the seasonal swings with a delay, so it misses the rise into the peak and stays high after it. Seasonal data need seasonal methods.",
+     "difficulty": "hard",
+     "concept": "moving average limitation"
+    },
+    {
+     "q": "A manager forecasts two products: product A has stable demand with large random fluctuations; product B's demand level shifts frequently because of new competitors. Which choice of moving-average length is most sensible?",
+     "options": [
+      "Shorter k for product A and longer k for product B",
+      "Longer k for product A and shorter k for product B",
+      "The same k for both, since k does not affect accuracy",
+      "k = 1 for both, so forecasts react to every change"
+     ],
+     "answer": "Longer k for product A and shorter k for product B",
+     "explanation": "Noise without level changes calls for heavy averaging (long k); frequent level shifts call for faster response (short k). Reversing this either chases noise or lags shifts.",
+     "difficulty": "hard",
+     "concept": "choice of k"
+    }
+   ],
+   "references": [
+    "The moving average method forecasts the next period as the average of the most recent k observations. Each time new data arrive, the oldest value is dropped and the newest added, so the average 'moves'. In a simple moving average every one of the k values gets equal weight 1/k; in a weighted moving average recent values get more weight, with weights summing to one. The choice of k is a trade-off: a large k smooths random noise but reacts slowly to real changes, while a small k reacts quickly but follows noise. The method works well for data with a stable level and no trend or seasonality; with a trend, forecasts lag behind. Centred moving averages are also used to estimate the trend in decomposition.",
+    "Suppose a kirana distributor sold 42, 45, 48, 51 and 54 cartons in the last five weeks. A 3-week moving average forecast for next week is (48 + 51 + 54) / 3 = 51 cartons. Next week we drop the oldest week and add the newest. If we used 5 weeks we would get 48, smoother but further behind. Notice sales are rising by 3 each week, so the moving average keeps under-forecasting; it lags a trend. If the latest week matters more, a weighted moving average with weights like 0.5, 0.3, 0.2 can be used. The method is simple, easy to explain and needs little data, but suits stable demand with no trend or seasonality.",
+    "For a manager the moving average is a quick, transparent baseline forecast. You average the last few periods and use that as next period's forecast, which is easy to compute in Excel and easy to explain. The key decision is the window length k. For stable products with a lot of random noise, choose a longer window so the forecast does not overreact; for products whose demand level changes often, choose a shorter window so it adapts. A weighted moving average can give recent periods more importance. Be careful: moving averages ignore trend and seasonality, so they under-forecast growing products and miss festive peaks. Compare windows using MAE or MSE on past data before choosing."
+   ],
+   "key_concepts": [
+    "average of last k periods",
+    "window",
+    "number of periods",
+    "equal weights",
+    "weighted moving average",
+    "weights sum to one",
+    "smoothing",
+    "noise",
+    "lag",
+    "responsiveness",
+    "stable demand",
+    "no trend",
+    "centred moving average",
+    "trade-off"
+   ]
+  },
+  {
+   "topic": "Simple exponential Smoothing(ES)",
+   "questions": [
+    {
+     "q": "Which equation defines the simple exponential smoothing (SES) forecast?",
+     "options": [
+      "F(t+1) = (1 − α)Y(t) + αF(t−1)",
+      "F(t+1) = Y(t) + α(Y(t) − Y(t−1))",
+      "F(t+1) = (Y(t) + Y(t−1) + Y(t−2)) / 3",
+      "F(t+1) = αY(t) + (1 − α)F(t)"
+     ],
+     "answer": "F(t+1) = αY(t) + (1 − α)F(t)",
+     "explanation": "The new forecast is a weighted average of the latest actual (weight α) and the latest forecast (weight 1 − α). Swapping the weights is the most common slip.",
+     "difficulty": "easy",
+     "concept": "SES formula"
+    },
+    {
+     "q": "The smoothing constant α in simple exponential smoothing must lie:",
+     "options": [
+      "Between −1 and 1",
+      "Between 0 and 1",
+      "Between 1 and 10",
+      "Above 1"
+     ],
+     "answer": "Between 0 and 1",
+     "explanation": "α is a weight on the latest observation, so it must be between 0 and 1; values outside this range do not give a weighted average.",
+     "difficulty": "easy",
+     "concept": "alpha range"
+    },
+    {
+     "q": "A higher value of α in simple exponential smoothing makes the forecast:",
+     "options": [
+      "Smoother and slower to react to new data",
+      "More responsive to the most recent observation",
+      "Better able to project a growing trend",
+      "Depend more heavily on the oldest data"
+     ],
+     "answer": "More responsive to the most recent observation",
+     "explanation": "A large α puts more weight on the latest actual, so the forecast reacts quickly. Smoother, slower forecasts come from a small α.",
+     "difficulty": "easy",
+     "concept": "alpha smoothing weight"
+    },
+    {
+     "q": "Simple exponential smoothing is most suitable for data that have:",
+     "options": [
+      "A strong upward trend but no seasonality",
+      "No clear trend and no seasonality",
+      "Both a trend and a monthly seasonal pattern",
+      "A fixed weekly seasonal pattern only"
+     ],
+     "answer": "No clear trend and no seasonality",
+     "explanation": "SES models only a level, so it suits data fluctuating around a stable or slowly changing level. Trend needs Holt's method and seasonality needs Holt-Winters.",
+     "difficulty": "easy",
+     "concept": "SES suitability"
+    },
+    {
+     "q": "In SES, the weights given to past observations:",
+     "options": [
+      "Are equal for the last k observations only",
+      "Increase steadily as the data get older",
+      "Decrease geometrically (exponentially) as data get older",
+      "Are zero for everything but the latest value"
+     ],
+     "answer": "Decrease geometrically (exponentially) as data get older",
+     "explanation": "Weights are α, α(1−α), α(1−α)², … so they decay exponentially. Equal weights over k periods describe a moving average.",
+     "difficulty": "easy",
+     "concept": "exponential weights"
+    },
+    {
+     "q": "If α = 1 in simple exponential smoothing, the forecast becomes:",
+     "options": [
+      "The average of all past observations (overall mean)",
+      "The initial forecast, which never gets updated",
+      "A three-period moving average of recent values",
+      "The naive forecast (equal to the last actual value)"
+     ],
+     "answer": "The naive forecast (equal to the last actual value)",
+     "explanation": "With α = 1, F(t+1) = Y(t), the naive forecast. α = 0 is the case where the forecast never updates.",
+     "difficulty": "easy",
+     "concept": "alpha equals one"
+    },
+    {
+     "q": "Which is a common way to set the initial forecast (level) in simple exponential smoothing?",
+     "options": [
+      "Use the largest observation in the whole data set",
+      "Use the first observation or the mean of the first few",
+      "Set the initial forecast equal to α",
+      "Always set the initial forecast to zero"
+     ],
+     "answer": "Use the first observation or the mean of the first few",
+     "explanation": "SES needs a starting value; the first actual or an average of early observations are standard choices (software can also estimate it).",
+     "difficulty": "easy",
+     "concept": "initialisation"
+    },
+    {
+     "q": "Simple exponential smoothing produces forecasts for the next several periods that are:",
+     "options": [
+      "All the same value (a flat line)",
+      "A straight line rising with the trend",
+      "A repeating seasonal pattern each year",
+      "Gradually declining towards zero"
+     ],
+     "answer": "All the same value (a flat line)",
+     "explanation": "SES forecasts only a level, so every future horizon gets the same value until new data arrive. A rising line needs Holt's trend method.",
+     "difficulty": "easy",
+     "concept": "flat multi-step forecast"
+    },
+    {
+     "q": "Which is an equivalent 'error-correction' form of the SES forecast?",
+     "options": [
+      "F(t+1) = Y(t) + α(F(t) − Y(t−1))",
+      "F(t+1) = F(t) − α(Y(t) + F(t))",
+      "F(t+1) = α(Y(t) − F(t)) only",
+      "F(t+1) = F(t) + α(Y(t) − F(t))"
+     ],
+     "answer": "F(t+1) = F(t) + α(Y(t) − F(t))",
+     "explanation": "Expanding αY + (1−α)F gives F + α(Y − F): the old forecast plus a fraction α of the latest error.",
+     "difficulty": "easy",
+     "concept": "error correction form"
+    },
+    {
+     "q": "To update an SES forecast for next period, which information do you need?",
+     "options": [
+      "The latest actual, the latest forecast and α",
+      "The full sales history and the seasonal indices",
+      "The last k actual values and their weights",
+      "The trend estimate, the level and β"
+     ],
+     "answer": "The latest actual, the latest forecast and α",
+     "explanation": "SES is recursive: all past information is summarised in the latest forecast, so only that, the newest actual and α are needed.",
+     "difficulty": "easy",
+     "concept": "SES data requirement"
+    },
+    {
+     "q": "A café's forecast for this week was 500 cups and actual sales were 540. With α = 0.2, what is next week's SES forecast?",
+     "options": [
+      "532",
+      "508",
+      "540",
+      "520"
+     ],
+     "answer": "508",
+     "explanation": "0.2×540 + 0.8×500 = 108 + 400 = 508. Putting 0.8 on the actual (532) swaps α and 1 − α.",
+     "difficulty": "medium",
+     "concept": "SES update"
+    },
+    {
+     "q": "A bank branch forecast 1,200 account openings for March; actual openings were 1,100. Using α = 0.3, what is the April forecast?",
+     "options": [
+      "1,130",
+      "1,170",
+      "1100",
+      "1,230"
+     ],
+     "answer": "1,170",
+     "explanation": "1,200 + 0.3×(1,100 − 1,200) = 1,170. Adding the error instead of subtracting (1,230) gets the sign wrong; 1,130 swaps the weights.",
+     "difficulty": "medium",
+     "concept": "SES update"
+    },
+    {
+     "q": "With α = 0.4, what weight does SES give to the observation from two periods before the latest one, Y(t−2)?",
+     "options": [
+      "0.144",
+      "0.4",
+      "0.24",
+      "0.064"
+     ],
+     "answer": "0.144",
+     "explanation": "Weights are α(1−α)^k; for k = 2: 0.4 × 0.36 = 0.144. 0.24 is the weight on Y(t−1), one step too few.",
+     "difficulty": "medium",
+     "concept": "exponential weights"
+    },
+    {
+     "q": "With α = 0.5 and an initial forecast of 100 for period 1, actual values were 110 (period 1) and 104 (period 2). What is the SES forecast for period 3?",
+     "options": [
+      "105",
+      "107",
+      "104",
+      "104.5"
+     ],
+     "answer": "104.5",
+     "explanation": "F2 = 0.5×110 + 0.5×100 = 105; F3 = 0.5×104 + 0.5×105 = 104.5. Stopping after one update gives 105.",
+     "difficulty": "medium",
+     "concept": "SES update"
+    },
+    {
+     "q": "Weekly demand for a staple product is noisy but has a stable average. Which α is most appropriate?",
+     "options": [
+      "A small α, such as 0.1",
+      "A large α, such as 0.9",
+      "α = 1, the naive forecast",
+      "α > 1 to amplify signal"
+     ],
+     "answer": "A small α, such as 0.1",
+     "explanation": "With a stable level and lots of noise, a small α averages over many past periods and does not chase random swings.",
+     "difficulty": "medium",
+     "concept": "alpha smoothing weight"
+    },
+    {
+     "q": "An SES model gives a one-step forecast of 250 units for next month. What is its forecast for three months ahead?",
+     "options": [
+      "750 units",
+      "250 units",
+      "85.75 units",
+      "Not computable"
+     ],
+     "answer": "250 units",
+     "explanation": "SES forecasts are flat: every horizon equals the latest level, 250. Multiplying by the horizon (750) treats the level as if it were a trend, and shrinking it by (1 − α)³ confuses forecast horizons with past weights.",
+     "difficulty": "medium",
+     "concept": "flat multi-step forecast"
+    },
+    {
+     "q": "In SES with α = 0.25, the latest forecast error (actual − forecast) was +40. By how much does the next forecast change?",
+     "options": [
+      "It increases by 40",
+      "It increases by 10",
+      "It decreases by 10",
+      "It increases by 30"
+     ],
+     "answer": "It increases by 10",
+     "explanation": "Forecast change = α × error = 0.25 × 40 = +10. A positive error means demand was under-forecast, so the forecast rises, not falls.",
+     "difficulty": "medium",
+     "concept": "error correction form"
+    },
+    {
+     "q": "SES is used on monthly sales that are rising steadily. What will the forecast errors most likely show?",
+     "options": [
+      "Mostly negative errors: SES keeps over-forecasting",
+      "Errors close to zero on average with no pattern",
+      "Mostly positive errors: SES keeps under-forecasting",
+      "Errors that alternate in sign every month"
+     ],
+     "answer": "Mostly positive errors: SES keeps under-forecasting",
+     "explanation": "SES has no trend term, so on a rising series it always lags the level and actuals exceed forecasts.",
+     "difficulty": "medium",
+     "concept": "SES on trend"
+    },
+    {
+     "q": "Software fits SES to daily share-volume data and estimates α = 0.95. What does this suggest?",
+     "options": [
+      "The series is very stable and past data should be averaged heavily",
+      "The data contain strong seasonality that SES has captured well",
+      "The model is wrong, because α must always be below 0.5",
+      "The series behaves almost like a random walk; the latest value dominates"
+     ],
+     "answer": "The series behaves almost like a random walk; the latest value dominates",
+     "explanation": "An α near 1 means the best forecast is nearly the last observation, typical of random-walk-like data. A stable, noisy series would give a small α.",
+     "difficulty": "medium",
+     "concept": "alpha smoothing weight"
+    },
+    {
+     "q": "In practice, how is the value of α in SES usually chosen?",
+     "options": [
+      "By always setting α = 0.5 as a neutral middle value",
+      "By setting α equal to the sample autocorrelation",
+      "By minimising the SSE or MSE of one-step forecasts",
+      "By choosing the α that gives the largest forecast"
+     ],
+     "answer": "By minimising the SSE or MSE of one-step forecasts",
+     "explanation": "α is chosen (often by software) to minimise one-step-ahead squared errors on historical data; a fixed 0.5 ignores the data.",
+     "difficulty": "medium",
+     "concept": "choosing alpha"
+    },
+    {
+     "q": "An SES model with α = 0.3 starts with a forecast of 50 for period 1. Actual values for periods 1-3 are 52, 47 and 55. What is the forecast for period 4?",
+     "options": [
+      "51.16",
+      "53",
+      "49.52",
+      "51.33"
+     ],
+     "answer": "51.16",
+     "explanation": "F2 = 50.6, F3 = 0.3×47 + 0.7×50.6 = 49.52, F4 = 0.3×55 + 0.7×49.52 = 51.16. Putting 0.7 on the actuals gives about 53.",
+     "difficulty": "hard",
+     "concept": "SES update"
+    },
+    {
+     "q": "Starting with a forecast of 100, SES is applied to actuals 104, 99, 107, 103, 110. With α = 0.2 the MSE of the five one-step forecasts is 25.56; with α = 0.6 it is 23.04. What should the analyst conclude?",
+     "options": [
+      "Use α = 0.2: a smaller α is always more accurate",
+      "Use α = 0.2: it gives the lower MSE on this history",
+      "Neither: SES cannot be compared using MSE values",
+      "Use α = 0.6: it gives the lower MSE on this history"
+     ],
+     "answer": "Use α = 0.6: it gives the lower MSE on this history",
+     "explanation": "α = 0.6 gives the lower MSE (23.04 vs 25.56), because the series is drifting upward and a more responsive forecast keeps up. Assuming small α is always better ignores the data.",
+     "difficulty": "hard",
+     "concept": "choosing alpha"
+    },
+    {
+     "q": "With α = 0.3, what weight does the initial forecast still carry in the SES forecast after 10 updates?",
+     "options": [
+      "0.000006",
+      "0.0085",
+      "0.0282",
+      "0"
+     ],
+     "answer": "0.0282",
+     "explanation": "The initial value's weight is (1 − α)^n = 0.7^10 ≈ 0.0282, about 2.8%. 0.3^10 wrongly raises α instead of 1 − α to the power.",
+     "difficulty": "hard",
+     "concept": "exponential weights"
+    },
+    {
+     "q": "Last period's SES forecast was 200, the actual was 240, and the new forecast is 212. What α was used?",
+     "options": [
+      "0.3",
+      "0.7",
+      "0.12",
+      "0.05"
+     ],
+     "answer": "0.3",
+     "explanation": "212 = 200 + α(240 − 200), so α = 12 ÷ 40 = 0.3. Answering 0.7 gives the weight on the old forecast (1 − α).",
+     "difficulty": "hard",
+     "concept": "back-solving alpha"
+    },
+    {
+     "q": "With α = 0.5, what share of the total weight in the SES forecast falls on the three most recent observations?",
+     "options": [
+      "0.875",
+      "0.5",
+      "0.75",
+      "0.375"
+     ],
+     "answer": "0.875",
+     "explanation": "Weights are 0.5, 0.25, 0.125, totalling 1 − 0.5³ = 0.875. 0.75 counts only the two most recent observations.",
+     "difficulty": "hard",
+     "concept": "exponential weights"
+    },
+    {
+     "q": "A sweet shop uses SES with α = 0.8. October's forecast was 1,000 kg but Diwali pushed actual sales to 1,800 kg; November demand normally returns to about 1,000 kg. What is the November forecast and the right fix?",
+     "options": [
+      "1,160 kg; the high α already protects against spikes",
+      "1,800 kg; SES forecasts always equal the last actual",
+      "1,640 kg; raise α to 1 so it corrects faster",
+      "1,640 kg; use a lower α or model the Diwali seasonality"
+     ],
+     "answer": "1,640 kg; use a lower α or model the Diwali seasonality",
+     "explanation": "0.8×1,800 + 0.2×1,000 = 1,640 kg, far above normal demand: a high α passes most of a festive spike into next month. A lower α or a seasonal method fixes this; 1,160 kg swaps the weights.",
+     "difficulty": "hard",
+     "concept": "SES outlier sensitivity"
+    },
+    {
+     "q": "Demand grows by exactly 20 units every period and SES with α = 0.4 has reached a steady state. By how much does each one-step forecast fall short of actual demand?",
+     "options": [
+      "50 units",
+      "20 units",
+      "8 units",
+      "30 units"
+     ],
+     "answer": "50 units",
+     "explanation": "In steady state the error e satisfies αe = b, so e = 20 ÷ 0.4 = 50. Assuming the lag equals one period's growth (20) understates the problem.",
+     "difficulty": "hard",
+     "concept": "SES on trend"
+    },
+    {
+     "q": "An SES model forecasts the next six months of sales. Which statement about these forecasts is correct?",
+     "options": [
+      "Point forecasts are flat, but prediction intervals widen with horizon",
+      "Point forecasts rise with horizon, and intervals stay a fixed width",
+      "Point forecasts are flat, and intervals stay a fixed width too",
+      "Point forecasts fall with horizon as the weights decay further"
+     ],
+     "answer": "Point forecasts are flat, but prediction intervals widen with horizon",
+     "explanation": "SES point forecasts are the same for every horizon, but uncertainty accumulates, so intervals get wider further out. Flat points do not mean constant uncertainty.",
+     "difficulty": "hard",
+     "concept": "SES prediction intervals"
+    },
+    {
+     "q": "Two analysts apply SES with α = 0.1 to the same data. One starts with F1 = 80 (first actual), the other with F1 = 95 (mean of first four). After 5 updates, how far apart are their forecasts?",
+     "options": [
+      "0 units",
+      "0.0002 units",
+      "13.5 units",
+      "8.86 units"
+     ],
+     "answer": "8.86 units",
+     "explanation": "The initial gap of 15 shrinks by (1 − α) each update: 15 × 0.9^5 ≈ 8.86. With a small α the starting value matters for a long time; it does not vanish quickly.",
+     "difficulty": "hard",
+     "concept": "initialisation"
+    },
+    {
+     "q": "A data-entry error records 5,000 units instead of 500. The SES forecast for that period was 500 and α = 0.3. What forecast does SES produce for the next period?",
+     "options": [
+      "5,000 units",
+      "1,350 units",
+      "1,850 units",
+      "3,650 units"
+     ],
+     "answer": "1,850 units",
+     "explanation": "500 + 0.3 × (5,000 − 500) = 1,850. Forgetting to add the old forecast leaves only the correction (1,350); cleaning outliers before smoothing matters.",
+     "difficulty": "hard",
+     "concept": "SES outlier sensitivity"
+    }
+   ],
+   "references": [
+    "Simple exponential smoothing forecasts the next period as a weighted average of the latest actual value and the latest forecast: F(t+1) = αY(t) + (1 − α)F(t). The smoothing constant α lies between 0 and 1. Because each forecast already contains earlier data, all past observations are used, with weights that decline exponentially the older they are. A high α reacts quickly to changes but also to noise; a low α gives a smoother, more stable forecast. α is usually chosen by minimising the squared one-step errors. SES suits data with no trend and no seasonality, and its forecasts for all future periods are the same flat value. On trending data it lags behind.",
+    "Imagine a café forecast 500 cups for this week and actually sold 540. With α = 0.2, next week's forecast is 0.2 × 540 + 0.8 × 500 = 508 cups. In other words, we correct last week's forecast by 20% of the error of 40 cups. If α were 0.8, we would jump to 532, reacting strongly to one week. Every week we repeat this, so older weeks still count but with smaller and smaller weight. We only need the last forecast, the last actual and α, so it is easy to run for thousands of products. Forecasts for future weeks stay flat, so it is best for stable demand without trend or seasonality.",
+    "For a manager, simple exponential smoothing is a cheap and reliable way to forecast many stable items such as spare parts or staple SKUs. The key decision is α. If demand is noisy but stable, choose a small α so the forecast is not pushed around by random spikes; if the level shifts often, a larger α adapts faster. In practice software picks α that minimises forecast error on history. Watch out for its limits: it has no trend term, so it under-forecasts growing products, and it ignores seasonality, so a festive spike can distort next month's forecast, especially with a high α. Use it as a baseline and move to Holt or Holt-Winters when patterns exist."
+   ],
+   "key_concepts": [
+    "smoothing constant",
+    "alpha",
+    "weighted average",
+    "latest actual",
+    "previous forecast",
+    "exponentially declining weights",
+    "responsive",
+    "noise",
+    "no trend",
+    "no seasonality",
+    "flat forecast",
+    "forecast error",
+    "initial value",
+    "minimise mse"
+   ]
+  },
+  {
+   "topic": "Double Exponential Smoothing(SES)",
+   "questions": [
+    {
+     "q": "Double exponential smoothing (Holt's linear trend method) is designed for data that show:",
+     "options": [
+      "Neither trend nor seasonality",
+      "Seasonality but no trend at all",
+      "Only random noise around a mean",
+      "A trend but no seasonality"
+     ],
+     "answer": "A trend but no seasonality",
+     "explanation": "Holt's method adds a trend component to SES, so it suits trending, non-seasonal data. Seasonal data need Holt-Winters.",
+     "difficulty": "easy",
+     "concept": "holt suitability"
+    },
+    {
+     "q": "Holt's double exponential smoothing tracks which two components?",
+     "options": [
+      "Level and seasonality",
+      "Trend and seasonality",
+      "Level and trend",
+      "Cycle and random error"
+     ],
+     "answer": "Level and trend",
+     "explanation": "Holt's method updates a level (current value) and a trend (slope) each period; the seasonal component is added only in Holt-Winters.",
+     "difficulty": "easy",
+     "concept": "level and trend components"
+    },
+    {
+     "q": "How many smoothing constants does Holt's linear trend method use, and what are they?",
+     "options": [
+      "One: α for both the level and the trend",
+      "Two: α for the level and β for the trend",
+      "Three: α for level, β for trend, γ for season",
+      "Two: α for the level and γ for the season"
+     ],
+     "answer": "Two: α for the level and β for the trend",
+     "explanation": "Holt uses α (level) and β (trend). Adding γ for seasonality gives the three-parameter Holt-Winters model.",
+     "difficulty": "easy",
+     "concept": "alpha and beta"
+    },
+    {
+     "q": "In Holt's method, the forecast h periods ahead is:",
+     "options": [
+      "F(t+h) = L(t) × T(t)^h",
+      "F(t+h) = L(t) + T(t) only",
+      "F(t+h) = h × L(t) + T(t)",
+      "F(t+h) = L(t) + h × T(t)"
+     ],
+     "answer": "F(t+h) = L(t) + h × T(t)",
+     "explanation": "The forecast starts from the current level and adds the trend once for each period ahead. Adding the trend only once ignores the horizon.",
+     "difficulty": "easy",
+     "concept": "holt forecast equation"
+    },
+    {
+     "q": "In Holt's method, the smoothing constant β controls:",
+     "options": [
+      "How quickly the level (current value) estimate is updated",
+      "How strongly the seasonal indices are revised",
+      "How many periods ahead the model forecasts",
+      "How quickly the trend (slope) estimate is updated"
+     ],
+     "answer": "How quickly the trend (slope) estimate is updated",
+     "explanation": "β weights the latest observed change in level when updating the trend; α governs the level.",
+     "difficulty": "easy",
+     "concept": "beta trend smoothing"
+    },
+    {
+     "q": "What shape do Holt's linear trend forecasts take as the horizon increases?",
+     "options": [
+      "A flat line at the latest level estimate",
+      "A repeating seasonal wave every year",
+      "A curve that gradually levels off at a fixed upper limit",
+      "A straight line that keeps rising or falling"
+     ],
+     "answer": "A straight line that keeps rising or falling",
+     "explanation": "Holt adds h × trend, so forecasts lie on a straight line. A forecast that levels off is the damped-trend variant.",
+     "difficulty": "easy",
+     "concept": "holt forecast shape"
+    },
+    {
+     "q": "In a damped trend version of Holt's method, the damping parameter φ (0 < φ < 1):",
+     "options": [
+      "Makes the trend grow faster over longer horizons",
+      "Removes the level and keeps only the trend",
+      "Adds a seasonal component to the forecast",
+      "Makes the trend flatten out over longer horizons"
+     ],
+     "answer": "Makes the trend flatten out over longer horizons",
+     "explanation": "φ shrinks the trend contribution for each extra period, so long-range forecasts level off instead of rising forever.",
+     "difficulty": "easy",
+     "concept": "damped trend"
+    },
+    {
+     "q": "Why should a fintech firm prefer double exponential smoothing over SES to forecast steadily growing UPI transaction volumes?",
+     "options": [
+      "It models the trend, so forecasts do not lag growth",
+      "It needs less data than SES does to get started",
+      "It captures the monthly seasonality in payments",
+      "It always gives forecasts identical to the naive"
+     ],
+     "answer": "It models the trend, so forecasts do not lag growth",
+     "explanation": "SES has no trend term and keeps under-forecasting a growing series; Holt's trend component projects the growth.",
+     "difficulty": "easy",
+     "concept": "SES vs holt"
+    },
+    {
+     "q": "How does Brown's double exponential smoothing differ from Holt's method?",
+     "options": [
+      "Brown's handles seasonality while Holt's cannot handle it",
+      "Brown's uses three constants while Holt's uses only one",
+      "Brown's uses one smoothing constant; Holt's uses separate α and β",
+      "Brown's ignores trend while Holt's models the trend"
+     ],
+     "answer": "Brown's uses one smoothing constant; Holt's uses separate α and β",
+     "explanation": "Both handle linear trend, but Brown's applies a single α twice while Holt's has separate level and trend constants, giving more flexibility.",
+     "difficulty": "easy",
+     "concept": "brown vs holt"
+    },
+    {
+     "q": "A simple way to initialise Holt's method is to set the initial level to the first observation and the initial trend to:",
+     "options": [
+      "The difference between the second and first observations",
+      "The average of all the observations in the series",
+      "Zero, because the trend is unknown at the start",
+      "The ratio of the second to the first observation"
+     ],
+     "answer": "The difference between the second and first observations",
+     "explanation": "L1 = Y1 and T1 = Y2 − Y1 is a standard simple start (software may optimise them). A ratio would be a growth factor, not an additive slope.",
+     "difficulty": "easy",
+     "concept": "holt initialisation"
+    },
+    {
+     "q": "A Holt model for monthly e-commerce orders has current level L = 500 and trend T = 20 (thousand orders). What is the forecast for 3 months ahead?",
+     "options": [
+      "520",
+      "3,333.33",
+      "1,520",
+      "560"
+     ],
+     "answer": "560",
+     "explanation": "F = L + hT = 500 + 3×20 = 560. Adding the trend only once (520) ignores the horizon.",
+     "difficulty": "medium",
+     "concept": "holt forecast equation"
+    },
+    {
+     "q": "Using Holt's method with α = 0.4: previous level = 200, previous trend = 10, new actual = 230. What is the updated level? [L(t) = αY(t) + (1−α)(L(t−1) + T(t−1))]",
+     "options": [
+      "212",
+      "222",
+      "240",
+      "218"
+     ],
+     "answer": "218",
+     "explanation": "0.4×230 + 0.6×(200 + 10) = 92 + 126 = 218. Forgetting to add the previous trend gives 212.",
+     "difficulty": "medium",
+     "concept": "holt level update"
+    },
+    {
+     "q": "Using Holt's method with β = 0.2: new level = 218, previous level = 200, previous trend = 10. What is the updated trend? [T(t) = β(L(t) − L(t−1)) + (1−β)T(t−1)]",
+     "options": [
+      "11.6",
+      "16.4",
+      "18",
+      "51.6"
+     ],
+     "answer": "11.6",
+     "explanation": "0.2×(218 − 200) + 0.8×10 = 3.6 + 8 = 11.6. Swapping β and 1 − β gives 16.4; using the level itself instead of its change gives 51.6.",
+     "difficulty": "medium",
+     "concept": "holt trend update"
+    },
+    {
+     "q": "After an update, a Holt model has level 218 and trend 11.6. What is the one-step-ahead forecast?",
+     "options": [
+      "218",
+      "252.88",
+      "229.6",
+      "241.2"
+     ],
+     "answer": "229.6",
+     "explanation": "F(t+1) = L + 1×T = 218 + 11.6 = 229.6. 218 alone is the SES-style flat forecast that ignores the trend.",
+     "difficulty": "medium",
+     "concept": "holt forecast equation"
+    },
+    {
+     "q": "An analyst raises β from 0.1 to 0.6 in a Holt model. What happens?",
+     "options": [
+      "The level estimate becomes smoother and less reactive",
+      "The forecasts become flat because the trend is removed",
+      "The trend estimate reacts faster to recent changes in slope",
+      "Seasonal peaks are captured more accurately than before"
+     ],
+     "answer": "The trend estimate reacts faster to recent changes in slope",
+     "explanation": "β is the weight on the latest change in level, so a larger β makes the slope estimate more responsive (and noisier). It does not affect seasonality.",
+     "difficulty": "medium",
+     "concept": "beta trend smoothing"
+    },
+    {
+     "q": "A Holt model for monthly landline connections shows a trend estimate T = −15. What does this mean?",
+     "options": [
+      "Connections are falling by about 15 per month",
+      "Connections are rising by about 15 per month",
+      "The level is 15 below its long-run average",
+      "About 15% of the variation in the series is random noise"
+     ],
+     "answer": "Connections are falling by about 15 per month",
+     "explanation": "The trend is the estimated change per period; a negative value means a declining series of about 15 units per month.",
+     "difficulty": "medium",
+     "concept": "interpreting trend"
+    },
+    {
+     "q": "Monthly sales were 120 and 128 in the first two months. Using L1 = Y1 and T1 = Y2 − Y1, what are the initial level and trend?",
+     "options": [
+      "Level 128, trend 8",
+      "Level 120, trend 8",
+      "Level 124, trend 4",
+      "Level 120, trend 1.07"
+     ],
+     "answer": "Level 120, trend 8",
+     "explanation": "L1 = 120 and T1 = 128 − 120 = 8. A ratio of 1.07 would be a multiplicative growth factor, not Holt's additive trend.",
+     "difficulty": "medium",
+     "concept": "holt initialisation"
+    },
+    {
+     "q": "Why do damped trend methods often give more accurate long-horizon forecasts than Holt's linear method?",
+     "options": [
+      "Real-world trends rarely continue at the same rate forever",
+      "Damped methods use more smoothing constants than Holt",
+      "Damped methods remove all random noise from the data",
+      "Linear trends can only be estimated for annual data"
+     ],
+     "answer": "Real-world trends rarely continue at the same rate forever",
+     "explanation": "Linear extrapolation tends to over-forecast far ahead because growth slows; damping flattens the trend and has performed well in forecasting competitions.",
+     "difficulty": "medium",
+     "concept": "damped trend"
+    },
+    {
+     "q": "If β = 0 in Holt's method, what happens to the trend estimate?",
+     "options": [
+      "It is updated fully by every new change",
+      "It becomes equal to the level estimate at every period",
+      "It stays fixed at its initial value forever",
+      "It is reset to zero at every period"
+     ],
+     "answer": "It stays fixed at its initial value forever",
+     "explanation": "With β = 0, T(t) = T(t−1) always, so the initial slope is never revised. β = 1 would make it fully reactive.",
+     "difficulty": "medium",
+     "concept": "beta trend smoothing"
+    },
+    {
+     "q": "A Holt model had level 340 and trend 12 at the end of last month. This month's actual is 360. What is this month's one-step forecast error (actual − forecast)?",
+     "options": [
+      "20",
+      "8",
+      "-8",
+      "12"
+     ],
+     "answer": "8",
+     "explanation": "The forecast was 340 + 12 = 352, so the error is 360 − 352 = 8. Comparing with the level alone (20) forgets the trend.",
+     "difficulty": "medium",
+     "concept": "holt forecast error"
+    },
+    {
+     "q": "A Holt model has L = 1,000, T = 40, α = 0.3 and β = 0.1. The new actual is 1,060. What is the forecast two periods ahead after updating?",
+     "options": [
+      "1,127.2",
+      "1,159.2",
+      "1,086.6",
+      "1,080"
+     ],
+     "answer": "1,127.2",
+     "explanation": "L = 0.3×1,060 + 0.7×1,040 = 1,046; T = 0.1×46 + 0.9×40 = 40.6; F(t+2) = 1,046 + 2×40.6 = 1,127.2. Swapping the weights gives 1,159.2; adding the trend once gives 1,086.6.",
+     "difficulty": "hard",
+     "concept": "holt full update"
+    },
+    {
+     "q": "Holt's method with α = 0.5, β = 0.3 starts at L = 500, T = 20. Actuals for the next two periods are 530 and 538. What is the one-step forecast for the following period?",
+     "options": [
+      "546.5",
+      "562.48",
+      "558",
+      "560"
+     ],
+     "answer": "562.48",
+     "explanation": "Period 1: L = 525, T = 21.5. Period 2: L = 542.25, T = 20.225, so F = 562.48. Stopping after one update gives 546.5.",
+     "difficulty": "hard",
+     "concept": "holt full update"
+    },
+    {
+     "q": "A damped Holt model has level 1,000, trend 50 and φ = 0.8. What is the 2-step-ahead forecast? [F(t+h) = L + (φ + φ² + … + φ^h)T]",
+     "options": [
+      "1,100",
+      "1,032",
+      "1,080",
+      "1,072"
+     ],
+     "answer": "1,072",
+     "explanation": "1,000 + 50×(0.8 + 0.64) = 1,072. Ignoring damping gives 1,100; using only φ² for the sum gives 1,032.",
+     "difficulty": "hard",
+     "concept": "damped trend"
+    },
+    {
+     "q": "For the same damped model (level 1,000, trend 50, φ = 0.8), what value do forecasts approach as the horizon becomes very long?",
+     "options": [
+      "1,000 (the level)",
+      "No limit; forecasts keep rising",
+      "1,200",
+      "1,062.5"
+     ],
+     "answer": "1,200",
+     "explanation": "The trend sum tends to φ/(1 − φ) = 4, so forecasts approach 1,000 + 200 = 1,200. Undamped Holt would keep rising; the level alone ignores the trend added in early periods.",
+     "difficulty": "hard",
+     "concept": "damped trend"
+    },
+    {
+     "q": "Annual passenger traffic at a metro-city airport grew steadily from 2010 to 2019 with no other pattern. Which method best fits these annual data?",
+     "options": [
+      "Holt's linear trend (double exponential smoothing)",
+      "Holt-Winters additive model with yearly seasonality",
+      "Simple exponential smoothing with a large α value",
+      "A seasonal naive forecast using last year's value"
+     ],
+     "answer": "Holt's linear trend (double exponential smoothing)",
+     "explanation": "Annual data cannot show within-year seasonality, so Holt-Winters is unnecessary, while SES ignores the trend. Holt's method captures level and growth.",
+     "difficulty": "hard",
+     "concept": "model selection"
+    },
+    {
+     "q": "An analyst sets β = 0.9 in a Holt model for noisy weekly sales. What is the most likely consequence?",
+     "options": [
+      "The trend becomes very stable, making long forecasts reliable",
+      "The trend swings with each random blip, making long forecasts erratic",
+      "The model automatically captures the weekly seasonality",
+      "The level stops updating because β overrides α in Holt"
+     ],
+     "answer": "The trend swings with each random blip, making long forecasts erratic",
+     "explanation": "A high β lets random week-to-week changes reset the slope, and long-horizon forecasts multiply that error by h. Stable trends come from a small β.",
+     "difficulty": "hard",
+     "concept": "beta trend smoothing"
+    },
+    {
+     "q": "In a Holt model, the level moved from 580 to 600, the previous trend was 15 and the updated trend is 16. What β was used?",
+     "options": [
+      "0.8",
+      "0.05",
+      "0.25",
+      "0.2"
+     ],
+     "answer": "0.2",
+     "explanation": "16 = β×20 + (1 − β)×15 = 15 + 5β, so β = 0.2. Answering 0.8 gives 1 − β.",
+     "difficulty": "hard",
+     "concept": "back-solving beta"
+    },
+    {
+     "q": "In Holt's method with α = 1 and β = 1, the last two actuals are 150 and 162. What is the 2-step-ahead forecast?",
+     "options": [
+      "186",
+      "174",
+      "162",
+      "198"
+     ],
+     "answer": "186",
+     "explanation": "With α = β = 1, L = 162 and T = 162 − 150 = 12, so F(t+2) = 162 + 24 = 186. This is the naive forecast with drift from the last change; adding 12 once gives 174.",
+     "difficulty": "hard",
+     "concept": "holt special case"
+    },
+    {
+     "q": "An e-commerce start-up grew orders 60% last year and wants a 3-year inventory plan using Holt's method. What is the best advice?",
+     "options": [
+      "Use a high β so the fast growth continues to be projected undamped",
+      "Use SES, because start-up data never contain any trend at all",
+      "Prefer a damped trend, as linear extrapolation of fast early growth over-forecasts",
+      "Use Holt's linear method, since growth rates never slow down"
+     ],
+     "answer": "Prefer a damped trend, as linear extrapolation of fast early growth over-forecasts",
+     "explanation": "Early hyper-growth rarely persists, so straight-line extrapolation over 3 years risks heavy overstocking; damping tempers long-run growth while keeping near-term trend.",
+     "difficulty": "hard",
+     "concept": "damped trend"
+    },
+    {
+     "q": "Residuals from a Holt model for quarterly AC sales are consistently large and positive every Q2 (April-June). What should the analyst do?",
+     "options": [
+      "Increase β so the trend reacts faster to Q2",
+      "Increase α so the level catches Q2 peaks",
+      "Accept the model, since Holt's method already captures trend",
+      "Add a seasonal component, e.g. move to Holt-Winters"
+     ],
+     "answer": "Add a seasonal component, e.g. move to Holt-Winters",
+     "explanation": "A recurring same-quarter error is unmodelled seasonality, which Holt's method cannot capture; tuning α or β only chases the peak after it happens.",
+     "difficulty": "hard",
+     "concept": "residual diagnostics"
+    }
+   ],
+   "references": [
+    "Double exponential smoothing, also called Holt's linear trend method, extends simple exponential smoothing to data with a trend. It keeps two estimates: the level, which is the current smoothed value, and the trend, which is the slope or change per period. The level is updated with smoothing constant α as a weighted average of the new actual and the previous level plus trend. The trend is updated with β as a weighted average of the latest change in level and the previous trend. The forecast h periods ahead is level plus h times trend, so forecasts form a straight line. It suits trending data without seasonality; a damped version flattens the trend for long horizons.",
+    "Take a company whose monthly online orders are growing. Simple exponential smoothing would keep forecasting a flat line and lag behind. Holt's double exponential smoothing fixes this by also tracking the trend. Suppose the current level is 500 thousand orders and the trend is 20 thousand per month; the forecast for three months ahead is 500 + 3 × 20 = 560. When new data come in, we update the level using α and then update the trend using β, based on how much the level moved. A higher β makes the slope react faster. Because forecasts follow a straight line, it is good for growth, but not for seasonal products.",
+    "As a manager, I would use double exponential smoothing, Holt's method, when sales are clearly growing or declining but have no seasonal pattern, for example annual passenger traffic or a new product's adoption. It gives a level and a trend estimate, so it projects growth instead of lagging like simple smoothing. Two parameters must be chosen, α for the level and β for the trend, usually by minimising forecast errors. A high β with noisy data makes the trend unstable. For long-range plans I would consider a damped trend, because growth rarely continues in a straight line and over-forecasting causes excess inventory. If errors repeat every season, I would move to Holt-Winters."
+   ],
+   "key_concepts": [
+    "holt",
+    "level",
+    "trend",
+    "slope",
+    "alpha",
+    "beta",
+    "two smoothing constants",
+    "level plus h times trend",
+    "straight line forecast",
+    "no seasonality",
+    "damped trend",
+    "lag",
+    "growth"
+   ]
+  },
+  {
+   "topic": "HOLT-WINTER model",
+   "questions": [
+    {
+     "q": "The Holt-Winters model forecasts a series using which components?",
+     "options": [
+      "Level and trend only",
+      "Trend and cycle only",
+      "Level, cycle and random error terms",
+      "Level, trend and seasonality"
+     ],
+     "answer": "Level, trend and seasonality",
+     "explanation": "Holt-Winters adds a seasonal component to Holt's level and trend. Level and trend alone is Holt's double exponential smoothing.",
+     "difficulty": "easy",
+     "concept": "three components"
+    },
+    {
+     "q": "How many smoothing constants does the Holt-Winters model use?",
+     "options": [
+      "Three: α (level), β (trend), γ (seasonal)",
+      "Two: α (level) and β (trend)",
+      "One: α applied to all components",
+      "Four: α (level), β (trend), γ (seasonal) and m"
+     ],
+     "answer": "Three: α (level), β (trend), γ (seasonal)",
+     "explanation": "Each component has its own smoothing constant. The seasonal period m is a fixed setting, not a smoothing constant.",
+     "difficulty": "easy",
+     "concept": "alpha beta gamma"
+    },
+    {
+     "q": "In Holt-Winters, the smoothing constant γ controls:",
+     "options": [
+      "How quickly the level estimate is updated",
+      "How quickly the seasonal indices are updated",
+      "How quickly the trend estimate is updated",
+      "How many full seasons are used to initialise the model"
+     ],
+     "answer": "How quickly the seasonal indices are updated",
+     "explanation": "γ weights new information about the seasonal effect; α and β govern level and trend.",
+     "difficulty": "easy",
+     "concept": "gamma seasonal smoothing"
+    },
+    {
+     "q": "When should the multiplicative Holt-Winters model be preferred to the additive one?",
+     "options": [
+      "When seasonal swings stay constant in absolute size",
+      "When seasonal swings grow in proportion to the level",
+      "When the series has no trend at all",
+      "When the data are recorded annually rather than monthly or quarterly"
+     ],
+     "answer": "When seasonal swings grow in proportion to the level",
+     "explanation": "Multiplicative seasonality means the seasonal effect is a percentage of the level, so swings widen as the series grows.",
+     "difficulty": "easy",
+     "concept": "additive vs multiplicative HW"
+    },
+    {
+     "q": "For quarterly data with a yearly seasonal pattern, the seasonal period m in Holt-Winters is:",
+     "options": [
+      "12",
+      "1",
+      "4",
+      "52"
+     ],
+     "answer": "4",
+     "explanation": "There are four quarters in a seasonal cycle, so m = 4. Twelve is used for monthly data.",
+     "difficulty": "easy",
+     "concept": "seasonal period"
+    },
+    {
+     "q": "Holt-Winters is also commonly known as:",
+     "options": [
+      "Triple exponential smoothing",
+      "Simple exponential smoothing",
+      "Brown's double smoothing",
+      "Weighted moving average"
+     ],
+     "answer": "Triple exponential smoothing",
+     "explanation": "It smooths three components (level, trend, season), hence 'triple' exponential smoothing.",
+     "difficulty": "easy",
+     "concept": "triple exponential smoothing"
+    },
+    {
+     "q": "In the additive Holt-Winters model, the seasonal components over one full year should sum to approximately:",
+     "options": [
+      "One",
+      "Zero",
+      "m (the number of seasons)",
+      "The level"
+     ],
+     "answer": "Zero",
+     "explanation": "Additive seasonal effects are deviations above and below the level, so they cancel out over a year. Multiplicative indices average 1 instead.",
+     "difficulty": "easy",
+     "concept": "additive seasonal components"
+    },
+    {
+     "q": "What is the minimum history generally needed to initialise a Holt-Winters model?",
+     "options": [
+      "Just two observations, as for Holt's trend method",
+      "Exactly one observation for each season in the year, and no more",
+      "At least one full seasonal cycle, preferably two or more",
+      "Ten years of data, regardless of the seasonal period"
+     ],
+     "answer": "At least one full seasonal cycle, preferably two or more",
+     "explanation": "Seasonal indices can only be estimated after observing every season at least once; two or more cycles make estimates more reliable.",
+     "difficulty": "easy",
+     "concept": "HW data requirement"
+    },
+    {
+     "q": "Holt-Winters can be described as:",
+     "options": [
+      "Holt's trend method extended with a seasonal equation",
+      "Simple exponential smoothing with a damping factor",
+      "A weighted moving average with separate weights for each season",
+      "Holt's method with the trend equation removed"
+     ],
+     "answer": "Holt's trend method extended with a seasonal equation",
+     "explanation": "Holt-Winters keeps Holt's level and trend equations and adds a third equation for the seasonal component.",
+     "difficulty": "easy",
+     "concept": "HW extends holt"
+    },
+    {
+     "q": "In the multiplicative Holt-Winters model, the forecast h periods ahead is:",
+     "options": [
+      "Level + h × Trend + Seasonal index",
+      "(Level + h × Trend) × Seasonal index",
+      "Level × h × Trend × Seasonal index",
+      "(Level + h × Trend) ÷ Seasonal index"
+     ],
+     "answer": "(Level + h × Trend) × Seasonal index",
+     "explanation": "The trend projection is multiplied by the relevant seasonal index. Adding the index is the additive form, which would need a component in units, not a ratio.",
+     "difficulty": "easy",
+     "concept": "multiplicative HW forecast"
+    },
+    {
+     "q": "An additive Holt-Winters model has level 500, trend 10, and the seasonal component for the target quarter is +40. What is the forecast 2 quarters ahead?",
+     "options": [
+      "560",
+      "550",
+      "20,800",
+      "520"
+     ],
+     "answer": "560",
+     "explanation": "F = L + hT + S = 500 + 20 + 40 = 560. Using the trend once (550) ignores the horizon.",
+     "difficulty": "medium",
+     "concept": "additive HW forecast"
+    },
+    {
+     "q": "A multiplicative Holt-Winters model has level 500, trend 10, and seasonal index 1.2 for the target quarter. What is the forecast 2 quarters ahead?",
+     "options": [
+      "521.2",
+      "624",
+      "620",
+      "612"
+     ],
+     "answer": "624",
+     "explanation": "(500 + 2×10) × 1.2 = 624. Applying the index only to the level (620) leaves the trend unseasonalised.",
+     "difficulty": "medium",
+     "concept": "multiplicative HW forecast"
+    },
+    {
+     "q": "Additive Holt-Winters, α = 0.2: actual = 650, seasonal component from same quarter last year = +50, previous level = 580, previous trend = 10. Updated level? [L(t) = α(Y(t) − S(t−m)) + (1−α)(L(t−1) + T(t−1))]",
+     "options": [
+      "592",
+      "602",
+      "598",
+      "584"
+     ],
+     "answer": "592",
+     "explanation": "0.2×(650 − 50) + 0.8×590 = 120 + 472 = 592. Not removing the seasonal effect gives 602, treating the seasonal peak as a level change.",
+     "difficulty": "medium",
+     "concept": "HW level update"
+    },
+    {
+     "q": "Multiplicative Holt-Winters, α = 0.3: actual = 880, seasonal index from same quarter last year = 1.1, previous level = 780, previous trend = 10. Updated level? [L(t) = α(Y(t)/S(t−m)) + (1−α)(L(t−1) + T(t−1))]",
+     "options": [
+      "817",
+      "793",
+      "843.4",
+      "786"
+     ],
+     "answer": "793",
+     "explanation": "0.3×(880 ÷ 1.1) + 0.7×790 = 240 + 553 = 793. Forgetting to deseasonalise gives 817; leaving out the trend gives 786.",
+     "difficulty": "medium",
+     "concept": "HW level update"
+    },
+    {
+     "q": "Additive Holt-Winters, γ = 0.1: actual = 650, updated level = 592, seasonal component from last year = 50. Updated seasonal component? [S(t) = γ(Y(t) − L(t)) + (1−γ)S(t−m)]",
+     "options": [
+      "58",
+      "50.8",
+      "57.2",
+      "110"
+     ],
+     "answer": "50.8",
+     "explanation": "0.1×58 + 0.9×50 = 5.8 + 45 = 50.8. Swapping γ and 1 − γ gives 57.2; using only the latest deviation (58) ignores smoothing.",
+     "difficulty": "medium",
+     "concept": "HW seasonal update"
+    },
+    {
+     "q": "Software estimates γ close to 0 for a Holt-Winters model. What does this imply?",
+     "options": [
+      "The seasonal pattern is stable and barely changes year to year",
+      "The seasonal pattern changes sharply every single year",
+      "The data contain no trend and the level never moves",
+      "The model has dropped seasonality and become Holt's"
+     ],
+     "answer": "The seasonal pattern is stable and barely changes year to year",
+     "explanation": "A small γ means seasonal indices are hardly revised, i.e. the pattern is consistent. Rapidly changing seasonality would give a large γ.",
+     "difficulty": "medium",
+     "concept": "gamma seasonal smoothing"
+    },
+    {
+     "q": "Monthly air-conditioner sales in Delhi peak every May-June, and the peaks have grown in proportion as total sales doubled over five years. Which model fits best?",
+     "options": [
+      "Additive Holt-Winters",
+      "Holt's linear trend",
+      "Multiplicative Holt-Winters",
+      "Simple exponential smoothing"
+     ],
+     "answer": "Multiplicative Holt-Winters",
+     "explanation": "Trend plus seasonal peaks that scale with the level calls for multiplicative Holt-Winters; additive assumes constant-size peaks, and Holt/SES ignore seasonality.",
+     "difficulty": "medium",
+     "concept": "additive vs multiplicative HW"
+    },
+    {
+     "q": "In a multiplicative Holt-Winters model for a garment retailer, February's seasonal index is 0.85. What does it mean?",
+     "options": [
+      "February sales are typically 85% below the deseasonalised level",
+      "February sales are typically 0.85 units below the level",
+      "February sales are typically 15% above the deseasonalised level",
+      "February sales are typically 15% below the deseasonalised level"
+     ],
+     "answer": "February sales are typically 15% below the deseasonalised level",
+     "explanation": "An index of 0.85 means 85% of the underlying level, i.e. 15% below it. Reading it as 0.85 units confuses multiplicative with additive.",
+     "difficulty": "medium",
+     "concept": "interpreting seasonal index"
+    },
+    {
+     "q": "An additive Holt-Winters model for a two-wheeler dealer gives a monsoon-quarter seasonal component of −120. What does this mean?",
+     "options": [
+      "Monsoon-quarter sales are about 120% below the level",
+      "Monsoon-quarter sales fall by 120 units every year",
+      "Monsoon-quarter sales are about 120 units below the level",
+      "The trend is declining by about 120 units per quarter"
+     ],
+     "answer": "Monsoon-quarter sales are about 120 units below the level",
+     "explanation": "Additive seasonal components are in the units of the data, measured relative to the level. A falling trend would show up in T, not S.",
+     "difficulty": "medium",
+     "concept": "interpreting seasonal component"
+    },
+    {
+     "q": "A quarterly Holt-Winters model is updated at the end of Q4 2025. Which seasonal estimate is used to forecast Q2 2026?",
+     "options": [
+      "The latest Q2 estimate, last updated in Q2 2025",
+      "The Q4 2025 estimate, since it is the most recent one",
+      "The average of all four quarters' seasonal estimates",
+      "No seasonal estimate; only level and trend are used"
+     ],
+     "answer": "The latest Q2 estimate, last updated in Q2 2025",
+     "explanation": "Forecasts use the most recent seasonal estimate for the same season, which for Q2 was last revised in Q2 2025.",
+     "difficulty": "medium",
+     "concept": "seasonal index for horizon"
+    },
+    {
+     "q": "Additive Holt-Winters (quarterly), α = 0.2, β = 0.1, γ = 0.3. Previous level 400, previous trend 8. This quarter's actual is 450 and its seasonal component last year was +30. Next quarter's seasonal component (from last year) is −20. Using L(t) = α(Y − S(t−4)) + (1−α)(L + T), T(t) = β(L(t) − L(t−1)) + (1−β)T, what is the forecast for next quarter?",
+     "options": [
+      "398.64",
+      "418.64",
+      "451.52",
+      "438"
+     ],
+     "answer": "398.64",
+     "explanation": "L = 0.2×420 + 0.8×408 = 410.4; T = 0.1×10.4 + 0.9×8 = 8.24; F = 410.4 + 8.24 − 20 = 398.64. Leaving out the seasonal term gives 418.64; using this quarter's seasonal instead of next quarter's gives 451.52.",
+     "difficulty": "hard",
+     "concept": "HW full update"
+    },
+    {
+     "q": "At the end of Q4, a multiplicative Holt-Winters model has level 1,000 and trend 20 per quarter. Seasonal indices are Q1 = 0.90, Q2 = 1.00, Q3 = 1.05, Q4 = 1.05. What is the forecast for Q1 of the year after next (h = 5)?",
+     "options": [
+      "918",
+      "1,155",
+      "1,100.9",
+      "990"
+     ],
+     "answer": "990",
+     "explanation": "h = 5 lands on a Q1, so F = (1,000 + 100) × 0.90 = 990. Using h = 1 gives 918, and applying Q4's index gives 1,155.",
+     "difficulty": "hard",
+     "concept": "multiplicative HW forecast"
+    },
+    {
+     "q": "A Goa resort's peak-to-off-season gap was 2,000 room-nights when annual average monthly occupancy was 10,000; five years later the gap is 4,000 on an average of 20,000. Which Holt-Winters form and why?",
+     "options": [
+      "Multiplicative, as the seasonal gap stays at 20% of the level",
+      "Additive, as the seasonal gap is measured in room-nights",
+      "Additive, as the level has grown at a steady linear rate",
+      "Multiplicative, as the seasonal gap is fixed in room-nights"
+     ],
+     "answer": "Multiplicative, as the seasonal gap stays at 20% of the level",
+     "explanation": "The gap doubled exactly as the level doubled, so seasonality is proportional to the level. Additive HW would assume a constant 2,000 gap and under-forecast peaks.",
+     "difficulty": "hard",
+     "concept": "additive vs multiplicative HW"
+    },
+    {
+     "q": "Raw quarterly multiplicative seasonal indices from Holt-Winters are 1.2, 0.9, 0.8 and 1.3. After normalising so they average 1, what is the Q1 index?",
+     "options": [
+      "1.2",
+      "1.15",
+      "0.286",
+      "1.143"
+     ],
+     "answer": "1.143",
+     "explanation": "The indices sum to 4.2, so each is scaled by 4/4.2: Q1 = 1.2 × 4/4.2 ≈ 1.143. Subtracting the excess equally (1.15) is the additive adjustment; dividing by 4.2 alone (0.286) makes indices sum to 1.",
+     "difficulty": "hard",
+     "concept": "seasonal index normalisation"
+    },
+    {
+     "q": "An analyst uses additive Holt-Winters on a fast-growing product whose seasonal swings widen as sales grow. What error pattern is most likely?",
+     "options": [
+      "Peaks under-forecast and troughs over-forecast as the swings widen",
+      "Peaks over-forecast and troughs under-forecast as swings widen",
+      "No systematic pattern, since additive and multiplicative agree",
+      "Only the trend is biased; the seasonal effects are unaffected"
+     ],
+     "answer": "Peaks under-forecast and troughs over-forecast as the swings widen",
+     "explanation": "Additive HW keeps seasonal effects at a fixed size, so when true swings grow it is too small at peaks and too high at troughs.",
+     "difficulty": "hard",
+     "concept": "additive vs multiplicative HW"
+    },
+    {
+     "q": "A fitted Holt-Winters model has α = 0.05, β = 0.00 and γ = 0.60. What is the best interpretation?",
+     "options": [
+      "Level and trend change quickly, while the seasonal pattern is very stable",
+      "The model has no trend component at all because β equals zero",
+      "Level and trend are very stable, while the seasonal pattern is changing quickly",
+      "All three components are changing quickly from one period to the next"
+     ],
+     "answer": "Level and trend are very stable, while the seasonal pattern is changing quickly",
+     "explanation": "Small α and β mean level and slope are hardly revised; a large γ means seasonal indices are updated strongly. β = 0 keeps the initial trend fixed rather than removing it.",
+     "difficulty": "hard",
+     "concept": "interpreting parameters"
+    },
+    {
+     "q": "Why does the Holt-Winters level equation use Y(t) − S(t−m) (or Y(t)/S(t−m)) instead of Y(t)?",
+     "options": [
+      "To stop normal seasonal peaks being mistaken for level changes",
+      "To make the trend equation unnecessary for seasonal data",
+      "To convert the multiplicative model into an additive model",
+      "To make the forecast errors equal to zero within each season"
+     ],
+     "answer": "To stop normal seasonal peaks being mistaken for level changes",
+     "explanation": "Removing last year's seasonal effect gives a seasonally adjusted value, so a December peak does not push the level up and inflate January's forecast.",
+     "difficulty": "hard",
+     "concept": "deseasonalising in HW"
+    },
+    {
+     "q": "An FMCG firm needs monthly sales forecasts for the next 36 months; sales have a growing trend and festive peaks proportional to sales. Which model is the most defensible choice?",
+     "options": [
+      "Additive Holt-Winters with an undamped linear trend",
+      "Multiplicative Holt-Winters with a damped trend",
+      "Holt's damped trend with no seasonal component",
+      "Simple exponential smoothing on the monthly data"
+     ],
+     "answer": "Multiplicative Holt-Winters with a damped trend",
+     "explanation": "Proportional peaks need multiplicative seasonality, and over 36 months a damped trend avoids over-extrapolating growth; the damped multiplicative form performs well in practice.",
+     "difficulty": "hard",
+     "concept": "damped HW model choice"
+    },
+    {
+     "q": "Multiplicative Holt-Winters, γ = 0.2: actual = 1,320, updated level = 1,100, seasonal index last year = 1.15. Updated seasonal index? [S(t) = γ(Y(t)/L(t)) + (1−γ)S(t−m)]",
+     "options": [
+      "1.16",
+      "1.2",
+      "1.19",
+      "44.92"
+     ],
+     "answer": "1.16",
+     "explanation": "1,320/1,100 = 1.2; 0.2×1.2 + 0.8×1.15 = 1.16. Using the additive deviation (220) produces a nonsense index of 44.92.",
+     "difficulty": "hard",
+     "concept": "HW seasonal update"
+    },
+    {
+     "q": "A new D2C brand has only 14 months of monthly sales and wants to fit a Holt-Winters model with m = 12. What is the main concern?",
+     "options": [
+      "Holt-Winters needs at least 14 cycles, so the model cannot be fitted",
+      "Monthly data cannot be used with Holt-Winters, only quarterly data",
+      "With 14 months the trend cannot be estimated, only the seasonality",
+      "Only about one seasonal cycle: each month's index rests on one or two values"
+     ],
+     "answer": "Only about one seasonal cycle: each month's index rests on one or two values",
+     "explanation": "Seasonal indices for each month come from barely one observation, so random noise is mistaken for seasonality. Two or more cycles are preferred.",
+     "difficulty": "hard",
+     "concept": "HW data requirement"
+    }
+   ],
+   "references": [
+    "The Holt-Winters model, or triple exponential smoothing, forecasts data that have both trend and seasonality. It keeps three components: a level, a trend and a seasonal index for each season, such as each month or quarter. Each is updated every period with its own smoothing constant: α for the level, β for the trend and γ for the seasonal part. The level is updated using seasonally adjusted data so that a normal peak is not mistaken for growth. The forecast is level plus h times trend, adjusted by the seasonal index for that season. In the additive version the seasonal effect is a fixed amount; in the multiplicative version it is a percentage of the level.",
+    "Consider a resort in Goa whose bookings grow every year and peak every December. Holt-Winters handles this by tracking three things: the current level of bookings, the trend or growth per month, and a seasonal index for each month. If the level is 500, the trend is 10 and December's multiplicative index is 1.2, the forecast two months ahead is (500 + 20) × 1.2 = 624. When actual bookings arrive, α updates the level, β the trend and γ the seasonal index. Because December's peak is proportional to bookings, the multiplicative form fits; if the peak were a fixed number of rooms, I would use the additive form.",
+    "For a manager, Holt-Winters is the standard exponential smoothing tool when sales have both a trend and a repeating seasonal pattern, such as monthly FMCG sales with festive peaks. The key decisions are additive versus multiplicative seasonality, chosen by whether seasonal swings stay constant or grow with sales, and the three smoothing constants α, β and γ, usually estimated by minimising forecast error. γ near zero means the seasonal pattern is stable. You need at least one, preferably two or more, full seasonal cycles of data. For long horizons a damped trend reduces over-forecasting. The model is automatic, quick to update and works well for inventory and staffing plans."
+   ],
+   "key_concepts": [
+    "triple exponential smoothing",
+    "level",
+    "trend",
+    "seasonality",
+    "seasonal index",
+    "alpha",
+    "beta",
+    "gamma",
+    "additive",
+    "multiplicative",
+    "seasonal period",
+    "full seasonal cycle",
+    "damped trend"
+   ]
+  },
+  {
+   "topic": "Forecasting time series data with seasonal variation",
+   "questions": [
+    {
+     "q": "A multiplicative seasonal index of 1.15 for December means:",
+     "options": [
+      "December sales are typically 1.15 units above the average level",
+      "December sales are typically 15% below the deseasonalised level",
+      "December sales are growing by 15% every year in the long run",
+      "December sales are typically 15% above the deseasonalised level"
+     ],
+     "answer": "December sales are typically 15% above the deseasonalised level",
+     "explanation": "An index above 1 means the season is above the underlying level by that proportion. It describes a seasonal effect, not annual growth.",
+     "difficulty": "easy",
+     "concept": "seasonal index meaning"
+    },
+    {
+     "q": "The seasonal naive method forecasts next period as:",
+     "options": [
+      "The latest actual value from the most recent period",
+      "The average of all past values in the whole series",
+      "The average of the same season over the last decade",
+      "The actual value from the same season last cycle"
+     ],
+     "answer": "The actual value from the same season last cycle",
+     "explanation": "Seasonal naive uses, e.g., last December's value for next December. The plain naive method uses the most recent observation.",
+     "difficulty": "easy",
+     "concept": "seasonal naive"
+    },
+    {
+     "q": "The ratio-to-moving-average method is used to:",
+     "options": [
+      "Choose the smoothing constant for SES",
+      "Estimate the long-run cyclical turning points",
+      "Test whether the series is stationary",
+      "Calculate seasonal indices for a series"
+     ],
+     "answer": "Calculate seasonal indices for a series",
+     "explanation": "Dividing each actual by its centred moving average isolates the seasonal (and irregular) effect, which is averaged to give seasonal indices.",
+     "difficulty": "easy",
+     "concept": "ratio to moving average"
+    },
+    {
+     "q": "In a multiplicative model, deseasonalised (seasonally adjusted) data are obtained by:",
+     "options": [
+      "Multiplying each actual value by its seasonal index",
+      "Subtracting the seasonal index from each actual value",
+      "Dividing each actual value by its seasonal index",
+      "Adding the seasonal index to each actual value"
+     ],
+     "answer": "Dividing each actual value by its seasonal index",
+     "explanation": "Seasonal adjustment removes the seasonal effect: actual ÷ index in a multiplicative model. Multiplying would double-count seasonality.",
+     "difficulty": "easy",
+     "concept": "deseasonalising"
+    },
+    {
+     "q": "For quarterly data, multiplicative seasonal indices should sum to:",
+     "options": [
+      "1",
+      "0",
+      "4",
+      "12"
+     ],
+     "answer": "4",
+     "explanation": "Indices average 1, so four quarterly indices sum to 4 (monthly indices sum to 12). Additive components sum to 0.",
+     "difficulty": "easy",
+     "concept": "seasonal index normalisation"
+    },
+    {
+     "q": "In a regression model for quarterly sales with an intercept, how many seasonal dummy variables should be included?",
+     "options": [
+      "4",
+      "3",
+      "1",
+      "12"
+     ],
+     "answer": "3",
+     "explanation": "Use m − 1 = 3 dummies; the omitted quarter is the base captured by the intercept. Including all four causes the dummy variable trap.",
+     "difficulty": "easy",
+     "concept": "seasonal dummy variables"
+    },
+    {
+     "q": "What is the usual sequence for forecasting with seasonal indices?",
+     "options": [
+      "Reseasonalise, forecast the trend, then deseasonalise",
+      "Forecast the raw data, then deseasonalise the result",
+      "Remove the trend, then apply a simple moving average",
+      "Deseasonalise, forecast the trend, then reseasonalise"
+     ],
+     "answer": "Deseasonalise, forecast the trend, then reseasonalise",
+     "explanation": "First remove seasonality to see the trend, project it, then multiply (or add) the seasonal index back for the target period.",
+     "difficulty": "easy",
+     "concept": "decompose and reseasonalise"
+    },
+    {
+     "q": "Hourly electricity demand at a factory follows a daily cycle. What is the seasonal period m for this pattern?",
+     "options": [
+      "24",
+      "7",
+      "12",
+      "60"
+     ],
+     "answer": "24",
+     "explanation": "A daily cycle in hourly data repeats every 24 observations. Seven would be a weekly cycle in daily data.",
+     "difficulty": "easy",
+     "concept": "seasonal period"
+    },
+    {
+     "q": "Why do analysts publish seasonally adjusted sales figures?",
+     "options": [
+      "To make the seasonal peaks larger and easier to see on the chart",
+      "To remove the long-term trend and keep only the seasonal pattern",
+      "To reveal the underlying trend by removing regular seasonal effects",
+      "To replace actual sales so that forecasts become exactly correct"
+     ],
+     "answer": "To reveal the underlying trend by removing regular seasonal effects",
+     "explanation": "Seasonal adjustment strips out predictable seasonal swings so genuine changes in direction are visible; it does not remove the trend.",
+     "difficulty": "easy",
+     "concept": "seasonal adjustment purpose"
+    },
+    {
+     "q": "In classical decomposition of monthly data, the trend-cycle is estimated using a:",
+     "options": [
+      "Simple exponential smoothing with α = 0.5",
+      "3-month weighted moving average forecast",
+      "Centred 12-month (2×12) moving average",
+      "Seasonal naive forecast from last year"
+     ],
+     "answer": "Centred 12-month (2×12) moving average",
+     "explanation": "A 2×12 centred moving average averages out a full year of seasonality, leaving the trend-cycle.",
+     "difficulty": "easy",
+     "concept": "centred moving average"
+    },
+    {
+     "q": "A sweets manufacturer sold 480 tonnes in Q3 2025 and 350 tonnes in Q4 2025. Using the seasonal naive method, what is the Q3 2026 forecast?",
+     "options": [
+      "350 tonnes",
+      "480 tonnes",
+      "415 tonnes",
+      "830 tonnes"
+     ],
+     "answer": "480 tonnes",
+     "explanation": "Seasonal naive uses the same quarter last year: Q3 2025 = 480. 350 is the plain naive forecast from the latest quarter.",
+     "difficulty": "medium",
+     "concept": "seasonal naive"
+    },
+    {
+     "q": "A retailer's December sales were ₹1,150 lakh and the December seasonal index is 1.15. What are the seasonally adjusted December sales?",
+     "options": [
+      "1,000 lakh",
+      "1,322.5 lakh",
+      "1,148.85 lakh",
+      "1,035 lakh"
+     ],
+     "answer": "1,000 lakh",
+     "explanation": "Adjusted = 1,150 ÷ 1.15 = 1,000. Multiplying by the index (1,322.5) adds seasonality instead of removing it.",
+     "difficulty": "medium",
+     "concept": "deseasonalising"
+    },
+    {
+     "q": "The deseasonalised trend forecast for a hotel's Q2 room revenue is ₹2,000 lakh and the Q2 seasonal index is 0.92. What is the Q2 forecast?",
+     "options": [
+      "1,840 lakh",
+      "2,173.91 lakh",
+      "1,999.08 lakh",
+      "2000 lakh"
+     ],
+     "answer": "1,840 lakh",
+     "explanation": "Reseasonalise by multiplying: 2,000 × 0.92 = 1,840. Dividing (2,173.91) is the deseasonalising step applied in the wrong direction.",
+     "difficulty": "medium",
+     "concept": "reseasonalising"
+    },
+    {
+     "q": "Quarterly average sales over 4 years are Q1 = 90, Q2 = 110, Q3 = 80, Q4 = 120. Using the simple average method, what is the Q2 seasonal index?",
+     "options": [
+      "0.275",
+      "10",
+      "1.1",
+      "0.909"
+     ],
+     "answer": "1.1",
+     "explanation": "Grand mean = 100, so the Q2 index = 110 ÷ 100 = 1.10. Dividing by the total (0.275) gives indices that sum to 1 instead of 4.",
+     "difficulty": "medium",
+     "concept": "simple average indices"
+    },
+    {
+     "q": "In the ratio-to-moving-average method, a quarter's actual sales are 132 and its centred moving average is 120. What is the seasonal ratio for that quarter?",
+     "options": [
+      "1.1",
+      "0.909",
+      "12",
+      "110%"
+     ],
+     "answer": "1.1",
+     "explanation": "Ratio = actual ÷ centred MA = 132 ÷ 120 = 1.10. Inverting the ratio (0.909) would call a peak quarter a trough.",
+     "difficulty": "medium",
+     "concept": "ratio to moving average"
+    },
+    {
+     "q": "A regression for quarterly sales is: Sales = 200 + 5t + 30·Q2 + 50·Q3 − 10·Q4 (Q1 is the base). What is the forecast for t = 13, a Q1 quarter?",
+     "options": [
+      "295",
+      "255",
+      "265",
+      "335"
+     ],
+     "answer": "265",
+     "explanation": "For Q1 all dummies are 0, so Sales = 200 + 65 = 265. Adding a seasonal coefficient wrongly treats Q1 as one of the dummy quarters.",
+     "difficulty": "medium",
+     "concept": "seasonal dummy variables"
+    },
+    {
+     "q": "Using Sales = 200 + 5t + 30·Q2 + 50·Q3 − 10·Q4 (Q1 base), what is the forecast for t = 15, a Q3 quarter?",
+     "options": [
+      "275",
+      "355",
+      "265",
+      "325"
+     ],
+     "answer": "325",
+     "explanation": "Q3 dummy = 1, others 0: 200 + 75 + 50 = 325. Using the quarter number (3) instead of t gives 265.",
+     "difficulty": "medium",
+     "concept": "seasonal dummy variables"
+    },
+    {
+     "q": "In Sales = 200 + 5t + 30·Q2 + 50·Q3 − 10·Q4 (Q1 base), what does the coefficient 50 on Q3 mean?",
+     "options": [
+      "Q3 sales are 50 units higher than Q1 sales at the same t",
+      "Q3 sales are 50 units higher than the average of all quarters",
+      "Q3 sales grow by 50 units every year faster than other quarters",
+      "Q3 sales are 50% higher than Q1 sales at the same point in time"
+     ],
+     "answer": "Q3 sales are 50 units higher than Q1 sales at the same t",
+     "explanation": "Dummy coefficients are measured relative to the omitted base quarter (Q1), in the units of sales, holding the trend constant.",
+     "difficulty": "medium",
+     "concept": "seasonal dummy variables"
+    },
+    {
+     "q": "Using an additive model, the trend estimate for next July is 800 units and July's seasonal component is −60. What is the July forecast?",
+     "options": [
+      "860",
+      "752",
+      "740",
+      "851.1"
+     ],
+     "answer": "740",
+     "explanation": "Additive: forecast = trend + seasonal = 800 − 60 = 740. Converting −60 into a percentage mixes up additive and multiplicative forms.",
+     "difficulty": "medium",
+     "concept": "additive reseasonalising"
+    },
+    {
+     "q": "November sales were 1,200 units (November index 1.20) and December's index is 1.40. If the deseasonalised level stays flat, what is the December forecast?",
+     "options": [
+      "1,680",
+      "1,400",
+      "1,440",
+      "857.14"
+     ],
+     "answer": "1,400",
+     "explanation": "Deseasonalise November: 1,200 ÷ 1.2 = 1,000; reseasonalise for December: 1,000 × 1.4 = 1,400. Multiplying 1,200 by 1.4 (1,680) double-counts November's seasonality.",
+     "difficulty": "medium",
+     "concept": "deseasonalising"
+    },
+    {
+     "q": "Quarterly sales for two years are 60, 80, 100, 70 | 68, 88, 110, 78. Using a centred 2×4 moving average, what is the seasonal ratio (actual ÷ centred MA) for Q3 of year 1?",
+     "options": [
+      "1.274",
+      "1.29",
+      "1.223",
+      "0.785"
+     ],
+     "answer": "1.274",
+     "explanation": "The two 4-quarter averages are 77.5 and 79.5, centred MA = 78.5, so the ratio = 100 ÷ 78.5 = 1.274. Skipping centring (100 ÷ 77.5) gives 1.29.",
+     "difficulty": "hard",
+     "concept": "ratio to moving average"
+    },
+    {
+     "q": "Raw average seasonal ratios for Q1-Q4 are 1.10, 0.95, 0.85 and 1.14 (sum 4.04). What is the normalised Q4 seasonal index?",
+     "options": [
+      "1.14",
+      "1.13",
+      "1.129",
+      "0.282"
+     ],
+     "answer": "1.129",
+     "explanation": "Scale each ratio by 4 ÷ 4.04: Q4 = 1.14 × 0.990 ≈ 1.129. Subtracting 0.01 from each is an additive fix; dividing by 4.04 alone makes the indices sum to 1.",
+     "difficulty": "hard",
+     "concept": "seasonal index normalisation"
+    },
+    {
+     "q": "Deseasonalised quarterly sales follow the trend line T = 150 + 4t. Quarter t = 21 is a Q1 with seasonal index 0.80. What is the forecast?",
+     "options": [
+      "187.2",
+      "234",
+      "292.5",
+      "217.2"
+     ],
+     "answer": "187.2",
+     "explanation": "Trend = 150 + 84 = 234; reseasonalise: 234 × 0.80 = 187.2. Dividing by the index (292.5) applies the wrong direction.",
+     "difficulty": "hard",
+     "concept": "decompose and reseasonalise"
+    },
+    {
+     "q": "A company sold 900 units in Q1 (index 0.90) and 1,050 units in Q2 (index 1.20). The CEO says demand grew 16.7%. What does seasonal adjustment show?",
+     "options": [
+      "Underlying demand rose by 16.7%: adjusted sales rose from 1,000 to 1,167",
+      "Underlying demand rose by 8%: adjusted sales rose from 810 to 875",
+      "Underlying demand was flat: Q2's higher index explains all of the rise",
+      "Underlying demand fell by 12.5%: adjusted sales fell from 1,000 to 875"
+     ],
+     "answer": "Underlying demand fell by 12.5%: adjusted sales fell from 1,000 to 875",
+     "explanation": "Q1 adjusted = 900 ÷ 0.9 = 1,000; Q2 adjusted = 1,050 ÷ 1.2 = 875, a 12.5% fall. The raw rise is entirely seasonal and hides weakening demand.",
+     "difficulty": "hard",
+     "concept": "comparing deseasonalised values"
+    },
+    {
+     "q": "Last December an electronics store sold 1,500 TVs; this November it sold 1,100. Sales are strongly seasonal with a December peak. Which benchmark forecast for this December is more sensible?",
+     "options": [
+      "Naive, 1,100, since it uses the most recent month",
+      "Seasonal naive, 1,500, since it uses last December",
+      "Average of both, 1,300, since it balances the two",
+      "Naive, 1,100, since seasonal data need no benchmark"
+     ],
+     "answer": "Seasonal naive, 1,500, since it uses last December",
+     "explanation": "For strongly seasonal data, the right simple benchmark is the same month last year. The plain naive method carries November's lower level into the peak month.",
+     "difficulty": "hard",
+     "concept": "seasonal naive"
+    },
+    {
+     "q": "An analyst regresses quarterly sales on an intercept, a trend and dummies for all four quarters. What problem arises?",
+     "options": [
+      "Heteroscedasticity caused by the trend term in the model",
+      "The trend coefficient becomes biased towards zero over time",
+      "The model cannot capture the seasonality in the fourth quarter",
+      "Perfect multicollinearity (the dummy variable trap)"
+     ],
+     "answer": "Perfect multicollinearity (the dummy variable trap)",
+     "explanation": "The four dummies always sum to 1, duplicating the intercept, so coefficients cannot be estimated uniquely. Drop one dummy (the base quarter).",
+     "difficulty": "hard",
+     "concept": "seasonal dummy variables"
+    },
+    {
+     "q": "Which is a key limitation of classical decomposition with fixed seasonal indices for a retailer whose festive peak has shifted from October to November over recent years?",
+     "options": [
+      "It cannot estimate any trend when the data are monthly rather than quarterly",
+      "It requires the seasonal indices to be re-estimated with a new period m",
+      "It assumes the seasonal pattern is the same every year, so a shifting peak is missed",
+      "It works only for additive seasonality and never for multiplicative data"
+     ],
+     "answer": "It assumes the seasonal pattern is the same every year, so a shifting peak is missed",
+     "explanation": "Classical decomposition uses one set of indices for all years. Methods that let seasonality evolve (e.g., Holt-Winters with γ > 0, STL) handle changing patterns.",
+     "difficulty": "hard",
+     "concept": "classical decomposition limitation"
+    },
+    {
+     "q": "A bank's call centre averages 1,000 calls per day; Monday's seasonal index is 1.30. Each agent handles 50 calls a day. How many agents are needed on Monday?",
+     "options": [
+      "26 agents",
+      "20 agents",
+      "15.38 agents",
+      "33.8 agents"
+     ],
+     "answer": "26 agents",
+     "explanation": "Monday calls = 1,000 × 1.30 = 1,300, needing 1,300 ÷ 50 = 26 agents. Staffing to the average (20) would leave Mondays short.",
+     "difficulty": "hard",
+     "concept": "seasonal staffing decision"
+    },
+    {
+     "q": "An FMCG firm forecasts annual sales of 48,000 cases. Quarterly seasonal indices are Q1 = 0.8, Q2 = 1.1, Q3 = 0.9, Q4 = 1.2. What is the Q4 forecast?",
+     "options": [
+      "57,600 cases",
+      "12,000 cases",
+      "14,400 cases",
+      "10,000 cases"
+     ],
+     "answer": "14,400 cases",
+     "explanation": "Average quarter = 48,000 ÷ 4 = 12,000; Q4 = 12,000 × 1.2 = 14,400. Applying the index to the annual total (57,600) forgets to split the year first.",
+     "difficulty": "hard",
+     "concept": "allocating annual forecast"
+    },
+    {
+     "q": "Raw average additive seasonal deviations for Q1-Q4 are −25, +10, +35 and −24 (sum −4). After adjusting them to sum to zero, what is the Q3 component?",
+     "options": [
+      "35",
+      "34",
+      "36",
+      "34.65"
+     ],
+     "answer": "36",
+     "explanation": "Add 4 ÷ 4 = 1 to each component so they sum to zero: Q3 = 35 + 1 = 36. Subtracting instead (34) moves the total further from zero.",
+     "difficulty": "hard",
+     "concept": "additive seasonal components"
+    }
+   ],
+   "references": [
+    "Forecasting seasonal data means accounting for patterns that repeat every year, quarter or week. The classical approach is decomposition: estimate the trend with a centred moving average, then compute seasonal indices, for example with the ratio-to-moving-average method, where an index of 1.2 means the season is 20% above the underlying level. We deseasonalise the data by dividing actuals by the index, forecast the trend, then reseasonalise by multiplying the trend forecast by the season's index. In an additive model we subtract and add seasonal amounts instead. Alternatives include the seasonal naive method, regression with m − 1 seasonal dummies, and Holt-Winters exponential smoothing.",
+    "Consider a sweets company in India whose sales jump every Diwali quarter. Averaging sales by quarter, Q4 is 30% above the average, so its seasonal index is 1.3, while the monsoon quarter might be 0.8. To forecast, I first divide each quarter's sales by its index to get seasonally adjusted figures, which show the real trend. I project that trend, say to 1,000 tonnes next Q4, and multiply by 1.3 to get 1,300 tonnes. The same indices help split an annual target into quarters. A simple benchmark is the seasonal naive forecast, last year's same quarter. Without these steps a manager might mistake a festive spike for real growth.",
+    "For managers, seasonal variation drives decisions on inventory, staffing and cash flow, so forecasts must include it. The key tool is the seasonal index, which says how far each month or quarter typically sits above or below the underlying level. Seasonally adjusted figures let you judge whether demand is truly rising, instead of celebrating a normal festive peak or panicking about a normal lean month. To forecast, deseasonalise, project the trend and reseasonalise, or use Holt-Winters, which updates the seasonal pattern automatically. Regression with seasonal dummies is another option. Use the multiplicative form when seasonal swings grow with sales, and always compare against the seasonal naive benchmark."
+   ],
+   "key_concepts": [
+    "seasonal index",
+    "deseasonalise",
+    "reseasonalise",
+    "seasonally adjusted",
+    "ratio to moving average",
+    "centred moving average",
+    "decomposition",
+    "seasonal naive",
+    "seasonal dummy variables",
+    "multiplicative",
+    "additive",
+    "trend projection",
+    "holt-winters"
+   ]
+  }
+ ]
+}

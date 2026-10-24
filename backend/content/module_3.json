@@ -1,0 +1,3328 @@
+{
+ "module": 3,
+ "topics": [
+  {
+   "topic": "Autocorrelation and Partial Autocorrelation (ACF, PACF)",
+   "questions": [
+    {
+     "q": "What does the autocorrelation function (ACF) at lag k measure?",
+     "options": [
+      "The correlation between y_t and y_{t−k} after removing the effect of lags 1 to k−1",
+      "The average of the series over the last k periods",
+      "The variance of the series computed k periods apart",
+      "The correlation between y_t and y_{t−k}"
+     ],
+     "answer": "The correlation between y_t and y_{t−k}",
+     "explanation": "ACF at lag k is the simple correlation of the series with its own k-period-lagged values. Removing the effect of the intermediate lags is what the PACF does, which is the most common confusion.",
+     "difficulty": "easy",
+     "concept": "ACF definition"
+    },
+    {
+     "q": "What does the partial autocorrelation function (PACF) at lag k measure?",
+     "options": [
+      "The correlation between y_t and y_{t−k} including all indirect effects",
+      "The correlation between y_t and y_{t−k} after removing the effects of lags 1 to k−1",
+      "The share of the total variance of y_t that is explained by the value at lag k alone",
+      "The correlation between y_t and an external predictor at lag k"
+     ],
+     "answer": "The correlation between y_t and y_{t−k} after removing the effects of lags 1 to k−1",
+     "explanation": "PACF isolates the direct relationship between y_t and y_{t−k} by controlling for the intermediate lags. Including indirect effects describes the ordinary ACF.",
+     "difficulty": "easy",
+     "concept": "PACF definition"
+    },
+    {
+     "q": "The autocorrelation of any series at lag 0 is always equal to:",
+     "options": [
+      "0",
+      "−1",
+      "1",
+      "The variance of the series"
+     ],
+     "answer": "1",
+     "explanation": "A series is perfectly correlated with itself, so ρ0 = 1. The autocovariance at lag 0 equals the variance, which is why some students pick that option, but the autocorrelation is standardised.",
+     "difficulty": "easy",
+     "concept": "ACF at lag 0"
+    },
+    {
+     "q": "For a series of n observations, the approximate 95% significance bounds drawn on an ACF plot are:",
+     "options": [
+      "±1.96/√n",
+      "±1.96/n",
+      "±1.96·√n",
+      "±0.05"
+     ],
+     "answer": "±1.96/√n",
+     "explanation": "Under white noise, sample autocorrelations are approximately normal with standard error 1/√n, giving bounds of ±1.96/√n. Dividing by n instead of √n makes the bounds far too narrow.",
+     "difficulty": "easy",
+     "concept": "significance bounds"
+    },
+    {
+     "q": "For a white noise series, the ACF at lags 1, 2, 3, ... should be:",
+     "options": [
+      "Approximately zero, mostly within the significance bounds",
+      "Close to 1 at lag 1 and then decaying slowly over many lags",
+      "Large spikes at every seasonal lag",
+      "Exactly equal to the PACF values squared"
+     ],
+     "answer": "Approximately zero, mostly within the significance bounds",
+     "explanation": "White noise has no autocorrelation, so sample autocorrelations should be near zero (about 95% inside the bounds). A slowly decaying ACF indicates trend or non-stationarity, not white noise.",
+     "difficulty": "easy",
+     "concept": "white noise ACF"
+    },
+    {
+     "q": "A plot of autocorrelation coefficients against lag number is called a:",
+     "options": [
+      "Correlogram",
+      "Histogram",
+      "Scatter-plot matrix",
+      "Box plot"
+     ],
+     "answer": "Correlogram",
+     "explanation": "The ACF plot is known as a correlogram. A histogram shows a distribution of values, not correlations across lags.",
+     "difficulty": "easy",
+     "concept": "correlogram"
+    },
+    {
+     "q": "How does the PACF at lag 1 relate to the ACF at lag 1?",
+     "options": [
+      "The PACF at lag 1 is always zero",
+      "The PACF at lag 1 is the square of the ACF at lag 1",
+      "They are equal",
+      "The PACF at lag 1 is always 1"
+     ],
+     "answer": "They are equal",
+     "explanation": "At lag 1 there are no intermediate lags to remove, so partial and ordinary autocorrelation coincide. The PACF is always 1 only at lag 0 (if plotted).",
+     "difficulty": "easy",
+     "concept": "PACF at lag 1"
+    },
+    {
+     "q": "Sample autocorrelation coefficients can take values in which range?",
+     "options": [
+      "0 to +1",
+      "0 to infinity",
+      "−1 to +1",
+      "−infinity to +infinity"
+     ],
+     "answer": "−1 to +1",
+     "explanation": "Autocorrelation is a correlation coefficient, so it lies between −1 and +1. Negative values are possible, for example when highs tend to follow lows.",
+     "difficulty": "easy",
+     "concept": "ACF range"
+    },
+    {
+     "q": "Which test checks whether a group of autocorrelations (e.g. the first 10 lags) is jointly zero?",
+     "options": [
+      "Augmented Dickey–Fuller test",
+      "F-test on a regression slope",
+      "Shapiro–Wilk test",
+      "Ljung–Box test"
+     ],
+     "answer": "Ljung–Box test",
+     "explanation": "The Ljung–Box (portmanteau) test checks whether several autocorrelations together differ from zero. The ADF test is for unit roots, not joint autocorrelation.",
+     "difficulty": "easy",
+     "concept": "Ljung-Box test"
+    },
+    {
+     "q": "The ACF of a monthly sales series starts near 0.95 and decreases very slowly over many lags. This most likely indicates:",
+     "options": [
+      "The series is white noise",
+      "The series is non-stationary, typically because of a trend",
+      "The series is a stationary MA(1) process with a large positive θ",
+      "The series has no autocorrelation"
+     ],
+     "answer": "The series is non-stationary, typically because of a trend",
+     "explanation": "A slow, almost linear decay in the ACF is the classic signature of trend or a unit root. An MA(1) would show a single spike at lag 1 and then cut off.",
+     "difficulty": "easy",
+     "concept": "trend in ACF"
+    },
+    {
+     "q": "A retailer has 120 monthly sales observations. The sample ACF at lag 3 is 0.15. Using the usual 95% bounds, how should this be read?",
+     "options": [
+      "Significant, because 0.15 is larger than 0.05",
+      "Significant, because 0.15 exceeds ±1.96/120 ≈ 0.016",
+      "It cannot be judged without first computing the PACF",
+      "Not significant, because 0.15 lies inside ±0.179"
+     ],
+     "answer": "Not significant, because 0.15 lies inside ±0.179",
+     "explanation": "The bound is 1.96/√120 ≈ 0.179, so 0.15 is inside it. Comparing with 0.05 confuses a correlation with a p-value, and 1.96/n wrongly narrows the bounds.",
+     "difficulty": "medium",
+     "concept": "significance bounds"
+    },
+    {
+     "q": "For the series 2, 4, 6, 8, 10, what is the sample lag-1 autocorrelation r1 (using the standard formula with the overall mean)?",
+     "options": [
+      "1.00",
+      "0.50",
+      "0.80",
+      "0.40"
+     ],
+     "answer": "0.40",
+     "explanation": "Mean = 6, deviations −4, −2, 0, 2, 4; the sum of lagged products is 8+0+0+8 = 16 and the sum of squares is 40, so r1 = 16/40 = 0.40. A Pearson correlation of the overlapping pairs would give 1.00, but the ACF uses the full-series mean and variance.",
+     "difficulty": "medium",
+     "concept": "ACF calculation"
+    },
+    {
+     "q": "The ACF of daily footfall at a Bengaluru mall shows significant spikes at lags 7, 14 and 21. This suggests:",
+     "options": [
+      "Weekly seasonality",
+      "An upward trend",
+      "An MA(7) process with no seasonality",
+      "Monthly seasonality"
+     ],
+     "answer": "Weekly seasonality",
+     "explanation": "Repeating spikes at multiples of 7 in daily data indicate a weekly cycle (weekends vs weekdays). Monthly seasonality would show around lag 30.",
+     "difficulty": "medium",
+     "concept": "seasonal ACF spikes"
+    },
+    {
+     "q": "For a stationary AR(1) process with φ = 0.6, what is the theoretical ACF at lag 2?",
+     "options": [
+      "0.60",
+      "1.20",
+      "0",
+      "0.36"
+     ],
+     "answer": "0.36",
+     "explanation": "For AR(1), ρk = φ^k, so ρ2 = 0.6² = 0.36. Zero would be the PACF at lag 2, not the ACF.",
+     "difficulty": "medium",
+     "concept": "ACF of AR(1)"
+    },
+    {
+     "q": "For a stationary AR(1) process with φ = 0.6, what is the theoretical PACF at lag 2?",
+     "options": [
+      "0",
+      "0.36",
+      "0.60",
+      "1.20"
+     ],
+     "answer": "0",
+     "explanation": "An AR(1) has a direct link only to lag 1, so the PACF cuts off after lag 1 and equals 0 at lag 2. 0.36 is the ACF at lag 2.",
+     "difficulty": "medium",
+     "concept": "PACF of AR(1)"
+    },
+    {
+     "q": "A stationary series shows one significant ACF spike at lag 1 and then nothing, while the PACF decays gradually. Which model is suggested?",
+     "options": [
+      "MA(1)",
+      "AR(1)",
+      "AR(2)",
+      "White noise"
+     ],
+     "answer": "MA(1)",
+     "explanation": "An ACF that cuts off after lag q with a tailing PACF is the MA(q) signature. AR(1) would show the reverse: PACF cutting off and ACF tailing.",
+     "difficulty": "medium",
+     "concept": "MA signature"
+    },
+    {
+     "q": "A stationary series has a PACF with significant spikes at lags 1 and 2 and none after, while the ACF tails off. Which model is suggested?",
+     "options": [
+      "MA(2)",
+      "AR(2)",
+      "ARMA(2,2)",
+      "AR(1)"
+     ],
+     "answer": "AR(2)",
+     "explanation": "A PACF cutting off after lag p with a decaying ACF points to AR(p), here p = 2. MA(2) would have the ACF cutting off after lag 2.",
+     "difficulty": "medium",
+     "concept": "AR signature"
+    },
+    {
+     "q": "After fitting a model to weekly FMCG sales, the Ljung–Box test on residuals (10 lags) gives a p-value of 0.42. What is the correct interpretation?",
+     "options": [
+      "Significant autocorrelation remains in the residuals, so the model must be revised",
+      "The series is non-stationary",
+      "No evidence of remaining autocorrelation; the residuals look like white noise",
+      "The model explains 42% of the variance"
+     ],
+     "answer": "No evidence of remaining autocorrelation; the residuals look like white noise",
+     "explanation": "The Ljung–Box null is that the autocorrelations are jointly zero; p = 0.42 means we fail to reject it, which is what a good model needs. Reading p as a share of variance explained is a common mistake.",
+     "difficulty": "medium",
+     "concept": "Ljung-Box test"
+    },
+    {
+     "q": "What does the ACF of a stationary AR(1) process with φ = −0.7 look like?",
+     "options": [
+      "All positive and decaying slowly",
+      "A single negative spike at lag 1 and zero afterwards",
+      "Alternating in sign while decaying in magnitude",
+      "Constant at −0.7 for all lags"
+     ],
+     "answer": "Alternating in sign while decaying in magnitude",
+     "explanation": "ρk = (−0.7)^k, so the values are −0.7, 0.49, −0.343, ... alternating and shrinking. A single spike then zero describes an MA(1).",
+     "difficulty": "medium",
+     "concept": "ACF of AR(1)"
+    },
+    {
+     "q": "With n = 100, r1 = 0.2 and r2 = 0.1, what is the Box–Pierce statistic Q = n Σ r_k² over the first two lags?",
+     "options": [
+      "30.0",
+      "0.05",
+      "0.5",
+      "5.0"
+     ],
+     "answer": "5.0",
+     "explanation": "Q = 100 × (0.2² + 0.1²) = 100 × 0.05 = 5.0. Forgetting to square gives 100 × 0.3 = 30, and forgetting to multiply by n gives 0.05.",
+     "difficulty": "medium",
+     "concept": "Box-Pierce statistic"
+    },
+    {
+     "q": "An analyst sees an ACF that starts at 0.95 and decays very slowly, and a PACF with one large spike near 0.95 at lag 1. What should be the next step?",
+     "options": [
+      "Fit an AR(1) with φ ≈ 0.95 directly to the levels, because the PACF cuts off after lag 1",
+      "Test for a unit root (e.g. ADF) and difference the series before choosing ARMA orders",
+      "Fit an MA(1) because the PACF has only one spike",
+      "Conclude the series is white noise"
+     ],
+     "answer": "Test for a unit root (e.g. ADF) and difference the series before choosing ARMA orders",
+     "explanation": "This pattern indicates a near-unit-root, non-stationary series; ACF/PACF identification is only valid after achieving stationarity. Fitting AR(1) to levels treats a likely random walk as a stationary process.",
+     "difficulty": "hard",
+     "concept": "trend in ACF"
+    },
+    {
+     "q": "For a stationary series, both the ACF and the PACF tail off gradually with no clear cut-off. What is the best modelling approach?",
+     "options": [
+      "Fit a pure AR model with p set equal to the last PACF lag that crosses the significance bounds",
+      "Consider mixed ARMA(p,q) models and compare candidates using AIC/BIC and residual checks",
+      "Fit a pure MA model with q equal to the last significant ACF lag",
+      "Conclude the series cannot be modelled"
+     ],
+     "answer": "Consider mixed ARMA(p,q) models and compare candidates using AIC/BIC and residual checks",
+     "explanation": "When neither function cuts off, a mixed ARMA process is indicated and orders are chosen by information criteria. Using the last significant lag for a pure model ignores that both functions decay.",
+     "difficulty": "hard",
+     "concept": "ARMA signature"
+    },
+    {
+     "q": "For a stationary AR(2) process with φ1 = 0.5 and φ2 = 0.3, what is the theoretical lag-1 autocorrelation ρ1 = φ1/(1 − φ2)?",
+     "options": [
+      "0.714",
+      "0.500",
+      "0.385",
+      "0.800"
+     ],
+     "answer": "0.714",
+     "explanation": "ρ1 = 0.5/(1 − 0.3) = 0.5/0.7 ≈ 0.714. Using 0.5 assumes ρ1 = φ1 as in AR(1); 0.385 comes from wrongly dividing by 1 + φ2.",
+     "difficulty": "hard",
+     "concept": "ACF of AR(2)"
+    },
+    {
+     "q": "You plot the ACF of a genuine white noise series for 20 lags with 95% bounds. How many spikes would you expect to fall outside the bounds purely by chance?",
+     "options": [
+      "None",
+      "About 1",
+      "About 5",
+      "About 10"
+     ],
+     "answer": "About 1",
+     "explanation": "With 5% false positives per lag, 20 × 0.05 ≈ 1 spike is expected by chance. Expecting none leads analysts to over-react to a single marginal spike.",
+     "difficulty": "hard",
+     "concept": "significance bounds"
+    },
+    {
+     "q": "An e-commerce firm's demand model has residual Ljung–Box p-value of 0.001. What should the planning team conclude?",
+     "options": [
+      "The model is excellent, because a very small p-value means the fitted coefficients are significant",
+      "The residuals are white noise, so forecasts are optimal",
+      "The model has left predictable structure in the residuals, so it can be improved",
+      "The original series must be stationary"
+     ],
+     "answer": "The model has left predictable structure in the residuals, so it can be improved",
+     "explanation": "A small Ljung–Box p-value rejects the null of no autocorrelation, so information remains in the residuals. Treating any small p-value as 'good' is a common misreading.",
+     "difficulty": "hard",
+     "concept": "Ljung-Box test"
+    },
+    {
+     "q": "Why is the PACF, rather than the ACF, used to identify the order p of an AR model?",
+     "options": [
+      "The ACF of an AR(p) is always zero beyond lag p",
+      "The PACF is easier to compute than the ACF",
+      "In an AR(p), correlations beyond lag p are only indirect, passing through intermediate lags; the PACF removes these, so it cuts off at p",
+      "The PACF measures seasonality and the ACF measures trend, and because AR models describe seasonal persistence the PACF is the natural tool"
+     ],
+     "answer": "In an AR(p), correlations beyond lag p are only indirect, passing through intermediate lags; the PACF removes these, so it cuts off at p",
+     "explanation": "AR dependence propagates, so the ACF decays rather than cuts off; the PACF strips out indirect effects and cuts off after lag p. Saying the ACF is zero beyond p confuses AR with MA behaviour.",
+     "difficulty": "hard",
+     "concept": "PACF definition"
+    },
+    {
+     "q": "A series has ACF ρ1 = 0.8 and ρ2 = 0.64. Using φ22 = (ρ2 − ρ1²)/(1 − ρ1²), what is the PACF at lag 2?",
+     "options": [
+      "0.64",
+      "0.80",
+      "0.16",
+      "0"
+     ],
+     "answer": "0",
+     "explanation": "φ22 = (0.64 − 0.64)/(1 − 0.64) = 0; the pattern is exactly AR(1) with φ = 0.8. Reporting 0.64 confuses the ACF at lag 2 with the PACF.",
+     "difficulty": "hard",
+     "concept": "PACF calculation"
+    },
+    {
+     "q": "A series has ACF ρ1 = 0.5 and ρ2 = 0.5. What is the PACF at lag 2, using φ22 = (ρ2 − ρ1²)/(1 − ρ1²)?",
+     "options": [
+      "0.333",
+      "0.500",
+      "0.250",
+      "0"
+     ],
+     "answer": "0.333",
+     "explanation": "φ22 = (0.5 − 0.25)/(1 − 0.25) = 0.25/0.75 ≈ 0.333. Stopping at the numerator gives 0.25; assuming PACF = ACF gives 0.5.",
+     "difficulty": "hard",
+     "concept": "PACF calculation"
+    },
+    {
+     "q": "After fitting a non-seasonal ARIMA to monthly hotel occupancy, the residual ACF shows one significant spike at lag 12 and nothing else. What does this imply?",
+     "options": [
+      "The model is adequate because only one spike is significant",
+      "Seasonality has not been captured; add a seasonal term (e.g. seasonal MA or AR at lag 12)",
+      "Increase the non-seasonal AR order to p = 12 so that the model includes every lag up to the seasonal one",
+      "The series needs a second ordinary difference"
+     ],
+     "answer": "Seasonality has not been captured; add a seasonal term (e.g. seasonal MA or AR at lag 12)",
+     "explanation": "A residual spike exactly at the seasonal lag signals unmodelled annual dependence, best handled by a seasonal term. Raising p to 12 adds many unnecessary parameters.",
+     "difficulty": "hard",
+     "concept": "seasonal ACF spikes"
+    },
+    {
+     "q": "Why is the ACF of a strongly trending series misleading for identifying short-run dependence?",
+     "options": [
+      "The ACF cannot be computed at all when a trend is present, because the mean of a trending series is undefined",
+      "The trend creates large positive autocorrelations at many lags, masking the short-run correlation structure",
+      "A trend makes all autocorrelations negative",
+      "A trend only affects the PACF, not the ACF"
+     ],
+     "answer": "The trend creates large positive autocorrelations at many lags, masking the short-run correlation structure",
+     "explanation": "Trend dominates the covariance, so the ACF stays high for many lags and hides ARMA structure until the series is differenced or detrended. The ACF can be computed; it is just uninformative.",
+     "difficulty": "hard",
+     "concept": "trend in ACF"
+    }
+   ],
+   "references": [
+    "Autocorrelation tells us how strongly a series is related to its own past. The ACF at lag k is the correlation between this period's value and the value k periods earlier, for example this week's sales and sales one week ago. The partial autocorrelation (PACF) at lag k measures only the direct link between today and k periods back, after removing the influence of the lags in between. We plot both as correlograms with significance bounds of about ±1.96/√n. Spikes outside the bounds are meaningful. Together they help us identify models: an AR(p) shows a PACF that cuts off after lag p and an ACF that tails off, while an MA(q) shows the ACF cutting off after lag q.",
+    "Think of daily footfall in a mall. If Saturday crowds are high, the following Saturday is probably high too, so the ACF shows spikes at lags 7, 14 and 21, revealing weekly seasonality. If yesterday's footfall strongly predicts today's, we see a big lag-1 autocorrelation. The PACF answers a sharper question: does footfall two days ago still matter once we know yesterday's? If not, the PACF cuts off after lag 1, pointing to an AR(1). A slowly decaying ACF warns us the series has a trend and is not stationary, so we should difference it first. Bars inside the ±1.96/√n bands are treated as noise.",
+    "For a manager, the ACF and PACF are diagnostic tools that decide which forecasting model to build and whether a model is finished. Before modelling, we check the ACF: slow decay means non-stationarity, so we difference. Then the patterns guide the order: PACF cut-off suggests autoregressive terms, ACF cut-off suggests moving-average terms, and both tailing off suggests ARMA. After fitting, we check the residual ACF and run a Ljung–Box test. If the p-value is large and no spikes cross the bounds, the residuals are white noise and the model has captured the predictable pattern. Significant spikes, for instance at lag 12, mean money is being left on the table and the model should be improved."
+   ],
+   "key_concepts": [
+    "autocorrelation",
+    "partial autocorrelation",
+    "lag",
+    "correlogram",
+    "significance bounds",
+    "cuts off",
+    "tails off",
+    "ar model",
+    "ma model",
+    "white noise",
+    "seasonality",
+    "stationary",
+    "ljung-box test",
+    "residuals"
+   ]
+  },
+  {
+   "topic": "Moving Average process MA(q)",
+   "questions": [
+    {
+     "q": "In time series modelling, an MA(q) process expresses y_t as:",
+     "options": [
+      "The average of the last q observations of y",
+      "A constant plus the current and q past white-noise error terms",
+      "A linear function of the q previous values of y plus a white-noise error term",
+      "A trend line plus a seasonal index"
+     ],
+     "answer": "A constant plus the current and q past white-noise error terms",
+     "explanation": "An MA(q) model is a weighted sum of current and past random shocks (forecast errors). Averaging the last q observations is moving-average smoothing, and lagged values of y define an AR model.",
+     "difficulty": "easy",
+     "concept": "MA(q) definition"
+    },
+    {
+     "q": "Which equation represents an MA(1) process?",
+     "options": [
+      "y_t = (y_{t−1} + y_{t−2})/2",
+      "y_t = μ + ε_t + θε_{t−1}",
+      "y_t = c + φy_{t−1} + ε_t",
+      "y_t = y_{t−1} + ε_t"
+     ],
+     "answer": "y_t = μ + ε_t + θε_{t−1}",
+     "explanation": "MA(1) uses the current shock and one lagged shock. c + φy_{t−1} + ε_t is AR(1), and y_{t−1} + ε_t is a random walk.",
+     "difficulty": "easy",
+     "concept": "MA(1) equation"
+    },
+    {
+     "q": "How does the MA component in ARIMA differ from moving-average smoothing of sales data?",
+     "options": [
+      "They are the same technique under different names",
+      "MA(q) models dependence on past forecast errors, whereas smoothing averages past observations",
+      "MA(q) averages the last q observations with equal weights, whereas smoothing gives more weight to recent observations",
+      "Smoothing uses past errors, whereas MA(q) uses past observations"
+     ],
+     "answer": "MA(q) models dependence on past forecast errors, whereas smoothing averages past observations",
+     "explanation": "The MA in ARIMA refers to lagged error (shock) terms, not to averaging observed values. Treating them as the same is a very common confusion.",
+     "difficulty": "easy",
+     "concept": "MA vs smoothing"
+    },
+    {
+     "q": "The theoretical ACF of an MA(q) process:",
+     "options": [
+      "Decays slowly and never reaches zero",
+      "Cuts off after lag 1 regardless of q",
+      "Cuts off (becomes zero) after lag q",
+      "Shows spikes only at seasonal lags"
+     ],
+     "answer": "Cuts off (becomes zero) after lag q",
+     "explanation": "An MA(q) only has memory of q past shocks, so autocorrelations beyond lag q are zero. Slow decay is typical of AR or non-stationary series.",
+     "difficulty": "easy",
+     "concept": "MA signature"
+    },
+    {
+     "q": "Is a finite-order MA(q) process stationary?",
+     "options": [
+      "Only if all θ coefficients are less than 1 in absolute value",
+      "Only if q is even",
+      "Yes, always, for any finite parameter values",
+      "Never, because errors accumulate over time"
+     ],
+     "answer": "Yes, always, for any finite parameter values",
+     "explanation": "A finite MA is a finite weighted sum of white noise, so its mean and variance are constant. The |θ| < 1 condition relates to invertibility, not stationarity.",
+     "difficulty": "easy",
+     "concept": "MA stationarity"
+    },
+    {
+     "q": "An MA(1) process y_t = μ + ε_t + θε_{t−1} is invertible when:",
+     "options": [
+      "|θ| > 1",
+      "|θ| < 1",
+      "θ = 1",
+      "θ > 0 only"
+     ],
+     "answer": "|θ| < 1",
+     "explanation": "Invertibility requires |θ| < 1 so the MA can be rewritten as a convergent infinite AR. Confusing it with stationarity is common; every finite MA is stationary.",
+     "difficulty": "easy",
+     "concept": "invertibility"
+    },
+    {
+     "q": "The error terms ε_t in an MA model are assumed to be:",
+     "options": [
+      "Autocorrelated over time, since the MA model is built to capture that correlation",
+      "Increasing over time with the trend",
+      "White noise: zero mean, constant variance and uncorrelated over time",
+      "Equal to the observed values of the series"
+     ],
+     "answer": "White noise: zero mean, constant variance and uncorrelated over time",
+     "explanation": "MA models are built from uncorrelated shocks; all the autocorrelation in y comes from overlapping shocks. Autocorrelated errors would mean the model is mis-specified.",
+     "difficulty": "easy",
+     "concept": "white noise errors"
+    },
+    {
+     "q": "In an MA(q) model, q represents:",
+     "options": [
+      "The number of lagged error terms included",
+      "The number of lagged values of y included",
+      "The number of differences taken",
+      "The seasonal period"
+     ],
+     "answer": "The number of lagged error terms included",
+     "explanation": "q counts lagged shocks. Lagged values of y belong to the AR order p and differences to d.",
+     "difficulty": "easy",
+     "concept": "MA order"
+    },
+    {
+     "q": "The theoretical PACF of an invertible MA(q) process:",
+     "options": [
+      "Cuts off sharply after lag q",
+      "Is zero at every lag",
+      "Equals 1 at every lag",
+      "Tails off gradually"
+     ],
+     "answer": "Tails off gradually",
+     "explanation": "For an MA process the PACF decays while the ACF cuts off. Cutting off after lag q is the ACF property, not the PACF.",
+     "difficulty": "easy",
+     "concept": "MA signature"
+    },
+    {
+     "q": "What is the mean of the process y_t = μ + ε_t + θ1ε_{t−1} + θ2ε_{t−2}?",
+     "options": [
+      "μ(1 + θ1 + θ2)",
+      "μ/(1 − θ1 − θ2)",
+      "0 always",
+      "μ"
+     ],
+     "answer": "μ",
+     "explanation": "Each ε has zero mean, so the expected value is just μ. The μ/(1 − ...) form resembles the mean of an AR process.",
+     "difficulty": "easy",
+     "concept": "MA mean"
+    },
+    {
+     "q": "For an MA(1) process with θ = 0.5, what is the lag-1 autocorrelation ρ1 = θ/(1 + θ²)?",
+     "options": [
+      "0.50",
+      "0.67",
+      "0.40",
+      "0.25"
+     ],
+     "answer": "0.40",
+     "explanation": "ρ1 = 0.5/(1 + 0.25) = 0.40. Reporting θ itself (0.50) assumes ρ1 = θ, which is an AR(1) habit; 0.67 comes from dividing by 1 − θ².",
+     "difficulty": "medium",
+     "concept": "MA(1) ACF"
+    },
+    {
+     "q": "For an MA(1) process with θ = 0.5, what is the theoretical autocorrelation at lag 2?",
+     "options": [
+      "0",
+      "0.25",
+      "0.16",
+      "0.40"
+     ],
+     "answer": "0",
+     "explanation": "An MA(1) has memory of one shock only, so ρ2 = 0. Squaring θ (0.25) or ρ1 (0.16) imports AR(1)-style geometric decay.",
+     "difficulty": "medium",
+     "concept": "MA(1) ACF"
+    },
+    {
+     "q": "An MA(1) model for daily branch cash withdrawals is y_t = 100 + ε_t + 0.6ε_{t−1} (₹ lakh). Today's actual was 110 and today's forecast was 100, so ε_t = 10. What is tomorrow's forecast?",
+     "options": [
+      "106",
+      "110",
+      "100",
+      "104"
+     ],
+     "answer": "106",
+     "explanation": "ŷ_{t+1} = 100 + 0.6 × 10 = 106 because the future shock has expected value zero. Using today's actual (110) treats the model like a naive forecast.",
+     "difficulty": "medium",
+     "concept": "MA forecasting"
+    },
+    {
+     "q": "For the same MA(1) model y_t = 100 + ε_t + 0.6ε_{t−1} with ε_t = 10, what is the forecast two days ahead?",
+     "options": [
+      "106",
+      "103.6",
+      "100",
+      "112"
+     ],
+     "answer": "100",
+     "explanation": "Two steps ahead both relevant shocks are future values with zero expectation, so the forecast reverts to the mean of 100. 103.6 wrongly applies AR-style decay (100 + 0.6 × 6).",
+     "difficulty": "medium",
+     "concept": "MA forecasting"
+    },
+    {
+     "q": "An MA(2) model is y_t = 50 + ε_t + 0.4ε_{t−1} + 0.2ε_{t−2}. If ε_t = 5 and ε_{t−1} = 10, what is ŷ_{t+1}?",
+     "options": [
+      "52",
+      "57",
+      "50",
+      "54"
+     ],
+     "answer": "54",
+     "explanation": "ŷ_{t+1} = 50 + 0.4 × 5 + 0.2 × 10 = 54. Using only the first MA term gives 52, and adding ε_t unweighted (50 + 5 + 2) gives 57.",
+     "difficulty": "medium",
+     "concept": "MA forecasting"
+    },
+    {
+     "q": "A stationary series shows significant ACF spikes at lags 1 and 2 only and a gradually decaying PACF. Which model fits?",
+     "options": [
+      "AR(2)",
+      "MA(2)",
+      "MA(1)",
+      "ARMA(2,2)"
+     ],
+     "answer": "MA(2)",
+     "explanation": "The ACF cutting off after lag 2 with a tailing PACF is the MA(2) signature. AR(2) would need the PACF, not the ACF, to cut off at 2.",
+     "difficulty": "medium",
+     "concept": "MA signature"
+    },
+    {
+     "q": "An MA(1) process has error variance σ² = 4 and θ = 0.5. What is the variance of y_t, given Var(y) = σ²(1 + θ²)?",
+     "options": [
+      "4",
+      "5",
+      "6",
+      "2"
+     ],
+     "answer": "5",
+     "explanation": "Var(y) = 4 × (1 + 0.25) = 5. Forgetting the lagged shock gives 4; using 1 + θ gives 6.",
+     "difficulty": "medium",
+     "concept": "MA variance"
+    },
+    {
+     "q": "What is the maximum possible absolute value of the lag-1 autocorrelation for an MA(1) process?",
+     "options": [
+      "1",
+      "0.25",
+      "0.707",
+      "0.5"
+     ],
+     "answer": "0.5",
+     "explanation": "ρ1 = θ/(1 + θ²) peaks at 0.5 when θ = ±1. Assuming it can reach 1 ignores that the current shock always adds unshared variance.",
+     "difficulty": "medium",
+     "concept": "MA(1) ACF"
+    },
+    {
+     "q": "A hotel's weekly demand changes show a single negative ACF spike of −0.45 at lag 1 and a negative, decaying PACF. Which model is suggested?",
+     "options": [
+      "AR(1) with a negative φ",
+      "MA(1) with a positive θ",
+      "MA(1) with a negative θ",
+      "White noise"
+     ],
+     "answer": "MA(1) with a negative θ",
+     "explanation": "A lone ACF spike at lag 1 indicates MA(1), and its negative sign means θ is negative. AR(1) would show a decaying ACF and a single PACF spike.",
+     "difficulty": "medium",
+     "concept": "MA signature"
+    },
+    {
+     "q": "For an MA(3) model, what are the forecasts for horizons beyond 3 steps ahead?",
+     "options": [
+      "Equal to the last observed value",
+      "Growing linearly with the horizon",
+      "Equal to the process mean",
+      "Equal to the three-period moving average of recent observations"
+     ],
+     "answer": "Equal to the process mean",
+     "explanation": "Beyond q steps, all shocks in the equation are future ones with zero expectation, so forecasts equal μ. Using a three-period average again confuses MA(q) with smoothing.",
+     "difficulty": "medium",
+     "concept": "MA forecasting"
+    },
+    {
+     "q": "MA(1) models with θ = 0.5 and θ = 2 produce the same ACF (ρ1 = 0.4). Why do forecasting packages report θ = 0.5?",
+     "options": [
+      "Only θ = 0.5 is invertible, so recent observations get more weight than distant ones and the model is uniquely identified",
+      "θ = 2 makes the MA(1) non-stationary, so its variance would keep growing over time and the forecasts would eventually explode",
+      "θ = 0.5 always gives a higher R²",
+      "θ = 2 implies a unit root that requires differencing"
+     ],
+     "answer": "Only θ = 0.5 is invertible, so recent observations get more weight than distant ones and the model is uniquely identified",
+     "explanation": "Invertibility (|θ| < 1) picks the unique representation in which past observations' influence decays. Both θ values give stationary processes, so non-stationarity is not the reason.",
+     "difficulty": "hard",
+     "concept": "invertibility"
+    },
+    {
+     "q": "A sample lag-1 autocorrelation of 0.4 is observed and an MA(1) is assumed. Solving θ/(1 + θ²) = 0.4 by method of moments, what is the invertible estimate of θ?",
+     "options": [
+      "0.5",
+      "2.0",
+      "0.4",
+      "0.8"
+     ],
+     "answer": "0.5",
+     "explanation": "0.4θ² − θ + 0.4 = 0 gives θ = 0.5 or 2; only 0.5 is invertible. Setting θ = ρ1 = 0.4 skips the equation entirely.",
+     "difficulty": "hard",
+     "concept": "MA(1) estimation"
+    },
+    {
+     "q": "A stationary series has sample ACF of 0.7 at lag 1 and nothing significant afterwards. A colleague insists it is MA(1). What is the best response?",
+     "options": [
+      "Accept MA(1), because an ACF that cuts off after lag 1 always identifies an MA(1) regardless of the size of the spike",
+      "Fit MA(1) with θ = 0.7",
+      "Fit MA(7) to capture the higher correlation",
+      "A pure MA(1) cannot have |ρ1| above 0.5, so check sampling error or consider other models such as AR or ARMA"
+     ],
+     "answer": "A pure MA(1) cannot have |ρ1| above 0.5, so check sampling error or consider other models such as AR or ARMA",
+     "explanation": "The MA(1) autocorrelation is bounded at 0.5, so 0.7 is inconsistent with it. Setting θ = 0.7 would imply ρ1 ≈ 0.47, not 0.7.",
+     "difficulty": "hard",
+     "concept": "MA(1) ACF"
+    },
+    {
+     "q": "A bank models daily ATM withdrawals as MA(1). A festival causes a large unexpected spike today. How long will this shock influence the model's forecasts?",
+     "options": [
+      "Only tomorrow's forecast; from two days ahead forecasts return to the mean",
+      "Permanently, shifting the forecast level",
+      "For many days, with the effect decaying geometrically at the rate θ each day",
+      "It never affects forecasts because shocks are random"
+     ],
+     "answer": "Only tomorrow's forecast; from two days ahead forecasts return to the mean",
+     "explanation": "An MA(1) remembers exactly one past shock, so its effect lasts one step. Geometric decay describes an AR(1) and permanent shifts describe a unit-root process.",
+     "difficulty": "hard",
+     "concept": "MA forecasting"
+    },
+    {
+     "q": "Why does the PACF of an invertible MA(1) tail off instead of cutting off?",
+     "options": [
+      "Because MA processes are non-stationary",
+      "An invertible MA(1) can be written as an infinite-order AR with geometrically declining weights, so partial correlations persist at all lags",
+      "Because the ACF of an MA(1) also tails off, and the PACF always mirrors the shape of the ACF for any stationary moving average process",
+      "Because the PACF always tails off for every model"
+     ],
+     "answer": "An invertible MA(1) can be written as an infinite-order AR with geometrically declining weights, so partial correlations persist at all lags",
+     "explanation": "Inverting the MA(1) yields AR(∞), so direct effects exist at every lag and the PACF decays. The ACF of an MA(1) cuts off, so that distractor is false.",
+     "difficulty": "hard",
+     "concept": "MA signature"
+    },
+    {
+     "q": "For an MA(2) with θ1 = 0.5 and θ2 = 0.3, what is ρ2 = θ2/(1 + θ1² + θ2²)?",
+     "options": [
+      "0.224",
+      "0.300",
+      "0.150",
+      "0"
+     ],
+     "answer": "0.224",
+     "explanation": "ρ2 = 0.3/(1 + 0.25 + 0.09) = 0.3/1.34 ≈ 0.224. Reporting θ2 itself ignores the variance in the denominator; zero would be ρ3.",
+     "difficulty": "hard",
+     "concept": "MA(2) ACF"
+    },
+    {
+     "q": "For an MA(2) with θ1 = 0.5 and θ2 = 0.3, what is ρ1 = (θ1 + θ1θ2)/(1 + θ1² + θ2²)?",
+     "options": [
+      "0.373",
+      "0.500",
+      "0.650",
+      "0.485"
+     ],
+     "answer": "0.485",
+     "explanation": "ρ1 = (0.5 + 0.15)/1.34 ≈ 0.485. Omitting the θ1θ2 cross term gives 0.5/1.34 ≈ 0.373, and forgetting the denominator gives 0.65.",
+     "difficulty": "hard",
+     "concept": "MA(2) ACF"
+    },
+    {
+     "q": "For an MA(2) model, how does the forecast-error variance behave for horizons of 3 steps and beyond?",
+     "options": [
+      "It keeps growing without limit as the horizon increases, as in a random walk",
+      "It stays constant at σ²(1 + θ1² + θ2²), the variance of the process",
+      "It falls to zero",
+      "It oscillates between positive and negative values"
+     ],
+     "answer": "It stays constant at σ²(1 + θ1² + θ2²), the variance of the process",
+     "explanation": "After q steps the forecast is the mean and the error variance equals the unconditional variance, so intervals stop widening. Unbounded growth is a feature of non-stationary (unit-root) models.",
+     "difficulty": "hard",
+     "concept": "MA forecast intervals"
+    },
+    {
+     "q": "A firm uses an MA(1) model to forecast quarterly sales eight quarters ahead for capacity planning. What is the main weakness?",
+     "options": [
+      "MA(1) forecasts explode at long horizons, because each forecast feeds the previous forecast error back into the next one",
+      "MA(1) cannot produce a one-step forecast",
+      "MA(1) forecasts copy the sales from eight quarters ago",
+      "Beyond one quarter the forecasts are just the historical mean, so the model gives little information for long-horizon planning"
+     ],
+     "answer": "Beyond one quarter the forecasts are just the historical mean, so the model gives little information for long-horizon planning",
+     "explanation": "An MA(1) forecast reverts to the mean after one step, so long-range capacity decisions get no dynamic signal. It does not explode; that would be a non-stationary model.",
+     "difficulty": "hard",
+     "concept": "MA managerial use"
+    },
+    {
+     "q": "A stationary demand series is differenced unnecessarily. The differenced series has ACF ≈ −0.5 at lag 1 and nothing after. What has happened?",
+     "options": [
+      "Over-differencing has introduced an MA(1) with θ close to −1, which is near non-invertible",
+      "The differenced series is now white noise",
+      "A genuine AR(1) structure with φ = −0.5 has been revealed that was hidden in the original levels",
+      "The series has acquired a unit root"
+     ],
+     "answer": "Over-differencing has introduced an MA(1) with θ close to −1, which is near non-invertible",
+     "explanation": "Differencing white noise gives ε_t − ε_{t−1}, whose ρ1 = −0.5, an MA(1) with θ = −1. Interpreting it as a real AR(1) misses that the pattern was created by the analyst.",
+     "difficulty": "hard",
+     "concept": "over-differencing"
+    }
+   ],
+   "references": [
+    "A moving average process, MA(q), says today's value equals an average level plus today's random shock plus a weighted share of the last q shocks. A shock is the surprise or forecast error, the part we could not predict. So MA(1) is y_t = μ + ε_t + θε_{t−1}. This is not the same as moving-average smoothing, which averages past sales figures; here we use past errors. Because the model only remembers q shocks, its ACF cuts off after lag q while the PACF tails off. A finite MA is always stationary, and we want it invertible (for MA(1), |θ| < 1). Forecasts beyond q steps simply return to the mean.",
+    "Imagine a bank branch where an unexpected rush of withdrawals happens today because of a local festival. Part of that surprise spills into tomorrow, as people who could not be served come back, but after that the effect disappears. That is an MA(1) pattern: tomorrow's forecast is the mean plus θ times today's surprise, and from the second day onward the forecast is just the average. On a correlogram this shows up as one significant ACF spike at lag 1 and nothing after, while the PACF decays gradually. The key point is that the model remembers past errors or shocks, not past sales values, and only for q periods.",
+    "For decision-making, an MA(q) model is useful when shocks to the business, such as a promotion, a supply delay or a weather event, have short-lived effects that fade completely after a few periods. It tells managers how much to adjust the next q forecasts after a surprise and reassures them that beyond q periods the forecast reverts to the normal mean level, with a stable forecast-error variance. We identify it when the ACF cuts off after lag q, and we check residuals are white noise. It is a poor choice for long-horizon planning on its own, since it carries no information beyond q periods, and it must not be confused with moving-average smoothing."
+   ],
+   "key_concepts": [
+    "moving average",
+    "error terms",
+    "shocks",
+    "white noise",
+    "lagged errors",
+    "acf cuts off",
+    "pacf tails off",
+    "lag q",
+    "invertibility",
+    "stationary",
+    "mean",
+    "forecast",
+    "not smoothing"
+   ]
+  },
+  {
+   "topic": "Autoregressive Process – AR(p)",
+   "questions": [
+    {
+     "q": "An autoregressive AR(p) model forecasts y_t using:",
+     "options": [
+      "A linear combination of p past forecast errors plus the current white-noise error",
+      "An external explanatory variable lagged p periods",
+      "A linear combination of its own p past values plus a white-noise error",
+      "The average of the last p observations with equal weights"
+     ],
+     "answer": "A linear combination of its own p past values plus a white-noise error",
+     "explanation": "Autoregressive means the series is regressed on its own lags. Using past forecast errors describes an MA(q) model.",
+     "difficulty": "easy",
+     "concept": "AR(p) definition"
+    },
+    {
+     "q": "Which equation represents an AR(1) process?",
+     "options": [
+      "y_t = μ + ε_t + θε_{t−1}",
+      "y_t = c + βt + ε_t",
+      "y_t = c + φy_{t−1} + ε_t",
+      "y_t = (y_{t−1} + y_{t−2} + y_{t−3})/3"
+     ],
+     "answer": "y_t = c + φy_{t−1} + ε_t",
+     "explanation": "AR(1) uses one lagged value of y. μ + ε_t + θε_{t−1} is MA(1) and c + βt is a deterministic trend.",
+     "difficulty": "easy",
+     "concept": "AR(1) equation"
+    },
+    {
+     "q": "An AR(1) process y_t = c + φy_{t−1} + ε_t is stationary when:",
+     "options": [
+      "|φ| > 1",
+      "|φ| < 1",
+      "φ = 1",
+      "φ > 0 only"
+     ],
+     "answer": "|φ| < 1",
+     "explanation": "With |φ| < 1 shocks die out and the mean and variance are constant. φ = 1 gives a unit root (random walk).",
+     "difficulty": "easy",
+     "concept": "AR stationarity"
+    },
+    {
+     "q": "The theoretical PACF of an AR(p) process:",
+     "options": [
+      "Tails off slowly without cutting off",
+      "Cuts off after lag 1 for any p",
+      "Cuts off after lag p",
+      "Is zero at all lags"
+     ],
+     "answer": "Cuts off after lag p",
+     "explanation": "AR(p) has direct dependence on exactly p lags, so the PACF is zero beyond p. A tailing PACF is the MA signature.",
+     "difficulty": "easy",
+     "concept": "AR signature"
+    },
+    {
+     "q": "The theoretical ACF of a stationary AR(p) process:",
+     "options": [
+      "Cuts off sharply after lag p, exactly mirroring the PACF pattern",
+      "Is exactly zero after lag 1",
+      "Tails off gradually (exponential decay or damped sine wave)",
+      "Stays constant at all lags"
+     ],
+     "answer": "Tails off gradually (exponential decay or damped sine wave)",
+     "explanation": "Because each value depends on earlier values, correlation propagates and the ACF decays. Cutting off after lag p is the ACF behaviour of MA(q).",
+     "difficulty": "easy",
+     "concept": "AR signature"
+    },
+    {
+     "q": "An AR(1) model with c = 0 and φ = 1 is known as a:",
+     "options": [
+      "Random walk",
+      "White noise process",
+      "Stationary AR(1)",
+      "MA(1) process"
+     ],
+     "answer": "Random walk",
+     "explanation": "y_t = y_{t−1} + ε_t is the random walk, which has a unit root and is non-stationary. White noise would need φ = 0.",
+     "difficulty": "easy",
+     "concept": "random walk"
+    },
+    {
+     "q": "In an AR(p) model, p refers to:",
+     "options": [
+      "The number of times the series is differenced",
+      "The number of lagged error terms",
+      "The seasonal period",
+      "The number of lagged values of the series used as predictors"
+     ],
+     "answer": "The number of lagged values of the series used as predictors",
+     "explanation": "p is the autoregressive order. Lagged errors are counted by q and differences by d.",
+     "difficulty": "easy",
+     "concept": "AR order"
+    },
+    {
+     "q": "AR models are most natural when:",
+     "options": [
+      "Shocks affect only the current period and vanish immediately",
+      "The series is purely random white noise",
+      "The series depends only on calendar dates",
+      "The current value depends on its own recent past, showing persistence or momentum"
+     ],
+     "answer": "The current value depends on its own recent past, showing persistence or momentum",
+     "explanation": "AR captures persistence: high values tend to follow high values. Shocks vanishing immediately describes white noise.",
+     "difficulty": "easy",
+     "concept": "AR intuition"
+    },
+    {
+     "q": "The mean of a stationary AR(1) process y_t = c + φy_{t−1} + ε_t is:",
+     "options": [
+      "c",
+      "c/φ",
+      "c(1 − φ)",
+      "c/(1 − φ)"
+     ],
+     "answer": "c/(1 − φ)",
+     "explanation": "Setting E(y_t) = E(y_{t−1}) = μ gives μ = c + φμ, so μ = c/(1 − φ). Treating c as the mean is a common error.",
+     "difficulty": "easy",
+     "concept": "AR mean"
+    },
+    {
+     "q": "An AR(1) model with φ = 0 reduces to:",
+     "options": [
+      "White noise around the constant c",
+      "A random walk",
+      "A deterministic trend",
+      "An MA(1) process"
+     ],
+     "answer": "White noise around the constant c",
+     "explanation": "With φ = 0, y_t = c + ε_t, which has no dependence on the past. A random walk needs φ = 1.",
+     "difficulty": "easy",
+     "concept": "AR with zero coefficient"
+    },
+    {
+     "q": "For the AR(1) model y_t = 20 + 0.6y_{t−1} + ε_t, what is the long-run mean?",
+     "options": [
+      "20",
+      "50",
+      "33.3",
+      "12.5"
+     ],
+     "answer": "50",
+     "explanation": "μ = 20/(1 − 0.6) = 50. Taking the constant 20 as the mean ignores the feedback; 33.3 comes from dividing by φ instead of 1 − φ.",
+     "difficulty": "medium",
+     "concept": "AR mean"
+    },
+    {
+     "q": "For y_t = 20 + 0.6y_{t−1} + ε_t, the latest weekly sales are y_T = 60 (₹ lakh). What is the one-step forecast ŷ_{T+1}?",
+     "options": [
+      "60",
+      "56",
+      "36",
+      "80"
+     ],
+     "answer": "56",
+     "explanation": "ŷ_{T+1} = 20 + 0.6 × 60 = 56. Forgetting the constant gives 36; adding 20 to the unweighted last value gives 80.",
+     "difficulty": "medium",
+     "concept": "AR forecasting"
+    },
+    {
+     "q": "For y_t = 20 + 0.6y_{t−1} + ε_t with y_T = 60, what is the two-step forecast ŷ_{T+2}?",
+     "options": [
+      "53.6",
+      "56.0",
+      "50.0",
+      "33.6"
+     ],
+     "answer": "53.6",
+     "explanation": "ŷ_{T+1} = 56, then ŷ_{T+2} = 20 + 0.6 × 56 = 53.6. 50 is the long-run mean reached only as the horizon grows; 33.6 omits the constant.",
+     "difficulty": "medium",
+     "concept": "AR forecasting"
+    },
+    {
+     "q": "For a stationary AR(1) with φ = 0.8, what is the theoretical autocorrelation at lag 3?",
+     "options": [
+      "0.800",
+      "0.512",
+      "2.400",
+      "0"
+     ],
+     "answer": "0.512",
+     "explanation": "ρk = φ^k, so ρ3 = 0.8³ = 0.512. Zero at lag 3 is the PACF of an AR(1), and 2.4 multiplies instead of raising to a power.",
+     "difficulty": "medium",
+     "concept": "ACF of AR(1)"
+    },
+    {
+     "q": "An AR(2) model is y_t = 10 + 0.5y_{t−1} + 0.3y_{t−2} + ε_t. With y_T = 40 and y_{T−1} = 30, what is ŷ_{T+1}?",
+     "options": [
+      "39",
+      "37",
+      "29",
+      "35"
+     ],
+     "answer": "39",
+     "explanation": "ŷ = 10 + 0.5 × 40 + 0.3 × 30 = 39. Swapping the lags (0.5 × 30 + 0.3 × 40 + 10) gives 37, and omitting the constant gives 29.",
+     "difficulty": "medium",
+     "concept": "AR forecasting"
+    },
+    {
+     "q": "A stationary series has significant PACF spikes at lags 1 and 2 only, while the ACF decays gradually. Which model fits best?",
+     "options": [
+      "MA(2)",
+      "AR(2)",
+      "AR(1)",
+      "ARMA(1,2)"
+     ],
+     "answer": "AR(2)",
+     "explanation": "A PACF cut-off at lag 2 with a tailing ACF identifies AR(2). MA(2) would show the ACF cutting off instead.",
+     "difficulty": "medium",
+     "concept": "AR signature"
+    },
+    {
+     "q": "A hotel's daily booking deviations from target follow an AR(1) with φ = −0.5. What does this imply?",
+     "options": [
+      "Above-target days tend to be followed by more above-target days",
+      "An above-target day tends to be followed by a below-target day",
+      "Booking deviations are pure white noise",
+      "Deviations grow larger over time"
+     ],
+     "answer": "An above-target day tends to be followed by a below-target day",
+     "explanation": "A negative φ produces oscillation: positive deviations are followed by negative ones. Persistence of the same sign requires positive φ.",
+     "difficulty": "medium",
+     "concept": "negative AR coefficient"
+    },
+    {
+     "q": "Which AR(1) coefficient gives a stationary process?",
+     "options": [
+      "φ = 1.00",
+      "φ = 1.20",
+      "φ = 0.95",
+      "φ = −1.05"
+     ],
+     "answer": "φ = 0.95",
+     "explanation": "Only |φ| < 1 is stationary, so 0.95 qualifies even though it is highly persistent. φ = 1 is a unit root, and |φ| > 1 is explosive.",
+     "difficulty": "medium",
+     "concept": "AR stationarity"
+    },
+    {
+     "q": "An AR(1) has φ = 0.8 and error variance σ² = 9. What is Var(y_t) = σ²/(1 − φ²)?",
+     "options": [
+      "9",
+      "11.25",
+      "25",
+      "45"
+     ],
+     "answer": "25",
+     "explanation": "Var = 9/(1 − 0.64) = 9/0.36 = 25. Using 1 − φ in the denominator gives 45, and ignoring persistence gives 9.",
+     "difficulty": "medium",
+     "concept": "AR variance"
+    },
+    {
+     "q": "In an AR(1) with φ = 0.5, a demand shock of 100 units hits today. How much of the shock remains in the series 3 periods later?",
+     "options": [
+      "12.5 units",
+      "50 units",
+      "25 units",
+      "0 units"
+     ],
+     "answer": "12.5 units",
+     "explanation": "The effect after k periods is φ^k × shock = 0.5³ × 100 = 12.5. 50 is the effect after one period and 25 after two.",
+     "difficulty": "medium",
+     "concept": "AR impulse response"
+    },
+    {
+     "q": "Which AR(2) parameter pair (φ1, φ2) gives a stationary process? (Conditions: φ1 + φ2 < 1, φ2 − φ1 < 1, |φ2| < 1.)",
+     "options": [
+      "φ1 = 0.5, φ2 = 0.3",
+      "φ1 = 0.7, φ2 = 0.4",
+      "φ1 = 0.2, φ2 = 1.1",
+      "φ1 = −0.6, φ2 = 0.5"
+     ],
+     "answer": "φ1 = 0.5, φ2 = 0.3",
+     "explanation": "0.5 + 0.3 = 0.8 < 1, 0.3 − 0.5 < 1 and |0.3| < 1, so it is stationary. (0.7, 0.4) sums to 1.1; (0.2, 1.1) has |φ2| > 1; (−0.6, 0.5) has φ2 − φ1 = 1.1.",
+     "difficulty": "hard",
+     "concept": "AR stationarity"
+    },
+    {
+     "q": "For y_t = 12 + 0.7y_{t−1} + ε_t with the last value y_T = 70, what do forecasts approach as the horizon becomes very long?",
+     "options": [
+      "70",
+      "40",
+      "12",
+      "They grow without limit"
+     ],
+     "answer": "40",
+     "explanation": "Stationary AR forecasts revert to the mean c/(1 − φ) = 12/0.3 = 40. Staying at 70 is naive-forecast behaviour, typical of a random walk.",
+     "difficulty": "hard",
+     "concept": "AR forecast mean reversion"
+    },
+    {
+     "q": "The ACF of a stationary quarterly demand series shows a damped sine-wave pattern and the PACF has two significant spikes. What is the best interpretation?",
+     "options": [
+      "An AR(2) with complex roots, capturing a pseudo-cyclical pattern",
+      "An MA(2), because there are exactly two significant spikes on the correlogram",
+      "A random walk with drift",
+      "White noise with outliers"
+     ],
+     "answer": "An AR(2) with complex roots, capturing a pseudo-cyclical pattern",
+     "explanation": "AR(2) with φ1² + 4φ2 < 0 has complex roots, producing a damped oscillating ACF, and the PACF cuts off at 2. MA(2) would show two ACF spikes and then zero.",
+     "difficulty": "hard",
+     "concept": "AR(2) cyclical ACF"
+    },
+    {
+     "q": "Sample autocorrelations are ρ1 = 0.6 and ρ2 = 0.5. Using Yule–Walker for an AR(2), φ2 = (ρ2 − ρ1²)/(1 − ρ1²). What is φ2?",
+     "options": [
+      "0.219",
+      "0.500",
+      "0.140",
+      "0.360"
+     ],
+     "answer": "0.219",
+     "explanation": "φ2 = (0.5 − 0.36)/(1 − 0.36) = 0.14/0.64 ≈ 0.219. Stopping at the numerator gives 0.14, and taking ρ2 as φ2 gives 0.5.",
+     "difficulty": "hard",
+     "concept": "Yule-Walker estimation"
+    },
+    {
+     "q": "An FMCG firm estimates an AR(1) for monthly sales and gets φ = 0.99. What is the main implication?",
+     "options": [
+      "Sales revert to their mean within a month",
+      "The model is ideal, because a φ close to 1 means past sales explain almost all of the variation in current sales, so no further testing is needed",
+      "The series is close to a unit root; shocks persist for a very long time, so test for a unit root and consider differencing",
+      "Sales are white noise"
+     ],
+     "answer": "The series is close to a unit root; shocks persist for a very long time, so test for a unit root and consider differencing",
+     "explanation": "φ = 0.99 implies extremely slow mean reversion and is hard to distinguish from a random walk; unit root testing is needed. Fast mean reversion would need a small φ.",
+     "difficulty": "hard",
+     "concept": "near unit root"
+    },
+    {
+     "q": "After fitting an AR(2), the residual ACF has a significant spike at lag 3 and the Ljung–Box p-value is 0.01. What should the analyst do?",
+     "options": [
+      "Accept the model since AR(2) coefficients are significant",
+      "Difference the series twice",
+      "Drop the AR terms and use the mean as forecast",
+      "Revise the model, e.g. try AR(3) or add an MA term, and recheck residuals"
+     ],
+     "answer": "Revise the model, e.g. try AR(3) or add an MA term, and recheck residuals",
+     "explanation": "Remaining residual autocorrelation means the model is under-specified. Significant coefficients do not prove the residuals are white noise.",
+     "difficulty": "hard",
+     "concept": "residual diagnostics"
+    },
+    {
+     "q": "A bank observes that an unexpected jump in deposits fades gradually over several months rather than disappearing after one month. Which model structure fits this behaviour best?",
+     "options": [
+      "MA(1)",
+      "White noise",
+      "Random walk",
+      "AR(1) with a positive φ"
+     ],
+     "answer": "AR(1) with a positive φ",
+     "explanation": "Gradual geometric fading is AR(1) behaviour (effect φ^k). MA(1) would drop the effect after one period and a random walk would make it permanent.",
+     "difficulty": "hard",
+     "concept": "AR vs MA choice"
+    },
+    {
+     "q": "For y_t = 10 + 0.8y_{t−1} + ε_t with y_T = 70, what is the two-step forecast ŷ_{T+2}?",
+     "options": [
+      "66.0",
+      "56.0",
+      "50.0",
+      "62.8"
+     ],
+     "answer": "62.8",
+     "explanation": "ŷ_{T+1} = 10 + 56 = 66 and ŷ_{T+2} = 10 + 0.8 × 66 = 62.8. 66 is only the one-step forecast; 50 is the long-run mean.",
+     "difficulty": "hard",
+     "concept": "AR forecasting"
+    },
+    {
+     "q": "For an AR(1) with φ = 0.8, approximately how many periods does it take for a shock to fall to half its initial size (half-life = ln 0.5 / ln φ)?",
+     "options": [
+      "About 2.5 periods",
+      "About 3.1 periods",
+      "About 0.8 periods",
+      "About 5 periods"
+     ],
+     "answer": "About 3.1 periods",
+     "explanation": "ln 0.5 / ln 0.8 = −0.693/−0.223 ≈ 3.1. 2.5 comes from 0.5/(1 − φ) and 5 from 1/(1 − φ), neither of which is the half-life.",
+     "difficulty": "hard",
+     "concept": "AR impulse response"
+    },
+    {
+     "q": "Why does the ACF of an AR(1) tail off instead of cutting off?",
+     "options": [
+      "Because the AR(1) is non-stationary",
+      "Because the error terms in an AR(1) are themselves autocorrelated, so each shock is correlated with all earlier shocks at every lag",
+      "Because the ACF of every model tails off",
+      "Because y_t depends on y_{t−1}, which depends on y_{t−2}, so every past shock affects y_t with a weight φ^k that decays but never becomes exactly zero"
+     ],
+     "answer": "Because y_t depends on y_{t−1}, which depends on y_{t−2}, so every past shock affects y_t with a weight φ^k that decays but never becomes exactly zero",
+     "explanation": "The AR(1) is equivalent to an MA(∞) with weights φ^k, so correlations decay geometrically. A stationary AR(1) still has a tailing ACF, so non-stationarity is not the reason.",
+     "difficulty": "hard",
+     "concept": "AR signature"
+    }
+   ],
+   "references": [
+    "An autoregressive model, AR(p), forecasts a series using its own past values. AR(1) is y_t = c + φy_{t−1} + ε_t: this period depends on last period plus a random shock. The order p is how many past values we use. For the model to be stationary, the coefficients must keep shocks from exploding; for AR(1) that means |φ| < 1. If φ = 1 we get a random walk. In an AR process the ACF tails off gradually, while the PACF cuts off after lag p, which is how we identify p. The long-run mean is c/(1 − φ), and forecasts move steadily back toward that mean as the horizon increases.",
+    "Consider weekly sales at a supermarket chain. If last week was strong, this week is usually strong too, because of loyal customers and momentum. An AR(1) captures this: forecast = constant + φ × last week's sales. With c = 20 and φ = 0.6, if last week was 60 the forecast is 56, and further forecasts drift toward the long-run mean of 50. A one-off promotion spike fades gradually: with φ = 0.5, half remains after one week, a quarter after two. On the PACF we would see one significant spike at lag 1, and the ACF would decay slowly. If φ were close to 1, the effect would barely fade and the series would behave like a random walk.",
+    "For a manager, an AR(p) model is valuable when business performance has persistence: today's demand, deposits or occupancy tell us a lot about tomorrow's. The φ coefficients show how strongly the past carries forward and how quickly shocks die out, which informs inventory buffers and staffing. We choose p by looking at where the PACF cuts off and by comparing AIC, then confirm the residuals are white noise. We must check stationarity: if φ is near 1, shocks are almost permanent, so we should test for a unit root and difference instead. Stationary AR forecasts always revert to a long-run mean, so they suit medium-term planning where things return to normal."
+   ],
+   "key_concepts": [
+    "autoregressive",
+    "past values",
+    "lag",
+    "order p",
+    "coefficient phi",
+    "pacf cuts off",
+    "acf tails off",
+    "stationary",
+    "random walk",
+    "mean reversion",
+    "long-run mean",
+    "persistence",
+    "white noise"
+   ]
+  },
+  {
+   "topic": "Stationarity and Unit Root Tests (ADF Test)",
+   "questions": [
+    {
+     "q": "A time series is (weakly) stationary when:",
+     "options": [
+      "Its values never change from one period to the next",
+      "Its mean and variance are constant and its autocovariance depends only on the lag",
+      "It has a steady upward trend with exactly the same growth in sales in every single period",
+      "Its mean is zero but its variance is allowed to grow over time"
+     ],
+     "answer": "Its mean and variance are constant and its autocovariance depends only on the lag",
+     "explanation": "Weak stationarity requires constant mean, constant variance and lag-dependent autocovariance. A steady trend means the mean changes, so a trending series is not stationary.",
+     "difficulty": "easy",
+     "concept": "weak stationarity"
+    },
+    {
+     "q": "What is the null hypothesis of the Augmented Dickey–Fuller (ADF) test?",
+     "options": [
+      "The series has a unit root (it is non-stationary)",
+      "The series is stationary (its mean and variance are constant)",
+      "The residuals are white noise",
+      "The series has no seasonal pattern"
+     ],
+     "answer": "The series has a unit root (it is non-stationary)",
+     "explanation": "ADF's null is a unit root; rejecting it supports stationarity. Assuming the null is stationarity confuses ADF with the KPSS test.",
+     "difficulty": "easy",
+     "concept": "ADF null hypothesis"
+    },
+    {
+     "q": "If a sales series has a unit root, a one-off shock to sales will:",
+     "options": [
+      "Disappear completely after one period",
+      "Fade away geometrically until the series is back at its mean",
+      "Have a permanent effect on the level of the series",
+      "Affect only the seasonal pattern"
+     ],
+     "answer": "Have a permanent effect on the level of the series",
+     "explanation": "With a unit root, shocks accumulate and permanently shift the level. Geometric fading back to a mean is the behaviour of a stationary AR process.",
+     "difficulty": "easy",
+     "concept": "unit root meaning"
+    },
+    {
+     "q": "A random walk y_t = y_{t−1} + ε_t is an example of:",
+     "options": [
+      "A stationary series with constant variance",
+      "A white noise series",
+      "A deterministic linear trend",
+      "A non-stationary series with a unit root"
+     ],
+     "answer": "A non-stationary series with a unit root",
+     "explanation": "The random walk has φ = 1, so its variance grows over time. Its differences are white noise, but the level itself is not.",
+     "difficulty": "easy",
+     "concept": "random walk"
+    },
+    {
+     "q": "An ADF test gives a p-value of 0.01. At the 5% level, the conclusion is:",
+     "options": [
+      "Reject the unit root null; the series can be treated as stationary",
+      "Fail to reject the null; the series is non-stationary",
+      "Reject stationarity; the series has a unit root and must be differenced first",
+      "The test is inconclusive whenever the p-value is below 0.05"
+     ],
+     "answer": "Reject the unit root null; the series can be treated as stationary",
+     "explanation": "p < 0.05 rejects the unit root null, supporting stationarity. Reading a small p-value as 'non-stationary' reverses the ADF hypotheses.",
+     "difficulty": "easy",
+     "concept": "ADF p-value"
+    },
+    {
+     "q": "ADF in time series analysis stands for:",
+     "options": [
+      "Autoregressive Distributed Forecast",
+      "Augmented Dickey–Fuller",
+      "Adjusted Durbin–Fisher",
+      "Automatic Differencing Function"
+     ],
+     "answer": "Augmented Dickey–Fuller",
+     "explanation": "The ADF test is the Augmented Dickey–Fuller unit root test. Durbin–Watson is a different test for residual autocorrelation.",
+     "difficulty": "easy",
+     "concept": "ADF meaning"
+    },
+    {
+     "q": "Why is the Dickey–Fuller test 'augmented' in the ADF test?",
+     "options": [
+      "A time trend is always added to every regression",
+      "Seasonal dummies are added to remove seasonality",
+      "Lagged differences of the series are added to absorb serial correlation in the errors",
+      "The sample is augmented with bootstrapped observations to increase the power of the test"
+     ],
+     "answer": "Lagged differences of the series are added to absorb serial correlation in the errors",
+     "explanation": "Adding lagged Δy terms makes the test valid when errors are autocorrelated. A trend term is optional and depends on the data.",
+     "difficulty": "easy",
+     "concept": "ADF augmentation"
+    },
+    {
+     "q": "Which unit root/stationarity test has stationarity as its null hypothesis?",
+     "options": [
+      "ADF test",
+      "KPSS test",
+      "Dickey–Fuller test",
+      "Phillips–Perron test"
+     ],
+     "answer": "KPSS test",
+     "explanation": "KPSS reverses the hypotheses: null = stationary. ADF, Dickey–Fuller and Phillips–Perron all have a unit root as the null.",
+     "difficulty": "easy",
+     "concept": "KPSS test"
+    },
+    {
+     "q": "Why do ARMA models require a stationary series?",
+     "options": [
+      "Because stationary series always have zero autocorrelation, which makes ARMA estimation simpler",
+      "Because ARMA software cannot read trending data",
+      "Because they assume the mean, variance and autocorrelation structure stay stable over time",
+      "Because stationary series always produce more accurate forecasts than any other kind of series"
+     ],
+     "answer": "Because they assume the mean, variance and autocorrelation structure stay stable over time",
+     "explanation": "ARMA assumes stable statistical properties so that past patterns describe the future. A stationary series can still be strongly autocorrelated; that is exactly what ARMA models.",
+     "difficulty": "easy",
+     "concept": "why stationarity matters"
+    },
+    {
+     "q": "Which of these series is most likely to be stationary?",
+     "options": [
+      "Daily closing price of a Nifty 50 stock",
+      "India's quarterly GDP level",
+      "Daily percentage returns of a Nifty 50 stock",
+      "Cumulative number of customers of a bank"
+     ],
+     "answer": "Daily percentage returns of a Nifty 50 stock",
+     "explanation": "Returns fluctuate around a stable mean, while prices, GDP levels and cumulative counts trend and wander. Prices are the classic unit-root example.",
+     "difficulty": "easy",
+     "concept": "identifying stationarity"
+    },
+    {
+     "q": "An ADF test on 60 months of a retailer's sales gives a p-value of 0.32. What should the analyst do?",
+     "options": [
+      "Fail to reject the unit root; treat the series as non-stationary and difference it",
+      "Reject the unit root because 0.32 is close to zero",
+      "Conclude the series is stationary, because a p-value above 0.05 supports the null of stationarity",
+      "Conclude that 32% of the variance comes from the trend"
+     ],
+     "answer": "Fail to reject the unit root; treat the series as non-stationary and difference it",
+     "explanation": "p = 0.32 > 0.05 means we cannot reject the unit-root null, so differencing is indicated. Treating a large p-value as evidence of stationarity reverses the logic.",
+     "difficulty": "medium",
+     "concept": "ADF p-value"
+    },
+    {
+     "q": "The ADF test statistic is −3.8 and the 5% critical value is −2.86. What is the conclusion?",
+     "options": [
+      "Fail to reject the null because −3.8 is smaller than −2.86",
+      "Fail to reject the null because the statistic is negative",
+      "Reject stationarity; the series has a unit root",
+      "Reject the unit root null; the series is stationary"
+     ],
+     "answer": "Reject the unit root null; the series is stationary",
+     "explanation": "ADF is a left-tailed test: a statistic more negative than the critical value rejects the unit root. 'Smaller than the critical value' is exactly the rejection region.",
+     "difficulty": "medium",
+     "concept": "ADF test statistic"
+    },
+    {
+     "q": "The ADF test statistic is −1.9 and the 5% critical value is −2.86. What is the conclusion?",
+     "options": [
+      "Fail to reject the unit root; the series is non-stationary",
+      "Reject the unit root because −1.9 is greater than −2.86",
+      "Reject the null because the statistic is negative",
+      "The series is stationary around a trend"
+     ],
+     "answer": "Fail to reject the unit root; the series is non-stationary",
+     "explanation": "−1.9 is not more negative than −2.86, so it lies outside the left-tail rejection region. Being greater than the critical value means fail to reject.",
+     "difficulty": "medium",
+     "concept": "ADF test statistic"
+    },
+    {
+     "q": "ADF on the levels of a sales series gives p = 0.64; ADF on the first difference gives p = 0.01. What is the order of integration?",
+     "options": [
+      "I(1), so d = 1",
+      "I(0), so d = 0",
+      "I(2), so d = 2",
+      "I(1), so d = 0"
+     ],
+     "answer": "I(1), so d = 1",
+     "explanation": "The level has a unit root and one difference makes it stationary, so it is integrated of order 1. The d in ARIMA equals the order of integration, so 'I(1) with d = 0' is inconsistent.",
+     "difficulty": "medium",
+     "concept": "order of integration"
+    },
+    {
+     "q": "In the ADF regression Δy_t = α + βt + γy_{t−1} + Σδ_iΔy_{t−i} + ε_t, which hypothesis is tested?",
+     "options": [
+      "H0: β = 0 (no trend) against H1: β ≠ 0",
+      "H0: γ = 0 (unit root) against H1: γ < 0 (stationary)",
+      "H0: α = 0 against H1: α ≠ 0",
+      "H0: γ < 0 (stationary) against H1: γ = 0 (unit root)"
+     ],
+     "answer": "H0: γ = 0 (unit root) against H1: γ < 0 (stationary)",
+     "explanation": "The unit-root test is on the coefficient of y_{t−1}; γ = 0 means φ = 1. Testing β only checks for a deterministic trend.",
+     "difficulty": "medium",
+     "concept": "ADF regression"
+    },
+    {
+     "q": "A monthly e-commerce sales series shows a clear upward trend. Which ADF specification is most appropriate?",
+     "options": [
+      "Include neither a constant nor a trend in the test regression",
+      "Include only seasonal dummies and no constant",
+      "Include a quadratic trend and no constant term at all",
+      "Include both a constant and a linear trend in the test regression"
+     ],
+     "answer": "Include both a constant and a linear trend in the test regression",
+     "explanation": "When the data trend, the alternative should be trend-stationary, so constant + trend is used. Omitting deterministic terms biases the test toward not rejecting.",
+     "difficulty": "medium",
+     "concept": "ADF deterministic terms"
+    },
+    {
+     "q": "ADF gives p = 0.45 and KPSS rejects its null at 1%. What do the two tests jointly indicate?",
+     "options": [
+      "Both point to non-stationarity, so the series should be differenced",
+      "Both point to stationarity, so no differencing is needed",
+      "The tests contradict each other, so the result is meaningless",
+      "ADF indicates stationarity while KPSS indicates a unit root"
+     ],
+     "answer": "Both point to non-stationarity, so the series should be differenced",
+     "explanation": "ADF fails to reject a unit root, and KPSS rejects stationarity; both agree the series is non-stationary. Mixing up the two nulls produces the 'contradiction' distractor.",
+     "difficulty": "medium",
+     "concept": "ADF vs KPSS"
+    },
+    {
+     "q": "An e-commerce firm's monthly GMV grows and its swings get bigger as sales grow. What preparation is most appropriate before ARIMA modelling?",
+     "options": [
+      "Difference only, since differencing also stabilises a growing variance",
+      "Take logs to stabilise the variance, then difference to remove the trend",
+      "Take logs only, since the log removes the trend as well",
+      "Use the raw data, because ARIMA handles changing variance automatically"
+     ],
+     "answer": "Take logs to stabilise the variance, then difference to remove the trend",
+     "explanation": "Logs stabilise multiplicative variance and differencing removes the stochastic trend; each solves a different problem. Differencing alone does not fix growing variance.",
+     "difficulty": "medium",
+     "concept": "variance stabilisation"
+    },
+    {
+     "q": "For y_t = 2 + y_{t−1} + ε_t (a random walk with drift), the first difference Δy_t is:",
+     "options": [
+      "White noise with mean 0",
+      "A random walk without drift",
+      "White noise with mean 2",
+      "An AR(1) with φ = 2"
+     ],
+     "answer": "White noise with mean 2",
+     "explanation": "Δy_t = 2 + ε_t, which is stationary with mean 2 (the drift). Dropping the constant gives mean 0, which ignores the drift.",
+     "difficulty": "medium",
+     "concept": "random walk with drift"
+    },
+    {
+     "q": "An ADF test gives p = 0.06 and the analyst uses a 5% significance level. What is the most defensible conclusion?",
+     "options": [
+      "Reject the unit root at 5%, because 0.06 is close enough to 0.05 to count as significant evidence",
+      "Conclude the series is definitely stationary",
+      "Conclude the series is I(2) and must be differenced twice",
+      "Fail to reject the unit root at 5%; the evidence is borderline, so check KPSS and the plots"
+     ],
+     "answer": "Fail to reject the unit root at 5%; the evidence is borderline, so check KPSS and the plots",
+     "explanation": "0.06 > 0.05 means we fail to reject at 5%, but borderline evidence calls for supporting checks. Rounding the p-value down to 'significant' is a common error.",
+     "difficulty": "medium",
+     "concept": "ADF p-value"
+    },
+    {
+     "q": "Why are ordinary t-table critical values not used for the ADF test statistic?",
+     "options": [
+      "Because the ADF statistic is always positive and so needs one-sided values from the F-table instead",
+      "Because the t-distribution only applies to samples smaller than 30",
+      "Under the unit-root null the statistic follows a non-standard Dickey–Fuller distribution with more negative critical values",
+      "Because the ADF test uses a chi-square statistic"
+     ],
+     "answer": "Under the unit-root null the statistic follows a non-standard Dickey–Fuller distribution with more negative critical values",
+     "explanation": "Under non-stationarity, standard asymptotics fail, so Dickey–Fuller tabulated values (e.g. −2.86 at 5% with a constant) are used. Using −1.65 would over-reject the unit root.",
+     "difficulty": "hard",
+     "concept": "Dickey-Fuller distribution"
+    },
+    {
+     "q": "A hotel chain's revenue follows y_t = a + bt + u_t where u_t is stationary. What is the right treatment and what does it imply about shocks?",
+     "options": [
+      "Detrend the series (it is trend-stationary); shocks are temporary and revenue returns to the trend line",
+      "Difference the series (it has a unit root); shocks permanently shift revenue away from the trend",
+      "No treatment is needed because the deviations u_t are stationary",
+      "Take logs only; shocks then become permanent shifts in the level"
+     ],
+     "answer": "Detrend the series (it is trend-stationary); shocks are temporary and revenue returns to the trend line",
+     "explanation": "A deterministic trend with stationary deviations is trend-stationary: shocks die out. Differencing it would over-difference and add a non-invertible MA term.",
+     "difficulty": "hard",
+     "concept": "trend vs difference stationary"
+    },
+    {
+     "q": "A retailer's sales have a unit root. What does this imply for long-horizon forecasts?",
+     "options": [
+      "Prediction intervals keep widening as the horizon grows, because shocks accumulate permanently",
+      "Prediction intervals stay constant at all horizons",
+      "Forecasts revert quickly to the historical mean",
+      "Prediction intervals shrink, since a longer horizon averages out more of the shocks over the long run"
+     ],
+     "answer": "Prediction intervals keep widening as the horizon grows, because shocks accumulate permanently",
+     "explanation": "Under a unit root, forecast-error variance grows with the horizon, so intervals fan out. Constant intervals and mean reversion are features of stationary series.",
+     "difficulty": "hard",
+     "concept": "unit root implications"
+    },
+    {
+     "q": "How should the number of lagged differences in an ADF regression be chosen?",
+     "options": [
+      "Always use exactly one lag regardless of data frequency",
+      "Using an information criterion (AIC/BIC) or by checking that test residuals are free of autocorrelation",
+      "Use as many lags as there are observations divided by two",
+      "Choose the number of lags that gives the most negative test statistic so that the unit root is rejected"
+     ],
+     "answer": "Using an information criterion (AIC/BIC) or by checking that test residuals are free of autocorrelation",
+     "explanation": "Too few lags leave autocorrelation and distort the test size; too many reduce power, so criteria such as AIC/BIC are used. Picking lags to force rejection is data snooping.",
+     "difficulty": "hard",
+     "concept": "ADF lag selection"
+    },
+    {
+     "q": "With only 30 observations of a series that has φ ≈ 0.95, the ADF test fails to reject the unit root. What is the best interpretation?",
+     "options": [
+      "The series definitely has a unit root, because the ADF test did not reject its null hypothesis of non-stationarity",
+      "The series is definitely stationary because φ is below 1",
+      "ADF has low power near a unit root in small samples, so failing to reject is not proof of a unit root",
+      "The test proves the series is white noise because it is short"
+     ],
+     "answer": "ADF has low power near a unit root in small samples, so failing to reject is not proof of a unit root",
+     "explanation": "Failure to reject is weak evidence, especially with near-unit-root, short samples; complementary KPSS and judgement help. 'Fail to reject' never proves the null.",
+     "difficulty": "hard",
+     "concept": "ADF low power"
+    },
+    {
+     "q": "An FMCG sales series has a sharp level shift at the 2017 GST rollout. Standard ADF fails to reject the unit root. What is a key concern?",
+     "options": [
+      "Structural breaks make ADF reject too often, so the series is truly stationary",
+      "A structural break can make a stationary series look like it has a unit root; use a break-robust test such as Zivot–Andrews",
+      "ADF automatically adjusts for any structural break",
+      "A structural break proves the series has a unit root, so the series should be differenced twice before any ARIMA modelling begins"
+     ],
+     "answer": "A structural break can make a stationary series look like it has a unit root; use a break-robust test such as Zivot–Andrews",
+     "explanation": "Unmodelled breaks bias ADF toward non-rejection. Break-robust tests or intervention dummies separate a one-time shift from a genuine unit root.",
+     "difficulty": "hard",
+     "concept": "structural breaks"
+    },
+    {
+     "q": "A regression of a retailer's sales level on India's GDP level (both I(1)) gives R² = 0.97. What is the main risk?",
+     "options": [
+      "None, since an R² of 0.97 together with significant t-statistics proves a strong causal relationship between the two series",
+      "Multicollinearity, because there is only one regressor",
+      "Heteroskedasticity, which is the only problem with time series regressions",
+      "Spurious regression: two unrelated trending series can show a high R², so test for cointegration or model differences"
+     ],
+     "answer": "Spurious regression: two unrelated trending series can show a high R², so test for cointegration or model differences",
+     "explanation": "Regressing one non-stationary series on another often yields high R² and significant t-statistics even without a true relationship. High R² is not evidence of causation.",
+     "difficulty": "hard",
+     "concept": "spurious regression"
+    },
+    {
+     "q": "ADF p-values are 0.80 for the levels, 0.45 for the first difference and 0.001 for the second difference. What is the order of integration?",
+     "options": [
+      "I(1), so d = 1",
+      "I(0), so d = 0",
+      "I(3), so d = 3",
+      "I(2), so d = 2"
+     ],
+     "answer": "I(2), so d = 2",
+     "explanation": "Stationarity is achieved only after two differences, so the series is I(2). Stopping at d = 1 ignores that the first difference still has a unit root.",
+     "difficulty": "hard",
+     "concept": "order of integration"
+    },
+    {
+     "q": "In an ADF test with constant and trend, the statistic is −3.10. Critical values are −3.96 (1%), −3.41 (5%) and −3.13 (10%). What is the conclusion?",
+     "options": [
+      "Reject the unit root at 10% but not at 5%",
+      "Reject the unit root at 5%",
+      "Reject the unit root at 1%",
+      "Fail to reject the unit root even at the 10% level"
+     ],
+     "answer": "Fail to reject the unit root even at the 10% level",
+     "explanation": "−3.10 is less negative than −3.13, so it does not reach even the 10% critical value. Many students wrongly round −3.10 as 'about −3.13' and reject.",
+     "difficulty": "hard",
+     "concept": "ADF critical values"
+    },
+    {
+     "q": "A demand series has constant mean and variance, but its lag-1 autocorrelation is 0.6 in the first half and 0.1 in the second half. Is it weakly stationary?",
+     "options": [
+      "Yes, because the mean and variance are constant",
+      "No, because the autocovariance structure changes over time",
+      "Yes, because autocorrelation does not affect stationarity",
+      "No, because any lag-1 autocorrelation above 0.5 is non-stationary"
+     ],
+     "answer": "No, because the autocovariance structure changes over time",
+     "explanation": "Weak stationarity also requires autocovariances to depend only on lag, not on time. A large but stable autocorrelation would be perfectly compatible with stationarity.",
+     "difficulty": "hard",
+     "concept": "weak stationarity"
+    }
+   ],
+   "references": [
+    "A series is stationary when its statistical behaviour does not change over time: the mean and variance stay constant and the correlation between periods depends only on how far apart they are. Most sales series with trends are not stationary. A unit root is a type of non-stationarity where shocks have permanent effects, as in a random walk. The Augmented Dickey–Fuller (ADF) test checks for this. Its null hypothesis is that the series has a unit root, i.e. is non-stationary. If the p-value is below 0.05, or the test statistic is more negative than the critical value, we reject the null and treat the series as stationary. If not, we difference the series and test again.",
+    "Compare a share's daily price with its daily return. The price wanders: a big fall today shifts all future prices, so it has a unit root and is non-stationary. The return bounces around a stable average, so it is stationary. Before building an ARIMA model for, say, a retailer's monthly sales, I run the ADF test. Suppose the p-value is 0.40: we cannot reject the null of a unit root, so I take the first difference. If the ADF on the differenced data gives p = 0.01, the differenced series is stationary and d = 1. I often confirm with the KPSS test, whose null is the opposite, that the series is stationary.",
+    "Stationarity matters to managers because models like ARMA assume the past behaves like the future. If sales have a unit root, shocks such as a lost distributor permanently change the level, forecasts carry no pull back to an average, and prediction intervals widen with the horizon. The ADF test decides how to prepare the data: a high p-value means we fail to reject non-stationarity and should difference; a low p-value means the series is stationary and can be modelled directly. We should not over-trust the test: it has low power in short samples and can be fooled by structural breaks like GST or COVID, so plots, KPSS and business judgement should support the decision."
+   ],
+   "key_concepts": [
+    "stationary",
+    "constant mean",
+    "constant variance",
+    "unit root",
+    "adf test",
+    "null hypothesis",
+    "p-value",
+    "reject",
+    "non-stationary",
+    "differencing",
+    "random walk",
+    "critical value",
+    "kpss",
+    "trend"
+   ]
+  },
+  {
+   "topic": "Differencing a time series, Lags",
+   "questions": [
+    {
+     "q": "The first difference of a series y_t is defined as:",
+     "options": [
+      "y_t + y_{t−1}",
+      "y_t / y_{t−1}",
+      "y_t − y_{t−12}",
+      "y_t − y_{t−1}"
+     ],
+     "answer": "y_t − y_{t−1}",
+     "explanation": "First differencing subtracts the previous value. y_t − y_{t−12} is a seasonal difference for monthly data.",
+     "difficulty": "easy",
+     "concept": "first difference"
+    },
+    {
+     "q": "Using the backshift (lag) operator B, the expression By_t equals:",
+     "options": [
+      "y_{t+1}",
+      "y_{t−1}",
+      "y_t − y_{t−1}",
+      "B × y_t as an ordinary multiplication"
+     ],
+     "answer": "y_{t−1}",
+     "explanation": "B shifts the series back one period: By_t = y_{t−1}. The difference y_t − y_{t−1} is (1 − B)y_t, not By_t.",
+     "difficulty": "easy",
+     "concept": "lag operator"
+    },
+    {
+     "q": "For monthly data, the seasonal difference of y_t is:",
+     "options": [
+      "y_t − y_{t−1}",
+      "y_t − y_{t−4}",
+      "y_t / y_{t−12}",
+      "y_t − y_{t−12}"
+     ],
+     "answer": "y_t − y_{t−12}",
+     "explanation": "A seasonal difference subtracts the value from the same season one year earlier, which is 12 months back. y_t − y_{t−4} would be for quarterly data.",
+     "difficulty": "easy",
+     "concept": "seasonal difference"
+    },
+    {
+     "q": "What is the main purpose of differencing a time series?",
+     "options": [
+      "To remove trend and stabilise the mean so that the series becomes stationary",
+      "To stabilise a variance that grows with the level of the series",
+      "To remove random noise so the series looks smooth",
+      "To increase the number of observations available for modelling"
+     ],
+     "answer": "To remove trend and stabilise the mean so that the series becomes stationary",
+     "explanation": "Differencing removes changes in level (trend) and helps achieve a stable mean. Stabilising a growing variance is the job of a log or Box–Cox transformation.",
+     "difficulty": "easy",
+     "concept": "purpose of differencing"
+    },
+    {
+     "q": "A series has 48 observations. How many values does the first-differenced series have?",
+     "options": [
+      "48",
+      "46",
+      "47",
+      "24"
+     ],
+     "answer": "47",
+     "explanation": "Each difference needs a previous value, so the first observation has no difference and one value is lost. Two would be lost after second differencing.",
+     "difficulty": "easy",
+     "concept": "observations lost"
+    },
+    {
+     "q": "The second difference Δ²y_t equals:",
+     "options": [
+      "y_t − 2y_{t−1} + y_{t−2}",
+      "y_t − y_{t−2}",
+      "(y_t − y_{t−1})²",
+      "y_t − 2y_{t−1}"
+     ],
+     "answer": "y_t − 2y_{t−1} + y_{t−2}",
+     "explanation": "Δ²y_t = Δy_t − Δy_{t−1} = y_t − 2y_{t−1} + y_{t−2}. y_t − y_{t−2} is a lag-2 difference, not a second difference.",
+     "difficulty": "easy",
+     "concept": "second difference"
+    },
+    {
+     "q": "The lag-k value of a series at time t refers to:",
+     "options": [
+      "The value expected k periods later, y_{t+k}",
+      "The average of the last k values of the series",
+      "The value observed k periods earlier, y_{t−k}",
+      "The change in the series over the last k periods"
+     ],
+     "answer": "The value observed k periods earlier, y_{t−k}",
+     "explanation": "A lag looks back k periods. Looking forward would be a lead, and averaging k values is smoothing.",
+     "difficulty": "easy",
+     "concept": "lag definition"
+    },
+    {
+     "q": "In ARIMA(p,d,q), the number of ordinary differences applied is given by:",
+     "options": [
+      "d",
+      "p",
+      "q",
+      "s"
+     ],
+     "answer": "d",
+     "explanation": "d counts differences; p and q are the AR and MA orders and s is the seasonal period in SARIMA.",
+     "difficulty": "easy",
+     "concept": "d parameter"
+    },
+    {
+     "q": "Which transformation is used to stabilise a variance that increases with the level of sales?",
+     "options": [
+      "Taking logarithms",
+      "Taking the first difference",
+      "Taking a seasonal difference",
+      "Adding a lagged value"
+     ],
+     "answer": "Taking logarithms",
+     "explanation": "Logs turn multiplicative changes into additive ones and stabilise variance. Differencing stabilises the mean, not the variance.",
+     "difficulty": "easy",
+     "concept": "log transformation"
+    },
+    {
+     "q": "For quarterly data, the seasonal difference uses a lag of:",
+     "options": [
+      "12",
+      "1",
+      "4",
+      "7"
+     ],
+     "answer": "4",
+     "explanation": "There are four quarters in a year, so the seasonal lag is 4. Lag 12 is for monthly data and lag 7 for daily data with a weekly cycle.",
+     "difficulty": "easy",
+     "concept": "seasonal difference"
+    },
+    {
+     "q": "Quarterly sales of a two-wheeler dealer are 100, 104, 110, 113. What are the first differences?",
+     "options": [
+      "4, 6, 3",
+      "4, 10, 13",
+      "104, 110, 113",
+      "2, −3"
+     ],
+     "answer": "4, 6, 3",
+     "explanation": "Differences are 104 − 100 = 4, 110 − 104 = 6, 113 − 110 = 3. 4, 10, 13 measures change from the first value, and 2, −3 are the second differences.",
+     "difficulty": "medium",
+     "concept": "first difference"
+    },
+    {
+     "q": "For the sales series 100, 104, 110, 113, what are the second differences?",
+     "options": [
+      "2, −3",
+      "4, 6, 3",
+      "6, 9",
+      "10, 9"
+     ],
+     "answer": "2, −3",
+     "explanation": "First differences are 4, 6, 3; differencing again gives 6 − 4 = 2 and 3 − 6 = −3. 6, 9 and 10, 9 are lag-2 changes of the original series, not second differences.",
+     "difficulty": "medium",
+     "concept": "second difference"
+    },
+    {
+     "q": "A retailer's sales were ₹500 lakh in January 2025, ₹520 lakh in December 2024 and ₹450 lakh in January 2024. What is the seasonal (lag-12) difference for January 2025?",
+     "options": [
+      "−20",
+      "70",
+      "50",
+      "450"
+     ],
+     "answer": "50",
+     "explanation": "Seasonal difference = Jan 2025 − Jan 2024 = 500 − 450 = 50. −20 is the ordinary first difference (500 − 520).",
+     "difficulty": "medium",
+     "concept": "seasonal difference"
+    },
+    {
+     "q": "Using the backshift operator, (1 − B)²y_t equals:",
+     "options": [
+      "y_t − y_{t−2}",
+      "y_t − 2y_{t−1}",
+      "y_t − y_{t−1}²",
+      "y_t − 2y_{t−1} + y_{t−2}"
+     ],
+     "answer": "y_t − 2y_{t−1} + y_{t−2}",
+     "explanation": "(1 − B)² = 1 − 2B + B², which applied to y_t gives the second difference. y_t − y_{t−2} is (1 − B²)y_t, a different operation.",
+     "difficulty": "medium",
+     "concept": "lag operator"
+    },
+    {
+     "q": "A model forecasts the first difference of daily orders as Δŷ_{T+1} = 8 and Δŷ_{T+2} = 5. The last actual value is y_T = 250. What is ŷ_{T+2}?",
+     "options": [
+      "255",
+      "258",
+      "13",
+      "263"
+     ],
+     "answer": "263",
+     "explanation": "ŷ_{T+1} = 250 + 8 = 258 and ŷ_{T+2} = 258 + 5 = 263. 255 adds only the second difference to y_T; 13 forgets to add back the level.",
+     "difficulty": "medium",
+     "concept": "undifferencing forecasts"
+    },
+    {
+     "q": "A series grows by roughly the same absolute amount every period (a linear trend with noise). How many ordinary differences are usually needed?",
+     "options": [
+      "0",
+      "1",
+      "2",
+      "12"
+     ],
+     "answer": "1",
+     "explanation": "One difference turns a linear trend into a constant mean. Two differences are needed for curvature (e.g. a quadratic trend).",
+     "difficulty": "medium",
+     "concept": "choosing d"
+    },
+    {
+     "q": "Monthly sales rise from 100 to 110. What is the log difference ln(110) − ln(100), and how is it interpreted?",
+     "options": [
+      "Exactly 10, the absolute increase in sales",
+      "About 0.010, approximately a 1% growth rate",
+      "About 0.095, approximately a 9.5% growth rate",
+      "About 1.100, approximately a 110% growth rate"
+     ],
+     "answer": "About 0.095, approximately a 9.5% growth rate",
+     "explanation": "ln(1.1) ≈ 0.0953, which approximates the percentage change. 1.1 is the ratio, not the log difference.",
+     "difficulty": "medium",
+     "concept": "log difference"
+    },
+    {
+     "q": "You create a lag-1 column for 24 months of sales data to use as a predictor. How many complete rows (with both y_t and y_{t−1}) are available?",
+     "options": [
+      "24",
+      "22",
+      "12",
+      "23"
+     ],
+     "answer": "23",
+     "explanation": "The first month has no previous value, so one row is lost. 22 would be the count for a lag-2 column.",
+     "difficulty": "medium",
+     "concept": "creating lags"
+    },
+    {
+     "q": "Applying both a seasonal (lag-12) and a first difference, (1 − B)(1 − B¹²)y_t equals:",
+     "options": [
+      "y_t − y_{t−1} − y_{t−12}",
+      "y_t − y_{t−1} − y_{t−12} + y_{t−13}",
+      "y_t − y_{t−13}",
+      "y_t − y_{t−1} + y_{t−12} − y_{t−13}"
+     ],
+     "answer": "y_t − y_{t−1} − y_{t−12} + y_{t−13}",
+     "explanation": "(1 − B)(1 − B¹²) = 1 − B − B¹² + B¹³. Missing the + y_{t−13} cross term is the most common error.",
+     "difficulty": "medium",
+     "concept": "combined differencing"
+    },
+    {
+     "q": "A monthly series has 60 observations. After one seasonal difference (lag 12) and one first difference, how many observations remain?",
+     "options": [
+      "48",
+      "47",
+      "59",
+      "36"
+     ],
+     "answer": "47",
+     "explanation": "The seasonal difference loses 12 (leaving 48) and the first difference loses 1 more, giving 47. 48 forgets the first difference.",
+     "difficulty": "medium",
+     "concept": "observations lost"
+    },
+    {
+     "q": "Hyndman & Athanasopoulos recommend applying the seasonal difference first when data are strongly seasonal. Why?",
+     "options": [
+      "Because the order of differencing changes the final differenced values",
+      "Because first differencing removes all seasonality automatically",
+      "The seasonally differenced series may already be stationary, avoiding an unnecessary first difference",
+      "Because seasonal differencing first preserves the original level, so the forecasts do not need to be undifferenced"
+     ],
+     "answer": "The seasonally differenced series may already be stationary, avoiding an unnecessary first difference",
+     "explanation": "Seasonal and first differencing commute, so the result is the same either way; doing the seasonal one first lets you check whether a further difference is needed. The claim that order changes the result is false.",
+     "difficulty": "hard",
+     "concept": "order of differencing"
+    },
+    {
+     "q": "A demand series has standard deviation 12 in levels, 5 after one difference and 8 after two differences. Which d is suggested?",
+     "options": [
+      "d = 0",
+      "d = 2",
+      "d = 3",
+      "d = 1"
+     ],
+     "answer": "d = 1",
+     "explanation": "The variance falls after the first difference and rises after the second, a sign that the second difference is over-differencing. Choosing d = 2 adds noise and a non-invertible MA component.",
+     "difficulty": "hard",
+     "concept": "over-differencing"
+    },
+    {
+     "q": "A model is fitted to second differences. y_T = 200, y_{T−1} = 190 and the forecast second difference is Δ²ŷ_{T+1} = 2. What is ŷ_{T+1}?",
+     "options": [
+      "202",
+      "212",
+      "210",
+      "192"
+     ],
+     "answer": "212",
+     "explanation": "Last first difference = 10, so Δŷ_{T+1} = 10 + 2 = 12 and ŷ_{T+1} = 200 + 12 = 212. 202 adds the second difference directly to the level, skipping one integration step.",
+     "difficulty": "hard",
+     "concept": "undifferencing forecasts"
+    },
+    {
+     "q": "A SARIMA model forecasts the seasonal difference for December 2026 as +30. December 2025 sales were 820 and November 2026 sales were 790. What is the December 2026 forecast?",
+     "options": [
+      "850",
+      "820",
+      "790",
+      "760"
+     ],
+     "answer": "850",
+     "explanation": "y_{Dec 2026} = y_{Dec 2025} + 30 = 850. Adding the seasonal difference to November 2026 (820) mixes a lag-12 difference with a lag-1 level.",
+     "difficulty": "hard",
+     "concept": "undifferencing forecasts"
+    },
+    {
+     "q": "A planner objects that a model built on differenced data 'throws away the level', so its forecasts will be wrong. What is the correct response?",
+     "options": [
+      "The planner is right: differenced models can only forecast changes, never levels",
+      "The level is restored by adding the series mean to each forecast difference",
+      "Forecasts of the differences are added back cumulatively to the last observed level, so the level is restored",
+      "Differencing keeps the level, so forecasts of differences are themselves the sales forecasts"
+     ],
+     "answer": "Forecasts of the differences are added back cumulatively to the last observed level, so the level is restored",
+     "explanation": "Integration (cumulative summing from the last actual) reconstructs level forecasts. Adding the overall mean ignores where the series currently is.",
+     "difficulty": "hard",
+     "concept": "undifferencing forecasts"
+    },
+    {
+     "q": "Sales follow y_t = 50 + 3t + ε_t, where ε_t is white noise. What does the first difference Δy_t equal?",
+     "options": [
+      "3 + ε_t, which is white noise with mean 3",
+      "3 + ε_t − ε_{t−1}, an MA(1) with θ = −1 that is non-invertible",
+      "3t + ε_t, a series with a smaller trend",
+      "ε_t − ε_{t−1}, which is white noise with mean 0"
+     ],
+     "answer": "3 + ε_t − ε_{t−1}, an MA(1) with θ = −1 that is non-invertible",
+     "explanation": "Differencing a trend-stationary series removes the trend but leaves ε_t − ε_{t−1}, a non-invertible MA(1). Forgetting the lagged error gives the white-noise distractor.",
+     "difficulty": "hard",
+     "concept": "over-differencing"
+    },
+    {
+     "q": "Expand the model (1 − 0.6B)(1 − B)y_t = ε_t into an equation for y_t.",
+     "options": [
+      "y_t = 0.6y_{t−1} + ε_t",
+      "y_t = 1.6y_{t−1} − 0.6y_{t−2} + ε_t",
+      "y_t = 1.6y_{t−1} + 0.6y_{t−2} + ε_t",
+      "y_t = 0.4y_{t−1} + 0.6y_{t−2} + ε_t"
+     ],
+     "answer": "y_t = 1.6y_{t−1} − 0.6y_{t−2} + ε_t",
+     "explanation": "(1 − 0.6B)(1 − B) = 1 − 1.6B + 0.6B², so y_t = 1.6y_{t−1} − 0.6y_{t−2} + ε_t. Getting the sign of the B² term wrong is the usual slip.",
+     "difficulty": "hard",
+     "concept": "lag operator"
+    },
+    {
+     "q": "A grocery delivery app builds a regression to forecast daily orders using lagged values as predictors. Which set of lags is most sensible to start with?",
+     "options": [
+      "Lags 1 and 7, capturing yesterday's level and the same weekday last week",
+      "Lags 1 and 12, capturing yesterday's level and the same month last year",
+      "Lags 1 to 365, so that no possible pattern is missed",
+      "Only lag 30, because monthly patterns dominate daily data"
+     ],
+     "answer": "Lags 1 and 7, capturing yesterday's level and the same weekday last week",
+     "explanation": "Daily retail demand typically has short-run persistence and a weekly cycle, so lags 1 and 7 are natural. Lag 12 is the seasonal lag for monthly, not daily, data.",
+     "difficulty": "hard",
+     "concept": "choosing lag features"
+    },
+    {
+     "q": "A year of daily sales (365 observations) is seasonally differenced at lag 7 and then first differenced. How many observations remain?",
+     "options": [
+      "358",
+      "357",
+      "364",
+      "351"
+     ],
+     "answer": "357",
+     "explanation": "The lag-7 difference loses 7 (358 remain), then the first difference loses 1 more, leaving 357. 358 forgets the first difference.",
+     "difficulty": "hard",
+     "concept": "observations lost"
+    },
+    {
+     "q": "Why do prediction intervals from a model with d = 1 keep widening as the forecast horizon increases?",
+     "options": [
+      "Because differencing makes the residuals non-normal at longer horizons",
+      "Because the model is re-estimated with fewer observations at each horizon",
+      "Because the differenced series has a larger mean than the original series",
+      "Forecast errors of the differences accumulate when they are summed back into levels"
+     ],
+     "answer": "Forecast errors of the differences accumulate when they are summed back into levels",
+     "explanation": "Each level forecast is the sum of forecast differences, so error variances add up over the horizon. Stationary (d = 0) models instead have intervals that level off.",
+     "difficulty": "hard",
+     "concept": "differencing and intervals"
+    }
+   ],
+   "references": [
+    "Differencing means replacing each value with its change from an earlier value. The first difference is y_t − y_{t−1}, the change from last period. We do this to remove a trend and make the mean constant so the series is stationary, which ARIMA models require. If one difference is not enough, a second difference can be taken. A seasonal difference, y_t − y_{t−12} for monthly data, removes a repeating yearly pattern. A lag simply means an earlier value: lag 1 is last period, lag 12 is the same month last year. The backshift operator B writes this compactly, so By_t = y_{t−1}. Each difference loses observations, and logs, not differencing, are used to stabilise variance.",
+    "Suppose a dealer's quarterly sales are 100, 104, 110 and 113. The level keeps rising, but the first differences, 4, 6 and 3, hover around a stable value. That differenced series is what the ARIMA model is fitted to. For a retailer with strong festive peaks, I would compare January this year with January last year, a seasonal difference at lag 12, to strip out the annual pattern. To get back to sales levels, the forecast changes are added to the last actual value: if sales were 250 and the model predicts increases of 8 and 5, forecasts are 258 and 263. Lags are also used as predictors, such as yesterday's and last week's orders.",
+    "For managers, differencing is the step that turns a drifting, trending sales series into something a forecasting model can learn from. The decision is how many differences to take: usually one, sometimes a seasonal difference as well, and rarely more, because over-differencing adds noise and increases forecast error. We decide using ADF or KPSS tests, the ACF plot and whether variance falls after differencing. Choosing the right lags matters too: lag 1 captures momentum and the seasonal lag, such as 7 for daily or 12 for monthly data, captures repeating cycles. Because differenced forecasts are summed back into levels, uncertainty grows with the horizon, which should be reflected in safety stock and budget ranges."
+   ],
+   "key_concepts": [
+    "differencing",
+    "first difference",
+    "seasonal difference",
+    "lag",
+    "backshift operator",
+    "stationary",
+    "remove trend",
+    "order d",
+    "second difference",
+    "over-differencing",
+    "log transformation",
+    "observations lost",
+    "lag 12"
+   ]
+  },
+  {
+   "topic": "ARMA process",
+   "questions": [
+    {
+     "q": "An ARMA(p,q) model combines:",
+     "options": [
+      "p lagged errors and q lagged values of the series",
+      "p differences and q seasonal terms",
+      "A trend component and a seasonal component estimated by smoothing",
+      "p autoregressive terms (lagged values) and q moving-average terms (lagged errors)"
+     ],
+     "answer": "p autoregressive terms (lagged values) and q moving-average terms (lagged errors)",
+     "explanation": "ARMA = AR part on past values + MA part on past shocks. Swapping p and q, or confusing ARMA with decomposition, are common errors.",
+     "difficulty": "easy",
+     "concept": "ARMA definition"
+    },
+    {
+     "q": "Which equation represents an ARMA(1,1) process?",
+     "options": [
+      "y_t = c + φy_{t−1} + ε_t",
+      "y_t = μ + ε_t + θε_{t−1}",
+      "y_t = y_{t−1} + ε_t + θε_{t−1}",
+      "y_t = c + φy_{t−1} + ε_t + θε_{t−1}"
+     ],
+     "answer": "y_t = c + φy_{t−1} + ε_t + θε_{t−1}",
+     "explanation": "ARMA(1,1) has one lagged value and one lagged error. y_t = y_{t−1} + ε_t + θε_{t−1} is ARIMA(0,1,1), which includes a difference.",
+     "difficulty": "easy",
+     "concept": "ARMA(1,1) equation"
+    },
+    {
+     "q": "ARMA models are applied directly to series that are:",
+     "options": [
+      "Stationary",
+      "Trending upward",
+      "Explosive",
+      "Seasonal with a changing level"
+     ],
+     "answer": "Stationary",
+     "explanation": "ARMA assumes constant mean and variance; trending series must first be differenced (giving ARIMA). Seasonal series with changing levels need seasonal treatment.",
+     "difficulty": "easy",
+     "concept": "ARMA stationarity"
+    },
+    {
+     "q": "For a mixed ARMA(p,q) process, the theoretical ACF and PACF:",
+     "options": [
+      "Both cut off sharply",
+      "ACF cuts off and PACF tails off",
+      "PACF cuts off and ACF tails off",
+      "Both tail off gradually"
+     ],
+     "answer": "Both tail off gradually",
+     "explanation": "With both AR and MA components, neither function has a clean cut-off. ACF cutting off is the MA signature; PACF cutting off is the AR signature.",
+     "difficulty": "easy",
+     "concept": "ARMA signature"
+    },
+    {
+     "q": "An ARMA(p,0) model is the same as:",
+     "options": [
+      "AR(p)",
+      "MA(p)",
+      "White noise",
+      "ARIMA(0,p,0)"
+     ],
+     "answer": "AR(p)",
+     "explanation": "With q = 0 there are no MA terms, leaving a pure AR(p). ARIMA(0,p,0) would mean differencing p times.",
+     "difficulty": "easy",
+     "concept": "ARMA special cases"
+    },
+    {
+     "q": "An ARMA(0,q) model is the same as:",
+     "options": [
+      "AR(q)",
+      "ARIMA(q,0,0)",
+      "MA(q)",
+      "A random walk"
+     ],
+     "answer": "MA(q)",
+     "explanation": "With p = 0 there are no AR terms, leaving MA(q). ARIMA(q,0,0) is an AR(q).",
+     "difficulty": "easy",
+     "concept": "ARMA special cases"
+    },
+    {
+     "q": "A key advantage of ARMA models over pure AR or pure MA models is:",
+     "options": [
+      "They never require the series to be stationary",
+      "Parsimony: they can describe complex autocorrelation with fewer parameters",
+      "They always give perfect in-sample fit",
+      "They automatically model seasonality and trend without any extra terms"
+     ],
+     "answer": "Parsimony: they can describe complex autocorrelation with fewer parameters",
+     "explanation": "A low-order ARMA such as ARMA(1,1) can mimic a high-order pure AR or MA. ARMA still requires stationarity.",
+     "difficulty": "easy",
+     "concept": "parsimony"
+    },
+    {
+     "q": "When comparing candidate ARMA models fitted to the same data, the model with the ___ AIC is preferred.",
+     "options": [
+      "Highest",
+      "Lowest",
+      "Closest to zero in absolute value",
+      "Closest to 1"
+     ],
+     "answer": "Lowest",
+     "explanation": "AIC balances fit and complexity; lower is better. AIC values can be negative, so 'closest to zero' is not the rule.",
+     "difficulty": "easy",
+     "concept": "information criteria"
+    },
+    {
+     "q": "In an ARMA model, stationarity depends on the ___ part and invertibility depends on the ___ part.",
+     "options": [
+      "MA; AR",
+      "AR; AR",
+      "AR; MA",
+      "MA; MA"
+     ],
+     "answer": "AR; MA",
+     "explanation": "Stationarity is governed by the AR coefficients and invertibility by the MA coefficients. Swapping them is a common slip.",
+     "difficulty": "easy",
+     "concept": "ARMA conditions"
+    },
+    {
+     "q": "An ARMA(p,q) model is the same as:",
+     "options": [
+      "ARIMA(p,1,q)",
+      "ARIMA(p,0,q)",
+      "ARIMA(0,p,q)",
+      "SARIMA(p,0,q)(1,0,0)12"
+     ],
+     "answer": "ARIMA(p,0,q)",
+     "explanation": "ARMA is ARIMA with d = 0, i.e. no differencing. ARIMA(p,1,q) applies ARMA to first differences.",
+     "difficulty": "easy",
+     "concept": "ARMA vs ARIMA"
+    },
+    {
+     "q": "An ARMA(1,1) for weekly demand is y_t = 10 + 0.5y_{t−1} + ε_t + 0.4ε_{t−1}. With y_T = 30 and ε_T = 5, what is ŷ_{T+1}?",
+     "options": [
+      "27",
+      "25",
+      "29",
+      "17"
+     ],
+     "answer": "27",
+     "explanation": "ŷ = 10 + 0.5 × 30 + 0.4 × 5 = 27. Dropping the MA term gives 25, and forgetting the constant gives 17.",
+     "difficulty": "medium",
+     "concept": "ARMA forecasting"
+    },
+    {
+     "q": "For y_t = 10 + 0.5y_{t−1} + ε_t + 0.4ε_{t−1} with ŷ_{T+1} = 27, what is ŷ_{T+2}?",
+     "options": [
+      "25.5",
+      "27.0",
+      "20.0",
+      "23.5"
+     ],
+     "answer": "23.5",
+     "explanation": "Two steps ahead the MA term involves a future shock (expected 0), so ŷ_{T+2} = 10 + 0.5 × 27 = 23.5. 25.5 wrongly adds 0.4 × 5 again; 20 is the long-run mean.",
+     "difficulty": "medium",
+     "concept": "ARMA forecasting"
+    },
+    {
+     "q": "Three models fitted to the same stationary series have AIC values: AR(2) = 512.4, MA(2) = 515.1, ARMA(1,1) = 508.7. Which is preferred?",
+     "options": [
+      "ARMA(1,1)",
+      "MA(2)",
+      "AR(2)",
+      "None, because AIC values above 500 indicate a poor fit"
+     ],
+     "answer": "ARMA(1,1)",
+     "explanation": "The lowest AIC (508.7) wins. AIC is relative, so its absolute size says nothing about fit quality.",
+     "difficulty": "medium",
+     "concept": "information criteria"
+    },
+    {
+     "q": "Including the constant but excluding the error variance, how many coefficients does an ARMA(2,1) model estimate?",
+     "options": [
+      "3",
+      "4",
+      "5",
+      "2"
+     ],
+     "answer": "4",
+     "explanation": "φ1, φ2, θ1 and c make 4. Counting σ² as well gives 5; forgetting the constant gives 3.",
+     "difficulty": "medium",
+     "concept": "parameter count"
+    },
+    {
+     "q": "After fitting an ARMA(1,1) to daily call-centre volume, the Ljung–Box p-value on residuals is 0.65. What does this suggest?",
+     "options": [
+      "Significant residual autocorrelation remains, so more terms are needed",
+      "The model explains 65% of the variation",
+      "The original series has a unit root and must be differenced",
+      "The residuals behave like white noise, so the model is adequate"
+     ],
+     "answer": "The residuals behave like white noise, so the model is adequate",
+     "explanation": "A large p-value means no evidence of residual autocorrelation. Interpreting p as variance explained is incorrect.",
+     "difficulty": "medium",
+     "concept": "residual diagnostics"
+    },
+    {
+     "q": "What is the long-run mean of y_t = 10 + 0.5y_{t−1} + ε_t + 0.4ε_{t−1}?",
+     "options": [
+      "10",
+      "16.7",
+      "20",
+      "14"
+     ],
+     "answer": "20",
+     "explanation": "The mean depends only on the AR part: μ = c/(1 − φ) = 10/0.5 = 20. Including θ (e.g. 10/(1 − 0.5 + 0.1)) gives 16.7, but MA terms do not affect the mean.",
+     "difficulty": "medium",
+     "concept": "ARMA mean"
+    },
+    {
+     "q": "A bank's stationary daily call volume shows an ACF tailing off from lag 1 and a PACF also tailing off from lag 1. Which candidate should lead the shortlist?",
+     "options": [
+      "ARMA(1,1)",
+      "AR(1)",
+      "MA(1)",
+      "White noise"
+     ],
+     "answer": "ARMA(1,1)",
+     "explanation": "When both ACF and PACF decay, a mixed ARMA is indicated, and ARMA(1,1) is the simplest such model. Pure AR(1) would show a PACF cut-off.",
+     "difficulty": "medium",
+     "concept": "ARMA signature"
+    },
+    {
+     "q": "An analyst estimates an ARMA(1,1) with φ = 1.1 and θ = 0.3. What is wrong?",
+     "options": [
+      "The MA coefficient θ = 0.3 makes the model non-invertible",
+      "The AR coefficient exceeds 1 in absolute value, so the process is non-stationary (explosive)",
+      "Nothing is wrong, since φ and θ add up to 1.4, which is fine",
+      "θ must always be larger than φ in an ARMA model"
+     ],
+     "answer": "The AR coefficient exceeds 1 in absolute value, so the process is non-stationary (explosive)",
+     "explanation": "Stationarity requires |φ| < 1; φ = 1.1 implies explosive behaviour. θ = 0.3 satisfies invertibility (|θ| < 1).",
+     "difficulty": "medium",
+     "concept": "ARMA stationarity"
+    },
+    {
+     "q": "Beyond the first step, how do forecasts from a stationary ARMA(1,1) behave?",
+     "options": [
+      "They decay geometrically toward the mean at rate φ, because the MA term only affects the first step",
+      "They stay constant at the last observed value forever",
+      "They grow linearly at a rate equal to θ, because the MA term adds to each step",
+      "They oscillate with increasing amplitude"
+     ],
+     "answer": "They decay geometrically toward the mean at rate φ, because the MA term only affects the first step",
+     "explanation": "After one step the MA(1) contribution is zero, so forecasts follow the AR(1) recursion toward the mean. Staying at the last value is random-walk behaviour.",
+     "difficulty": "medium",
+     "concept": "ARMA forecasting"
+    },
+    {
+     "q": "Why does BIC tend to select smaller ARMA models than AIC?",
+     "options": [
+      "BIC penalises each extra parameter by ln(n) rather than 2, a heavier penalty for typical sample sizes",
+      "BIC ignores the likelihood and counts only the number of parameters",
+      "AIC penalises extra parameters more heavily than BIC does",
+      "BIC is computed only on the test set while AIC uses the training set"
+     ],
+     "answer": "BIC penalises each extra parameter by ln(n) rather than 2, a heavier penalty for typical sample sizes",
+     "explanation": "For n > 7, ln(n) > 2, so BIC's penalty per parameter is larger. Both criteria use the likelihood plus a penalty.",
+     "difficulty": "medium",
+     "concept": "information criteria"
+    },
+    {
+     "q": "An ARMA(1,1) is estimated as (1 − 0.5B)y_t = (1 − 0.5B)ε_t. What does this imply?",
+     "options": [
+      "The series is a strongly persistent AR(1) process",
+      "The AR and MA factors cancel, so the series is really white noise and the model is over-parameterised",
+      "The model is optimal because both coefficients are equal",
+      "The series has a unit root that both terms are trying to capture"
+     ],
+     "answer": "The AR and MA factors cancel, so the series is really white noise and the model is over-parameterised",
+     "explanation": "Common factors cancel, leaving y_t = ε_t; the parameters are not identified. Near-cancelling φ and θ is a classic warning sign of over-fitting.",
+     "difficulty": "hard",
+     "concept": "parameter redundancy"
+    },
+    {
+     "q": "For a stationary ARMA(1,1) with φ = 0.5, the lag-1 autocorrelation is ρ1 ≈ 0.69. What is ρ2?",
+     "options": [
+      "0",
+      "≈ 0.35",
+      "≈ 0.48",
+      "≈ 0.69"
+     ],
+     "answer": "≈ 0.35",
+     "explanation": "For ARMA(1,1), ρk = φρ_{k−1} for k ≥ 2, so ρ2 = 0.5 × 0.69 ≈ 0.35. Zero would apply to a pure MA(1); 0.48 squares ρ1 as if it were AR(1) with φ = ρ1.",
+     "difficulty": "hard",
+     "concept": "ARMA ACF"
+    },
+    {
+     "q": "Model A has log-likelihood −250 with 3 parameters; Model B has log-likelihood −247 with 5 parameters. Using AIC = −2logL + 2k, which is preferred?",
+     "options": [
+      "Model A (AIC 506 vs 504)",
+      "Model A, because fewer parameters always win",
+      "Model B (AIC 504 vs 506)",
+      "Model B (AIC 494 vs 500)"
+     ],
+     "answer": "Model B (AIC 504 vs 506)",
+     "explanation": "AIC_A = 500 + 6 = 506 and AIC_B = 494 + 10 = 504, so B wins narrowly. Forgetting the penalty term gives 500 vs 494.",
+     "difficulty": "hard",
+     "concept": "information criteria"
+    },
+    {
+     "q": "ARMA(3,3) has a slightly lower AIC than ARMA(1,1) on training data, but a clearly higher RMSE on a 12-month holdout. Which should a planning manager adopt?",
+     "options": [
+      "ARMA(3,3), because a lower AIC on training data always means better forecasts",
+      "Both, by averaging them regardless of their accuracy on the holdout",
+      "ARMA(1,1), because it forecasts better out of sample and is more parsimonious",
+      "Neither, because both models must be wrong if they disagree"
+     ],
+     "answer": "ARMA(1,1), because it forecasts better out of sample and is more parsimonious",
+     "explanation": "Holdout accuracy is the most direct evidence of forecasting value, and the simpler model is less likely to over-fit. AIC is a proxy, not a guarantee.",
+     "difficulty": "hard",
+     "concept": "out-of-sample validation"
+    },
+    {
+     "q": "What justifies using low-order ARMA models for a wide range of stationary business series?",
+     "options": [
+      "All business series are exactly ARMA(1,1) processes by definition",
+      "ARMA models can perfectly fit any trending or seasonal series without differencing",
+      "Any stationary series can be written as an MA(∞) (Wold), and ARMA gives a parsimonious approximation to that infinite structure",
+      "Low-order ARMA models are justified because they can never over-fit a series"
+     ],
+     "answer": "Any stationary series can be written as an MA(∞) (Wold), and ARMA gives a parsimonious approximation to that infinite structure",
+     "explanation": "Wold's theorem supports approximating stationary dynamics with a rational ARMA form. ARMA still needs stationarity, and it can over-fit.",
+     "difficulty": "hard",
+     "concept": "Wold decomposition"
+    },
+    {
+     "q": "Since ACF and PACF both tail off for ARMA, how are p and q typically chosen in practice?",
+     "options": [
+      "Fit a grid of candidate orders and compare AIC/AICc/BIC, then check the residuals (as auto.arima does)",
+      "Set p equal to q equal to the number of significant ACF lags",
+      "Always use ARMA(1,1) because higher orders cannot be estimated",
+      "Choose the orders that maximise in-sample R², since a higher R² always means a better ARMA model"
+     ],
+     "answer": "Fit a grid of candidate orders and compare AIC/AICc/BIC, then check the residuals (as auto.arima does)",
+     "explanation": "Because cut-offs are not visible, a search over orders with information criteria plus residual diagnostics is standard. Maximising in-sample R² favours over-fitting.",
+     "difficulty": "hard",
+     "concept": "ARMA identification"
+    },
+    {
+     "q": "Which AR(2) part makes an ARMA(2,1) stationary? (Conditions: φ1 + φ2 < 1, φ2 − φ1 < 1, |φ2| < 1.)",
+     "options": [
+      "φ1 = 0.6, φ2 = 0.5",
+      "φ1 = 1.5, φ2 = −0.4",
+      "φ1 = 1.2, φ2 = −0.5",
+      "φ1 = −0.3, φ2 = −1.1"
+     ],
+     "answer": "φ1 = 1.2, φ2 = −0.5",
+     "explanation": "1.2 − 0.5 = 0.7 < 1, −0.5 − 1.2 < 1 and |−0.5| < 1, so it is stationary even though φ1 > 1. (0.6, 0.5) and (1.5, −0.4) sum to 1.1; (−0.3, −1.1) has |φ2| > 1.",
+     "difficulty": "hard",
+     "concept": "ARMA stationarity"
+    },
+    {
+     "q": "ARMA(1,1): y_t = 10 + 0.5y_{t−1} + ε_t + 0.4ε_{t−1}, y_T = 30, ε_T = 5. What is the three-step forecast ŷ_{T+3}?",
+     "options": [
+      "23.50",
+      "20.00",
+      "23.75",
+      "21.75"
+     ],
+     "answer": "21.75",
+     "explanation": "ŷ_{T+1} = 27, ŷ_{T+2} = 23.5, ŷ_{T+3} = 10 + 0.5 × 23.5 = 21.75, converging to the mean of 20. 23.75 wrongly adds the MA term 0.4 × 5 again.",
+     "difficulty": "hard",
+     "concept": "ARMA forecasting"
+    },
+    {
+     "q": "After fitting ARMA(1,1) to stationary daily sales of a quick-commerce store, the residual ACF has significant spikes at lags 7 and 14. What should be done?",
+     "options": [
+      "Increase to ARMA(14,14) to cover all lags up to 14",
+      "Add seasonal (weekly, s = 7) terms, e.g. move to a seasonal ARMA/SARIMA model",
+      "Accept the model since the main lags 1 and 2 are clean",
+      "Difference the series twice to remove the spikes"
+     ],
+     "answer": "Add seasonal (weekly, s = 7) terms, e.g. move to a seasonal ARMA/SARIMA model",
+     "explanation": "Spikes at multiples of 7 reveal weekly seasonality that ARMA(1,1) ignores; a seasonal term handles it parsimoniously. ARMA(14,14) wastes many parameters.",
+     "difficulty": "hard",
+     "concept": "seasonal ACF spikes"
+    },
+    {
+     "q": "An analyst fits ARMA(1,1) to the raw level of a fast-growing e-commerce GMV series and gets φ = 0.995. What is the best response?",
+     "options": [
+      "Accept the model since φ < 1 proves stationarity",
+      "Increase p until φ falls below 0.9",
+      "Remove the MA term and refit it as a pure AR(1) on the same raw levels of GMV",
+      "Test for a unit root and difference the series, i.e. move to an ARIMA model"
+     ],
+     "answer": "Test for a unit root and difference the series, i.e. move to an ARIMA model",
+     "explanation": "φ ≈ 1 on trending data signals a unit root; ARMA forecasts would wrongly pull GMV back to a historical mean. Differencing (ARIMA) is the appropriate fix.",
+     "difficulty": "hard",
+     "concept": "ARMA on trending data"
+    }
+   ],
+   "references": [
+    "An ARMA(p,q) model combines two ideas. The autoregressive part uses p past values of the series, capturing persistence, and the moving-average part uses q past forecast errors, capturing how recent surprises carry over. ARMA(1,1) is y_t = c + φy_{t−1} + ε_t + θε_{t−1}. It is applied to stationary data; if the series trends, we difference first, which turns it into ARIMA. The AR coefficients must satisfy stationarity and the MA coefficients invertibility. For a mixed ARMA, both the ACF and PACF tail off rather than cutting off, so we usually choose p and q by comparing AIC or BIC across candidates and then check the residuals are white noise.",
+    "Take daily call volumes at a bank's call centre, which are stable over time. Busy days tend to follow busy days (the AR part), and an unexpected spike, like an app outage, spills into the next day as customers call back (the MA part). An ARMA(1,1) handles both with just two coefficients. With y_t = 10 + 0.5y_{t−1} + ε_t + 0.4ε_{t−1}, if today was 30 with a surprise of 5, tomorrow's forecast is 10 + 15 + 2 = 27. After that, the surprise no longer matters and forecasts drift back toward the average of 20. A pure AR or MA might need many more terms to match this behaviour.",
+    "From a manager's perspective, ARMA is a compact, efficient way to forecast a stable, stationary business metric when both momentum and short-lived shocks matter. Its value is parsimony: fewer parameters mean less over-fitting and more reliable forecasts. The practical workflow is to confirm stationarity, try a few small (p,q) combinations, pick the one with the lowest AIC or BIC, and check that residuals pass the Ljung–Box test. I would also compare candidates on a holdout period, because the model that forecasts best out of sample is the one to deploy. If the series trends or has seasonality, plain ARMA is not enough, and we move to ARIMA or SARIMA."
+   ],
+   "key_concepts": [
+    "autoregressive",
+    "moving average",
+    "past values",
+    "past errors",
+    "stationary",
+    "parsimony",
+    "acf and pacf tail off",
+    "aic",
+    "bic",
+    "residuals",
+    "white noise",
+    "invertibility",
+    "arima with d=0"
+   ]
+  },
+  {
+   "topic": "ARIMA process",
+   "questions": [
+    {
+     "q": "ARIMA stands for:",
+     "options": [
+      "AutoRegressive Integrated Moving Average",
+      "Automatic Regression with Interval Moving Averages",
+      "AutoRegressive Indexed Mean Adjustment",
+      "Adjusted Regression Integrated Moving Average"
+     ],
+     "answer": "AutoRegressive Integrated Moving Average",
+     "explanation": "AR = autoregressive, I = integrated (differenced), MA = moving average of past errors.",
+     "difficulty": "easy",
+     "concept": "ARIMA acronym"
+    },
+    {
+     "q": "In ARIMA(p,d,q), d is:",
+     "options": [
+      "The number of times the series is differenced",
+      "The number of lagged forecast errors",
+      "The number of lagged values of the series",
+      "The seasonal period of the data"
+     ],
+     "answer": "The number of times the series is differenced",
+     "explanation": "d is the order of differencing (integration). Lagged errors are q and lagged values are p.",
+     "difficulty": "easy",
+     "concept": "d parameter"
+    },
+    {
+     "q": "ARIMA(0,1,0) without a constant is:",
+     "options": [
+      "White noise, whose forecasts equal the historical mean",
+      "An AR(1) with φ = 0.1",
+      "A random walk, whose forecasts equal the last observed value",
+      "Simple exponential smoothing with α = 0.5"
+     ],
+     "answer": "A random walk, whose forecasts equal the last observed value",
+     "explanation": "With one difference and no AR/MA terms, Δy_t = ε_t, i.e. y_t = y_{t−1} + ε_t. The naive forecast is the last value, not the mean.",
+     "difficulty": "easy",
+     "concept": "random walk"
+    },
+    {
+     "q": "The word 'Integrated' in ARIMA refers to:",
+     "options": [
+      "Combining forecasts from several different models",
+      "Modelling the differenced series and summing the forecasts back to the original level",
+      "Integrating external regressors such as price, promotions and festival dummies into the model",
+      "Taking the area under the ACF curve"
+     ],
+     "answer": "Modelling the differenced series and summing the forecasts back to the original level",
+     "explanation": "Integration is the reverse of differencing. Adding external regressors gives ARIMAX, not 'integrated'.",
+     "difficulty": "easy",
+     "concept": "integrated meaning"
+    },
+    {
+     "q": "ARIMA(1,1,0) means:",
+     "options": [
+      "An AR(1) model fitted to the first differences of the series",
+      "An MA(1) model fitted to the first differences of the series",
+      "An AR(1) model fitted to the original levels",
+      "An AR(1) model with one seasonal difference"
+     ],
+     "answer": "An AR(1) model fitted to the first differences of the series",
+     "explanation": "p = 1, d = 1, q = 0: one AR term on the once-differenced data. An MA(1) on differences would be ARIMA(0,1,1).",
+     "difficulty": "easy",
+     "concept": "ARIMA(1,1,0)"
+    },
+    {
+     "q": "The Box–Jenkins methodology for ARIMA follows which sequence?",
+     "options": [
+      "Estimation, forecasting, identification, diagnostic checking",
+      "Identification, estimation, diagnostic checking, forecasting",
+      "Forecasting, identification, estimation, diagnostic checking",
+      "Diagnostic checking, estimation, forecasting, identification"
+     ],
+     "answer": "Identification, estimation, diagnostic checking, forecasting",
+     "explanation": "Box–Jenkins first identifies orders (using stationarity checks and ACF/PACF), estimates parameters, checks residuals, then forecasts.",
+     "difficulty": "easy",
+     "concept": "Box-Jenkins steps"
+    },
+    {
+     "q": "ARIMA(0,1,1) produces forecasts equivalent to which method?",
+     "options": [
+      "Holt's linear trend method",
+      "Simple exponential smoothing",
+      "Holt–Winters seasonal method",
+      "A simple moving average of the last three values"
+     ],
+     "answer": "Simple exponential smoothing",
+     "explanation": "ARIMA(0,1,1) and SES give identical point forecasts. Holt's method corresponds to ARIMA(0,2,2).",
+     "difficulty": "easy",
+     "concept": "ARIMA(0,1,1) and SES"
+    },
+    {
+     "q": "ARIMA models are designed for data that are:",
+     "options": [
+      "Cross-sectional data collected across many customers or stores at one single point in time",
+      "Irregularly spaced events with no time ordering",
+      "Several series modelled jointly with feedback between them",
+      "A single, equally spaced time series that becomes stationary after differencing"
+     ],
+     "answer": "A single, equally spaced time series that becomes stationary after differencing",
+     "explanation": "ARIMA is univariate and needs regular time spacing. Several series with feedback require VAR-type models.",
+     "difficulty": "easy",
+     "concept": "ARIMA data requirements"
+    },
+    {
+     "q": "How does auto.arima (Hyndman–Khandakar algorithm) choose a model?",
+     "options": [
+      "It always fits ARIMA(1,1,1) to every series",
+      "Unit root tests to select d, then a stepwise search over p and q minimising AICc",
+      "It selects the model with the highest in-sample R² from all possible orders",
+      "It chooses the orders randomly and averages the forecasts"
+     ],
+     "answer": "Unit root tests to select d, then a stepwise search over p and q minimising AICc",
+     "explanation": "auto.arima uses KPSS tests to pick d and AICc to pick p and q. Maximising in-sample R² would favour over-fitting.",
+     "difficulty": "easy",
+     "concept": "automatic ARIMA"
+    },
+    {
+     "q": "For a well-specified ARIMA model, the residuals should be:",
+     "options": [
+      "Strongly autocorrelated at lag 1",
+      "Trending upward over time",
+      "White noise: uncorrelated with zero mean",
+      "Equal to the differenced series"
+     ],
+     "answer": "White noise: uncorrelated with zero mean",
+     "explanation": "Remaining autocorrelation means predictable structure was missed. Residuals equal to the differenced series would mean the model explains nothing.",
+     "difficulty": "easy",
+     "concept": "residual diagnostics"
+    },
+    {
+     "q": "A random walk with drift (ARIMA(0,1,0) with constant) has drift 4 per month. The last value is 500. What is the 3-month-ahead forecast?",
+     "options": [
+      "512",
+      "504",
+      "500",
+      "1500"
+     ],
+     "answer": "512",
+     "explanation": "ŷ_{T+h} = y_T + h × drift = 500 + 3 × 4 = 512. 504 is only the one-step forecast; 500 ignores the drift.",
+     "difficulty": "medium",
+     "concept": "random walk with drift"
+    },
+    {
+     "q": "An ARIMA(1,1,0) model is Δy_t = 0.4Δy_{t−1} + ε_t. With y_T = 200 and y_{T−1} = 190, what is ŷ_{T+1}?",
+     "options": [
+      "80",
+      "210",
+      "276",
+      "204"
+     ],
+     "answer": "204",
+     "explanation": "Δy_T = 10, so Δŷ_{T+1} = 0.4 × 10 = 4 and ŷ_{T+1} = 204. Applying 0.4 to the level gives 80; adding the full last change gives 210.",
+     "difficulty": "medium",
+     "concept": "ARIMA(1,1,0) forecasting"
+    },
+    {
+     "q": "ADF on levels gives p = 0.7 and on first differences p = 0.01. The differenced series has an ACF spike at lag 1 only and a decaying PACF. Which model is suggested?",
+     "options": [
+      "ARIMA(1,1,0)",
+      "ARIMA(0,0,1)",
+      "ARIMA(1,0,1)",
+      "ARIMA(0,1,1)"
+     ],
+     "answer": "ARIMA(0,1,1)",
+     "explanation": "One difference is needed (d = 1), and an ACF cut-off at lag 1 indicates MA(1), so q = 1. ARIMA(0,0,1) ignores the unit root.",
+     "difficulty": "medium",
+     "concept": "ARIMA identification"
+    },
+    {
+     "q": "After one difference, a series' PACF has significant spikes at lags 1 and 2 only, and the ACF tails off. Which model is suggested?",
+     "options": [
+      "ARIMA(2,1,0)",
+      "ARIMA(0,1,2)",
+      "ARIMA(2,0,0)",
+      "ARIMA(1,2,0)"
+     ],
+     "answer": "ARIMA(2,1,0)",
+     "explanation": "PACF cut-off at lag 2 on the differenced data means AR(2) with d = 1. ARIMA(0,1,2) would require the ACF to cut off.",
+     "difficulty": "medium",
+     "concept": "ARIMA identification"
+    },
+    {
+     "q": "An ARIMA(0,1,1) model is y_t = y_{t−1} + ε_t + θε_{t−1} with θ = −0.6. If y_T = 120 and ε_T = 10, what is ŷ_{T+1}?",
+     "options": [
+      "126",
+      "120",
+      "110",
+      "114"
+     ],
+     "answer": "114",
+     "explanation": "ŷ_{T+1} = 120 + (−0.6)(10) = 114. Ignoring the negative sign of θ gives 126.",
+     "difficulty": "medium",
+     "concept": "ARIMA(0,1,1) forecasting"
+    },
+    {
+     "q": "An ARIMA model for monthly two-wheeler sales has Ljung–Box p = 0.003 on residuals. What should be done?",
+     "options": [
+      "Use the model, because a small p-value shows the model is highly significant",
+      "Increase the forecast horizon to average out the errors",
+      "Revise the model, because residual autocorrelation remains",
+      "Conclude the series is white noise and stop modelling"
+     ],
+     "answer": "Revise the model, because residual autocorrelation remains",
+     "explanation": "A small Ljung–Box p-value rejects white-noise residuals, so the model has missed structure. It is not a test of model significance.",
+     "difficulty": "medium",
+     "concept": "residual diagnostics"
+    },
+    {
+     "q": "For an ARIMA model with d = 1, how do prediction intervals behave as the horizon grows?",
+     "options": [
+      "They stay the same width at all horizons",
+      "They narrow as the horizon increases",
+      "They widen steadily with the horizon",
+      "They widen only for the first q steps and then stay fixed"
+     ],
+     "answer": "They widen steadily with the horizon",
+     "explanation": "With d ≥ 1, forecast errors accumulate when integrated, so intervals keep widening. Fixed widths after q steps apply to stationary MA models.",
+     "difficulty": "medium",
+     "concept": "ARIMA forecast intervals"
+    },
+    {
+     "q": "An ARIMA(0,1,1) has θ = −0.7. What is the equivalent SES smoothing parameter α (using α = 1 + θ)?",
+     "options": [
+      "0.7",
+      "−0.7",
+      "0.3",
+      "1.7"
+     ],
+     "answer": "0.3",
+     "explanation": "α = 1 + θ = 1 − 0.7 = 0.3. Taking |θ| as α gives 0.7, which reverses the weighting.",
+     "difficulty": "medium",
+     "concept": "ARIMA(0,1,1) and SES"
+    },
+    {
+     "q": "Can AIC be used to choose between ARIMA(1,0,1) and ARIMA(1,1,1) fitted to the same sales data?",
+     "options": [
+      "No, because differencing changes the data on which the likelihood is computed",
+      "Yes, AIC can always compare any two ARIMA models",
+      "Yes, but only if both models have the same number of parameters",
+      "No, because AIC can only be used for MA models"
+     ],
+     "answer": "No, because differencing changes the data on which the likelihood is computed",
+     "explanation": "Models with different d are fitted to different data, so their likelihoods (and AICs) are not comparable. Choose d first with unit root tests, then compare p and q.",
+     "difficulty": "medium",
+     "concept": "information criteria"
+    },
+    {
+     "q": "An ARIMA(0,2,0) model (no constant) is used. If y_T = 100 and y_{T−1} = 95, what is ŷ_{T+2}?",
+     "options": [
+      "110",
+      "105",
+      "100",
+      "120"
+     ],
+     "answer": "110",
+     "explanation": "With Δ²y = ε, forecasts extend the last change of 5: ŷ_{T+1} = 105 and ŷ_{T+2} = 110. 105 is only the one-step forecast.",
+     "difficulty": "medium",
+     "concept": "ARIMA(0,2,0) forecasting"
+    },
+    {
+     "q": "A colleague picks between ARIMA(2,0,1) with AIC 640 and ARIMA(2,1,1) with AIC 610, concluding that d = 1 is better. What is the flaw?",
+     "options": [
+      "There is no flaw, because the lower AIC always identifies the better model",
+      "The flaw is that AIC should be maximised rather than minimised",
+      "The flaw is that the two models have different numbers of AR parameters, so AIC cannot compare them",
+      "AIC values from models with different orders of differencing are not comparable, so d should be chosen by unit root tests"
+     ],
+     "answer": "AIC values from models with different orders of differencing are not comparable, so d should be chosen by unit root tests",
+     "explanation": "Differencing changes the likelihood's data, invalidating AIC comparisons across d. Different numbers of parameters are fine; AIC is designed for that.",
+     "difficulty": "hard",
+     "concept": "information criteria"
+    },
+    {
+     "q": "For Δy_t = 0.4Δy_{t−1} + ε_t with y_T = 200 and y_{T−1} = 190 (so ŷ_{T+1} = 204), what is ŷ_{T+2}?",
+     "options": [
+      "205.6",
+      "208.0",
+      "201.6",
+      "204.0"
+     ],
+     "answer": "205.6",
+     "explanation": "Δŷ_{T+2} = 0.4 × 4 = 1.6, so ŷ_{T+2} = 204 + 1.6 = 205.6. Adding 1.6 to y_T instead of ŷ_{T+1} gives 201.6.",
+     "difficulty": "hard",
+     "concept": "ARIMA(1,1,0) forecasting"
+    },
+    {
+     "q": "For an ARIMA model with d = 1 and a non-zero constant c, long-term forecasts:",
+     "options": [
+      "Converge to the mean of the series",
+      "Converge to a fixed non-zero constant",
+      "Follow a straight line with a non-zero slope",
+      "Follow a quadratic trend"
+     ],
+     "answer": "Follow a straight line with a non-zero slope",
+     "explanation": "In Hyndman's summary, c ≠ 0 with d = 1 gives a linear trend; c ≠ 0 with d = 0 gives the mean; c ≠ 0 with d = 2 gives a quadratic trend.",
+     "difficulty": "hard",
+     "concept": "long-term forecast behaviour"
+    },
+    {
+     "q": "Which ARIMA specification produces long-term forecasts that follow a quadratic trend, which Hyndman & Athanasopoulos warn against?",
+     "options": [
+      "d = 1 with a non-zero constant",
+      "d = 2 with a non-zero constant",
+      "d = 0 with a non-zero constant",
+      "d = 2 with no constant"
+     ],
+     "answer": "d = 2 with a non-zero constant",
+     "explanation": "A constant with two differences implies a quadratic trend. d = 2 without a constant gives a straight line, and d = 1 with a constant also gives a straight line.",
+     "difficulty": "hard",
+     "concept": "long-term forecast behaviour"
+    },
+    {
+     "q": "A new D2C brand has 10 months of sales and wants an ARIMA forecast for annual budgeting. What is the main concern?",
+     "options": [
+      "ARIMA needs at least 10 years of data regardless of frequency",
+      "Too few observations to reliably test stationarity, identify orders and estimate parameters",
+      "ARIMA cannot be used for any company younger than 5 years",
+      "Ten months is ideal, because fewer data points reduce the risk of over-fitting the model's parameters"
+     ],
+     "answer": "Too few observations to reliably test stationarity, identify orders and estimate parameters",
+     "explanation": "Unit root tests and ACF/PACF are unreliable with very short series; simpler methods or judgemental forecasts may be better. There is no fixed '10 years' rule.",
+     "difficulty": "hard",
+     "concept": "ARIMA data requirements"
+    },
+    {
+     "q": "ARIMA(2,1,0) has AICc 1020.0 and ARIMA(0,1,2) has AICc 1021.5; both pass residual checks. What is the most sensible decision?",
+     "options": [
+      "Reject both, because AICc values above 1000 indicate poor fit",
+      "Always choose ARIMA(0,1,2) because MA models forecast better",
+      "Average the two AICc values and fit ARIMA(1,1,1) as a compromise between them",
+      "Treat them as essentially equivalent and choose by holdout accuracy or simplicity"
+     ],
+     "answer": "Treat them as essentially equivalent and choose by holdout accuracy or simplicity",
+     "explanation": "AICc differences under about 2 are small, so test-set performance or simplicity should decide. The absolute size of AICc is meaningless.",
+     "difficulty": "hard",
+     "concept": "information criteria"
+    },
+    {
+     "q": "An ARIMA model is fitted to log(monthly sales). The point forecast of log sales is 6.0. What is the forecast in original units (median)?",
+     "options": [
+      "6.0",
+      "1,000,000",
+      "≈ 403.4",
+      "600"
+     ],
+     "answer": "≈ 403.4",
+     "explanation": "Back-transform with the exponential: e⁶ ≈ 403.4. 10⁶ assumes base-10 logs; leaving 6.0 forgets to back-transform.",
+     "difficulty": "hard",
+     "concept": "back-transformation"
+    },
+    {
+     "q": "A retailer's ARIMA fits pre-2020 data well, but COVID lockdowns created a sharp, temporary collapse in 2020. What is the best way to handle this?",
+     "options": [
+      "Ignore it, because ARIMA automatically treats outliers as noise",
+      "Model the disruption explicitly, e.g. with intervention dummies (ARIMAX), or adjust the data before fitting",
+      "Increase the differencing order to d = 3 so that the extra differencing automatically absorbs both the collapse and the recovery",
+      "Drop all data after 2019 permanently, even for future model updates and forecasts"
+     ],
+     "answer": "Model the disruption explicitly, e.g. with intervention dummies (ARIMAX), or adjust the data before fitting",
+     "explanation": "ARIMA assumes stable dynamics; large one-off shocks distort parameters unless handled with interventions or adjustments. Extra differencing does not fix a one-off break.",
+     "difficulty": "hard",
+     "concept": "structural breaks"
+    },
+    {
+     "q": "An ARIMA(0,1,1) for weekly demand is estimated with θ = −0.95. What does this imply about the forecasts?",
+     "options": [
+      "They behave like a naive forecast that copies the last value",
+      "They behave like SES with α ≈ 0.05, reacting very slowly to new data",
+      "They behave like SES with α ≈ 0.95, reacting almost fully to new data",
+      "They are explosive because |θ| is close to 1"
+     ],
+     "answer": "They behave like SES with α ≈ 0.05, reacting very slowly to new data",
+     "explanation": "α = 1 + θ = 0.05, so forecasts change very little each week. Confusing α with |θ| leads to the 0.95 distractor.",
+     "difficulty": "hard",
+     "concept": "ARIMA(0,1,1) and SES"
+    },
+    {
+     "q": "The planning head asks whether to replace an existing Holt–Winters model with ARIMA for monthly FMCG demand. What is the best approach?",
+     "options": [
+      "Switch to ARIMA, because it is always more accurate than exponential smoothing",
+      "Keep Holt–Winters, because ARIMA cannot handle any seasonality",
+      "Choose whichever model has the lower AIC, even though the two models are fitted to differently transformed data",
+      "Compare both on the same holdout or rolling-origin evaluation and adopt the one with lower forecast error"
+     ],
+     "answer": "Compare both on the same holdout or rolling-origin evaluation and adopt the one with lower forecast error",
+     "explanation": "ARIMA and ETS families overlap and neither dominates; out-of-sample comparison decides. AIC is not comparable across these model classes when data are transformed or differenced differently.",
+     "difficulty": "hard",
+     "concept": "ARIMA vs ETS"
+    }
+   ],
+   "references": [
+    "ARIMA stands for AutoRegressive Integrated Moving Average and is written ARIMA(p,d,q). Because most business series have trends, we first difference the data d times to make it stationary; that is the 'integrated' part. On the differenced data we fit p autoregressive terms, which use past values, and q moving-average terms, which use past forecast errors. We choose d with unit root tests like ADF or KPSS, and p and q from the ACF and PACF or by minimising AIC. Forecasts of the differences are summed back to the original level. Special cases include ARIMA(0,1,0), the random walk, and ARIMA(0,1,1), which matches simple exponential smoothing. The residuals should be white noise.",
+    "Suppose we forecast monthly two-wheeler sales that have grown steadily. The ADF test fails to reject a unit root, so we take first differences, the monthly changes, which pass the test, giving d = 1. The ACF of the changes has one spike at lag 1 and the PACF decays, so we fit ARIMA(0,1,1). We check the residual ACF and Ljung–Box test to confirm nothing is left over, then forecast. The model forecasts next month's change and adds it to the latest sales figure. Because uncertainty from each future change accumulates, the prediction interval widens the further ahead we look, which is important for setting inventory ranges.",
+    "For managers, ARIMA is a flexible, data-driven way to forecast a single series using only its own history, which is useful when we have no good drivers to model. Its strength is that it handles trends through differencing and short-term dynamics through AR and MA terms, and tools like auto.arima automate the selection with AICc. The decisions that matter are the order of differencing, keeping the model simple and validating it out of sample against alternatives like exponential smoothing. ARIMA has limits: it needs a reasonable amount of history, assumes the pattern stays stable, and needs explicit handling of events like GST or COVID, and a seasonal extension for festive cycles."
+   ],
+   "key_concepts": [
+    "arima",
+    "autoregressive",
+    "integrated",
+    "moving average",
+    "differencing",
+    "order d",
+    "stationary",
+    "p d q",
+    "aic",
+    "residuals",
+    "white noise",
+    "box-jenkins",
+    "prediction intervals",
+    "random walk"
+   ]
+  },
+  {
+   "topic": "Seasonal ARIMA (SARIMA)",
+   "questions": [
+    {
+     "q": "In SARIMA(p,d,q)(P,D,Q)s notation, s represents:",
+     "options": [
+      "The seasonal period, i.e. the number of observations per seasonal cycle",
+      "The number of seasonal differences applied",
+      "The seasonal moving-average order",
+      "The standard deviation of the seasonal component"
+     ],
+     "answer": "The seasonal period, i.e. the number of observations per seasonal cycle",
+     "explanation": "s is the length of the seasonal cycle (e.g. 12 for monthly data). The number of seasonal differences is D.",
+     "difficulty": "easy",
+     "concept": "SARIMA notation"
+    },
+    {
+     "q": "For monthly data with an annual pattern, the seasonal period s is:",
+     "options": [
+      "4",
+      "7",
+      "12",
+      "52"
+     ],
+     "answer": "12",
+     "explanation": "There are 12 months in a yearly cycle. 4 is for quarterly data, 7 for daily data with a weekly cycle and 52 for weekly data.",
+     "difficulty": "easy",
+     "concept": "seasonal period"
+    },
+    {
+     "q": "In SARIMA(p,d,q)(P,D,Q)s, D is:",
+     "options": [
+      "The number of seasonal differences",
+      "The number of ordinary differences",
+      "The seasonal AR order",
+      "The number of seasons in the data"
+     ],
+     "answer": "The number of seasonal differences",
+     "explanation": "D counts seasonal differences (y_t − y_{t−s}); d counts ordinary differences.",
+     "difficulty": "easy",
+     "concept": "SARIMA notation"
+    },
+    {
+     "q": "In SARIMA(p,d,q)(P,D,Q)s, P is:",
+     "options": [
+      "The seasonal moving-average order",
+      "The non-seasonal AR order",
+      "The seasonal period",
+      "The seasonal autoregressive order"
+     ],
+     "answer": "The seasonal autoregressive order",
+     "explanation": "P is the number of seasonal AR terms at lags s, 2s, ... Q is the seasonal MA order and p the non-seasonal AR order.",
+     "difficulty": "easy",
+     "concept": "SARIMA notation"
+    },
+    {
+     "q": "SARIMA is preferred over ARIMA when:",
+     "options": [
+      "The series has a trend but no seasonal pattern of any kind",
+      "The series shows a repeating seasonal pattern, such as festive or monthly peaks",
+      "The data are cross-sectional rather than time-ordered",
+      "Several related series must be modelled jointly"
+     ],
+     "answer": "The series shows a repeating seasonal pattern, such as festive or monthly peaks",
+     "explanation": "SARIMA adds seasonal terms to capture repeating patterns. Trend alone is handled by ordinary differencing in ARIMA.",
+     "difficulty": "easy",
+     "concept": "when to use SARIMA"
+    },
+    {
+     "q": "For quarterly data, the seasonal period s is:",
+     "options": [
+      "12",
+      "4",
+      "3",
+      "1"
+     ],
+     "answer": "4",
+     "explanation": "Four quarters make one annual cycle. 12 is for monthly data.",
+     "difficulty": "easy",
+     "concept": "seasonal period"
+    },
+    {
+     "q": "With D = 1 and s = 12, the seasonal difference is:",
+     "options": [
+      "y_t − y_{t−1}",
+      "y_t − y_{t−12}",
+      "y_t − 12y_{t−1}",
+      "y_t / y_{t−12}"
+     ],
+     "answer": "y_t − y_{t−12}",
+     "explanation": "A seasonal difference subtracts the same month of the previous year. y_t − y_{t−1} is an ordinary difference.",
+     "difficulty": "easy",
+     "concept": "seasonal difference"
+    },
+    {
+     "q": "SARIMA(0,1,1)(0,1,1)12 is widely known as the:",
+     "options": [
+      "Random walk model",
+      "Airline model",
+      "Holt–Winters additive model",
+      "Seasonal naive model"
+     ],
+     "answer": "Airline model",
+     "explanation": "Box and Jenkins popularised it using the international airline passengers data. The seasonal naive model is SARIMA(0,0,0)(0,1,0)s.",
+     "difficulty": "easy",
+     "concept": "airline model"
+    },
+    {
+     "q": "In a monthly SARIMA model, a seasonal MA(1) term links the current value to:",
+     "options": [
+      "The observed value 12 months earlier",
+      "The error (shock) from 12 months earlier",
+      "The error from 1 month earlier",
+      "The average of the last 12 months"
+     ],
+     "answer": "The error (shock) from 12 months earlier",
+     "explanation": "A seasonal MA term uses ε_{t−12}. Linking to the observed value y_{t−12} would be a seasonal AR term.",
+     "difficulty": "easy",
+     "concept": "seasonal MA term"
+    },
+    {
+     "q": "A quick-commerce firm has daily order data with a strong weekday/weekend pattern. Which seasonal period suits SARIMA?",
+     "options": [
+      "12",
+      "7",
+      "30",
+      "365"
+     ],
+     "answer": "7",
+     "explanation": "The weekly cycle repeats every 7 days. 365 would capture an annual cycle, which SARIMA handles poorly for daily data.",
+     "difficulty": "easy",
+     "concept": "seasonal period"
+    },
+    {
+     "q": "In the ACF of a seasonally differenced monthly series, there is a significant spike at lag 12 only (none at 24, 36), while the PACF decays across lags 12, 24, 36. What is suggested?",
+     "options": [
+      "Seasonal MA(1): Q = 1",
+      "Seasonal AR(1): P = 1",
+      "Seasonal MA(2): Q = 2",
+      "No seasonal terms are needed"
+     ],
+     "answer": "Seasonal MA(1): Q = 1",
+     "explanation": "A single seasonal ACF spike with decaying seasonal PACF mirrors the MA signature at seasonal lags. The reverse pattern would indicate P = 1.",
+     "difficulty": "medium",
+     "concept": "seasonal MA signature"
+    },
+    {
+     "q": "A monthly series' PACF has a significant spike at lag 12 only, while the ACF decays across lags 12, 24, 36. What is suggested?",
+     "options": [
+      "Seasonal MA(1): Q = 1",
+      "Non-seasonal AR(12): p = 12",
+      "Seasonal AR(1): P = 1",
+      "A second seasonal difference: D = 2"
+     ],
+     "answer": "Seasonal AR(1): P = 1",
+     "explanation": "A seasonal PACF cut-off at lag 12 with decaying seasonal ACF points to P = 1. p = 12 would add 12 non-seasonal terms unnecessarily.",
+     "difficulty": "medium",
+     "concept": "seasonal AR signature"
+    },
+    {
+     "q": "How many ARMA coefficients (excluding constant and error variance) does SARIMA(1,1,1)(1,1,1)12 estimate?",
+     "options": [
+      "6",
+      "12",
+      "2",
+      "4"
+     ],
+     "answer": "4",
+     "explanation": "φ1, θ1, Φ1 and Θ1 make 4; the differences d and D add no parameters. Counting d and D as parameters gives 6.",
+     "difficulty": "medium",
+     "concept": "parameter count"
+    },
+    {
+     "q": "Ten years of monthly data (120 observations) are modelled with d = 1 and D = 1, s = 12. How many observations remain after differencing?",
+     "options": [
+      "108",
+      "118",
+      "96",
+      "107"
+     ],
+     "answer": "107",
+     "explanation": "The seasonal difference loses 12 and the ordinary difference loses 1, so 120 − 13 = 107. 108 forgets the ordinary difference.",
+     "difficulty": "medium",
+     "concept": "observations lost"
+    },
+    {
+     "q": "Monthly hotel occupancy in Goa rises steadily over the years and peaks every October–January. Which differencing is most likely needed?",
+     "options": [
+      "d = 1 and D = 1",
+      "d = 0 and D = 0",
+      "d = 2 and D = 0",
+      "d = 0 and D = 2"
+     ],
+     "answer": "d = 1 and D = 1",
+     "explanation": "The trend calls for an ordinary difference and the strong annual pattern for a seasonal difference. Two ordinary differences would not remove seasonality.",
+     "difficulty": "medium",
+     "concept": "choosing d and D"
+    },
+    {
+     "q": "What is the forecast for next July from SARIMA(0,0,0)(0,1,0)12?",
+     "options": [
+      "The value from last month",
+      "The average of the last 12 months",
+      "Zero, since no AR or MA terms are present",
+      "The value from last July"
+     ],
+     "answer": "The value from last July",
+     "explanation": "With only a seasonal difference, y_t = y_{t−12} + ε_t, which is the seasonal naive method. The last month's value would come from ARIMA(0,1,0).",
+     "difficulty": "medium",
+     "concept": "seasonal naive"
+    },
+    {
+     "q": "After fitting ARIMA(1,1,1) to monthly sales, the residual ACF shows significant spikes at lags 12 and 24. What is the appropriate next step?",
+     "options": [
+      "Add seasonal terms, i.e. move to a SARIMA model with s = 12",
+      "Increase p to 24",
+      "Remove the MA term from the model",
+      "Accept the model, because spikes at lags 12 and 24 are always just random noise"
+     ],
+     "answer": "Add seasonal terms, i.e. move to a SARIMA model with s = 12",
+     "explanation": "Residual spikes at seasonal lags reveal unmodelled seasonality. Increasing p to 24 is far less parsimonious than seasonal terms.",
+     "difficulty": "medium",
+     "concept": "seasonal ACF spikes"
+    },
+    {
+     "q": "A SARIMA(0,0,0)(1,0,0)12 with Φ = 0.5 and mean zero is fitted to sales deviations. Last March was 40 above the mean. What is the forecast deviation for this March?",
+     "options": [
+      "40",
+      "0.5",
+      "80",
+      "20"
+     ],
+     "answer": "20",
+     "explanation": "ŷ = Φ × y_{t−12} = 0.5 × 40 = 20. Copying 40 corresponds to seasonal naive (Φ = 1).",
+     "difficulty": "medium",
+     "concept": "seasonal AR forecasting"
+    },
+    {
+     "q": "In the airline model SARIMA(0,1,1)(0,1,1)12, which terms are included?",
+     "options": [
+      "One AR term, one seasonal AR term and no differencing at all",
+      "Two ordinary differences and two MA terms",
+      "One ordinary difference, one seasonal difference, one AR term and one seasonal AR term",
+      "One ordinary difference, one seasonal difference, one MA term and one seasonal MA term"
+     ],
+     "answer": "One ordinary difference, one seasonal difference, one MA term and one seasonal MA term",
+     "explanation": "(0,1,1)(0,1,1)12 means d = 1, q = 1, D = 1, Q = 1 with no AR terms. Confusing MA with AR terms gives the last distractor.",
+     "difficulty": "medium",
+     "concept": "airline model"
+    },
+    {
+     "q": "A SARIMA(0,1,0)(0,1,0)12 forecasts ŷ_{T+1} = y_T + y_{T−11} − y_{T−12}. Sales were 300 in December 2025, 250 in January 2025 and 280 in December 2024. What is the January 2026 forecast?",
+     "options": [
+      "250",
+      "300",
+      "270",
+      "330"
+     ],
+     "answer": "270",
+     "explanation": "ŷ = 300 + 250 − 280 = 270: last January's level adjusted by the latest year-on-year change (+20). 330 adds the change with the wrong sign (300 + 280 − 250).",
+     "difficulty": "medium",
+     "concept": "SARIMA forecasting"
+    },
+    {
+     "q": "In SARIMA(1,0,0)(1,0,0)12 with φ = 0.5 and Φ = 0.4, (1 − 0.5B)(1 − 0.4B¹²)y_t = ε_t. What is the coefficient on y_{t−13} in the expanded equation for y_t?",
+     "options": [
+      "−0.2",
+      "0.2",
+      "0.9",
+      "0"
+     ],
+     "answer": "−0.2",
+     "explanation": "Expanding gives 1 − 0.5B − 0.4B¹² + 0.2B¹³, so y_t = 0.5y_{t−1} + 0.4y_{t−12} − 0.2y_{t−13} + ε_t. The sign flips when moving the term to the right-hand side.",
+     "difficulty": "hard",
+     "concept": "multiplicative seasonal terms"
+    },
+    {
+     "q": "In an airline model with θ = −0.4 and Θ = −0.6, the MA part is (1 + θB)(1 + ΘB¹²)ε_t. What is the coefficient on ε_{t−13}?",
+     "options": [
+      "−0.24",
+      "0.24",
+      "−1.0",
+      "0"
+     ],
+     "answer": "0.24",
+     "explanation": "θΘ = (−0.4)(−0.6) = +0.24. The multiplicative form creates this lag-13 term automatically, which is why spikes appear at lags 11 and 13 too.",
+     "difficulty": "hard",
+     "concept": "multiplicative seasonal terms"
+    },
+    {
+     "q": "The ACF of a differenced monthly series shows significant spikes at lags 1, 11, 12 and 13. Which model structure explains this pattern most parsimoniously?",
+     "options": [
+      "A non-seasonal MA(13) with all thirteen MA coefficients estimated freely",
+      "SARIMA(0,1,1)(0,1,1)12, whose multiplicative MA terms create spikes around lag 12",
+      "SARIMA(1,1,0)(1,1,0)12 with seasonal AR terms only",
+      "White noise, because spikes at 11 and 13 are not at the seasonal lag"
+     ],
+     "answer": "SARIMA(0,1,1)(0,1,1)12, whose multiplicative MA terms create spikes around lag 12",
+     "explanation": "Multiplying (1 + θB)(1 + ΘB¹²) produces correlation at lags 11 and 13 as well as 1 and 12. MA(13) would use 13 parameters to do what two can.",
+     "difficulty": "hard",
+     "concept": "multiplicative seasonal terms"
+    },
+    {
+     "q": "A retailer has weekly sales with an annual cycle (s ≈ 52.18). Why is SARIMA awkward here, and what is a better approach?",
+     "options": [
+      "SARIMA works perfectly with s = 52, so no other approach is needed",
+      "Aggregate to daily data and use s = 7, since this captures the annual cycle",
+      "Use SARIMA with s = 4, because there are four weeks in a month",
+      "s is long and non-integer, so seasonal terms are hard to estimate; use Fourier terms in a dynamic harmonic regression"
+     ],
+     "answer": "s is long and non-integer, so seasonal terms are hard to estimate; use Fourier terms in a dynamic harmonic regression",
+     "explanation": "Long, fractional seasonal periods make seasonal differencing and lags unwieldy; Fourier terms with ARMA errors handle them smoothly (Hyndman & Athanasopoulos).",
+     "difficulty": "hard",
+     "concept": "weekly data seasonality"
+    },
+    {
+     "q": "Hourly electricity demand for a Mumbai utility has both daily (24) and weekly (168) cycles. What is the key limitation of SARIMA?",
+     "options": [
+      "SARIMA handles only one seasonal period, so multiple seasonality needs approaches like Fourier terms, TBATS or MSTL",
+      "SARIMA can include any number of seasonal periods directly in its notation",
+      "SARIMA cannot be used for hourly data under any circumstances",
+      "SARIMA requires s to be less than 12, so both cycles are too long to model"
+     ],
+     "answer": "SARIMA handles only one seasonal period, so multiple seasonality needs approaches like Fourier terms, TBATS or MSTL",
+     "explanation": "Standard SARIMA has a single s. Multiple-seasonality methods (Fourier regressors, TBATS, MSTL) are designed for such data.",
+     "difficulty": "hard",
+     "concept": "multiple seasonality"
+    },
+    {
+     "q": "An analyst proposes SARIMA(1,1,1)(1,2,1)12 for monthly sales. What is the main concern?",
+     "options": [
+      "D = 2 is the standard choice for monthly data, so nothing needs to change",
+      "The model has too few AR terms to capture the trend",
+      "D = 2 (and d + D = 3) is very rarely needed and usually means over-differencing, inflating forecast variance",
+      "The seasonal period should be 24 when D = 2"
+     ],
+     "answer": "D = 2 (and d + D = 3) is very rarely needed and usually means over-differencing, inflating forecast variance",
+     "explanation": "Hyndman & Athanasopoulos advise D ≤ 1 and d + D ≤ 2 in practice; more differencing adds noise and unrealistic forecast behaviour.",
+     "difficulty": "hard",
+     "concept": "choosing d and D"
+    },
+    {
+     "q": "For a SARIMA model with d = 1, D = 1 and no constant, what pattern do long-horizon forecasts follow?",
+     "options": [
+      "A flat line at the historical mean with no seasonal pattern",
+      "A seasonal pattern that fades to zero over time",
+      "The seasonal pattern repeats around a level that continues the recent trend",
+      "Explosive growth that accelerates every year"
+     ],
+     "answer": "The seasonal pattern repeats around a level that continues the recent trend",
+     "explanation": "With both ordinary and seasonal differencing, forecasts keep the seasonal shape and extrapolate the trend. A flat mean forecast comes from a stationary model.",
+     "difficulty": "hard",
+     "concept": "SARIMA long-run forecasts"
+    },
+    {
+     "q": "A new D2C brand has only 18 months of monthly sales and wants a SARIMA(1,1,1)(1,1,1)12. What is the main problem?",
+     "options": [
+      "18 months is plenty, because SARIMA needs just one full cycle of data",
+      "SARIMA needs exactly 24 months of data, and having more than that also reduces accuracy",
+      "After seasonal and ordinary differencing only 5 observations remain, far too few to estimate seasonal terms",
+      "The model needs s = 18 to match the length of the data"
+     ],
+     "answer": "After seasonal and ordinary differencing only 5 observations remain, far too few to estimate seasonal terms",
+     "explanation": "18 − 12 − 1 = 5 differenced observations cannot support identification or estimation. Simpler or judgement-based methods are safer until more history exists.",
+     "difficulty": "hard",
+     "concept": "SARIMA data requirements"
+    },
+    {
+     "q": "A soft-drink brand's monthly seasonal pattern is very stable year after year. Why might seasonal differencing be inappropriate, and what is an alternative?",
+     "options": [
+      "Seasonal differencing is always required whenever any seasonal pattern can be seen in the data",
+      "Stable seasonality makes the series non-stationary, so D = 2 is needed",
+      "Stable (deterministic) seasonality can be over-differenced; use seasonal dummies or Fourier terms with ARMA errors",
+      "Stable seasonality should be ignored, since it adds no forecasting information"
+     ],
+     "answer": "Stable (deterministic) seasonality can be over-differenced; use seasonal dummies or Fourier terms with ARMA errors",
+     "explanation": "Seasonal differencing assumes stochastic seasonality; a fixed pattern is better captured deterministically. Over-differencing creates a near non-invertible seasonal MA term.",
+     "difficulty": "hard",
+     "concept": "deterministic vs stochastic seasonality"
+    },
+    {
+     "q": "A SARIMA(0,1,0)(0,1,0)12 is fitted to monthly hotel revenue. Revenue was 520 in March 2026, 480 in April 2025 and 450 in March 2025. What is the April 2026 forecast (ŷ = y_{T} + y_{T−11} − y_{T−12})?",
+     "options": [
+      "550",
+      "590",
+      "480",
+      "490"
+     ],
+     "answer": "550",
+     "explanation": "ŷ = 520 + 480 − 450 = 550: last April plus the latest year-on-year change (+70). 490 applies the change with the wrong sign, 480 is the seasonal naive value that ignores the trend, and 590 adds the change to March instead of last April.",
+     "difficulty": "hard",
+     "concept": "SARIMA forecasting"
+    }
+   ],
+   "references": [
+    "Seasonal ARIMA, or SARIMA, extends ARIMA to series with a repeating seasonal pattern. It is written SARIMA(p,d,q)(P,D,Q)s. The first bracket is the usual non-seasonal part: AR order p, differencing d and MA order q. The second bracket is the seasonal part at lags of s, where s is the season length, such as 12 for monthly or 4 for quarterly data. D is the number of seasonal differences, like y_t − y_{t−12}, and P and Q are seasonal AR and MA terms that link this month to the same month last year. We identify seasonal orders from ACF and PACF spikes at lags s, 2s and so on, and check the residuals are white noise.",
+    "Think of monthly sales at an Indian apparel retailer, which rise every October–November for Diwali and grow year on year. A plain ARIMA misses the festive pattern, leaving residual spikes at lag 12. With SARIMA I would take one ordinary difference for the growth and one seasonal difference, comparing each month with the same month last year. If the ACF of the differenced data shows spikes at lags 1 and 12, an airline model, SARIMA(0,1,1)(0,1,1)12, is a natural choice. Its forecasts reproduce the festive peak each year on top of the trend, which helps plan inventory, staffing and marketing spend ahead of the season.",
+    "For managers, SARIMA is the tool to use when demand has a predictable calendar rhythm, monthly, quarterly or weekly, and we want forecasts that respect both trend and seasonality. The key decisions are the seasonal period s, whether to apply a seasonal difference (rarely more than one), and keeping the seasonal and non-seasonal orders small to avoid over-fitting, using AICc and a holdout test. We should know its limits: it needs several years of history, it handles only one seasonal period, and very long periods like 52 weeks or multiple cycles in hourly data are better handled with Fourier terms or other methods. Residual checks confirm the seasonal pattern has been fully captured."
+   ],
+   "key_concepts": [
+    "seasonal arima",
+    "seasonal period",
+    "seasonal differencing",
+    "seasonal ar",
+    "seasonal ma",
+    "p d q",
+    "lag 12",
+    "trend",
+    "acf spikes",
+    "airline model",
+    "stationary",
+    "residuals",
+    "aicc"
+   ]
+  }
+ ]
+}

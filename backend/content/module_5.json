@@ -1,0 +1,2084 @@
+{
+ "module": 5,
+ "topics": [
+  {
+   "topic": "Linear Regression",
+   "questions": [
+    {
+     "q": "In the forecasting model Sales_t = b0 + b1 x AdSpend_t, built for a Bengaluru apparel retailer, what role does Sales_t play?",
+     "options": [
+      "It is the dependent (target) variable being forecast",
+      "It is an independent (predictor) variable driving the forecast",
+      "It is a lag feature carrying last period's value",
+      "It is the residual left over after fitting"
+     ],
+     "answer": "It is the dependent (target) variable being forecast",
+     "explanation": "Sales is what the model predicts, so it is the dependent variable; AdSpend is the predictor. Students sometimes mix these up because both appear in the equation.",
+     "difficulty": "easy",
+     "concept": "dependent vs independent variable"
+    },
+    {
+     "q": "Ordinary Least Squares (OLS) estimates the coefficients of a linear regression by minimising which quantity?",
+     "options": [
+      "The sum of the raw residuals",
+      "The sum of absolute residuals",
+      "The count of wrong predictions",
+      "The sum of squared residuals"
+     ],
+     "answer": "The sum of squared residuals",
+     "explanation": "OLS picks the line that makes the sum of squared differences between actual and fitted values as small as possible. The plain sum of residuals is not used because positive and negative errors cancel out.",
+     "difficulty": "easy",
+     "concept": "ordinary least squares"
+    },
+    {
+     "q": "In a regression forecast, what is a residual?",
+     "options": [
+      "Predicted value minus the mean of the data",
+      "Actual value minus the mean of the data",
+      "Actual value minus the predicted value",
+      "The gap between the slope and the intercept"
+     ],
+     "answer": "Actual value minus the predicted value",
+     "explanation": "A residual is the error of the model for one observation: actual minus fitted. Actual minus mean is the total deviation used in R-squared, not the residual.",
+     "difficulty": "easy",
+     "concept": "residual definition"
+    },
+    {
+     "q": "A demand planner adds 'sales_lag_1' as a feature in a regression model of weekly FMCG sales. What does this feature contain?",
+     "options": [
+      "Next week's sales, shifted back one row so the model can learn from them",
+      "The previous week's sales, used as an input to predict this week's sales",
+      "The average weekly sales across the full history, repeated in every row",
+      "This week's sales after the seasonal component has been removed"
+     ],
+     "answer": "The previous week's sales, used as an input to predict this week's sales",
+     "explanation": "A lag-1 feature shifts the series by one period so the model can use the last known value to predict the current one. Using next week's value would be the target, not a feature.",
+     "difficulty": "easy",
+     "concept": "lag features"
+    },
+    {
+     "q": "What does the R-squared of a linear regression measure?",
+     "options": [
+      "The percentage of forecasts that turn out exactly correct",
+      "The share of variation in the target explained by the model",
+      "The average size of the forecast error, in percentage terms",
+      "The slope of the fitted line expressed as a proportion"
+     ],
+     "answer": "The share of variation in the target explained by the model",
+     "explanation": "R-squared is explained variation divided by total variation. It is not an accuracy percentage; error size is measured by MAE or RMSE.",
+     "difficulty": "easy",
+     "concept": "R-squared meaning"
+    },
+    {
+     "q": "When splitting monthly sales data into training and test sets for a regression forecasting model, what is the correct approach?",
+     "options": [
+      "Train on the earlier months and test on the later months, without shuffling",
+      "Randomly shuffle all months first and then hold out 20% of them as the test set",
+      "Test on the earliest months and train on the most recent months",
+      "Use every month for both training and testing to maximise the data"
+     ],
+     "answer": "Train on the earlier months and test on the later months, without shuffling",
+     "explanation": "Forecasting means predicting the future from the past, so the test set must come after the training period. Random shuffling lets the model learn from future months, which inflates accuracy.",
+     "difficulty": "easy",
+     "concept": "time-ordered split"
+    },
+    {
+     "q": "In a linear regression Sales = b0 + b1 x Price + b2 x Promo, what does the intercept b0 represent?",
+     "options": [
+      "The average change in sales per rupee of price",
+      "The error term that the model cannot explain",
+      "The maximum sales value the model can predict",
+      "Predicted sales when all predictors equal zero"
+     ],
+     "answer": "Predicted sales when all predictors equal zero",
+     "explanation": "The intercept is the fitted value of the target when every X is zero. The change per unit of a predictor is a slope coefficient, not the intercept.",
+     "difficulty": "easy",
+     "concept": "intercept meaning"
+    },
+    {
+     "q": "What does multicollinearity mean in a multiple regression model?",
+     "options": [
+      "The target is very strongly correlated with one of the predictors",
+      "The residuals of the model are correlated with each other over time",
+      "Two or more predictors are highly correlated with each other",
+      "The model is forecasting more than one dependent variable at once"
+     ],
+     "answer": "Two or more predictors are highly correlated with each other",
+     "explanation": "Multicollinearity is correlation among the predictors themselves, which makes individual coefficients unstable. Correlation between residuals over time is autocorrelation, a different issue.",
+     "difficulty": "easy",
+     "concept": "multicollinearity"
+    },
+    {
+     "q": "Which scikit-learn class is used to fit an ordinary linear regression model in Python?",
+     "options": [
+      "KNeighborsRegressor from sklearn.neighbors",
+      "DecisionTreeRegressor from sklearn.tree",
+      "LinearRegression from sklearn.linear_model",
+      "RandomForestRegressor from sklearn.ensemble"
+     ],
+     "answer": "LinearRegression from sklearn.linear_model",
+     "explanation": "LinearRegression in sklearn.linear_model fits OLS regression. The other classes fit KNN, tree and forest models.",
+     "difficulty": "easy",
+     "concept": "sklearn LinearRegression"
+    },
+    {
+     "q": "Why would an analyst add 0/1 dummy variables such as 'Diwali_month' or 'Q4' to a regression forecasting model?",
+     "options": [
+      "To remove the long-term upward trend from the sales data",
+      "To capture the effect of festivals or seasons on sales",
+      "To rescale every predictor to the same 0-1 range",
+      "To increase the number of observations available"
+     ],
+     "answer": "To capture the effect of festivals or seasons on sales",
+     "explanation": "Dummy variables convert categories such as festive months into numbers so the regression can estimate their effect. They do not detrend or rescale the data.",
+     "difficulty": "easy",
+     "concept": "dummy variables seasonality"
+    },
+    {
+     "q": "A retailer's model is Sales (Rs lakh) = 120 + 4.5 x AdSpend (Rs lakh). How should the coefficient 4.5 be interpreted?",
+     "options": [
+      "Each extra Rs 1 lakh of ad spend is linked to Rs 4.5 lakh higher forecast sales",
+      "Forecast sales will be Rs 4.5 lakh in any month in which ad spend is zero",
+      "Ad spend explains 4.5% of the month-to-month variation in sales",
+      "Each extra Rs 4.5 lakh of ad spend raises forecast sales by Rs 1 lakh"
+     ],
+     "answer": "Each extra Rs 1 lakh of ad spend is linked to Rs 4.5 lakh higher forecast sales",
+     "explanation": "The slope is the change in the target for a one-unit change in the predictor. Sales at zero ad spend is the intercept (120), not the slope.",
+     "difficulty": "medium",
+     "concept": "interpreting slope"
+    },
+    {
+     "q": "A cafe chain forecasts daily cold-beverage sales with Sales_t = 50 + 2.0 x Temp_t + 0.8 x Sales_(t-1). Tomorrow's forecast temperature is 30 degrees and today's sales were 200 units. What is tomorrow's forecast?",
+     "options": [
+      "210 units",
+      "250 units",
+      "110 units",
+      "270 units"
+     ],
+     "answer": "270 units",
+     "explanation": "50 + 2.0 x 30 + 0.8 x 200 = 50 + 60 + 160 = 270. 210 forgets the temperature term and 110 forgets the lag term.",
+     "difficulty": "medium",
+     "concept": "computing regression forecast"
+    },
+    {
+     "q": "A monthly demand model for a Pune two-wheeler dealer has R-squared = 0.82. What is the correct interpretation?",
+     "options": [
+      "82% of the monthly forecasts will match actual demand exactly",
+      "The forecasts are off by about 18% on average each month",
+      "Monthly demand rises by 0.82 units for each one-unit rise in the predictors",
+      "82% of the variation in monthly demand is explained by the predictors"
+     ],
+     "answer": "82% of the variation in monthly demand is explained by the predictors",
+     "explanation": "R-squared is the share of variance explained, not a hit rate or an error percentage. Average percentage error would come from MAPE.",
+     "difficulty": "medium",
+     "concept": "R-squared meaning"
+    },
+    {
+     "q": "A hotel's regression model predicted 500 room-nights for a weekend, but the actual was 540. What is the residual and what does it say?",
+     "options": [
+      "-40; the model under-forecast demand",
+      "+40; the model over-forecast demand",
+      "+40; the model under-forecast demand",
+      "-40; the model over-forecast demand"
+     ],
+     "answer": "+40; the model under-forecast demand",
+     "explanation": "Residual = actual - predicted = 540 - 500 = +40, so the forecast was too low. Computing predicted minus actual gives -40, a common sign error.",
+     "difficulty": "medium",
+     "concept": "residual definition"
+    },
+    {
+     "q": "In a regression of weekly bank branch footfall, the coefficient on 'number_of_public_holidays' has a p-value of 0.30. What is the best interpretation at the 5% level?",
+     "options": [
+      "It explains about 30% of the variation in weekly footfall",
+      "Not statistically significant; a candidate for removal",
+      "Highly significant, since 0.30 is well above zero",
+      "Each extra holiday adds 0.30 visitors to footfall"
+     ],
+     "answer": "Not statistically significant; a candidate for removal",
+     "explanation": "A p-value of 0.30 is far above 0.05, so we cannot reject that the true coefficient is zero. The p-value is not a share of variance or the coefficient value.",
+     "difficulty": "medium",
+     "concept": "coefficient significance"
+    },
+    {
+     "q": "Adding five new predictors to a sales model raised R-squared from 0.70 to 0.71, but adjusted R-squared fell from 0.69 to 0.66. What should the analyst conclude?",
+     "options": [
+      "The new predictors add little real explanatory power, so keep the simpler model",
+      "The new model is better, because a higher R-squared always means better forecasts",
+      "All five new predictors must be significant, since R-squared went up after adding them",
+      "Adjusted R-squared is unreliable with many predictors, so it should be ignored here"
+     ],
+     "answer": "The new predictors add little real explanatory power, so keep the simpler model",
+     "explanation": "R-squared never falls when predictors are added, so its small rise means little. Adjusted R-squared penalises extra predictors, and its drop signals they are not worth keeping.",
+     "difficulty": "medium",
+     "concept": "adjusted R-squared"
+    },
+    {
+     "q": "A plot of a regression model's residuals against time shows long runs of positive errors followed by long runs of negative errors. What does this suggest?",
+     "options": [
+      "Residuals are autocorrelated, so lags or seasonality are missing",
+      "The model is fine, because the residuals still average out to zero",
+      "The predictors are multicollinear and one should be dropped",
+      "The rows should be shuffled before the model is refitted"
+     ],
+     "answer": "Residuals are autocorrelated, so lags or seasonality are missing",
+     "explanation": "Runs of same-sign residuals mean errors are correlated over time, so the model has not captured some time pattern. Adding lag or seasonal terms is the usual fix; shuffling would only hide the issue.",
+     "difficulty": "medium",
+     "concept": "residual autocorrelation"
+    },
+    {
+     "q": "In a monthly sales model for a sweets manufacturer, the dummy 'Festive_month' (1 for Diwali and Dussehra months, 0 otherwise) has a coefficient of 35 (thousand kg). What does this mean?",
+     "options": [
+      "Festive months account for about 35% of the manufacturer's total annual sales volume",
+      "Sales grow by about 35 thousand kg every month, starting from the festive season",
+      "The festive months have 35 thousand kg lower sales than other months, others constant",
+      "Festive months are forecast about 35 thousand kg higher than other months, others constant"
+     ],
+     "answer": "Festive months are forecast about 35 thousand kg higher than other months, others constant",
+     "explanation": "A dummy coefficient is the average difference in the target between the category coded 1 and the base category. It is a level shift, not a growth rate or a share.",
+     "difficulty": "medium",
+     "concept": "dummy variables seasonality"
+    },
+    {
+     "q": "A linear trend model for monthly e-commerce orders is Orders = 200 + 12t, where t = 1 is January 2024. What is the forecast for January 2026 (t = 25)?",
+     "options": [
+      "512 orders",
+      "488 orders",
+      "500 orders",
+      "212 orders"
+     ],
+     "answer": "500 orders",
+     "explanation": "200 + 12 x 25 = 500. 512 uses t = 26 and 488 uses t = 24, both off-by-one errors in counting months.",
+     "difficulty": "medium",
+     "concept": "trend regression forecast"
+    },
+    {
+     "q": "On a 4-week test period, a regression model's errors (actual - forecast) are 4, -2, -4 and 2 units. What is the RMSE?",
+     "options": [
+      "10.00 units",
+      "3.16 units",
+      "3.00 units",
+      "0.00 units"
+     ],
+     "answer": "3.16 units",
+     "explanation": "Squared errors 16, 4, 16, 4 average to 10 (the MSE), and RMSE = square root of 10 = 3.16. 3 is the MAE and 0 is the mean error, where positive and negative errors cancel.",
+     "difficulty": "medium",
+     "concept": "evaluating with RMSE"
+    },
+    {
+     "q": "An analyst builds lag features on 5 years of daily sales, randomly shuffles all rows, and gets a test R-squared of 0.97. When used for next quarter's forecasts, accuracy drops sharply. What is the most likely reason?",
+     "options": [
+      "An R-squared of 0.97 shows the model is too simple and is underfitting the sales data",
+      "Shuffling let the model train on days around each test day, leaking future information",
+      "Lag features should never be used inside a regression model for daily sales data",
+      "The test set was too large, so the model had too little data left for training"
+     ],
+     "answer": "Shuffling let the model train on days around each test day, leaking future information",
+     "explanation": "With shuffling, the test days have neighbours from both before and after them in the training set, so the evaluation looks far better than true forecasting. A time-ordered split avoids this leakage.",
+     "difficulty": "hard",
+     "concept": "data leakage"
+    },
+    {
+     "q": "A supermarket wants to forecast tomorrow's sales today. An analyst uses 'same-day store footfall' as a predictor and gets an excellent fit. What is the problem?",
+     "options": [
+      "Same-day footfall is unknown when forecasting, so it leaks; use lagged footfall",
+      "Footfall is a categorical variable, so regression cannot use it as a predictor",
+      "The model will underfit, because footfall is only weakly related to sales",
+      "There is no problem, since a better fit always means better live forecasts"
+     ],
+     "answer": "Same-day footfall is unknown when forecasting, so it leaks; use lagged footfall",
+     "explanation": "A predictor must be available at forecast time. Tomorrow's footfall is only observed tomorrow, so the model cannot be used in practice; lagged or planned values are valid substitutes.",
+     "difficulty": "hard",
+     "concept": "data leakage"
+    },
+    {
+     "q": "A model is Sales_t = 30 + 0.6 x Sales_(t-1). Last month's actual sales were 100. Using the model recursively, what is the forecast two months ahead?",
+     "options": [
+      "90",
+      "66",
+      "120",
+      "84"
+     ],
+     "answer": "84",
+     "explanation": "Month 1: 30 + 0.6 x 100 = 90. Month 2: 30 + 0.6 x 90 = 84. 90 stops after one step, and 66 (30 + 0.36 x 100) forgets that the intercept also feeds through the first step.",
+     "difficulty": "hard",
+     "concept": "recursive multi-step forecasting"
+    },
+    {
+     "q": "Online sales of a D2C brand have grown steadily every year and next year is expected to exceed anything seen so far. Why might a linear regression with a time trend be preferred over a single decision tree here?",
+     "options": [
+      "Decision trees cannot accept a time index or any date-based feature as an input",
+      "Linear regression always produces lower test error than any decision tree model",
+      "Regression can extend the trend beyond past levels; a tree is capped at training levels",
+      "Decision trees need the data to be shuffled before training, losing the trend"
+     ],
+     "answer": "Regression can extend the trend beyond past levels; a tree is capped at training levels",
+     "explanation": "A tree predicts leaf averages, so it can never forecast above the highest training level. A trend term in regression keeps extending the line, which suits a steadily growing series.",
+     "difficulty": "hard",
+     "concept": "extrapolation of trend"
+    },
+    {
+     "q": "For quarterly sales planning, a regression model with promotion spend has test MAPE 8.0% and Holt-Winters has test MAPE 7.5%. The marketing head must decide how much promotion budget to allocate. Which choice is most sensible?",
+     "options": [
+      "Use Holt-Winters, because the model with the lower MAPE should always win",
+      "Use the regression, because it shows a higher R-squared on the training quarters",
+      "Use the regression, as it quantifies promotion effects at nearly equal accuracy",
+      "Reject both models and re-test them using a random train-test split instead"
+     ],
+     "answer": "Use the regression, as it quantifies promotion effects at nearly equal accuracy",
+     "explanation": "The accuracy difference is small, and only the regression can answer 'what if we spend more on promotion'. Choosing purely on 0.5 percentage points of MAPE ignores the decision the forecast must support.",
+     "difficulty": "hard",
+     "concept": "comparing with classical models"
+    },
+    {
+     "q": "A model is ln(Sales) = 2 + 0.05 x Discount_pct. What is the approximate effect of increasing the discount by 1 percentage point?",
+     "options": [
+      "Sales rise by 0.05 units",
+      "Sales rise by about 5%",
+      "Sales rise by about 5 units",
+      "Sales rise by about 2%"
+     ],
+     "answer": "Sales rise by about 5%",
+     "explanation": "With a log target, a coefficient b means roughly a 100 x b percent change in the target per unit change in X. Reading 0.05 as units ignores the log transformation.",
+     "difficulty": "hard",
+     "concept": "log transformation interpretation"
+    },
+    {
+     "q": "In a sales model, TV ad spend and digital ad spend have a correlation of 0.95 and VIFs above 10. The digital coefficient comes out negative, though managers are sure digital ads help sales. What is the best explanation?",
+     "options": [
+      "Multicollinearity makes the separate coefficients unstable and unreliable",
+      "Digital ads genuinely reduce sales, so the budget should be cut",
+      "The model is underfitting and simply needs many more predictors",
+      "The negative sign proves that the sales data contains entry errors"
+     ],
+     "answer": "Multicollinearity makes the separate coefficients unstable and unreliable",
+     "explanation": "When predictors move together, OLS cannot separate their effects and coefficient signs can flip. Combining the two spends or dropping one gives more stable interpretation.",
+     "difficulty": "hard",
+     "concept": "multicollinearity"
+    },
+    {
+     "q": "A regression with n = 50 observations and k = 4 predictors has R-squared = 0.80. What is the adjusted R-squared, using 1 - (1 - R2)(n - 1)/(n - k - 1)?",
+     "options": [
+      "0.80",
+      "0.82",
+      "0.20",
+      "0.78"
+     ],
+     "answer": "0.78",
+     "explanation": "1 - 0.20 x 49/45 = 1 - 0.218 = 0.78. Adjusted R-squared is always at or below R-squared, so 0.82 is impossible and 0.20 is just 1 - R-squared.",
+     "difficulty": "hard",
+     "concept": "adjusted R-squared"
+    },
+    {
+     "q": "A residual plot for a chain's store-level sales model shows errors that fan out, becoming much larger for high-sales stores. What is the issue and a common remedy?",
+     "options": [
+      "Multicollinearity; drop a predictor",
+      "Autocorrelation; shuffle the rows",
+      "Underfitting; add squared terms",
+      "Heteroscedasticity; model log of sales"
+     ],
+     "answer": "Heteroscedasticity; model log of sales",
+     "explanation": "Error variance that grows with the level of the target is heteroscedasticity. A log transform turns absolute errors into roughly percentage errors and stabilises the variance.",
+     "difficulty": "hard",
+     "concept": "heteroscedasticity"
+    },
+    {
+     "q": "An analyst wants to choose how many lags (1 to 12) to include in a regression forecast of monthly sales. Which validation approach is most appropriate?",
+     "options": [
+      "Standard shuffled 5-fold cross-validation across all of the months",
+      "Pick the number of lags that gives the highest training R-squared",
+      "Walk-forward validation, testing each fold on months after its training data",
+      "Validate on the first year and train on all of the later years"
+     ],
+     "answer": "Walk-forward validation, testing each fold on months after its training data",
+     "explanation": "Walk-forward (rolling-origin) validation such as TimeSeriesSplit respects time order, mimicking how the model will actually forecast. Shuffled K-fold leaks future data and training R-squared always favours more lags.",
+     "difficulty": "hard",
+     "concept": "walk-forward validation"
+    }
+   ],
+   "references": [
+    "Linear regression is a method that explains and forecasts a numeric outcome, such as monthly sales, as a straight-line combination of drivers like price, promotion spend, a time trend, seasonal dummies or last month's sales (lag features). The model estimates a coefficient for each driver using least squares, which minimises the squared gaps between actual and fitted values. Each coefficient tells us how much sales change for a one-unit change in that driver, holding others constant. We judge the model with R-squared on training data, but more importantly with RMSE or MAPE on a later, time-ordered test period, never a shuffled one.",
+    "Suppose our FMCG brand wants to forecast next month's sales. Linear regression would fit something like Sales = 120 + 4.5 x AdSpend + 0.6 x LastMonthSales + 35 x FestiveMonth. So every extra lakh on ads adds about 4.5 lakh of sales, festive months add 35, and last month's sales carry momentum. We fit it on past months, check it on the most recent months it has not seen, and look at residuals for leftover patterns. Its strength is that it can extend a trend into the future, which tree models cannot, but it assumes relationships are linear and gets shaky when drivers like TV and digital spend are highly correlated.",
+    "As a manager, I would use linear regression when I need a forecast that also explains why: how much price, promotions or festivals move demand. It is fast, transparent and can extrapolate a growth trend. The cautions are that it only captures straight-line effects unless we add transformations, correlated drivers make individual coefficients unreliable, and every input must be known at forecast time, so we use lagged values rather than same-day figures to avoid leakage. I would trust it only after testing on a later hold-out period and comparing its RMSE or MAPE with simple benchmarks like Holt-Winters or a naive forecast."
+   ],
+   "key_concepts": [
+    "dependent variable",
+    "independent variables",
+    "coefficient",
+    "intercept",
+    "least squares",
+    "residual",
+    "r-squared",
+    "lag features",
+    "trend",
+    "dummy variables",
+    "multicollinearity",
+    "extrapolate",
+    "time-ordered split",
+    "rmse"
+   ]
+  },
+  {
+   "topic": "Decision Tree",
+   "questions": [
+    {
+     "q": "In a regression decision tree forecasting daily sales, what value does a leaf node predict?",
+     "options": [
+      "The average sales of the training rows in that leaf",
+      "The maximum sales among the training rows in that leaf",
+      "The sales of the most recent day in the training data",
+      "A straight-line trend fitted to the rows inside the leaf"
+     ],
+     "answer": "The average sales of the training rows in that leaf",
+     "explanation": "A regression tree's leaf output is the mean of the training targets that fall into it. It does not fit a line or take the maximum.",
+     "difficulty": "easy",
+     "concept": "leaf prediction is mean"
+    },
+    {
+     "q": "What is the root node of a decision tree?",
+     "options": [
+      "The bottom node of a branch, where the final prediction is read off",
+      "The node that ends up holding the fewest training observations",
+      "The feature with the lowest importance, placed first by convention",
+      "The top node holding all training data, where the first split is made"
+     ],
+     "answer": "The top node holding all training data, where the first split is made",
+     "explanation": "The tree starts at the root with all data and splits downward; prediction nodes at the bottom are leaves. Confusing root with leaf is a common slip.",
+     "difficulty": "easy",
+     "concept": "tree structure"
+    },
+    {
+     "q": "By default, which criterion does scikit-learn's DecisionTreeRegressor use to choose splits?",
+     "options": [
+      "Reduction in Gini impurity",
+      "Reduction in entropy",
+      "Reduction in squared error",
+      "Increase in adjusted R-squared"
+     ],
+     "answer": "Reduction in squared error",
+     "explanation": "Regression trees choose the split that most reduces the squared error (variance) within the child nodes. Gini and entropy are for classification trees.",
+     "difficulty": "easy",
+     "concept": "split criterion"
+    },
+    {
+     "q": "A classification tree predicts whether next week's demand at a store will be 'High' or 'Low'. Which measure is commonly used to choose its splits?",
+     "options": [
+      "Mean squared error",
+      "Gini impurity",
+      "Root mean squared error",
+      "MAPE"
+     ],
+     "answer": "Gini impurity",
+     "explanation": "Classification trees use Gini impurity or entropy to measure how mixed the classes are in a node. Squared-error measures are used for regression trees.",
+     "difficulty": "easy",
+     "concept": "split criterion"
+    },
+    {
+     "q": "What does the max_depth hyperparameter control in a decision tree?",
+     "options": [
+      "The number of separate trees that are built and then averaged",
+      "The maximum number of levels of splits, which limits complexity",
+      "The number of input features the tree is allowed to look at",
+      "The smallest value that any leaf prediction is allowed to take"
+     ],
+     "answer": "The maximum number of levels of splits, which limits complexity",
+     "explanation": "max_depth caps how many successive splits a path can have, which controls overfitting. The number of trees is a forest or boosting setting.",
+     "difficulty": "easy",
+     "concept": "max_depth hyperparameter"
+    },
+    {
+     "q": "What typically happens when a decision tree is grown very deep with no limits?",
+     "options": [
+      "It memorises training noise and forecasts poorly on new periods",
+      "It underfits and ends up predicting the same value for every period",
+      "It becomes mathematically identical to a linear regression model",
+      "It automatically improves accuracy on the later test periods as well"
+     ],
+     "answer": "It memorises training noise and forecasts poorly on new periods",
+     "explanation": "A fully grown tree can place almost every observation in its own leaf, fitting noise. Training error falls but error on later periods rises.",
+     "difficulty": "easy",
+     "concept": "overfitting deep trees"
+    },
+    {
+     "q": "Do decision trees require features such as price (in rupees) and temperature (in degrees) to be scaled to the same range?",
+     "options": [
+      "Yes, otherwise the large-valued features dominate the splits",
+      "Yes, because every tree input must lie between 0 and 1",
+      "Only when the target being predicted is a category label",
+      "No, because each split is a threshold on a single feature"
+     ],
+     "answer": "No, because each split is a threshold on a single feature",
+     "explanation": "Trees compare one feature against a threshold, so the units do not matter. Scaling is essential for distance-based methods like KNN, not trees.",
+     "difficulty": "easy",
+     "concept": "no scaling needed"
+    },
+    {
+     "q": "What is pruning in decision trees?",
+     "options": [
+      "Adding extra branches so that training error falls further",
+      "Removing outlier rows from the training data before fitting",
+      "Cutting back branches that add little predictive value",
+      "Dropping the least important feature before the tree is grown"
+     ],
+     "answer": "Cutting back branches that add little predictive value",
+     "explanation": "Pruning cuts back splits that do not improve generalisation, giving a simpler tree. It operates on the tree, not on rows or columns of the data.",
+     "difficulty": "easy",
+     "concept": "pruning"
+    },
+    {
+     "q": "If you plot a regression tree's forecast against a single input such as temperature, what shape does it take?",
+     "options": [
+      "A single smooth straight line",
+      "A smooth curve with no jumps",
+      "A step function with flat segments",
+      "A random scatter of points"
+     ],
+     "answer": "A step function with flat segments",
+     "explanation": "Each leaf gives one constant value, so predictions jump between flat levels at the split thresholds. A straight line is what linear regression produces.",
+     "difficulty": "easy",
+     "concept": "piecewise constant predictions"
+    },
+    {
+     "q": "What does the min_samples_leaf hyperparameter set in a decision tree?",
+     "options": [
+      "The minimum number of leaves the finished tree must have",
+      "The minimum number of training rows allowed in a leaf",
+      "The minimum number of levels the tree must grow to",
+      "The minimum number of features checked at each split"
+     ],
+     "answer": "The minimum number of training rows allowed in a leaf",
+     "explanation": "min_samples_leaf stops splits that would leave very few observations in a leaf, which smooths predictions and reduces overfitting.",
+     "difficulty": "easy",
+     "concept": "min_samples_leaf"
+    },
+    {
+     "q": "A tree for daily store sales splits first on 'Promo = Yes?'. If Yes, it splits on 'Weekend?' (Yes: 820, No: 610). If No, it splits on 'lag_1 > 500?' (Yes: 540, No: 380). What is the forecast for a weekday with no promotion when yesterday's sales were 450?",
+     "options": [
+      "380",
+      "540",
+      "610",
+      "820"
+     ],
+     "answer": "380",
+     "explanation": "No promo leads to the lag_1 split; 450 is not above 500, so the forecast is 380. Choosing 610 wrongly follows the promo branch for weekdays.",
+     "difficulty": "medium",
+     "concept": "reading a tree path"
+    },
+    {
+     "q": "Using the same tree (Promo Yes -> Weekend? Yes 820 / No 610; Promo No -> lag_1 > 500? Yes 540 / No 380), what is the forecast for a Wednesday with a promotion running and yesterday's sales of 700?",
+     "options": [
+      "820",
+      "540",
+      "380",
+      "610"
+     ],
+     "answer": "610",
+     "explanation": "Promo = Yes goes to the Weekend split, and Wednesday is not a weekend, giving 610. The lag_1 value is irrelevant on the promo branch, so 540 is a misread.",
+     "difficulty": "medium",
+     "concept": "reading a tree path"
+    },
+    {
+     "q": "Five training days fall into one leaf of a regression tree, with sales of 100, 110, 120, 150 and 170 units. What does the leaf predict?",
+     "options": [
+      "120 units",
+      "170 units",
+      "650 units",
+      "130 units"
+     ],
+     "answer": "130 units",
+     "explanation": "The leaf predicts the mean: 650 / 5 = 130. 120 is the median and 650 is the total.",
+     "difficulty": "medium",
+     "concept": "leaf prediction is mean"
+    },
+    {
+     "q": "A tree forecasting daily sales reports feature importances: lag_7 = 0.55, promo = 0.25, temperature = 0.15, day_of_week = 0.05. What is the best interpretation?",
+     "options": [
+      "Forecast sales rise by 0.55 units for every one-unit rise in last week's same-day sales",
+      "lag_7 by itself accounts for exactly 55% of the sales level in every week of the data",
+      "lag_7 did the most to reduce prediction error, but this shows neither cause nor direction",
+      "day_of_week should be removed because its low score shows it is causing poor forecasts"
+     ],
+     "answer": "lag_7 did the most to reduce prediction error, but this shows neither cause nor direction",
+     "explanation": "Impurity-based importance measures each feature's share of total error reduction in the tree. It is not a coefficient and says nothing about direction or cause.",
+     "difficulty": "medium",
+     "concept": "feature importance interpretation"
+    },
+    {
+     "q": "A decision tree has training RMSE of 2 units and test RMSE of 45 units on later months. What is the best next step?",
+     "options": [
+      "Grow the tree deeper so that the test error comes down as well",
+      "Limit growth by reducing max_depth or raising min_samples_leaf",
+      "Shuffle all rows before splitting so the test error looks fairer",
+      "Fold the test months into training and report the training RMSE"
+     ],
+     "answer": "Limit growth by reducing max_depth or raising min_samples_leaf",
+     "explanation": "A huge gap between training and test error is classic overfitting, so the tree must be constrained. Shuffling or reporting training error would only hide the problem.",
+     "difficulty": "medium",
+     "concept": "overfitting deep trees"
+    },
+    {
+     "q": "Ice-cream sales at a Chennai outlet stay flat until temperature crosses about 35 degrees, then jump sharply. Why can a decision tree capture this naturally?",
+     "options": [
+      "Trees split on thresholds, so a jump at 35 degrees is learned directly",
+      "Trees fit a straight line through temperature, which bends at 35",
+      "Trees need temperature turned into a 0/1 dummy before they can use it",
+      "Trees average all observations together regardless of the temperature"
+     ],
+     "answer": "Trees split on thresholds, so a jump at 35 degrees is learned directly",
+     "explanation": "A split such as 'Temp > 35' directly represents a threshold effect. Linear regression would need a manually created dummy or transformation to do the same.",
+     "difficulty": "medium",
+     "concept": "nonlinear threshold effects"
+    },
+    {
+     "q": "What is the maximum number of leaves in a binary decision tree with max_depth = 3?",
+     "options": [
+      "8",
+      "6",
+      "3",
+      "9"
+     ],
+     "answer": "8",
+     "explanation": "Each level can double the number of nodes: 2^3 = 8 leaves. 6 comes from adding 2 per level and 3 just repeats the depth.",
+     "difficulty": "medium",
+     "concept": "tree structure"
+    },
+    {
+     "q": "In a hotel's booking data, promotions lift bookings strongly on weekends but barely on weekdays. How does a decision tree handle this?",
+     "options": [
+      "It cannot capture any interaction between two features at all",
+      "It needs an explicit Promo x Weekend column, as regression does",
+      "It averages the promo effect equally across all days of the week",
+      "It splits on Weekend, then on Promo, capturing the interaction"
+     ],
+     "answer": "It splits on Weekend, then on Promo, capturing the interaction",
+     "explanation": "Successive splits on different features let a tree model effects that depend on each other. Linear regression needs an explicit interaction term for this.",
+     "difficulty": "medium",
+     "concept": "automatic interactions"
+    },
+    {
+     "q": "In a regression tree for monthly sales, the highest leaf value is Rs 85 lakh (the highest single training month was Rs 90 lakh). What is the largest forecast this tree can ever produce?",
+     "options": [
+      "Rs 90 lakh",
+      "No upper limit",
+      "Rs 85 lakh",
+      "Rs 170 lakh"
+     ],
+     "answer": "Rs 85 lakh",
+     "explanation": "Predictions are always one of the leaf means, so the maximum is the highest leaf mean, 85. A single month's value of 90 is averaged with others in its leaf.",
+     "difficulty": "medium",
+     "concept": "trees cannot extrapolate"
+    },
+    {
+     "q": "A weekly sales tree shows 'returns_count for the same week' with importance 0.90, far above all other features. What should the analyst suspect?",
+     "options": [
+      "Returns are the true driver and the model is working very well",
+      "Leakage, since same-week returns are known only after the sales",
+      "The tree is underfitting and needs a much larger max_depth",
+      "The returns feature needs to be scaled before it is used"
+     ],
+     "answer": "Leakage, since same-week returns are known only after the sales",
+     "explanation": "A single feature with overwhelming importance often signals leakage. Same-week returns are a consequence of sales and will not be available when forecasting.",
+     "difficulty": "medium",
+     "concept": "data leakage"
+    },
+    {
+     "q": "A parent node has weekly sales of 10, 20, 30 and 40 (MSE = 125). Splitting into {10, 20} and {30, 40} gives each child an MSE of 25. What is the reduction in weighted MSE from this split?",
+     "options": [
+      "125",
+      "100",
+      "25",
+      "50"
+     ],
+     "answer": "100",
+     "explanation": "Weighted child MSE = (2/4) x 25 + (2/4) x 25 = 25, so the reduction is 125 - 25 = 100. 125 is the parent MSE and 25 is the child MSE, not the reduction.",
+     "difficulty": "hard",
+     "concept": "choosing best split"
+    },
+    {
+     "q": "An e-commerce firm's sales grow about 20% a year. A tree trained on 2021-2024 with a time index forecasts 2025 as a flat line at the 2024 level. What is the best fix?",
+     "options": [
+      "Detrend first (model growth or residuals after a trend), then use the tree",
+      "Increase max_depth so that the leaves can reach higher sales values",
+      "Shuffle the training rows so 2025-like patterns appear in training",
+      "Add new leaves for 2025 by hand using the expected growth rate"
+     ],
+     "answer": "Detrend first (model growth or residuals after a trend), then use the tree",
+     "explanation": "Trees can only output values seen in training, so a rising trend must be removed first and added back later. A deeper tree still cannot exceed the training range.",
+     "difficulty": "hard",
+     "concept": "trees cannot extrapolate"
+    },
+    {
+     "q": "Trees of depth 2, 4, 6, 8 and 12 have validation RMSE (on the latest months) of 60, 42, 38, 40 and 55, while training RMSE keeps falling. Which depth should be chosen?",
+     "options": [
+      "12",
+      "2",
+      "8",
+      "6"
+     ],
+     "answer": "6",
+     "explanation": "Depth 6 gives the lowest validation error; beyond it the tree overfits as validation error rises. Depth 12 has the lowest training error, which is the misleading choice.",
+     "difficulty": "hard",
+     "concept": "max_depth hyperparameter"
+    },
+    {
+     "q": "Adding just two weeks of new data completely changes a decision tree's first split and its forecasts. What does this illustrate, and what is the usual remedy?",
+     "options": [
+      "High bias; switch to a shallower tree with fewer levels of splits",
+      "Bad new data; discard the two new weeks and keep the old tree",
+      "High variance; average many trees in an ensemble such as a random forest",
+      "A coding error; trees are unaffected by small changes in data"
+     ],
+     "answer": "High variance; average many trees in an ensemble such as a random forest",
+     "explanation": "Small data changes can flip early splits and cascade through a tree, which is high variance. Averaging many trees reduces this instability.",
+     "difficulty": "hard",
+     "concept": "tree instability high variance"
+    },
+    {
+     "q": "A node in a stock-out classification tree has 40 'Stock-out' and 60 'No stock-out' weeks. What is its Gini impurity?",
+     "options": [
+      "0.52",
+      "0.24",
+      "0.48",
+      "0.50"
+     ],
+     "answer": "0.48",
+     "explanation": "Gini = 1 - (0.4^2 + 0.6^2) = 1 - 0.52 = 0.48. 0.52 is the sum of squares, a step short, and 0.24 is 0.4 x 0.6 without the factor of 2.",
+     "difficulty": "hard",
+     "concept": "gini impurity calculation"
+    },
+    {
+     "q": "A retail operations head wants simple, explainable rules to plan store staffing. A depth-3 tree has MAPE 9% and a 500-tree random forest has MAPE 7.5%. Which is the most defensible choice?",
+     "options": [
+      "The random forest, as the most accurate model always wins",
+      "The depth-3 tree, as managers can read and act on its rules",
+      "A fully grown tree, for both higher accuracy and simplicity",
+      "Neither, as tree models cannot be used to forecast staffing"
+     ],
+     "answer": "The depth-3 tree, as managers can read and act on its rules",
+     "explanation": "The stated need is explainable rules, and a shallow tree delivers them with only a small accuracy loss. A fully grown tree is neither simple nor reliably accurate.",
+     "difficulty": "hard",
+     "concept": "interpretability vs accuracy"
+    },
+    {
+     "q": "For 100 days of sales, split A (Promo) gives children of 30 days with MSE 50 and 70 days with MSE 100. Split B (Weekend) gives two children of 50 days, each with MSE 80. Which split does a regression tree choose?",
+     "options": [
+      "Split B, as its weighted MSE is 80 versus 85 for A",
+      "Split A, as it has one very pure child with MSE 50",
+      "Split A, as its weighted MSE is 75 versus 80 for B",
+      "Either, as both have the same weighted MSE of 80"
+     ],
+     "answer": "Split B, as its weighted MSE is 80 versus 85 for A",
+     "explanation": "Split A: (30 x 50 + 70 x 100)/100 = 85; split B: 80. The tree picks the lower weighted error; 75 is the unweighted average of A's children, a common slip.",
+     "difficulty": "hard",
+     "concept": "choosing best split"
+    },
+    {
+     "q": "A tree is trained on only 60 monthly observations with min_samples_leaf = 1 and no depth limit. Forecasts swing wildly from month to month. What is the best adjustment?",
+     "options": [
+      "Lower min_samples_leaf to 0 so that every month gets its own leaf",
+      "Remove all lag features so the tree relies only on calendar data",
+      "Switch to a random train-test split to smooth the forecast errors",
+      "Raise min_samples_leaf (say to 5) so leaves average several months"
+     ],
+     "answer": "Raise min_samples_leaf (say to 5) so leaves average several months",
+     "explanation": "With one observation per leaf the tree simply memorises months. Requiring more observations per leaf averages out noise and gives steadier forecasts.",
+     "difficulty": "hard",
+     "concept": "min_samples_leaf"
+    },
+    {
+     "q": "A tree forecasts weekly sales with one rule: if lag_1 > 300 predict 350, otherwise predict 250. Last week's actual sales were 280. Forecasting recursively, what are the forecasts for the next two weeks?",
+     "options": [
+      "250 and 350",
+      "350 and 350",
+      "250 and 300",
+      "250 and 250"
+     ],
+     "answer": "250 and 250",
+     "explanation": "Week 1: lag_1 = 280 is not above 300, so 250. Week 2 uses the forecast 250 as lag_1, again giving 250. Answering 350 assumes sales rise without any rule producing it.",
+     "difficulty": "hard",
+     "concept": "recursive multi-step forecasting"
+    },
+    {
+     "q": "A node in a classification tree has 25% 'Stock-out' weeks and 75% 'No stock-out' weeks. What is its entropy (base 2), to 2 decimals?",
+     "options": [
+      "0.38",
+      "0.50",
+      "0.81",
+      "1.00"
+     ],
+     "answer": "0.81",
+     "explanation": "Entropy = -(0.25 x log2 0.25 + 0.75 x log2 0.75) = 0.50 + 0.31 = 0.81. 0.38 is the Gini impurity (1 - 0.0625 - 0.5625), and 1.00 is the entropy of a 50-50 node.",
+     "difficulty": "hard",
+     "concept": "entropy calculation"
+    }
+   ],
+   "references": [
+    "A decision tree forecasts by asking a series of yes/no questions about the inputs, like 'Is there a promotion?' or 'Were last week's sales above 500?', and following the branches down to a leaf. Each leaf's forecast is the average of past observations that ended up there. The tree chooses each split to reduce error as much as possible, using squared error for numbers or Gini for categories. Trees handle non-linear and threshold effects and interactions without scaling, but a deep tree overfits, and a tree can never forecast beyond the range of values it saw in training, so trends must be handled separately.",
+    "Think of a store manager's rule book for daily sales. If there is a promotion and it is a weekend, expect about 820 units; promotion on a weekday, about 610; no promotion but strong sales yesterday, about 540; otherwise about 380. A decision tree learns exactly such rules from historical data, using lag features like yesterday's sales and calendar features like weekend or festival. We control its size with max depth or minimum samples per leaf, otherwise it memorises noise. We test it on the most recent weeks, not shuffled data, and remember that its forecasts are flat steps capped at past levels.",
+    "I would use a decision tree when the business needs forecasts that are easy to explain, for example staffing rules for stores. Its splits show which drivers matter, it captures thresholds and interactions like promotions working mainly on weekends, and it needs little data preparation. The weaknesses are instability, since small data changes can reshape the tree, overfitting if it grows too deep, and no extrapolation of growth trends. So I would keep the tree shallow or pruned, validate it on a later time period, check feature importance for signs of leakage, and move to a random forest or boosting if accuracy matters more than readability."
+   ],
+   "key_concepts": [
+    "split",
+    "root node",
+    "leaf",
+    "average",
+    "if-then rules",
+    "max depth",
+    "overfitting",
+    "pruning",
+    "gini",
+    "squared error",
+    "feature importance",
+    "non-linear",
+    "interactions",
+    "cannot extrapolate"
+   ]
+  },
+  {
+   "topic": "KNN model",
+   "questions": [
+    {
+     "q": "How does a KNN regression model produce a sales forecast for a new period?",
+     "options": [
+      "It averages the target values of the k most similar past observations",
+      "It fits a straight line through all the data",
+      "It builds a sequence of yes/no splits",
+      "It copies the value of the most recent observation in the series directly"
+     ],
+     "answer": "It averages the target values of the k most similar past observations",
+     "explanation": "KNN finds the k nearest neighbours in feature space and averages their targets. Fitting a line is linear regression and splits are decision trees.",
+     "difficulty": "easy",
+     "concept": "knn prediction averaging"
+    },
+    {
+     "q": "What does 'k' represent in the KNN model?",
+     "options": [
+      "The number of lag and calendar features used in each data row",
+      "The number of lags in the series",
+      "The number of training periods",
+      "The number of nearest neighbours used to make a prediction"
+     ],
+     "answer": "The number of nearest neighbours used to make a prediction",
+     "explanation": "k is how many neighbours are consulted. It is a tuning parameter, separate from the number of features or lags.",
+     "difficulty": "easy",
+     "concept": "choice of k"
+    },
+    {
+     "q": "Which distance measure is most commonly used by default to find neighbours in KNN?",
+     "options": [
+      "Gini impurity",
+      "Correlation coefficient",
+      "Euclidean distance",
+      "Mean absolute percentage error"
+     ],
+     "answer": "Euclidean distance",
+     "explanation": "Euclidean (straight-line) distance is the usual default. Gini is a tree split measure and MAPE is a forecast accuracy measure.",
+     "difficulty": "easy",
+     "concept": "distance metric"
+    },
+    {
+     "q": "Why is KNN called a 'lazy learner'?",
+     "options": [
+      "It uses only a small sample of the data",
+      "It does not build a model during training; it stores the data and does the work at prediction time",
+      "It always predicts the mean of the target",
+      "It trains quickly because it ignores most features"
+     ],
+     "answer": "It does not build a model during training; it stores the data and does the work at prediction time",
+     "explanation": "KNN simply memorises the training set and computes distances when a forecast is requested. That makes training instant but prediction slow on large datasets.",
+     "difficulty": "easy",
+     "concept": "lazy learning"
+    },
+    {
+     "q": "Why must features usually be scaled before applying KNN?",
+     "options": [
+      "Scaling makes the model linear",
+      "Distances are dominated by features with large numeric ranges unless all features are put on a similar scale",
+      "KNN cannot accept negative numbers",
+      "Scaling cuts the number of neighbours KNN needs to examine, so each prediction becomes much faster and more stable"
+     ],
+     "answer": "Distances are dominated by features with large numeric ranges unless all features are put on a similar scale",
+     "explanation": "A feature measured in thousands swamps one measured in single digits when computing distance. Standardisation or min-max scaling gives each feature a fair say.",
+     "difficulty": "easy",
+     "concept": "feature scaling"
+    },
+    {
+     "q": "What is the typical effect of using a very small k, such as k = 1?",
+     "options": [
+      "Forecasts become noisy and the model tends to overfit",
+      "Forecasts become flat and the model underfits",
+      "Forecasts become very smooth and the model tends to underfit",
+      "Feature scaling is no longer needed"
+     ],
+     "answer": "Forecasts become noisy and the model tends to overfit",
+     "explanation": "With k = 1 the forecast copies a single neighbour, including its noise, giving low bias but high variance. Very large k produces the flat, underfit behaviour.",
+     "difficulty": "easy",
+     "concept": "choice of k"
+    },
+    {
+     "q": "In KNN classification (for example, predicting 'High' or 'Low' demand), how is the class decided?",
+     "options": [
+      "By averaging the neighbours' class labels as numbers",
+      "By choosing the class of the farthest neighbour",
+      "By choosing the class that is rarest in the data",
+      "By majority vote among the k nearest neighbours"
+     ],
+     "answer": "By majority vote among the k nearest neighbours",
+     "explanation": "For classification, KNN assigns the most common class among the neighbours. Averaging is used for regression targets.",
+     "difficulty": "easy",
+     "concept": "majority vote classification"
+    },
+    {
+     "q": "Which scikit-learn class is used for KNN regression?",
+     "options": [
+      "KNeighborsClassifier from sklearn.tree",
+      "LinearRegression from sklearn.linear_model",
+      "KNeighborsRegressor from sklearn.neighbors",
+      "XGBRegressor from xgboost"
+     ],
+     "answer": "KNeighborsRegressor from sklearn.neighbors",
+     "explanation": "KNeighborsRegressor in sklearn.neighbors fits KNN for numeric targets; KNeighborsClassifier is the classification version and lives in sklearn.neighbors, not sklearn.tree.",
+     "difficulty": "easy",
+     "concept": "sklearn KNeighborsRegressor"
+    },
+    {
+     "q": "When KNN is used to forecast a time series using lag features, what are the 'neighbours'?",
+     "options": [
+      "The calendar periods falling immediately before and after the forecast date in the history",
+      "Stores located geographically closest",
+      "Past periods whose recent sales pattern (lag values) looks most similar to the current one",
+      "The k largest sales values in history"
+     ],
+     "answer": "Past periods whose recent sales pattern (lag values) looks most similar to the current one",
+     "explanation": "With lag features, each row describes a recent pattern, so KNN finds past moments that looked similar and uses what happened next. Physical nearness or calendar adjacency is not what is measured.",
+     "difficulty": "easy",
+     "concept": "analog forecasting with lags"
+    },
+    {
+     "q": "What is the 'curse of dimensionality' in the context of KNN?",
+     "options": [
+      "With many rows, KNN cannot store the data",
+      "With many features, distances become less meaningful and all points look similarly far apart",
+      "With many neighbours averaged together, forecasts become too noisy and unstable to rely on for any planning",
+      "With many periods, seasonality disappears"
+     ],
+     "answer": "With many features, distances become less meaningful and all points look similarly far apart",
+     "explanation": "As dimensions grow, the gap between the nearest and farthest neighbours shrinks, so 'nearest' carries little information. Feature selection helps.",
+     "difficulty": "easy",
+     "concept": "curse of dimensionality"
+    },
+    {
+     "q": "For next week's demand at a Hyderabad outlet, KNN with k = 3 finds neighbours whose following-week sales were 200, 230 and 260 units. What is the forecast?",
+     "options": [
+      "230 units",
+      "200 units",
+      "260 units",
+      "690 units"
+     ],
+     "answer": "230 units",
+     "explanation": "The forecast is the mean: (200 + 230 + 260)/3 = 230. 690 is the sum, not the average.",
+     "difficulty": "medium",
+     "concept": "knn prediction averaging"
+    },
+    {
+     "q": "Two weeks are described by (lag_1, lag_2) = (120, 100) and (124, 103). What is the Euclidean distance between them?",
+     "options": [
+      "7",
+      "25",
+      "4",
+      "5"
+     ],
+     "answer": "5",
+     "explanation": "sqrt((124 - 120)^2 + (103 - 100)^2) = sqrt(16 + 9) = 5. 7 is the Manhattan distance and 25 forgets the square root.",
+     "difficulty": "medium",
+     "concept": "distance metric"
+    },
+    {
+     "q": "A KNN classifier with k = 5 predicts tomorrow's demand category. The neighbours are High, Low, High, High, Low. What is the prediction?",
+     "options": [
+      "Low",
+      "A tie, so no prediction",
+      "Medium",
+      "High"
+     ],
+     "answer": "High",
+     "explanation": "High has 3 votes against 2 for Low, so the majority is High. With an odd k and two classes there cannot be a tie.",
+     "difficulty": "medium",
+     "concept": "majority vote classification"
+    },
+    {
+     "q": "A KNN model for store sales uses store area (1,000 to 50,000 sq ft) and discount (0 to 30%) without scaling. What will happen?",
+     "options": [
+      "Discount will dominate the distance, because percentage features are automatically weighted more by KNN",
+      "Both features will count equally",
+      "Store area will dominate the distance, so discount will barely affect which stores are neighbours",
+      "The model will fail to run"
+     ],
+     "answer": "Store area will dominate the distance, so discount will barely affect which stores are neighbours",
+     "explanation": "Differences in area run into thousands while discount differences are at most 30, so unscaled distance is almost entirely driven by area.",
+     "difficulty": "medium",
+     "concept": "feature scaling"
+    },
+    {
+     "q": "Discount ranges from 0% to 30% in the training data. What is the min-max scaled value of a 12% discount?",
+     "options": [
+      "0.12",
+      "0.4",
+      "12",
+      "0.3"
+     ],
+     "answer": "0.4",
+     "explanation": "(12 - 0)/(30 - 0) = 0.4. 0.12 just converts the percentage to a fraction without using the range.",
+     "difficulty": "medium",
+     "concept": "feature scaling"
+    },
+    {
+     "q": "On the latest 3 months held out as a test set, KNN gives: k = 1 train RMSE 0, test RMSE 48; k = 7 train RMSE 20, test RMSE 30; k = 25 train RMSE 38, test RMSE 41. Which k should be chosen?",
+     "options": [
+      "k = 7",
+      "k = 1",
+      "k = 25",
+      "Any k, since they are equivalent"
+     ],
+     "answer": "k = 7",
+     "explanation": "k = 7 has the lowest test error. k = 1 has a perfect training fit but overfits, and k = 25 is too smooth and underfits.",
+     "difficulty": "medium",
+     "concept": "choice of k"
+    },
+    {
+     "q": "The highest weekly sales in a KNN model's training data is 900 units. Using plain KNN regression on sales levels, what is the highest forecast it can make?",
+     "options": [
+      "900 units",
+      "Unlimited, depending on the trend",
+      "1,800 units",
+      "The average of all weeks"
+     ],
+     "answer": "900 units",
+     "explanation": "A KNN forecast is an average of training targets, so it can never exceed the largest one. This is why KNN, like trees, cannot extrapolate a growth trend.",
+     "difficulty": "medium",
+     "concept": "knn cannot extrapolate"
+    },
+    {
+     "q": "A bank's KNN model for daily cash withdrawals trains in seconds but takes far too long to produce forecasts for 5,000 ATMs. Why?",
+     "options": [
+      "KNN retrains its whole model from scratch for every single ATM forecast that is requested",
+      "The number of neighbours grows with the data",
+      "KNN fits a separate regression for each ATM",
+      "Each prediction requires computing distances to every stored training observation"
+     ],
+     "answer": "Each prediction requires computing distances to every stored training observation",
+     "explanation": "KNN does its work at prediction time by scanning the training data for neighbours. Large training sets therefore make prediction slow, not training.",
+     "difficulty": "medium",
+     "concept": "lazy learning"
+    },
+    {
+     "q": "To forecast next week's sales of a soft drink with KNN, which feature vector is most suitable for each row?",
+     "options": [
+      "Next week's sales and the week after's",
+      "A random week number",
+      "Sales in each of the previous 4 weeks, plus a festival-week flag",
+      "The row number after shuffling the data"
+     ],
+     "answer": "Sales in each of the previous 4 weeks, plus a festival-week flag",
+     "explanation": "Recent lags and known calendar flags describe the current situation and are available at forecast time. Future sales cannot be features, and shuffled row numbers carry no meaning.",
+     "difficulty": "medium",
+     "concept": "analog forecasting with lags"
+    },
+    {
+     "q": "An analyst standardises (z-scores) all 5 years of data and then splits it into the first 4 years for training and the last year for testing. What is wrong?",
+     "options": [
+      "Nothing, since scaling does not affect KNN",
+      "The scaler saw the test year's mean and spread, leaking future data; fit it on training years only",
+      "Standardisation must be replaced by shuffling",
+      "Nothing is wrong, because scaling with all available years gives the most stable and accurate mean and spread"
+     ],
+     "answer": "The scaler saw the test year's mean and spread, leaking future data; fit it on training years only",
+     "explanation": "Fitting the scaler on all data lets test-period statistics shape the training features. Fit on the training period, then apply the same transformation to the test period.",
+     "difficulty": "medium",
+     "concept": "data leakage"
+    },
+    {
+     "q": "A distance-weighted KNN (weight = 1/distance) has three neighbours at distances 1, 2 and 4 with next-week sales of 100, 160 and 200 units. What is the forecast (to 2 decimals)?",
+     "options": [
+      "153.33 units",
+      "131.43 units",
+      "230.00 units",
+      "100.00 units"
+     ],
+     "answer": "131.43 units",
+     "explanation": "Weights 1, 0.5, 0.25 give (100 + 80 + 50)/1.75 = 131.43. 153.33 is the unweighted mean and 230 forgets to divide by the sum of weights.",
+     "difficulty": "hard",
+     "concept": "weighted knn"
+    },
+    {
+     "q": "Query week: (lag_1, lag_2) = (10, 8), already scaled. Training rows: A (9, 8) -> 50; B (12, 9) -> 60; C (10, 5) -> 40; D (15, 15) -> 90. Using Euclidean distance and k = 2, what is the forecast?",
+     "options": [
+      "55",
+      "50",
+      "45",
+      "60"
+     ],
+     "answer": "55",
+     "explanation": "Distances: A = 1, B = 2.24, C = 3, D = 8.60, so the nearest two are A and B, giving (50 + 60)/2 = 55. 45 wrongly picks C over B, and 50 is the k = 1 answer.",
+     "difficulty": "hard",
+     "concept": "knn prediction averaging"
+    },
+    {
+     "q": "A quick-commerce firm's order volumes grow every month. A KNN model on order levels keeps forecasting values near past peaks and under-forecasts. What is the best fix?",
+     "options": [
+      "Increase k so that more neighbours are averaged, which lifts the forecasts toward recent peaks",
+      "Remove feature scaling",
+      "Use a random split to include future months in training",
+      "Model month-on-month changes or growth rates with KNN and convert back to levels"
+     ],
+     "answer": "Model month-on-month changes or growth rates with KNN and convert back to levels",
+     "explanation": "Averages of past levels cannot exceed past levels, so a growing series must be differenced or expressed as growth first. A larger k only makes forecasts flatter.",
+     "difficulty": "hard",
+     "concept": "knn cannot extrapolate"
+    },
+    {
+     "q": "Query store: area 20,000 sq ft, discount 10%. Store P: 20,100 sq ft, 25%. Store Q: 21,000 sq ft, 10%. Area ranges 1,000-50,000 and discount 0-30. Which store is the nearest neighbour before and after min-max scaling?",
+     "options": [
+      "Q before scaling, P after scaling",
+      "P both before and after scaling",
+      "P before scaling, Q after scaling",
+      "Q both before and after scaling"
+     ],
+     "answer": "P before scaling, Q after scaling",
+     "explanation": "Unscaled: P is about 101 away and Q is 1,000 away, so P wins. Scaled: P = sqrt(0.002^2 + 0.5^2) is about 0.50 and Q is about 0.02, so Q wins because the discount difference now counts.",
+     "difficulty": "hard",
+     "concept": "feature scaling"
+    },
+    {
+     "q": "An analyst adds 60 lag, rolling and calendar features to a KNN sales model, and test error gets worse than with 6 well-chosen lags. What is the most likely explanation?",
+     "options": [
+      "KNN needs at least 100 features to work well",
+      "More features always reduce bias, so test error must be wrong",
+      "Too many features make distances less informative, so the 'nearest' neighbours are no longer truly similar",
+      "The model now extrapolates too aggressively"
+     ],
+     "answer": "Too many features make distances less informative, so the 'nearest' neighbours are no longer truly similar",
+     "explanation": "This is the curse of dimensionality: irrelevant features add noise to every distance. KNN benefits from a small set of relevant, scaled features.",
+     "difficulty": "hard",
+     "concept": "curse of dimensionality"
+    },
+    {
+     "q": "An e-commerce app needs millions of real-time demand forecasts a day across 500 SKUs using 10 years of history. Why is KNN a poor choice?",
+     "options": [
+      "KNN cannot handle more than one SKU at a time, so 500 separate models would have to be retrained every single day",
+      "Every forecast must search the full history for neighbours, making predictions slow and costly at scale",
+      "KNN models take days to train",
+      "KNN cannot use lag features"
+     ],
+     "answer": "Every forecast must search the full history for neighbours, making predictions slow and costly at scale",
+     "explanation": "KNN's cost is at prediction time, which is the bottleneck for real-time serving. A trained model such as a tree ensemble or linear model predicts far faster.",
+     "difficulty": "hard",
+     "concept": "lazy learning"
+    },
+    {
+     "q": "In a KNN model with 400 training weeks, what happens if k is set to 400?",
+     "options": [
+      "Every forecast equals the overall average of the training weeks, so the model underfits",
+      "Every forecast equals the most recent week",
+      "The model overfits because it uses all the data",
+      "Forecasts become highly sensitive to recent changes, since every recent week now acts as a neighbour"
+     ],
+     "answer": "Every forecast equals the overall average of the training weeks, so the model underfits",
+     "explanation": "When k equals the training size, all rows are neighbours, so every forecast is the same overall mean. This is extreme high bias, the opposite of k = 1.",
+     "difficulty": "hard",
+     "concept": "choice of k"
+    },
+    {
+     "q": "On a 12-week time-ordered test, KNN has MAE 52 units while a seasonal naive forecast (same week last year) has MAE 48 units. What should the manager conclude?",
+     "options": [
+      "Adopt KNN because machine learning is more advanced",
+      "KNN is better because its MAE is higher",
+      "The benchmark is invalid because it uses no features",
+      "KNN adds no value over the simple benchmark, so use the seasonal naive or improve KNN's features before adopting it"
+     ],
+     "answer": "KNN adds no value over the simple benchmark, so use the seasonal naive or improve KNN's features before adopting it",
+     "explanation": "A model must beat simple benchmarks to justify its complexity. Here the naive method is more accurate, so KNN should not replace it as is.",
+     "difficulty": "hard",
+     "concept": "comparing with classical models"
+    },
+    {
+     "q": "A KNN classifier with k = 4 labels weeks as 'Promote' or 'Don't promote'. For one week the neighbours split 2-2. What is the standard way to avoid this problem?",
+     "options": [
+      "Keep k = 4 and break ties by picking a class at random each time",
+      "Use k = 2 so ties disappear",
+      "Remove feature scaling",
+      "Use an odd k (for example 3 or 5) for two-class problems"
+     ],
+     "answer": "Use an odd k (for example 3 or 5) for two-class problems",
+     "explanation": "With two classes, an odd k guarantees a majority. k = 2 makes ties even more likely, not less.",
+     "difficulty": "hard",
+     "concept": "majority vote classification"
+    },
+    {
+     "q": "A sweets brand has only 3 Diwali weeks in its history. A KNN model with k = 10, using lags and a festival flag, is asked to forecast the coming Diwali week. What is the likely problem?",
+     "options": [
+      "KNN will extrapolate above every past Diwali week because k is large",
+      "The festival flag forces all 10 neighbours to be Diwali weeks",
+      "At least 7 of the 10 neighbours must be ordinary weeks, pulling the Diwali forecast down",
+      "With k = 10 the model overfits to the single most similar Diwali week"
+     ],
+     "answer": "At least 7 of the 10 neighbours must be ordinary weeks, pulling the Diwali forecast down",
+     "explanation": "Only 3 festival weeks exist, so at least 7 neighbours are normal weeks and their lower sales drag the average down. A smaller k, a stronger weight on the festival flag or a separate festival model helps.",
+     "difficulty": "hard",
+     "concept": "choice of k"
+    }
+   ],
+   "references": [
+    "K-nearest neighbours (KNN) forecasts by analogy. For a new period, it looks through history for the k most similar situations, measured by distance on features such as the last few weeks' sales, promotions or festival flags, and then averages what happened next in those situations. For classification it takes a majority vote. There is no real training step; the model just stores the data, which makes prediction slow on large datasets. Features must be scaled so that large-unit variables do not dominate distance, k is tuned on a later validation period, and because it averages past values it cannot forecast beyond levels seen before.",
+    "Imagine forecasting next week's sales for a mobile store. KNN asks: in the past, when were the last four weeks' sales most like these four weeks? Say it finds three such weeks, and the week after each sold 200, 230 and 260 units; the forecast is their average, 230. If k is 1, we copy one week and get noisy forecasts; if k is huge, everything becomes the overall average. We scale features like store size and discount first, choose k using the most recent months as a test set, and, since KNN cannot exceed past levels, we model growth or changes when sales are trending.",
+    "From a manager's view, KNN is a simple, intuitive method: 'find similar past situations and see what happened'. It needs no assumptions about linear relationships, so it can capture odd patterns. But it has practical limits: it is slow at prediction time for big data, sensitive to unscaled features and irrelevant variables, prone to overfitting with small k and underfitting with large k, and blind to trends because it only averages past outcomes. I would use it as one candidate model on a modest dataset with a few good lag features, and adopt it only if it beats simple benchmarks like seasonal naive on a time-ordered test."
+   ],
+   "key_concepts": [
+    "nearest neighbours",
+    "k",
+    "distance",
+    "euclidean",
+    "similar",
+    "average",
+    "majority vote",
+    "feature scaling",
+    "lazy learner",
+    "overfitting",
+    "underfitting",
+    "lag features",
+    "cannot extrapolate"
+   ]
+  },
+  {
+   "topic": "Random Forest",
+   "questions": [
+    {
+     "q": "What is a random forest?",
+     "options": [
+      "An ensemble of many decision trees, each built on random rows and features, with predictions combined",
+      "A single very deep decision tree",
+      "A linear regression with random coefficients",
+      "A sequence of decision trees built one after another, where each new tree corrects the previous tree's errors"
+     ],
+     "answer": "An ensemble of many decision trees, each built on random rows and features, with predictions combined",
+     "explanation": "Random forests combine many randomised trees built independently. Building trees sequentially to correct errors describes boosting.",
+     "difficulty": "easy",
+     "concept": "ensemble of trees"
+    },
+    {
+     "q": "What does 'bagging', the idea behind random forests, stand for?",
+     "options": [
+      "Balanced aggregate gradient",
+      "Boosted averaging",
+      "Bias aggregation",
+      "Bootstrap aggregating"
+     ],
+     "answer": "Bootstrap aggregating",
+     "explanation": "Bagging = bootstrap aggregating: train models on bootstrap samples and aggregate their predictions. Boosting is a different, sequential technique.",
+     "difficulty": "easy",
+     "concept": "bagging"
+    },
+    {
+     "q": "What is a bootstrap sample in a random forest?",
+     "options": [
+      "A sample of half the training rows drawn without replacement, so no row is repeated",
+      "The most recent 20% of the data",
+      "A sample of the same size as the training data drawn with replacement",
+      "A sample containing only the most important features"
+     ],
+     "answer": "A sample of the same size as the training data drawn with replacement",
+     "explanation": "Drawing with replacement means some rows appear multiple times and others not at all, giving each tree a different view of the data.",
+     "difficulty": "easy",
+     "concept": "bootstrap sampling"
+    },
+    {
+     "q": "How does a random forest regressor produce its final sales forecast?",
+     "options": [
+      "By taking the prediction of the best tree",
+      "By averaging the predictions of all its trees",
+      "By multiplying the trees' predictions",
+      "By taking the prediction of the last tree built"
+     ],
+     "answer": "By averaging the predictions of all its trees",
+     "explanation": "Each tree votes with a number and the forest reports the mean. Picking one 'best' tree would lose the variance-reduction benefit.",
+     "difficulty": "easy",
+     "concept": "averaging predictions"
+    },
+    {
+     "q": "What does the max_features hyperparameter control in a random forest?",
+     "options": [
+      "The total number of features kept in the data after feature selection",
+      "How many randomly chosen features each split is allowed to consider",
+      "The number of trees in the forest",
+      "The depth of each tree"
+     ],
+     "answer": "How many randomly chosen features each split is allowed to consider",
+     "explanation": "Limiting the features considered at each split makes trees different from one another, which improves averaging. The number of trees is n_estimators.",
+     "difficulty": "easy",
+     "concept": "random feature selection"
+    },
+    {
+     "q": "What does n_estimators set in scikit-learn's RandomForestRegressor?",
+     "options": [
+      "The number of trees in the forest",
+      "The number of features checked per split",
+      "The maximum depth of each tree",
+      "The number of lags created"
+     ],
+     "answer": "The number of trees in the forest",
+     "explanation": "n_estimators is the count of trees whose predictions are averaged. Depth and features per split are separate settings.",
+     "difficulty": "easy",
+     "concept": "n_estimators"
+    },
+    {
+     "q": "What are out-of-bag (OOB) observations for a tree in a random forest?",
+     "options": [
+      "Rows with missing values that are dropped before any tree is grown, so they never influence the error estimate",
+      "The test set chosen by the analyst",
+      "Outliers removed before training",
+      "Training rows not selected in that tree's bootstrap sample, which can be used to estimate error"
+     ],
+     "answer": "Training rows not selected in that tree's bootstrap sample, which can be used to estimate error",
+     "explanation": "Each bootstrap sample leaves out some rows, and the tree can be checked on them. They are not the analyst's test set or dropped data.",
+     "difficulty": "easy",
+     "concept": "out-of-bag error"
+    },
+    {
+     "q": "What is the main advantage of a random forest over a single decision tree?",
+     "options": [
+      "It is easier to read as a set of rules",
+      "It can extrapolate growth trends beyond the highest sales levels seen in the training data",
+      "It reduces variance, giving more stable and usually more accurate forecasts",
+      "It needs no hyperparameters"
+     ],
+     "answer": "It reduces variance, giving more stable and usually more accurate forecasts",
+     "explanation": "Averaging many decorrelated trees cancels out much of each tree's noise. A forest is less readable than one tree and still cannot extrapolate.",
+     "difficulty": "easy",
+     "concept": "variance reduction"
+    },
+    {
+     "q": "Which scikit-learn class fits a random forest for numeric forecasting targets?",
+     "options": [
+      "RandomForestRegressor from sklearn.tree",
+      "DecisionTreeRegressor from sklearn.ensemble",
+      "RandomForestRegressor from sklearn.ensemble",
+      "XGBRegressor from sklearn.ensemble"
+     ],
+     "answer": "RandomForestRegressor from sklearn.ensemble",
+     "explanation": "RandomForestRegressor lives in sklearn.ensemble. DecisionTreeRegressor is in sklearn.tree, and XGBRegressor comes from the separate xgboost library.",
+     "difficulty": "easy",
+     "concept": "sklearn RandomForestRegressor"
+    },
+    {
+     "q": "How is impurity-based feature importance computed in a random forest?",
+     "options": [
+      "As the regression coefficient of the feature",
+      "As the average reduction in error (impurity) from splits on that feature, across all trees",
+      "As the correlation between the feature and the target, computed on the full training dataset",
+      "As the number of missing values in the feature"
+     ],
+     "answer": "As the average reduction in error (impurity) from splits on that feature, across all trees",
+     "explanation": "The forest adds up how much each feature reduced error in each tree and averages over trees. It is not a coefficient or a simple correlation.",
+     "difficulty": "easy",
+     "concept": "feature importance interpretation"
+    },
+    {
+     "q": "A random forest with 4 trees forecasts tomorrow's sales at a Mumbai outlet as 480, 520, 500 and 540 units. What is the forest's forecast?",
+     "options": [
+      "510 units",
+      "500 units",
+      "540 units",
+      "2,040 units"
+     ],
+     "answer": "510 units",
+     "explanation": "(480 + 520 + 500 + 540)/4 = 2,040/4 = 510. 2,040 is the sum and 540 is just the highest tree.",
+     "difficulty": "medium",
+     "concept": "averaging predictions"
+    },
+    {
+     "q": "A random forest classifier of 7 trees predicts whether a SKU will stock out next week: 4 trees say 'Stock-out' and 3 say 'No stock-out'. What is the forecast?",
+     "options": [
+      "No stock-out",
+      "Undecided, since it is close",
+      "Stock-out with probability 0.43",
+      "Stock-out"
+     ],
+     "answer": "Stock-out",
+     "explanation": "Classification forests use majority vote, and 4 of 7 is a majority. The share of votes for stock-out is 4/7 = 0.57, not 0.43.",
+     "difficulty": "medium",
+     "concept": "majority vote classification"
+    },
+    {
+     "q": "For a large training set, roughly what share of rows is left out of each tree's bootstrap sample?",
+     "options": [
+      "About 63%",
+      "Exactly 50%",
+      "About 10%",
+      "About 37%"
+     ],
+     "answer": "About 37%",
+     "explanation": "The chance a row is never drawn is (1 - 1/n)^n, about 0.368. About 63% of distinct rows are included, which is the common mix-up.",
+     "difficulty": "medium",
+     "concept": "out-of-bag error"
+    },
+    {
+     "q": "A random forest for daily sales gives importances: lag_7 = 0.40, lag_1 = 0.30, promo = 0.15, temperature = 0.10, holiday = 0.05. What is the most reasonable business reading?",
+     "options": [
+      "A 1-unit rise in lag_7 raises sales by 0.40 units",
+      "Holidays have no real effect on sales and can safely be ignored in all future store-level demand planning",
+      "Sales on the same weekday last week is the most useful predictor, pointing to a strong weekly pattern",
+      "Promotions cause 15% of sales"
+     ],
+     "answer": "Sales on the same weekday last week is the most useful predictor, pointing to a strong weekly pattern",
+     "explanation": "lag_7 being most important signals weekly seasonality. Importances are not coefficients or causal shares, and a low score does not prove zero effect.",
+     "difficulty": "medium",
+     "concept": "feature importance interpretation"
+    },
+    {
+     "q": "Increasing a random forest from 100 to 1,000 trees changes test RMSE from 41.2 to 41.0. What is the best interpretation?",
+     "options": [
+      "The forest is now badly overfitting",
+      "The error has stabilised; more trees add computation cost with little benefit",
+      "1,000 trees is always required",
+      "The forest is now overfitting badly, so the number of trees should be cut back to 100"
+     ],
+     "answer": "The error has stabilised; more trees add computation cost with little benefit",
+     "explanation": "Adding trees reduces variance up to a point and then levels off; it does not usually cause overfitting. The tiny gain here is not worth ten times the computation.",
+     "difficulty": "medium",
+     "concept": "n_estimators"
+    },
+    {
+     "q": "In a sales forest, lag_1 is by far the strongest feature. Why does considering only a random subset of features at each split (max_features below 1.0) often help?",
+     "options": [
+      "It stops every tree splitting on lag_1 first, so trees differ and their average is steadier",
+      "It removes lag_1 from the model entirely",
+      "It makes each individual tree more accurate on its own, so far fewer trees are needed in the forest",
+      "It allows the forest to extrapolate trends"
+     ],
+     "answer": "It stops every tree splitting on lag_1 first, so trees differ and their average is steadier",
+     "explanation": "If all trees used the same dominant split they would be highly correlated and averaging would help little. Random feature subsets decorrelate the trees, even though each tree is slightly weaker.",
+     "difficulty": "medium",
+     "concept": "random feature selection"
+    },
+    {
+     "q": "A random forest is trained on monthly sales that never exceeded Rs 2 crore. The business expects Rs 2.5 crore next Diwali. What will the forest likely do?",
+     "options": [
+      "Forecast no more than about Rs 2 crore, because it averages leaf values from the training range",
+      "Forecast Rs 2.5 crore by extending the trend",
+      "Forecast well above Rs 2 crore, because averaging hundreds of trees lets it extend the recent upward trend",
+      "Refuse to make a forecast"
+     ],
+     "answer": "Forecast no more than about Rs 2 crore, because it averages leaf values from the training range",
+     "explanation": "Every tree outputs averages of past values, and so does their mean. Forests share the single tree's inability to extrapolate.",
+     "difficulty": "medium",
+     "concept": "trees cannot extrapolate"
+    },
+    {
+     "q": "A forest has training R-squared 0.98 but R-squared 0.62 on the latest 6 months held out. What is a sensible next step?",
+     "options": [
+      "Report the 0.98 as the model's accuracy",
+      "Shuffle the data so test R-squared improves",
+      "Reduce the number of trees to 1",
+      "Constrain the trees (e.g. larger min_samples_leaf or smaller max_depth) and check whether recent months show a trend or shift"
+     ],
+     "answer": "Constrain the trees (e.g. larger min_samples_leaf or smaller max_depth) and check whether recent months show a trend or shift",
+     "explanation": "The gap points to overfitting or a change in the series over time. Regularising the trees and checking for trend addresses it; shuffling would only hide it.",
+     "difficulty": "medium",
+     "concept": "overfitting"
+    },
+    {
+     "q": "A random forest will forecast monthly sales 3 months ahead directly (not recursively). Which lag features can be used?",
+     "options": [
+      "lag_1 and lag_2 only",
+      "lag_1 and older lags",
+      "lag_3 and older lags",
+      "Any lag, including lag_0"
+     ],
+     "answer": "lag_3 and older lags",
+     "explanation": "At forecast time only data up to 3 months before the target month is known, so lag_1 and lag_2 would be future values. Using them causes leakage.",
+     "difficulty": "medium",
+     "concept": "lag availability horizon"
+    },
+    {
+     "q": "After shuffling the 'promo' column in the test set, a forest's RMSE rises from 40 to 70. What does this show?",
+     "options": [
+      "Promo is unimportant, since a feature that matters would leave the RMSE unchanged after shuffling",
+      "Promo is an important feature, since breaking its link to sales worsens error by 30",
+      "Promo should be shuffled permanently",
+      "The model is overfitting on promo"
+     ],
+     "answer": "Promo is an important feature, since breaking its link to sales worsens error by 30",
+     "explanation": "Permutation importance measures how much error increases when a feature's information is destroyed. A large increase means the model relies on that feature.",
+     "difficulty": "medium",
+     "concept": "permutation importance"
+    },
+    {
+     "q": "Each tree in a forest has prediction variance 400, the average correlation between trees is 0.3, and there are 100 trees. Using variance = rho x sigma^2 + (1 - rho) x sigma^2 / n, what is the variance of the forest's average?",
+     "options": [
+      "4.0",
+      "122.8",
+      "400.0",
+      "120.0"
+     ],
+     "answer": "122.8",
+     "explanation": "0.3 x 400 + 0.7 x 400 / 100 = 120 + 2.8 = 122.8. 4 assumes independent trees (sigma^2/n), which ignores correlation; 120 is the floor reached only with infinitely many trees.",
+     "difficulty": "hard",
+     "concept": "variance reduction"
+    },
+    {
+     "q": "With a training set of 5 rows, what is the probability that a particular row is NOT chosen in a bootstrap sample of size 5 (to 2 decimals)?",
+     "options": [
+      "0.33",
+      "0.20",
+      "0.80",
+      "0.67"
+     ],
+     "answer": "0.33",
+     "explanation": "(1 - 1/5)^5 = 0.8^5 = 0.33. 0.80 is the chance of missing on a single draw, and 0.67 is the chance the row is chosen.",
+     "difficulty": "hard",
+     "concept": "out-of-bag error"
+    },
+    {
+     "q": "An online fashion platform's sales grow 25% a year. A random forest on sales levels badly under-forecasts the 2025 festive sale. Which remedy is most appropriate?",
+     "options": [
+      "Add 1,000 more trees",
+      "Increase max_depth to reach higher values",
+      "Rely on the out-of-bag error instead of a test set, as it already reflects the festive peak in sales",
+      "Forecast year-on-year growth or the residual after a trend, then convert back to levels"
+     ],
+     "answer": "Forecast year-on-year growth or the residual after a trend, then convert back to levels",
+     "explanation": "The forest cannot exceed training levels, so the target must be made stationary (growth or detrended) first. More or deeper trees still average past levels.",
+     "difficulty": "hard",
+     "concept": "trees cannot extrapolate"
+    },
+    {
+     "q": "An analyst reports a random forest's out-of-bag (OOB) score of 0.95 as evidence of daily sales forecast accuracy. Why can this be misleading for forecasting?",
+     "options": [
+      "OOB scores are always lower than test scores",
+      "OOB is only valid for classification",
+      "OOB rows are random days whose neighbouring past and future days were in training, so the score is optimistic; a time-ordered hold-out is needed",
+      "OOB uses the same rows as training, so it equals the training score"
+     ],
+     "answer": "OOB rows are random days whose neighbouring past and future days were in training, so the score is optimistic; a time-ordered hold-out is needed",
+     "explanation": "Bootstrap sampling ignores time, so out-of-bag days are surrounded by training days on both sides. True forecasting accuracy must be measured on a later period.",
+     "difficulty": "hard",
+     "concept": "data leakage"
+    },
+    {
+     "q": "A retailer must forecast 2,000 SKUs whose sales depend on price, promotions and weather, with strong interactions. A single stable SKU with no external drivers is also forecast. Which statement is most accurate?",
+     "options": [
+      "SARIMA is always better because it is designed for time series",
+      "Random forest is always better because it is machine learning",
+      "A random forest suits the driver-rich, interacting SKUs, while a classical model like SARIMA can stay competitive for the single stable series",
+      "Both models require the data to be shuffled first"
+     ],
+     "answer": "A random forest suits the driver-rich, interacting SKUs, while a classical model like SARIMA can stay competitive for the single stable series",
+     "explanation": "Forests exploit many external drivers and non-linear interactions; classical models shine on clean univariate series. Model choice should follow the data, not the label.",
+     "difficulty": "hard",
+     "concept": "comparing with classical models"
+    },
+    {
+     "q": "In a forest for store sales, 'store_id' (800 distinct values) shows the highest impurity-based importance, but shuffling it barely changes test error. What is the best explanation?",
+     "options": [
+      "store_id is truly the main driver of sales",
+      "Impurity importance is biased toward features with many possible split points; permutation importance is more reliable here",
+      "Permutation importance is always wrong for forests",
+      "The forest has too few trees"
+     ],
+     "answer": "Impurity importance is biased toward features with many possible split points; permutation importance is more reliable here",
+     "explanation": "High-cardinality and continuous features offer many splits and can inflate impurity importance. Permutation on held-out data shows the real contribution is small.",
+     "difficulty": "hard",
+     "concept": "permutation importance"
+    },
+    {
+     "q": "A forest includes both lag_1 and rolling_mean_3 (correlation 0.92). Each shows moderate importance, but dropping both badly hurts accuracy. Why?",
+     "options": [
+      "Correlated features share importance between them, so each looks less important than the information they jointly carry",
+      "Both features are useless and dropping them is safe",
+      "Forests cannot use correlated features",
+      "Importance values must always sum to the R-squared"
+     ],
+     "answer": "Correlated features share importance between them, so each looks less important than the information they jointly carry",
+     "explanation": "When two features carry the same information, trees split on either, so credit is divided. Their combined value only shows when both are removed.",
+     "difficulty": "hard",
+     "concept": "feature importance interpretation"
+    },
+    {
+     "q": "Five trees in a forest predict 90, 100, 110, 120 and 130 units. What are the forecast and the standard deviation of the tree predictions (population formula)?",
+     "options": [
+      "110 and 200",
+      "110 and 40",
+      "100 and 14.1",
+      "110 and 14.1"
+     ],
+     "answer": "110 and 14.1",
+     "explanation": "Mean = 110; squared deviations 400, 100, 0, 100, 400 average 200, so SD = sqrt(200) = 14.1. 200 is the variance and 40 is the range.",
+     "difficulty": "hard",
+     "concept": "spread of tree predictions"
+    },
+    {
+     "q": "An analyst creates rolling_mean_7 for daily sales using a centred 7-day window (3 days before, the day itself, 3 days after) and the forest's test error is suspiciously low. What is the fix?",
+     "options": [
+      "Use a 30-day centred window instead",
+      "Add more trees to the forest",
+      "Drop the time-ordered split",
+      "Compute the rolling mean only from past days, shifted so it excludes the day being forecast"
+     ],
+     "answer": "Compute the rolling mean only from past days, shifted so it excludes the day being forecast",
+     "explanation": "A centred window includes the target and future days, which are unknown at forecast time. Shifting the window to past days only removes the leakage.",
+     "difficulty": "hard",
+     "concept": "data leakage"
+    },
+    {
+     "q": "A small analytics team with little tuning time needs a robust first machine learning model for weekly demand. Why is a random forest often a good first choice over XGBoost?",
+     "options": [
+      "Random forests always beat XGBoost in accuracy",
+      "Random forests can extrapolate trends and XGBoost cannot",
+      "Random forests perform well with default settings and are less prone to overfitting when lightly tuned",
+      "XGBoost cannot use lag features"
+     ],
+     "answer": "Random forests perform well with default settings and are less prone to overfitting when lightly tuned",
+     "explanation": "Forests are forgiving of hyperparameters, while boosting usually needs careful tuning of learning rate, depth and rounds. Neither extrapolates trends, and both use lag features.",
+     "difficulty": "hard",
+     "concept": "random forest vs boosting"
+    }
+   ],
+   "references": [
+    "A random forest is a collection of many decision trees whose forecasts are averaged. Each tree is trained on a bootstrap sample of the data, drawn with replacement, and at each split it only considers a random subset of features. This makes the trees different from one another, so their individual errors partly cancel out when averaged, giving a more stable and accurate forecast than a single tree. For forecasting we feed it lag, rolling and calendar features, tune settings like number of trees and leaf size on a later validation period, read feature importance carefully, and remember it cannot forecast beyond past levels.",
+    "Say a retail chain wants tomorrow's sales for each store. One decision tree might say 480, but it is jumpy. A random forest builds, say, 500 trees, each on a slightly different random sample of days and features like last week's sales, promotions, weekday and festivals. The trees forecast 480, 520, 500, 540 and so on, and we take the average. Feature importance then shows that last week's same-day sales matter most, pointing to a weekly pattern. We test it on the latest weeks, not on random or out-of-bag days, and handle growth trends separately because averages of trees cannot exceed history.",
+    "As a manager I see random forest as a robust, low-maintenance machine learning workhorse. It captures non-linear effects and interactions between drivers like price, promotion and weather, resists overfitting thanks to bagging and random feature selection, and works well with default settings. The trade-offs: it is less transparent than one tree, slower with many trees, cannot extrapolate trends, and its importance scores can mislead with correlated or high-cardinality features. I would use it when there are many drivers and SKUs, insist on a time-ordered test, check for leakage in rolling features, and compare it against SARIMA or Holt-Winters before trusting it."
+   ],
+   "key_concepts": [
+    "ensemble",
+    "decision trees",
+    "bagging",
+    "bootstrap",
+    "random subset of features",
+    "average",
+    "majority vote",
+    "reduces variance",
+    "overfitting",
+    "out-of-bag",
+    "feature importance",
+    "n_estimators",
+    "cannot extrapolate",
+    "lag features"
+   ]
+  },
+  {
+   "topic": "Gradient Boosting with XG Boost",
+   "questions": [
+    {
+     "q": "How does gradient boosting build its trees?",
+     "options": [
+      "Sequentially, with each new tree trying to correct the errors of the trees before it",
+      "Independently and in parallel on bootstrap samples, with their forecasts then averaged together",
+      "As one very deep tree",
+      "By randomly deleting trees from a forest"
+     ],
+     "answer": "Sequentially, with each new tree trying to correct the errors of the trees before it",
+     "explanation": "Boosting adds trees one after another, each focused on what the current model gets wrong. Independent, parallel trees describe random forests.",
+     "difficulty": "easy",
+     "concept": "sequential error correction"
+    },
+    {
+     "q": "With squared-error loss, what does each new tree in gradient boosting learn to predict?",
+     "options": [
+      "The original target values",
+      "The feature importances",
+      "The average of all previous trees",
+      "The residuals (errors) of the current model"
+     ],
+     "answer": "The residuals (errors) of the current model",
+     "explanation": "For squared error the negative gradient equals the residual, so each tree models what is left unexplained. Predicting the raw target again would ignore earlier trees.",
+     "difficulty": "easy",
+     "concept": "fitting residuals"
+    },
+    {
+     "q": "What does the learning_rate (eta) parameter do in XGBoost?",
+     "options": [
+      "It sets the number of trees",
+      "It sets the depth of each tree",
+      "It scales down each new tree's contribution to the forecast",
+      "It sets the share of the most recent data held back for validation and testing"
+     ],
+     "answer": "It scales down each new tree's contribution to the forecast",
+     "explanation": "Each tree's output is multiplied by the learning rate before being added, so smaller values make learning slower but more careful.",
+     "difficulty": "easy",
+     "concept": "learning rate shrinkage"
+    },
+    {
+     "q": "What does XGBoost stand for?",
+     "options": [
+      "Extra Generalised Bagging",
+      "eXtreme Gradient Boosting",
+      "Exponential Gradient Bootstrapping",
+      "Extended Gini Boosting"
+     ],
+     "answer": "eXtreme Gradient Boosting",
+     "explanation": "XGBoost is an optimised, regularised implementation of gradient boosting. It is not a bagging method.",
+     "difficulty": "easy",
+     "concept": "xgboost definition"
+    },
+    {
+     "q": "What do XGBoost's reg_lambda and reg_alpha parameters do?",
+     "options": [
+      "They set the learning rate",
+      "They penalise large leaf weights to reduce overfitting",
+      "They choose which lags to create",
+      "They control how many of the most recent rows are kept aside as the test set"
+     ],
+     "answer": "They penalise large leaf weights to reduce overfitting",
+     "explanation": "Lambda (L2) and alpha (L1) shrink leaf values, making the model more conservative. This built-in regularisation is a key difference from basic gradient boosting.",
+     "difficulty": "easy",
+     "concept": "regularisation"
+    },
+    {
+     "q": "What is early stopping in XGBoost?",
+     "options": [
+      "Stopping the addition of trees when validation error has not improved for a set number of rounds",
+      "Stopping training after the first tree",
+      "Removing trees that have low importance",
+      "Ending training as soon as the training error stops falling or reaches zero on the full training dataset"
+     ],
+     "answer": "Stopping the addition of trees when validation error has not improved for a set number of rounds",
+     "explanation": "Early stopping watches a validation set and halts once extra rounds stop helping, which prevents overfitting. Training error alone would keep falling.",
+     "difficulty": "easy",
+     "concept": "early stopping"
+    },
+    {
+     "q": "What kind of trees does gradient boosting typically use?",
+     "options": [
+      "Fully grown trees with only one observation in every single leaf",
+      "A single tree with hundreds of levels",
+      "Linear regressions instead of trees",
+      "Shallow trees (weak learners), often only a few levels deep"
+     ],
+     "answer": "Shallow trees (weak learners), often only a few levels deep",
+     "explanation": "Boosting combines many small trees, each adding a little improvement. Deep trees make boosting overfit quickly.",
+     "difficulty": "easy",
+     "concept": "weak learners"
+    },
+    {
+     "q": "What is a key difference between random forests and gradient boosting?",
+     "options": [
+      "Random forest builds trees in sequence to fix errors; boosting builds independent trees and averages them",
+      "Random forest uses one tree; boosting uses many",
+      "Random forest builds independent trees and averages them; boosting builds trees in sequence to fix errors",
+      "Only random forest can be used for regression"
+     ],
+     "answer": "Random forest builds independent trees and averages them; boosting builds trees in sequence to fix errors",
+     "explanation": "Bagging reduces variance by averaging independent trees, while boosting reduces bias by adding corrective trees. Both can do regression and classification.",
+     "difficulty": "easy",
+     "concept": "random forest vs boosting"
+    },
+    {
+     "q": "Which Python class is commonly used to fit an XGBoost model for forecasting a numeric target?",
+     "options": [
+      "XGBRegressor from sklearn.tree",
+      "GradientBoostingClassifier from sklearn.linear_model",
+      "XGBRegressor from the xgboost library",
+      "RandomForestRegressor from xgboost"
+     ],
+     "answer": "XGBRegressor from the xgboost library",
+     "explanation": "The xgboost package provides XGBRegressor with a scikit-learn style interface. It is not part of sklearn.tree.",
+     "difficulty": "easy",
+     "concept": "XGBRegressor"
+    },
+    {
+     "q": "In XGBoost, what does n_estimators represent?",
+     "options": [
+      "The number of input features sampled for each new tree that is added",
+      "The number of boosting rounds, that is, the number of trees added",
+      "The depth of each tree",
+      "The number of neighbours"
+     ],
+     "answer": "The number of boosting rounds, that is, the number of trees added",
+     "explanation": "Each boosting round adds one tree, so n_estimators is the maximum number of trees. Depth is max_depth.",
+     "difficulty": "easy",
+     "concept": "n_estimators"
+    },
+    {
+     "q": "A boosting model's initial forecast for a store-day is 100 units; actual sales are 130. The first tree predicts the residual exactly and the learning rate is 0.1. What is the updated forecast?",
+     "options": [
+      "103 units",
+      "130 units",
+      "110 units",
+      "100.3 units"
+     ],
+     "answer": "103 units",
+     "explanation": "Residual = 30; update = 100 + 0.1 x 30 = 103. 130 ignores the learning rate, which is exactly what shrinkage prevents.",
+     "difficulty": "medium",
+     "concept": "learning rate shrinkage"
+    },
+    {
+     "q": "Validation RMSE (on the latest months) falls until about round 350 and then rises steadily up to round 1,000. How many rounds should the final model use?",
+     "options": [
+      "1,000, since more trees are always better",
+      "About 50",
+      "About 700",
+      "About 350"
+     ],
+     "answer": "About 350",
+     "explanation": "The minimum validation error is at round 350; after that the model overfits. Early stopping automates this choice.",
+     "difficulty": "medium",
+     "concept": "early stopping"
+    },
+    {
+     "q": "An analyst lowers XGBoost's learning_rate from 0.3 to 0.05. What usually needs to change and why?",
+     "options": [
+      "Fewer rounds are needed because each tree is stronger",
+      "Nothing else changes, since the learning rate only affects how fast training runs",
+      "The trees must be made much deeper",
+      "More boosting rounds are needed, but the model often generalises better"
+     ],
+     "answer": "More boosting rounds are needed, but the model often generalises better",
+     "explanation": "Smaller steps mean each tree contributes less, so more trees are required to reach the same fit. The slower, smoother learning usually reduces overfitting.",
+     "difficulty": "medium",
+     "concept": "learning rate shrinkage"
+    },
+    {
+     "q": "An FMCG sales dataset has missing temperature values for some days. How does XGBoost handle these by default?",
+     "options": [
+      "It refuses to train until all values are filled",
+      "It silently replaces them with zero and treats those zeros as real temperatures",
+      "It learns a default branch direction for missing values at each split",
+      "It drops all rows with missing values"
+     ],
+     "answer": "It learns a default branch direction for missing values at each split",
+     "explanation": "XGBoost's sparsity-aware splitting learns which side of each split missing values should go. This is a practical advantage over many other implementations.",
+     "difficulty": "medium",
+     "concept": "missing value handling"
+    },
+    {
+     "q": "XGBoost reports 'gain' importance for a feature. What does it measure?",
+     "options": [
+      "How many times the feature appears in the data",
+      "The average improvement in the loss when that feature is used in a split",
+      "The coefficient of the feature in a linear model",
+      "The correlation between the feature and the target, measured across the training data"
+     ],
+     "answer": "The average improvement in the loss when that feature is used in a split",
+     "explanation": "Gain captures how much splits on the feature reduce error. 'Weight' importance counts splits, which can mislead.",
+     "difficulty": "medium",
+     "concept": "feature importance gain"
+    },
+    {
+     "q": "What is the effect of setting subsample = 0.8 in XGBoost?",
+     "options": [
+      "Each tree is trained on a random 80% of the rows, which adds randomness and reduces overfitting",
+      "The latest 80% of rows are reserved for testing, and each tree is trained on only the remaining 20%",
+      "Each tree uses 80% of the features",
+      "The learning rate becomes 0.8"
+     ],
+     "answer": "Each tree is trained on a random 80% of the rows, which adds randomness and reduces overfitting",
+     "explanation": "Row subsampling makes each tree see a slightly different dataset, much like bagging. Feature sampling is controlled by colsample_bytree.",
+     "difficulty": "medium",
+     "concept": "subsampling"
+    },
+    {
+     "q": "An XGBoost model with max_depth = 10 and 2,000 rounds has training RMSE 5 and validation RMSE 60. Which change is most sensible?",
+     "options": [
+      "Reduce max_depth, lower the learning rate and use early stopping on a time-ordered validation set",
+      "Increase max_depth to 20 and add more rounds so the validation error catches up with training RMSE",
+      "Add 5,000 more rounds",
+      "Evaluate on the training set instead"
+     ],
+     "answer": "Reduce max_depth, lower the learning rate and use early stopping on a time-ordered validation set",
+     "explanation": "The huge gap shows overfitting. Shallower trees, smaller steps and early stopping all rein in complexity.",
+     "difficulty": "medium",
+     "concept": "overfitting"
+    },
+    {
+     "q": "Before using XGBoost to forecast monthly sales of a consumer durables brand, what must the analyst do with the sales series?",
+     "options": [
+      "Nothing, because XGBoost automatically detects the time order and seasonality from the row order and the date index",
+      "Shuffle the months to remove autocorrelation",
+      "Difference the series twice, as in ARIMA",
+      "Create lag, rolling and calendar features, because XGBoost does not know the time order by itself"
+     ],
+     "answer": "Create lag, rolling and calendar features, because XGBoost does not know the time order by itself",
+     "explanation": "XGBoost treats each row independently, so time patterns must be supplied as features such as last month's sales and month of year. Shuffling the rows would destroy the time order.",
+     "difficulty": "medium",
+     "concept": "lag features"
+    },
+    {
+     "q": "A boosting model starts at 500 units. Three trees predict residual corrections of +200, +150 and -50, with learning rate 0.1. What is the final forecast?",
+     "options": [
+      "800 units",
+      "550 units",
+      "530 units",
+      "515 units"
+     ],
+     "answer": "530 units",
+     "explanation": "500 + 0.1 x (200 + 150 - 50) = 500 + 30 = 530. 800 ignores the learning rate, and 550 drops the negative tree.",
+     "difficulty": "medium",
+     "concept": "additive model prediction"
+    },
+    {
+     "q": "An analyst uses early stopping in XGBoost with a validation set drawn randomly from all 4 years of daily sales. What is wrong?",
+     "options": [
+      "Nothing, since random validation sets are standard",
+      "The validation set should be the most recent period; random days leak future information and make the stopping point unreliable",
+      "Early stopping cannot be used with daily data",
+      "The validation set should be the first year of data"
+     ],
+     "answer": "The validation set should be the most recent period; random days leak future information and make the stopping point unreliable",
+     "explanation": "For forecasting, both validation and test must come after the training period. Random days let the model tune on information surrounding the future.",
+     "difficulty": "medium",
+     "concept": "data leakage"
+    },
+    {
+     "q": "Initial forecast 100, actual 130, learning rate 0.1. Each tree predicts the current residual exactly. What is the forecast after two boosting rounds?",
+     "options": [
+      "106.0",
+      "105.7",
+      "103.0",
+      "130.0"
+     ],
+     "answer": "105.7",
+     "explanation": "Round 1: 100 + 0.1 x 30 = 103. Round 2: residual 27, so 103 + 2.7 = 105.7. 106 wrongly reuses the original residual of 30 in round 2.",
+     "difficulty": "hard",
+     "concept": "fitting residuals"
+    },
+    {
+     "q": "In XGBoost with squared-error loss, a leaf's weight is (sum of residuals)/(number of rows + lambda). A leaf has residuals 10, 20 and 30. What is the leaf weight with lambda = 3?",
+     "options": [
+      "10",
+      "20",
+      "60",
+      "15"
+     ],
+     "answer": "10",
+     "explanation": "60/(3 + 3) = 10. Ignoring lambda gives the plain mean of 20; 15 uses lambda = 1, so regularisation pulls the weight toward zero.",
+     "difficulty": "hard",
+     "concept": "regularisation"
+    },
+    {
+     "q": "For a single product with only 36 monthly observations, XGBoost has test MAPE 5.8% and Holt-Winters 6.0%. What is the most sensible decision?",
+     "options": [
+      "Prefer XGBoost because any lower MAPE wins",
+      "Prefer XGBoost because it can extrapolate better",
+      "Reject both and use a random split to re-test",
+      "Prefer Holt-Winters, since the tiny gain does not justify XGBoost's complexity and overfitting risk on so little data"
+     ],
+     "answer": "Prefer Holt-Winters, since the tiny gain does not justify XGBoost's complexity and overfitting risk on so little data",
+     "explanation": "With 36 points the 0.2-point difference is within noise, and Holt-Winters is simpler, stable and handles trend and seasonality. XGBoost also cannot extrapolate trends.",
+     "difficulty": "hard",
+     "concept": "comparing with classical models"
+    },
+    {
+     "q": "A quick-commerce company's weekly orders double every year. XGBoost on order levels plateaus at the historical peak. What is the best approach?",
+     "options": [
+      "Add more boosting rounds until forecasts rise",
+      "Increase max_depth so leaves can hold higher values",
+      "Model the change or growth rate (or detrended values) with XGBoost and convert forecasts back to levels",
+      "Turn off regularisation"
+     ],
+     "answer": "Model the change or growth rate (or detrended values) with XGBoost and convert forecasts back to levels",
+     "explanation": "Tree-based boosting outputs sums of leaf values learned from the past, so it cannot follow an unseen rising level. Removing the trend first fixes this.",
+     "difficulty": "hard",
+     "concept": "trees cannot extrapolate"
+    },
+    {
+     "q": "An analyst forecasts 12 weeks ahead with XGBoost by feeding each week's forecast back in as lag_1 for the next week. Accuracy degrades sharply by week 12. Why, and what is an alternative?",
+     "options": [
+      "XGBoost cannot forecast more than one step; switch to KNN",
+      "The learning rate is too low; set it to 1",
+      "Errors compound when forecasts are used as inputs; training direct models per horizon using only available lags is an alternative",
+      "The model needs a random train-test split"
+     ],
+     "answer": "Errors compound when forecasts are used as inputs; training direct models per horizon using only available lags is an alternative",
+     "explanation": "Recursive forecasting feeds mistakes forward, so errors accumulate. Direct strategies train a model for each horizon with lags that are actually known at that point.",
+     "difficulty": "hard",
+     "concept": "recursive multi-step forecasting"
+    },
+    {
+     "q": "Tuning results on the latest months: lr 0.3 best at round 80, val RMSE 41; lr 0.05 best at round 600, val RMSE 37; lr 0.01 reached the 1,000-round limit with val RMSE 39 and still falling. What should be chosen?",
+     "options": [
+      "learning_rate 0.3, because it trains fastest",
+      "learning_rate 0.05 with about 600 rounds, as it has the lowest validation RMSE found",
+      "learning_rate 0.01 with 1,000 rounds, because smaller is always better",
+      "learning_rate 0.3 with 1,000 rounds"
+     ],
+     "answer": "learning_rate 0.05 with about 600 rounds, as it has the lowest validation RMSE found",
+     "explanation": "0.05 gives the best validated error so far. 0.01 might eventually improve but would need more rounds to show it; 0.3 with more rounds would overfit beyond its best round of 80.",
+     "difficulty": "hard",
+     "concept": "learning rate shrinkage"
+    },
+    {
+     "q": "Daily sales data for a mall store contains a few extreme spikes from one-off bulk orders. XGBoost with squared-error loss chases these spikes. Which fix is most appropriate?",
+     "options": [
+      "Use a more robust loss (such as absolute or Huber) or treat the outliers, and strengthen regularisation",
+      "Increase the learning rate to 1",
+      "Add more rounds so the spikes are fitted exactly",
+      "Remove the time-ordered split"
+     ],
+     "answer": "Use a more robust loss (such as absolute or Huber) or treat the outliers, and strengthen regularisation",
+     "explanation": "Squared error weights large residuals heavily, and boosting keeps adding trees to fit them. Robust losses, outlier treatment and regularisation reduce this.",
+     "difficulty": "hard",
+     "concept": "sensitivity to noise"
+    },
+    {
+     "q": "XGBoost shows 'discount_pct' with the highest gain. A category manager asks whether bigger discounts raise or lower sales. What should the analyst say?",
+     "options": [
+      "Higher gain means bigger discounts always raise sales",
+      "Higher gain means discounts reduce sales",
+      "Gain equals the percentage change in sales per 1% discount",
+      "Gain shows the feature matters but not the direction; use partial dependence or SHAP plots to see how sales respond"
+     ],
+     "answer": "Gain shows the feature matters but not the direction; use partial dependence or SHAP plots to see how sales respond",
+     "explanation": "Importance measures usefulness for splitting, not the sign of the effect. Partial dependence or SHAP values show the direction and shape of the response.",
+     "difficulty": "hard",
+     "concept": "feature importance gain"
+    },
+    {
+     "q": "XGBoost's gamma (min_split_loss) is set to 5. A candidate split would reduce the loss by 4.5. What happens?",
+     "options": [
+      "The split is made, because any positive gain is accepted",
+      "The split is made and gamma is reduced to 4.5",
+      "The whole tree is discarded",
+      "The split is not made, because its gain is below gamma"
+     ],
+     "answer": "The split is not made, because its gain is below gamma",
+     "explanation": "Gamma is the minimum loss reduction required for a split; 4.5 is less than 5, so the node stays a leaf. This prunes splits that add little.",
+     "difficulty": "hard",
+     "concept": "regularisation"
+    },
+    {
+     "q": "XGBoost scores a node as (sum of residuals)^2 / (number of rows + lambda), with lambda = 1. A node with residuals 10, 20 and -30 is split into {10, 20} and {-30}. What is the gain (left score + right score - parent score)?",
+     "options": [
+      "0",
+      "300",
+      "750",
+      "1,350"
+     ],
+     "answer": "750",
+     "explanation": "Parent: 0^2/4 = 0. Left: 30^2/3 = 300. Right: (-30)^2/2 = 450. Gain = 300 + 450 - 0 = 750. 1,350 ignores lambda (450 + 900), and 0 wrongly assumes a zero-sum parent means no gain.",
+     "difficulty": "hard",
+     "concept": "split gain calculation"
+    }
+   ],
+   "references": [
+    "Gradient boosting builds a forecast step by step. It starts with a simple guess, such as average sales, then adds a small decision tree that predicts the errors of that guess, then another tree for the remaining errors, and so on. Each tree's contribution is shrunk by a learning rate so the model learns gradually. XGBoost is a fast, regularised version that penalises complex trees, handles missing values and supports early stopping on a validation set. For forecasting we give it lag, rolling and calendar features, validate on the latest period, and remember that, being tree-based, it cannot extrapolate trends.",
+    "Suppose we forecast daily sales for a supermarket. The first guess is 100 units, but actual sales were 130. The first small tree learns that this kind of day is under-forecast by 30, and with a learning rate of 0.1 we move the forecast to 103. The next tree corrects the remaining 27, and hundreds of trees later the forecast is close. XGBoost does this using features like last week's sales, promotions and festival flags. We stop adding trees when error on the most recent months stops improving, otherwise the model starts memorising noise, and we compare it with Holt-Winters or SARIMA.",
+    "As a manager, I would think of XGBoost as the high-accuracy option among machine learning forecasters. It often wins competitions because each tree fixes the mistakes of the previous ones, and regularisation, subsampling and early stopping keep it in check. But it needs careful tuning of learning rate, depth and number of trees, more data than classical models, and well-built lag features without leakage. It cannot project growth beyond history, and importance scores do not show direction. I would use it for driver-rich, multi-SKU forecasting where it clearly beats simpler benchmarks on a time-ordered test, not for a short single series."
+   ],
+   "key_concepts": [
+    "boosting",
+    "sequential",
+    "residuals",
+    "errors of previous trees",
+    "weak learners",
+    "learning rate",
+    "number of trees",
+    "regularisation",
+    "early stopping",
+    "overfitting",
+    "max depth",
+    "lag features",
+    "feature importance",
+    "cannot extrapolate"
+   ]
+  }
+ ]
+}

@@ -717,7 +717,7 @@ input::placeholder, textarea::placeholder { color: var(--color-text-3); }
 .badge { border-radius: 3px; padding: 4px 9px; }
 .badge::before { content: '◆'; font-size: .45em; opacity: .6; }
 
-.progress-track { height: 8px; background: linear-gradient(90deg, var(--color-surface-3), #F4EDE2); }
+.progress-track { height: 8px; background:linear-gradient(90deg,var(--color-surface-3),var(--color-surface-2)); }
 .progress-fill { position:relative; overflow:hidden; }
 .progress-fill::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent); animation: progressSheen 2.7s ease-in-out infinite; }
 
@@ -1000,7 +1000,7 @@ input::placeholder, textarea::placeholder { color: var(--color-text-3); }
 .glass-panel::before,.glass-panel-glow::before,.stat-tile::after { z-index:0; }
 .glass-panel::after,.glass-panel-glow::after { z-index:0; }
 .glass-panel > *,.glass-panel-glow > *,.stat-tile > *,.card > * { position:relative; z-index:1; }
-.progress-track { height:8px; background:linear-gradient(90deg,var(--color-surface-3),#F4EDE2); }
+.progress-track { height:8px; background:linear-gradient(90deg,var(--color-surface-3),var(--color-surface-2)); }
 .progress-fill { position:relative; overflow:hidden; }
 .progress-fill::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent); animation:progressSheen 2.7s ease-in-out infinite; }
 

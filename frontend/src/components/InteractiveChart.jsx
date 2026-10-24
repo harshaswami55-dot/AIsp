@@ -67,7 +67,7 @@ export default function InteractiveChart({
         <div style={{ width: '100%', overflowX: 'auto' }}>
           <svg viewBox={`0 0 ${width} ${chartHeight}`} style={{ width: '100%', height: `${chartHeight}px` }}>
             {/* Grid & Zero Axis */}
-            <line x1={padding.left} y1={zeroY} x2={width - padding.right} y2={zeroY} stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
+            <line x1={padding.left} y1={zeroY} x2={width - padding.right} y2={zeroY} stroke="var(--color-border-md)" strokeWidth="1.5" />
             
             {/* Confidence Bounds */}
             <line x1={padding.left} y1={boundYTop} x2={width - padding.right} y2={boundYTop} stroke="#3b82f6" strokeDasharray="4 4" strokeWidth="1.2" />
@@ -192,7 +192,7 @@ export default function InteractiveChart({
             const val = minVal + ratio * range;
             return (
               <g key={idx}>
-                <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="var(--color-border-md)" strokeDasharray="3 3" />
                 <text x={padding.left - 10} y={y + 4} fill="#64748b" fontSize="10" textAnchor="end">
                   {val >= 1000 ? `${(val/1000).toFixed(1)}k` : Math.round(val)}
                 </text>
