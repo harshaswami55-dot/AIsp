@@ -41,7 +41,7 @@ export default function App() {
   };
 
   if (restoringSession) return <div className="public-loading" role="status">Restoring your session…</div>;
-  if (!currentUser) return showLogin ? <LoginView onLogin={handleLogin} onBack={() => setShowLogin(false)} /> : <LandingView onContinue={() => setShowLogin(true)} />;
+  if (!currentUser) return <LoginView onLogin={handleLogin} onBack={() => {}} />;
 
   if (currentUser.role === 'faculty') {
     return <FacultyPortal currentUser={currentUser} onLogout={handleLogout} />;
