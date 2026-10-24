@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+env/
+.venv/
+*.egg
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Binaries
+cloudflared.exe
+*.exe
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
