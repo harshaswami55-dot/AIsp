@@ -25,21 +25,8 @@ export default function App() {
   };
 
   useEffect(() => {
-    let active = true;
-    const token = localStorage.getItem('ai360_token');
-    if (!token) {
-      setRestoringSession(false);
-      return () => { active = false; };
-    }
-    authFetch('/api/auth/me')
-      .then(async (res) => {
-        if (!res.ok) throw new Error('Session expired');
-        return res.json();
-      })
-      .then(user => { if (active) setCurrentUser(user); })
-      .catch(() => { clearAuth(); })
-      .finally(() => { if (active) setRestoringSession(false); });
-    return () => { active = false; };
+    setRestoringSession(false);
+    clearAuth();
   }, []);
 
   useEffect(() => {
