@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { authFetch } from '../api';
 import {
   GraduationCap, Send, CheckCircle2, AlertTriangle, Award,
   Sparkles, RefreshCw, BarChart2
@@ -24,7 +25,7 @@ export default function TeachAIView() {
 
     setSubmitting(true);
     try {
-      const res = await fetch('/api/ai/teach', {
+      const res = await authFetch('/api/ai/teach', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic, explanation })

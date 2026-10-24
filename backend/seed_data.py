@@ -8,18 +8,67 @@ Contains:
 4. Demo Student & Demo Faculty profiles with realistic analytics
 5. Interventions & Misconceptions
 """
+import csv
 import json
 import math
+import os
 import unicodedata
 import numpy as np
 import pandas as pd
 from datetime import datetime
+from sqlalchemy import func
 from database import (
     SessionLocal, init_db, User, Course, Module, Topic, SubTopic, CourseOutcome,
     Question, StudentMastery, MasteryHistory, Misconception, ForecastDataset,
     FacultyIntervention, IndependenceSession, DiagnosticAttempt
 )
-from auth import hash_password
+from auth import hash_password, verify_password
+
+# Roster with real logins is never committed: local backend/users.csv, or a Render Secret File.
+ROSTER_PATHS = [
+    os.getenv("ROSTER_CSV", ""),
+    "/etc/secrets/users.csv",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.csv"),
+]
+DEMO_USERNAMES = ["demostudent", "demofaculty", "demoadmin"]
+ROSTER_ROLES = {"student": "student", "faculty": "faculty", "admin": "admin", "dean": "admin"}
+
+
+def load_roster():
+    """Creates/updates accounts from the roster CSV (name,email,password,role,status,usn).
+    Inactive rows lose their password; demo accounts are disabled in production."""
+    db = SessionLocal()
+    try:
+        if os.getenv("ENVIRONMENT") == "production":
+            db.query(User).filter(User.username.in_(DEMO_USERNAMES)).update(
+                {User.hashed_password: ""}, synchronize_session=False
+            )
+        path = next((p for p in ROSTER_PATHS if p and os.path.exists(p)), None)
+        if not path:
+            print("WARNING: no roster CSV found; no new accounts loaded.")
+            db.commit()
+            return
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            for row in csv.DictReader(f):
+                email = (row.get("email") or "").strip().lower()
+                role = ROSTER_ROLES.get((row.get("role") or "").strip().lower())
+                if not email or not role:
+                    print(f"WARNING: skipping roster row with bad email/role: {row.get('email')!r}")
+                    continue
+                user = db.query(User).filter(func.lower(User.email) == email).first()
+                if not user:
+                    user = User(email=email, username=((row.get("usn") or "").strip() or email.split("@")[0]).lower())
+                    db.add(user)
+                user.full_name = row["name"].strip()
+                user.role = role
+                password = row["password"].strip()
+                if (row.get("status") or "active").strip().lower() != "active":
+                    user.hashed_password = ""
+                elif not verify_password(password, user.hashed_password or ""):
+                    user.hashed_password = hash_password(password)
+        db.commit()
+    finally:
+        db.close()
 
 def generate_sample_datasets():
     """Generates 5 realistic MBA business forecasting time-series datasets."""

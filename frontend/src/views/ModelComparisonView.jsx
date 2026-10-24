@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { authFetch } from '../api';
 import {
   Scale, Award, CheckCircle2, TrendingUp, RefreshCw,
   HelpCircle, ShieldCheck, FileSpreadsheet, ChevronRight
@@ -22,7 +23,7 @@ export default function ModelComparisonView() {
 
   const fetchDatasets = async () => {
     try {
-      const res = await fetch('/api/forecast/datasets');
+      const res = await authFetch('/api/forecast/datasets');
       const data = await res.json();
       setDatasets(data.datasets || []);
       if (data.datasets?.length > 0) {
@@ -36,7 +37,7 @@ export default function ModelComparisonView() {
   const runComparison = async (id) => {
     setLoading(true);
     try {
-      const res = await fetch('/api/forecast/compare', {
+      const res = await authFetch('/api/forecast/compare', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dataset_id: id, horizon: 6 })

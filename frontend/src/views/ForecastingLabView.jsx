@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { authFetch } from '../api';
 import {
   BarChart3, Upload, Play, RefreshCw, Layers, Database,
   Sliders, TrendingUp, AlertCircle, FileText, CheckCircle2, ChevronRight
@@ -40,7 +41,7 @@ export default function ForecastingLabView() {
 
   const fetchDatasets = async () => {
     try {
-      const res = await fetch('/api/forecast/datasets');
+      const res = await authFetch('/api/forecast/datasets');
       const data = await res.json();
       setDatasets(data.datasets || []);
       if (data.datasets && data.datasets.length > 0) {
@@ -55,12 +56,12 @@ export default function ForecastingLabView() {
     setAnalyzing(true);
     try {
       // 1. Fetch details
-      const detRes = await fetch(`/api/forecast/dataset/${id}`);
+      const detRes = await authFetch(`/api/forecast/dataset/${id}`);
       const det = await detRes.json();
       setDatasetDetails(det);
 
       // 2. Run analysis
-      const anaRes = await fetch('/api/forecast/analyse', {
+      const anaRes = await authFetch('/api/forecast/analyse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dataset_id: id })
@@ -78,7 +79,7 @@ export default function ForecastingLabView() {
   const handleTrainModel = async () => {
     setTraining(true);
     try {
-      const res = await fetch('/api/forecast/train', {
+      const res = await authFetch('/api/forecast/train', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -108,7 +109,7 @@ export default function ForecastingLabView() {
 
     setUploading(true);
     try {
-      const res = await fetch('/api/forecast/upload', {
+      const res = await authFetch('/api/forecast/upload', {
         method: 'POST',
         body: formData
       });

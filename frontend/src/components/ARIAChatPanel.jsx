@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { authFetch } from '../api';
 import {
   Brain, Send, Sparkles, AlertTriangle, BookOpen,
   MessageSquare, Compass, CheckCircle2, RefreshCw,
@@ -14,7 +15,7 @@ function useAgentChat(pageContext) {
   const sessionId = useRef('aria-' + Math.random().toString(36).substr(2, 9));
 
   useEffect(() => {
-    fetch('/api/agent/status')
+    authFetch('/api/agent/status')
       .then(r => r.json())
       .then(d => setOllamaStatus(d))
       .catch(() => setOllamaStatus({ online: false, models: [] }));
@@ -26,7 +27,7 @@ function useAgentChat(pageContext) {
     setMessages(prev => [...prev, userMsg]);
     setLoading(true);
     try {
-      const res = await fetch('/api/agent/chat', {
+      const res = await authFetch('/api/agent/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -57,7 +58,7 @@ function useAgentChat(pageContext) {
   }, [pageContext]);
 
   const clearChat = useCallback(async () => {
-    await fetch(`/api/agent/clear?session_id=${sessionId.current}`, { method: 'POST' });
+    await authFetch(`/api/agent/clear?session_id=${sessionId.current}`, { method: 'POST' });
     setMessages([]);
   }, []);
 

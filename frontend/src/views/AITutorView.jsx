@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { authFetch } from '../api';
 import {
   Brain, Send, Sparkles, AlertTriangle, BookOpen,
   MessageSquare, Compass, CheckCircle2, RefreshCw
@@ -58,7 +59,7 @@ export default function AITutorView() {
     setLoadingTutor(true);
 
     try {
-      const res = await fetch('/api/ai/tutor', {
+      const res = await authFetch('/api/ai/tutor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: userText, mode: 'standard' })
@@ -83,7 +84,7 @@ export default function AITutorView() {
     setLoadingSocratic(true);
 
     try {
-      const res = await fetch('/api/ai/socratic', {
+      const res = await authFetch('/api/ai/socratic', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -105,7 +106,7 @@ export default function AITutorView() {
   const handleRunCoach = async () => {
     setLoadingCoach(true);
     try {
-      const res = await fetch('/api/ai/coach', {
+      const res = await authFetch('/api/ai/coach', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(coachForm)

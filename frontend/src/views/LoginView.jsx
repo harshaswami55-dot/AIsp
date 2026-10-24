@@ -13,7 +13,6 @@ const ROLES = [
     color: 'var(--color-student)',
     colorAlpha: 'rgba(74,127,165,0.10)',
     colorBorder: 'rgba(74,127,165,0.25)',
-    demoUser: 'student',
     stats: ['AI Study Planner', 'Skill Studio', 'Teach the AI'],
   },
   {
@@ -25,7 +24,6 @@ const ROLES = [
     color: 'var(--color-faculty)',
     colorAlpha: 'rgba(107,127,74,0.10)',
     colorBorder: 'rgba(107,127,74,0.25)',
-    demoUser: 'faculty',
     stats: ['Class Overview', 'Student Insights', 'Misconceptions'],
   },
   {
@@ -37,7 +35,6 @@ const ROLES = [
     color: 'var(--color-dean)',
     colorAlpha: 'rgba(122,74,107,0.10)',
     colorBorder: 'rgba(122,74,107,0.25)',
-    demoUser: 'admin',
     stats: ['Dept. Performance', 'Faculty Insights', 'Subject Analysis'],
   },
 ];
@@ -59,16 +56,21 @@ export default function LoginView({ onLogin, onBack }) {
     setError('');
 
     try {
-      // Determine demo user based on selected role
-      const demoUser = selectedRole === 'dean' ? 'admin' : (selectedRole || 'student');
-      const res = await apiFetch(`/api/auth/demo/${demoUser}`);
-      if (!res.ok) throw new Error('Authentication failed. Please check your credentials.');
+      const res = await apiFetch('/api/auth/token', {
+        method: 'POST',
+        body: { username: email.trim(), password },
+      });
+      if (res.status === 401) throw new Error('Incorrect email or password.');
+      if (!res.ok) throw new Error('Authentication failed. Please try again.');
       const data = await res.json();
       if (!data.access_token) throw new Error('The server did not return an authentication token.');
 
+      const role = data.role === 'admin' ? 'dean' : data.role;
+      if (selectedRole && role !== selectedRole) {
+        throw new Error(`This is a ${role} account. Go back and choose the ${role} role.`);
+      }
       localStorage.setItem('ai360_token', data.access_token);
-      const role = selectedRole === 'dean' ? (data.role === 'admin' ? 'dean' : data.role) : (selectedRole || data.role);
-      onLogin({ ...data, role, email });
+      onLogin({ ...data, role });
     } catch (err) {
       setError(err.message || 'Could not connect to the server. Please try again.');
     } finally {
@@ -149,10 +151,7 @@ export default function LoginView({ onLogin, onBack }) {
                   key={role.id}
                   onClick={() => {
                     setSelectedRole(role.id);
-                    // Pre-fill a realistic email based on role
-                    if (role.id === 'student') setEmail('student.sb6202@rvu.edu.in');
-                    else if (role.id === 'faculty') setEmail('faculty.forecasting@rvu.edu.in');
-                    else setEmail('dean.business@rvu.edu.in');
+                    setError('');
                   }}
                   style={{
                     background: 'var(--color-surface)',

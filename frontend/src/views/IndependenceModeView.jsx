@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { authFetch } from '../api';
 import {
   ShieldCheck, Award, Zap, HelpCircle, AlertCircle,
   TrendingUp, RefreshCw, CheckCircle2, ArrowRight
@@ -20,7 +21,7 @@ export default function IndependenceModeView() {
 
   const fetchChallenge = async () => {
     try {
-      const res = await fetch('/api/independence/challenge');
+      const res = await authFetch('/api/independence/challenge');
       const data = await res.json();
       setChallenge(data);
       setCurrentLevel(data.current_scaffolding_level || 2);
@@ -31,7 +32,7 @@ export default function IndependenceModeView() {
 
   const handleRequestHint = async () => {
     try {
-      const res = await fetch(`/api/independence/hint?level=${currentLevel}`, { method: 'POST' });
+      const res = await authFetch(`/api/independence/hint?level=${currentLevel}`, { method: 'POST' });
       const data = await res.json();
       setHintText(data.hint);
       setHintsUsed(prev => prev + 1);
@@ -50,7 +51,7 @@ export default function IndependenceModeView() {
     const isCorrect = (selectedModel === challenge?.correct_choice);
 
     try {
-      const res = await fetch('/api/independence/submit', {
+      const res = await authFetch('/api/independence/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

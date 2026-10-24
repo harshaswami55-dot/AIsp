@@ -50,3 +50,6 @@ Thumbs.db
 .pytest_cache/
 htmlcov/
 .coverage
+
+# Login roster (real passwords) - upload to Render as a Secret File, never commit
+backend/users.csv

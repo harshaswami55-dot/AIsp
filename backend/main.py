@@ -14,6 +14,7 @@ from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form, sta
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from database import (
@@ -24,7 +25,7 @@ from database import (
     LearningJourneyAttempt, LearningFatigueLog, Reflection,
     LearningRecommendation
 )
-from seed_data import seed_database
+from seed_data import seed_database, load_roster
 from auth import (
     verify_password, create_access_token,
     get_current_user_payload, require_student, require_faculty, require_dean,
@@ -54,6 +55,7 @@ app = FastAPI(
 def initialize_database():
     init_db()
     seed_database()
+    load_roster()
 
 cors_origins = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",") if origin.strip()]
 app.add_middleware(
@@ -70,12 +72,15 @@ def health_check():
     return {"status": "ok"}
 
 
+MAX_UPLOAD_BYTES = 2_000_000
+
+
 # ====================================================
 # PYDANTIC SCHEMAS
 # ====================================================
 class LoginRequest(BaseModel):
     username: str
-    password: Optional[str] = "password"
+    password: str
 
 class DiagnosticSubmitRequest(BaseModel):
     user_id: int
@@ -108,7 +113,6 @@ class ForecastTrainRequest(BaseModel):
     parameters: Optional[Dict[str, Any]] = {}
 
 class IndependenceSubmitRequest(BaseModel):
-    user_id: int
     current_level: int
     hints_used: int
     selected_model: str
@@ -144,10 +148,11 @@ class PracticeCompletionRequest(BaseModel):
 @app.post("/api/auth/token")
 def login_jwt(req: LoginRequest, db: Session = Depends(get_db)):
     """Authenticated login returning a signed JWT access token."""
+    login = req.username.strip().lower()
     user = db.query(User).filter(
-        (User.username == req.username) | (User.email == req.username)
+        (func.lower(User.username) == login) | (func.lower(User.email) == login)
     ).first()
-    if not user or not verify_password(req.password or "password", user.hashed_password or ""):
+    if not user or not verify_password(req.password, user.hashed_password or ""):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     token = create_access_token({"sub": str(user.id), "role": user.role, "name": user.full_name})
     return {
@@ -155,6 +160,7 @@ def login_jwt(req: LoginRequest, db: Session = Depends(get_db)):
         "token_type": "bearer",
         "id": user.id,
         "username": user.username,
+        "email": user.email,
         "role": user.role,
         "full_name": user.full_name,
     }
@@ -171,24 +177,6 @@ def get_authenticated_user(payload: dict = Depends(get_current_user_payload), db
         raise HTTPException(status_code=401, detail="User account no longer exists")
     return {"id": user.id, "username": user.username, "email": user.email, "role": user.role, "full_name": user.full_name}
 
-
-@app.get("/api/auth/demo/{role}")
-def demo_login_jwt(role: str, db: Session = Depends(get_db)):
-    """Demo: returns user info and a signed JWT for the selected role."""
-    role_alias = {"dean": "admin"}.get(role.lower(), role.lower())
-    user = db.query(User).filter(User.role == role_alias).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="Demo account not found")
-    token = create_access_token({"sub": str(user.id), "role": user.role, "name": user.full_name})
-    return {
-        "access_token": token,
-        "token_type": "bearer",
-        "id": user.id,
-        "username": user.username,
-        "email": user.email,
-        "role": user.role,
-        "full_name": user.full_name,
-    }
 
 
 # ====================================================
@@ -293,7 +281,7 @@ def get_student_dashboard(
 # DIAGNOSTIC TEST ENDPOINTS
 # ====================================================
 @app.get("/api/diagnostic/questions")
-def get_diagnostic_questions(db: Session = Depends(get_db)):
+def get_diagnostic_questions(db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """Returns every valid diagnostic question across all course modules."""
     questions = db.query(Question).order_by(Question.id).all()
     out = []
@@ -409,7 +397,7 @@ def submit_diagnostic(req: DiagnosticSubmitRequest, db: Session = Depends(get_db
 # PERSONALIZED LEARNING PATH
 # ====================================================
 @app.get("/api/student/learning-path")
-def get_personalized_learning_path(db: Session = Depends(get_db)):
+def get_personalized_learning_path(db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """
     Returns prerequisite dependency graph for Business Forecasting:
     Stationarity -> ADF Test -> Differencing -> ACF/PACF -> AR/MA -> ARIMA -> SARIMA -> ML Forecasting
@@ -495,13 +483,13 @@ def get_personalized_learning_path(db: Session = Depends(get_db)):
 # AI TUTOR & SOCRATIC LEARNING
 # ====================================================
 @app.post("/api/ai/tutor")
-def ask_ai_tutor(req: AITutorRequest):
+def ask_ai_tutor(req: AITutorRequest, payload: dict = Depends(require_student)):
     """Business Forecasting AI Tutor endpoint. Tries Ollama agent first, falls back to static engine."""
     status_info = check_ollama_status()
     if status_info["online"]:
         result = agent_chat(
             user_message=req.query,
-            session_id=f"tutor_{req.query[:20]}",
+            session_id=f"tutor_{payload['sub']}",
             page_context="AI Tutor",
             model=status_info["models"][0] if status_info["models"] else "llama3.2:3b"
         )
@@ -514,32 +502,32 @@ def ask_ai_tutor(req: AITutorRequest):
 # AI AGENT ENDPOINTS (Ollama)
 # ====================================================
 @app.post("/api/agent/chat")
-def agent_chat_endpoint(req: AgentChatRequest):
+def agent_chat_endpoint(req: AgentChatRequest, payload: dict = Depends(require_student)):
     """
     Full agentic AI chat with Ollama LLM, tool-use, and multi-turn memory.
     Supports: ADF test tool, dataset info tool, syllabus RAG tool, accuracy metrics tool.
     """
     result = agent_chat(
         user_message=req.message,
-        session_id=req.session_id,
+        session_id=f"{payload['sub']}:{req.session_id}",
         page_context=req.page_context,
         model=req.model
     )
     return result
 
 @app.get("/api/agent/status")
-def get_agent_status():
+def get_agent_status(_: dict = Depends(require_student)):
     """Check Ollama availability and list available models."""
     return check_ollama_status()
 
 @app.post("/api/agent/clear")
-def clear_agent_session(session_id: str = "default"):
+def clear_agent_session(session_id: str = "default", payload: dict = Depends(require_student)):
     """Clear conversation history for a session (start fresh)."""
-    clear_history(session_id)
+    clear_history(f"{payload['sub']}:{session_id}")
     return {"message": f"Session '{session_id}' cleared.", "session_id": session_id}
 
 @app.post("/api/ai/socratic")
-def socratic_dialogue(req: AITutorRequest):
+def socratic_dialogue(req: AITutorRequest, _: dict = Depends(require_student)):
     """Socratic inquiry engine: AI never gives away answers; prompts with guiding questions."""
     reply = socratic_dialogue_step(req.topic or "ARIMA", req.query, req.turn_count or 1)
     return {
@@ -550,7 +538,7 @@ def socratic_dialogue(req: AITutorRequest):
     }
 
 @app.post("/api/ai/teach")
-def teach_the_ai(req: TeachAIRequest):
+def teach_the_ai(req: TeachAIRequest, _: dict = Depends(require_student)):
     """
     Teach-the-AI mode:
     Student explains a forecasting concept (MAPE, ARIMA, Stationarity, SARIMA, XGBoost)
@@ -560,13 +548,13 @@ def teach_the_ai(req: TeachAIRequest):
     return evaluation
 
 @app.post("/api/ai/coach")
-def get_model_recommendation(req: ModelCoachRequest):
+def get_model_recommendation(req: ModelCoachRequest, _: dict = Depends(require_student)):
     """Model Selection Coach ("Which forecasting model should I use?")."""
     res = model_selection_coach(req.dict())
     return res
 
 @app.get("/api/rag/query")
-def rag_search(q: str):
+def rag_search(q: str, _: dict = Depends(require_student)):
     """Course-specific RAG grounded in RV University SB6202 approved syllabus material."""
     q_low = q.lower()
     matches = []
@@ -591,7 +579,7 @@ def rag_search(q: str):
 # FORECASTING LAB ENDPOINTS
 # ====================================================
 @app.get("/api/forecast/datasets")
-def list_datasets(db: Session = Depends(get_db)):
+def list_datasets(db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """Returns sample and uploaded datasets."""
     datasets = db.query(ForecastDataset).all()
     out = []
@@ -611,7 +599,7 @@ def list_datasets(db: Session = Depends(get_db)):
     return {"datasets": out}
 
 @app.get("/api/forecast/dataset/{dataset_id}")
-def get_dataset_details(dataset_id: int, db: Session = Depends(get_db)):
+def get_dataset_details(dataset_id: int, db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """Returns full records and schema for a specific dataset."""
     ds = db.query(ForecastDataset).filter(ForecastDataset.id == dataset_id).first()
     if not ds:
@@ -630,9 +618,11 @@ def get_dataset_details(dataset_id: int, db: Session = Depends(get_db)):
     }
 
 @app.post("/api/forecast/upload")
-async def upload_custom_dataset(file: UploadFile = File(...), name: Optional[str] = Form(None), db: Session = Depends(get_db)):
+async def upload_custom_dataset(file: UploadFile = File(...), name: Optional[str] = Form(None), db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """Upload custom CSV dataset."""
-    contents = await file.read()
+    contents = await file.read(MAX_UPLOAD_BYTES + 1)
+    if len(contents) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="CSV must be under 2 MB.")
     try:
         df = pd.read_csv(io.StringIO(contents.decode('utf-8')))
     except Exception as e:
@@ -675,7 +665,7 @@ async def upload_custom_dataset(file: UploadFile = File(...), name: Optional[str
     }
 
 @app.post("/api/forecast/analyse")
-def analyse_time_series(req: Dict[str, Any], db: Session = Depends(get_db)):
+def analyse_time_series(req: Dict[str, Any], db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """
     Performs comprehensive statistical analysis:
     - Data table & summary stats
@@ -741,7 +731,7 @@ def analyse_time_series(req: Dict[str, Any], db: Session = Depends(get_db)):
     }
 
 @app.post("/api/forecast/train")
-def train_forecasting_model(req: ForecastTrainRequest, db: Session = Depends(get_db)):
+def train_forecasting_model(req: ForecastTrainRequest, db: Session = Depends(get_db), payload: dict = Depends(require_student)):
     """
     Fits real forecasting model:
     - Classical: Naive, Moving Average, SES, Holt, Holt-Winters
@@ -812,15 +802,20 @@ def train_forecasting_model(req: ForecastTrainRequest, db: Session = Depends(get
     future_timestamps = [f"Horizon+{i+1}" for i in range(req.horizon)]
 
     # Record forecast run
+    metrics = result.get("metrics", {})
     fr = ForecastRun(
-        user_id=1,
-        dataset_name=ds.name,
+        user_id=int(payload["sub"]),
+        dataset_id=ds.id,
         model_name=result.get("model_name", req.model_name),
-        model_type=result.get("model_type", "Time Series"),
         parameters_json=json.dumps(params),
-        metrics_json=json.dumps(result.get("metrics", {})),
-        predictions_json=json.dumps(result.get("forecast_values", result.get("future_forecasts", []))),
-        business_interpretation=result.get("managerial", {}).get("business_interpretation", ""),
+        results_json=json.dumps({
+            "model_type": result.get("model_type", "Time Series"),
+            "predictions": result.get("forecast_values", result.get("future_forecasts", [])),
+            "business_interpretation": result.get("managerial", {}).get("business_interpretation", ""),
+        }),
+        rmse=metrics.get("rmse"),
+        mae=metrics.get("mae"),
+        mape=metrics.get("mape"),
         managerial_recommendation=result.get("managerial", {}).get("managerial_recommendation", "")
     )
     db.add(fr)
@@ -835,7 +830,7 @@ def train_forecasting_model(req: ForecastTrainRequest, db: Session = Depends(get
     }
 
 @app.post("/api/forecast/compare")
-def compare_forecasting_models(req: Dict[str, Any], db: Session = Depends(get_db)):
+def compare_forecasting_models(req: Dict[str, Any], db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """
     Head-to-head comparison across:
     Moving Average, Holt-Winters, ARIMA, SARIMA, Random Forest, XGBoost.
@@ -866,7 +861,7 @@ def compare_forecasting_models(req: Dict[str, Any], db: Session = Depends(get_db
 # AI INDEPENDENCE MODE
 # ====================================================
 @app.get("/api/independence/challenge")
-def get_independence_challenge(user_id: Optional[int] = 1, db: Session = Depends(get_db)):
+def get_independence_challenge(db: Session = Depends(get_db), _: dict = Depends(require_student)):
     """
     Loads unseen forecasting challenge where student solves independently
     with progressively reduced AI scaffolding (Levels 0 to 5).
@@ -890,7 +885,7 @@ def get_independence_challenge(user_id: Optional[int] = 1, db: Session = Depends
     return challenge
 
 @app.post("/api/independence/hint")
-def request_independence_hint(level: int = 2):
+def request_independence_hint(level: int = 2, _: dict = Depends(require_student)):
     """Provides scaffolding according to current independence level."""
     hints = {
         0: "Full Guidance: Look at the 12-month seasonality and upward drift. An ordinary moving average will fail to capture the recurring peak. SARIMA(1,1,1)x(1,1,1)_12 is recommended.",
@@ -903,7 +898,7 @@ def request_independence_hint(level: int = 2):
     return {"level": level, "hint": hints.get(level, "Rely on your statistical diagnostics.")}
 
 @app.post("/api/independence/submit")
-def submit_independence_solution(req: IndependenceSubmitRequest, db: Session = Depends(get_db)):
+def submit_independence_solution(req: IndependenceSubmitRequest, db: Session = Depends(get_db), payload: dict = Depends(require_student)):
     """Evaluates student's independent solution and computes AI Independence Gain."""
     eval_res = evaluate_independence_attempt(
         current_level=req.current_level,
@@ -914,17 +909,12 @@ def submit_independence_solution(req: IndependenceSubmitRequest, db: Session = D
 
     # Record session
     session = IndependenceSession(
-        user_id=req.user_id,
-        challenge_title="National Hotel Room Demand Shock",
+        user_id=int(payload["sub"]),
         current_level=eval_res["new_level"],
         hints_used=req.hints_used,
-        ai_assistance_count=req.hints_used,
-        independent_attempts=1,
-        initial_unaided_score=eval_res["initial_unaided_score"],
-        supported_score=eval_res["supported_performance"],
-        final_unaided_score=eval_res["final_unaided_score"],
-        independence_gain=round(eval_res["final_unaided_score"] - eval_res["initial_unaided_score"], 1),
-        status="completed" if eval_res["new_level"] >= 4 else "in_progress"
+        completed=eval_res["new_level"] >= 4,
+        ai_independence_score=eval_res["final_unaided_score"],
+        completed_at=datetime.utcnow() if eval_res["new_level"] >= 4 else None,
     )
     db.add(session)
     db.commit()

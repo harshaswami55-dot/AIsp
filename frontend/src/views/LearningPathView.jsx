@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { authFetch } from '../api';
 import {
   GitCommit, CheckCircle2, Clock, Lock, ArrowRight,
   Sparkles, BookOpen, Brain, BarChart3
@@ -14,7 +15,7 @@ export default function LearningPathView({ onNavigate }) {
 
   const fetchPath = async () => {
     try {
-      const res = await fetch('/api/student/learning-path');
+      const res = await authFetch('/api/student/learning-path');
       const data = await res.json();
       setPath(data.learning_path || []);
     } catch (e) {
