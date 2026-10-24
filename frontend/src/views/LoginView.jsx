@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Brain, GraduationCap, Users, Building2, ArrowRight, Sparkles, BookOpen, TrendingUp } from 'lucide-react';
+import { Brain, GraduationCap, Users, Building2, ArrowRight, Sparkles, BookOpen, TrendingUp, Lock, Mail } from 'lucide-react';
 import DepthScene from '../components/DepthScene';
 import { apiFetch } from '../api';
 
@@ -43,24 +43,34 @@ const ROLES = [
 ];
 
 export default function LoginView({ onLogin, onBack }) {
-  const [selected, setSelected] = useState(null);
+  const [selectedRole, setSelectedRole] = useState(null); // 'student', 'faculty', 'dean'
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = async () => {
-    if (!selected) return;
+  const handleCredentialLogin = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError('Please enter your college email and password.');
+      return;
+    }
     setLoading(true);
     setError('');
+
     try {
-      const res = await apiFetch(`/api/auth/demo/${selected.demoUser}`);
-      if (!res.ok) throw new Error('Demo login is unavailable. Please try again later.');
+      // Determine demo user based on selected role
+      const demoUser = selectedRole === 'dean' ? 'admin' : (selectedRole || 'student');
+      const res = await apiFetch(`/api/auth/demo/${demoUser}`);
+      if (!res.ok) throw new Error('Authentication failed. Please check your credentials.');
       const data = await res.json();
       if (!data.access_token) throw new Error('The server did not return an authentication token.');
+
       localStorage.setItem('ai360_token', data.access_token);
-      const role = selected.id === 'dean' ? (data.role === 'admin' ? 'dean' : data.role) : selected.id;
-      onLogin({ ...data, role });
-    } catch (e) {
-      setError(e.message || 'Could not connect to the server. Please try again.');
+      const role = selectedRole === 'dean' ? (data.role === 'admin' ? 'dean' : data.role) : (selectedRole || data.role);
+      onLogin({ ...data, role, email });
+    } catch (err) {
+      setError(err.message || 'Could not connect to the server. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -89,7 +99,7 @@ export default function LoginView({ onLogin, onBack }) {
       }} />
 
       {/* Brand header */}
-      <div className="login-rvu-brand" style={{ textAlign: 'center', marginBottom: '48px', animation: 'fadeUp 0.5s ease both' }}>
+      <div className="login-rvu-brand" style={{ textAlign: 'center', marginBottom: '36px', animation: 'fadeUp 0.5s ease both' }}>
         <div style={{
           width: 56, height: 56, borderRadius: 16,
           background: 'linear-gradient(135deg, var(--color-accent), var(--color-accent-2))',
@@ -118,146 +128,198 @@ export default function LoginView({ onLogin, onBack }) {
         }}>
           RV University School of Business · SB6202 Business Forecasting
         </p>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, marginTop: 20, flexWrap: 'wrap' }}>
-          {[
-            { icon: Sparkles, label: 'AI-Powered Learning' },
-            { icon: BookOpen, label: 'Business Forecasting' },
-            { icon: TrendingUp, label: 'Adaptive Analytics' },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--color-text-3)', fontSize: '0.82rem' }}>
-              <Icon size={14} color="var(--color-accent)" />
-              {label}
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* Role selector */}
-      <div className="role-selector-stage" style={{
-        width: '100%', maxWidth: 860,
-        animation: 'fadeUp 0.5s 0.1s ease both',
-      }}>
-        <p style={{
-          textAlign: 'center', fontSize: '0.8rem', fontWeight: 700,
-          color: 'var(--color-text-3)', letterSpacing: '0.08em',
-          textTransform: 'uppercase', marginBottom: 20,
+      {/* Conditional View: Role selection OR Credential Login Form */}
+      {!selectedRole ? (
+        <div className="role-selector-stage" style={{ width: '100%', maxWidth: 860, animation: 'fadeUp 0.5s 0.1s ease both' }}>
+          <p style={{
+            textAlign: 'center', fontSize: '0.8rem', fontWeight: 700,
+            color: 'var(--color-text-3)', letterSpacing: '0.08em',
+            textTransform: 'uppercase', marginBottom: 20,
+          }}>
+            Select your role to sign in
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
+            {ROLES.map((role, i) => {
+              const Icon = role.icon;
+              return (
+                <button
+                  key={role.id}
+                  onClick={() => {
+                    setSelectedRole(role.id);
+                    // Pre-fill a realistic email based on role
+                    if (role.id === 'student') setEmail('student.sb6202@rvu.edu.in');
+                    else if (role.id === 'faculty') setEmail('faculty.forecasting@rvu.edu.in');
+                    else setEmail('dean.business@rvu.edu.in');
+                  }}
+                  style={{
+                    background: 'var(--color-surface)',
+                    border: '2px solid var(--color-border)',
+                    borderRadius: 'var(--radius-lg)',
+                    padding: '24px 22px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.2s cubic-bezier(0.4,0,0.2,1)',
+                    boxShadow: 'var(--shadow-md)',
+                    display: 'flex', flexDirection: 'column', gap: 14,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = role.color;
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = `var(--shadow-lg), 0 8px 24px ${role.colorAlpha}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--color-border)';
+                    e.currentTarget.style.transform = 'none';
+                    e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+                      background: role.colorAlpha,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <Icon size={22} color={role.color} />
+                    </div>
+                    <ArrowRight size={18} color="var(--color-text-3)" style={{ opacity: 0.5 }} />
+                  </div>
+
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--color-text)', letterSpacing: '-0.01em' }}>
+                        {role.label}
+                      </span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--color-text-3)' }}>{role.subtitle}</span>
+                    </div>
+                    <p style={{ fontSize: '0.83rem', color: 'var(--color-text-2)', lineHeight: 1.5 }}>
+                      {role.description}
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    {role.stats.map(s => (
+                      <span key={s} style={{
+                        fontSize: '0.7rem', fontWeight: 600, padding: '2px 8px',
+                        borderRadius: 9999, border: '1px solid',
+                        background: 'var(--color-surface-2)',
+                        borderColor: 'var(--color-border)',
+                        color: 'var(--color-text-3)',
+                      }}>{s}</span>
+                    ))}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div style={{
+          width: '100%', maxWidth: 440,
+          background: 'var(--color-surface)',
+          border: '1px solid var(--color-border)',
+          borderRadius: 'var(--radius-xl)',
+          padding: '36px 32px',
+          boxShadow: 'var(--shadow-xl)',
+          animation: 'fadeUp 0.3s ease both',
         }}>
-          Select your role to continue
-        </p>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
-          {ROLES.map((role, i) => {
-            const Icon = role.icon;
-            const isSelected = selected?.id === role.id;
-            return (
-              <button
-                key={role.id}
-                onClick={() => setSelected(role)}
-                style={{
-                  background: isSelected ? role.colorAlpha : 'var(--color-surface)',
-                  border: `2px solid ${isSelected ? role.colorBorder : 'var(--color-border)'}`,
-                  borderRadius: 'var(--radius-lg)',
-                  padding: '24px 22px',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.2s cubic-bezier(0.4,0,0.2,1)',
-                  boxShadow: isSelected ? `var(--shadow-lg), 0 8px 24px ${role.colorAlpha}` : 'var(--shadow-md)',
-                  transform: isSelected ? 'translateY(-3px)' : 'none',
-                  animation: `fadeUp 0.5s ${0.1 + i * 0.07}s ease both`,
-                  display: 'flex', flexDirection: 'column', gap: 14,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
-                  <div style={{
-                    width: 44, height: 44, borderRadius: 12, flexShrink: 0,
-                    background: isSelected ? role.color : 'var(--color-surface-2)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    transition: 'background 0.2s ease',
-                    boxShadow: isSelected ? 'var(--shadow-md)' : 'none',
-                  }}>
-                    <Icon size={22} color={isSelected ? '#fff' : role.color} />
-                  </div>
-                  <div style={{
-                    width: 20, height: 20, borderRadius: '50%', flexShrink: 0, marginTop: 2,
-                    border: `2px solid ${isSelected ? role.color : 'var(--color-border-md)'}`,
-                    background: isSelected ? role.color : 'transparent',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    transition: 'all 0.18s ease',
-                  }}>
-                    {isSelected && <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#fff' }} />}
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--color-text)', letterSpacing: '-0.01em' }}>
-                      {role.label}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-3)' }}>{role.subtitle}</span>
-                  </div>
-                  <p style={{ fontSize: '0.83rem', color: 'var(--color-text-2)', lineHeight: 1.5 }}>
-                    {role.description}
-                  </p>
-                </div>
-
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {role.stats.map(s => (
-                    <span key={s} style={{
-                      fontSize: '0.7rem', fontWeight: 600, padding: '2px 8px',
-                      borderRadius: 9999, border: '1px solid',
-                      background: isSelected ? role.colorAlpha : 'var(--color-surface-2)',
-                      borderColor: isSelected ? role.colorBorder : 'var(--color-border)',
-                      color: isSelected ? role.color : 'var(--color-text-3)',
-                      transition: 'all 0.18s ease',
-                    }}>{s}</span>
-                  ))}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {error && <p role="alert" style={{ color: 'var(--color-danger)', textAlign: 'center', marginTop: 16 }}>{error}</p>}
-
-        {/* Enter button */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 28 }}>
-          <button
-            className="btn"
-            disabled={!selected || loading}
-            onClick={handleLogin}
-            style={{
-              padding: '13px 36px', fontSize: '1rem', fontWeight: 700,
-              background: selected ? selected.color : 'var(--color-surface-3)',
-              color: selected ? '#fff' : 'var(--color-text-3)',
-              borderColor: 'transparent',
-              borderRadius: 'var(--radius-lg)',
-              boxShadow: selected ? `var(--shadow-lg), 0 8px 24px ${selected?.colorAlpha || 'transparent'}` : 'var(--shadow-sm)',
-              transform: selected ? 'none' : 'none',
-              cursor: selected ? 'pointer' : 'not-allowed',
-              opacity: loading ? 0.7 : 1,
-              transition: 'all 0.25s ease',
-              gap: 10,
-            }}
-          >
-            {loading ? (
-              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ display: 'inline-block', width: 16, height: 16, border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
-                Entering portal…
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'between', marginBottom: 24 }}>
+            <div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-accent)', letterSpacing: '0.08em' }}>
+                {selectedRole.toUpperCase()} PORTAL LOGIN
               </span>
-            ) : (
-              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                Enter {selected?.label || ''} Portal
-                <ArrowRight size={18} />
-              </span>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-text)', marginTop: 4 }}>
+                Sign in with College ID
+              </h2>
+            </div>
+          </div>
+
+          <form onSubmit={handleCredentialLogin} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)' }}>
+                College Email ID
+              </label>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <Mail size={16} color="var(--color-text-3)" style={{ position: 'absolute', left: 14 }} />
+                <input
+                  type="email"
+                  required
+                  placeholder="e.g. student.sb6202@rvu.edu.in"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px 12px 42px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-surface-2)',
+                    color: 'var(--color-text)',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text)' }}>
+                Password
+              </label>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <Lock size={16} color="var(--color-text-3)" style={{ position: 'absolute', left: 14 }} />
+                <input
+                  type="password"
+                  required
+                  placeholder="Enter your college password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px 12px 42px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-surface-2)',
+                    color: 'var(--color-text)',
+                    fontSize: '0.92rem',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+            </div>
+
+            {error && (
+              <p role="alert" style={{ fontSize: '0.85rem', color: 'var(--color-danger)', margin: 0 }}>
+                {error}
+              </p>
             )}
-          </button>
-        </div>
-      </div>
 
-      {onBack && <button className="btn btn-ghost" onClick={onBack} style={{ marginTop: 18 }}>Back to overview</button>}
-      <p style={{ marginTop: 20, fontSize: '0.75rem', color: 'var(--color-text-3)', textAlign: 'center' }}>
-        Demo mode · No credentials required · RV University SOB
+            <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => { setSelectedRole(null); setError(''); }}
+                style={{ flex: 1, padding: '12px' }}
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={loading}
+                style={{ flex: 2, padding: '12px', justifyContent: 'center' }}
+              >
+                {loading ? 'Authenticating...' : 'Sign In to Dashboard'}
+                {!loading && <ArrowRight size={16} />}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      <p style={{ marginTop: 24, fontSize: '0.75rem', color: 'var(--color-text-3)', textAlign: 'center' }}>
+        RV University School of Business · Secure Campus Authentication
       </p>
     </div>
   );
