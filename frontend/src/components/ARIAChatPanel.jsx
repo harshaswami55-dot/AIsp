@@ -323,7 +323,7 @@ function ARIAChatPanel({ pageContext, welcomeMessage, compact }) {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKey}
-            placeholder="Ask ARIA about forecasting, stationarity, ARIMA, SARIMA..."
+            placeholder="Ask ARIA about any topic you are studying…"
             rows={1}
             style={{
               flex: 1, padding: '10px 14px', borderRadius: '10px',
