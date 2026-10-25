@@ -224,6 +224,17 @@ def call_llm(messages: list, model: str = DEFAULT_MODEL) -> Optional[str]:
     return None
 
 
+def list_llm_models() -> dict:
+    if not LLM_API_KEY:
+        return {"models": [], "error": "No LLM_API_KEY configured"}
+    try:
+        resp = requests.get(f"{LLM_BASE_URL}/models", headers={"Authorization": f"Bearer {LLM_API_KEY}"}, timeout=15)
+        resp.raise_for_status()
+        return {"models": sorted(m.get("id", "") for m in resp.json().get("data", []))}
+    except Exception as e:
+        return {"models": [], "error": f"{type(e).__name__}: {str(e)[:200]}".replace(LLM_API_KEY, "***")}
+
+
 def check_ollama_status() -> dict:
     """Which engine ARIA is using (name kept for existing callers)."""
     if LLM_API_KEY:

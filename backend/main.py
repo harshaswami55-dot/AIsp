@@ -43,7 +43,7 @@ from ai_engine import (
     socratic_dialogue_step, ai_tutor_response, model_selection_coach,
     evaluate_independence_attempt
 )
-from agent import agent_chat, check_ollama_status, clear_history
+from agent import agent_chat, check_ollama_status, clear_history, list_llm_models
 import learning
 from learning import select_quiz, options_of, level, topics_to_study, PASS_MARK
 
@@ -431,6 +431,11 @@ def agent_chat_endpoint(req: AgentChatRequest, payload: dict = Depends(require_s
 def get_agent_status(_: dict = Depends(require_student)):
     """Check Ollama availability and list available models."""
     return check_ollama_status()
+
+@app.get("/api/agent/models")
+def list_hosted_models(_: dict = Depends(require_faculty)):
+    """Faculty-only: model ids the configured hosted-LLM key can use (to pick LLM_MODEL)."""
+    return list_llm_models()
 
 @app.post("/api/agent/clear")
 def clear_agent_session(session_id: str = "default", payload: dict = Depends(require_student)):
