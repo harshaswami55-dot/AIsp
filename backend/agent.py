@@ -154,21 +154,31 @@ def execute_tool(tool_name: str, args: dict) -> str:
     except Exception as e:
         return f"Tool error ({tool_name}): {str(e)}"
 
-def parse_tool_calls(text: str) -> list:
-    pattern = r"```tool_call\s*(\{.*?\})\s*```"
-    matches = re.findall(pattern, text, re.DOTALL)
-    calls = []
-    for m in matches:
+def _tool_call_spans(text: str) -> list:
+    """(start, end, obj) for each ```tool_call {json}``` block. Tolerates a missing closing fence and
+    nested braces in args, which hosted models often produce."""
+    spans, decoder = [], json.JSONDecoder()
+    for m in re.finditer(r"```tool_call", text):
+        brace = text.find("{", m.end())
+        if brace == -1:
+            continue
         try:
-            obj = json.loads(m)
-            if "tool" in obj:
-                calls.append(obj)
+            obj, end = decoder.raw_decode(text, brace)
         except json.JSONDecodeError:
-            pass
-    return calls
+            continue
+        close = re.match(r"\s*```", text[end:])
+        spans.append((m.start(), end + (close.end() if close else 0), obj))
+    return spans
+
+
+def parse_tool_calls(text: str) -> list:
+    return [obj for _, _, obj in _tool_call_spans(text) if isinstance(obj, dict) and "tool" in obj]
+
 
 def strip_tool_calls(text: str) -> str:
-    return re.sub(r"```tool_call\s*\{.*?\}\s*```", "", text, flags=re.DOTALL).strip()
+    for start, end, _ in reversed(_tool_call_spans(text)):
+        text = text[:start] + text[end:]
+    return text.strip()
 
 # -------------------------------------------------------------------
 # MODEL PROVIDERS: free hosted LLM (any OpenAI-compatible API; Groq by default) -> local Ollama -> course notes
