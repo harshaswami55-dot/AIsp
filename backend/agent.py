@@ -235,6 +235,26 @@ def list_llm_models() -> dict:
         return {"models": [], "error": f"{type(e).__name__}: {str(e)[:200]}".replace(LLM_API_KEY, "***")}
 
 
+def probe_llm_model(model: str) -> dict:
+    """Times one short real request to `model` with the configured key (to choose a fast, working LLM_MODEL)."""
+    if not LLM_API_KEY:
+        return {"model": model, "ok": False, "error": "No LLM_API_KEY configured"}
+    started = datetime.utcnow()
+    try:
+        resp = requests.post(
+            f"{LLM_BASE_URL}/chat/completions", headers={"Authorization": f"Bearer {LLM_API_KEY}"},
+            json={"model": model, "max_tokens": 200, "messages": [{"role": "user", "content": "In two sentences: what does MAPE measure?"}],
+                  **({"reasoning_effort": "low"} if "googleapis.com" in LLM_BASE_URL else {})},
+            timeout=60,
+        )
+        seconds = round((datetime.utcnow() - started).total_seconds(), 1)
+        if resp.status_code != 200:
+            return {"model": model, "ok": False, "seconds": seconds, "error": resp.text[:300]}
+        return {"model": model, "ok": True, "seconds": seconds, "reply": (resp.json()["choices"][0]["message"].get("content") or "")[:300]}
+    except Exception as e:
+        return {"model": model, "ok": False, "error": f"{type(e).__name__}: {str(e)[:200]}"}
+
+
 def check_ollama_status() -> dict:
     """Which engine ARIA is using (name kept for existing callers)."""
     if LLM_API_KEY:
