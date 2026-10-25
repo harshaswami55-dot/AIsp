@@ -196,8 +196,10 @@ def call_llm(messages: list, model: str = DEFAULT_MODEL) -> Optional[str]:
             resp = requests.post(
                 f"{LLM_BASE_URL}/chat/completions",
                 headers={"Authorization": f"Bearer {LLM_API_KEY}"},
-                json={"model": LLM_MODEL, "messages": messages, "temperature": 0.5, "max_tokens": 800},
-                timeout=25,
+                json={"model": LLM_MODEL, "messages": messages, "temperature": 0.5, "max_tokens": 2000,
+                      # Gemini's "thinking" models are slow by default; ask for brief reasoning (Google-only param).
+                      **({"reasoning_effort": os.getenv("LLM_REASONING_EFFORT", "low")} if "googleapis.com" in LLM_BASE_URL else {})},
+                timeout=60,
             )
             resp.raise_for_status()
             _last_llm_error["detail"] = None
