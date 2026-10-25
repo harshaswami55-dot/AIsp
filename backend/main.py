@@ -4,6 +4,13 @@ MBA Business Forecasting (SB6202)
 Connects all forecasting calculations, AI pedagogy engines, and role-based workflows.
 """
 import os
+
+# Small hosted instances get a fraction of one CPU but report the host's many cores; numerical libraries then
+# start one thread per core and contend heavily (Holt-Winters took ~36s on Render vs 0.2s locally).
+# Must be set before numpy/scipy are imported.
+for _var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ.setdefault(_var, "1")
+
 import json
 import io
 import pandas as pd
