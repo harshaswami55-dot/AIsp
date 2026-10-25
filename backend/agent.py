@@ -176,6 +176,7 @@ def strip_tool_calls(text: str) -> str:
 LLM_API_KEY = os.getenv("LLM_API_KEY") or os.getenv("GROQ_API_KEY")
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://api.groq.com/openai/v1").rstrip("/")
 LLM_MODEL = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
+_last_llm_error = {"detail": None}  # surfaced by /api/agent/status so a misconfigured key/model is visible
 
 
 def _ollama_models() -> list:
@@ -199,9 +200,12 @@ def call_llm(messages: list, model: str = DEFAULT_MODEL) -> Optional[str]:
                 timeout=25,
             )
             resp.raise_for_status()
+            _last_llm_error["detail"] = None
             return resp.json()["choices"][0]["message"]["content"]
         except Exception as e:
-            print(f"Hosted LLM unavailable ({type(e).__name__}): {str(e)[:200]}")
+            body = getattr(getattr(e, "response", None), "text", "") or ""
+            _last_llm_error["detail"] = f"{type(e).__name__}: {str(e)[:200]} {body[:300]}".replace(LLM_API_KEY, "***")
+            print(f"Hosted LLM unavailable: {_last_llm_error['detail']}")
     models = _ollama_models()
     if models:
         try:
@@ -221,7 +225,8 @@ def call_llm(messages: list, model: str = DEFAULT_MODEL) -> Optional[str]:
 def check_ollama_status() -> dict:
     """Which engine ARIA is using (name kept for existing callers)."""
     if LLM_API_KEY:
-        return {"online": True, "models": [LLM_MODEL], "provider": "hosted"}
+        return {"online": True, "models": [LLM_MODEL], "provider": "hosted", "base_url": LLM_BASE_URL,
+                "last_error": _last_llm_error["detail"]}
     models = _ollama_models()
     if models:
         return {"online": True, "models": models, "provider": "ollama"}
