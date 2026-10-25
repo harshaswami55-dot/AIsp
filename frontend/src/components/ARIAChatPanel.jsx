@@ -69,7 +69,7 @@ function StatusBadge({ status }) {
   if (!status) return null;
   const color = status.online ? 'var(--color-ok)' : 'var(--color-warn)';
   return (
-    <div title={status.online ? `Model: ${status.models?.[0] || ''}` : 'Answers come from the SB6202 course notes'} style={{
+    <div title={status.online ? `Model: ${status.models?.[0] || ''}` : 'Answers come from your course notes'} style={{
       display: 'flex', alignItems: 'center', gap: '6px',
       padding: '4px 10px', borderRadius: '20px',
       background: `color-mix(in srgb, ${color} 14%, transparent)`,
@@ -209,9 +209,9 @@ function ARIAChatPanel({ pageContext, welcomeMessage, compact }) {
   const inputRef = useRef(null);
 
   const welcome = welcomeMessage || (
-    "Hello! I am **ARIA** — your Adaptive Reasoning & Intelligence Agent for SB6202 Business Forecasting.\n\n" +
-    "I am grounded in Dr. Veena A's official syllabus and can run real statistical tools: ADF tests, accuracy metrics, dataset queries, and more.\n\n" +
-    "Ask me anything about ARIMA, stationarity, SARIMA, XGBoost, or how to translate your forecast into a boardroom decision."
+    "Hello! I am **ARIA** — your Adaptive Reasoning & Intelligence Agent.\n\n" +
+    "I am grounded in your course syllabus and notes, and I teach by asking questions back so you build your own understanding.\n\n" +
+    "Ask me about any topic you're studying, or about a quiz result you want to understand."
   );
 
   useEffect(() => {
@@ -250,7 +250,7 @@ function ARIAChatPanel({ pageContext, welcomeMessage, compact }) {
           </div>
           <div>
             <div style={{ fontWeight: 800, fontSize: compact ? '0.82rem' : '0.95rem', color: 'var(--color-text)' }}>ARIA <span style={{ color: 'var(--color-accent)', fontWeight: 900 }}>AI Agent</span></div>
-            <div style={{ fontSize: '0.65rem', color: 'var(--color-text-3)' }}>SB6202 Business Forecasting • Dr. Veena A</div>
+            <div style={{ fontSize: '0.65rem', color: 'var(--color-text-3)' }}>Your AI study partner</div>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -345,7 +345,7 @@ function ARIAChatPanel({ pageContext, welcomeMessage, compact }) {
           </button>
         </form>
         <div style={{ fontSize: '0.68rem', color: '#475569', marginTop: '6px', textAlign: 'center' }}>
-          Enter to send • Shift+Enter for new line • Grounded in the SB6202 course notes
+          Enter to send • Shift+Enter for new line • Grounded in your course notes
         </div>
       </div>
     </div>

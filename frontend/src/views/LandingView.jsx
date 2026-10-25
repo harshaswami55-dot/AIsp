@@ -50,8 +50,8 @@ function ForecastVisual() {
     <div className="fp-visual" onPointerMove={onMove} onPointerLeave={onLeave}>
       <div className="fp-chart-card">
         <div className="fp-chart-head">
-          <div><strong>Retail Monthly Sales</strong><div>Holt-Winters · 8-month forecast</div></div>
-          <span className="fp-pill" style={{ padding: '4px 10px' }}><span className="pulse-dot" style={{ color: 'var(--color-ok)' }} /> MAPE 4.7%</span>
+          <div><strong>Class learning trend</strong><div>Quiz scores · AI forecast</div></div>
+          <span className="fp-pill" style={{ padding: '4px 10px' }}><span className="pulse-dot" style={{ color: 'var(--color-ok)' }} /> AI insight</span>
         </div>
         <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label="Animated chart of monthly sales with a seasonal forecast and uncertainty band">
           <defs>
@@ -90,7 +90,7 @@ function ForecastVisual() {
 }
 
 const LOOP = [
-  { icon: Target, title: 'Choose a topic', text: 'Subject → module → sub topic from the SB6202 syllabus.' },
+  { icon: Target, title: 'Choose a topic', text: 'Subject → module → sub topic from your course syllabus.' },
   { icon: Brain, title: 'Quiz 1', text: '20 questions, difficulty matched to your level.' },
   { icon: ListChecks, title: 'Practise gaps', text: 'The concepts you missed, with context and worked problems.' },
   { icon: RotateCcw, title: 'Quiz 2', text: '20 fresh questions to measure what changed.' },
@@ -115,14 +115,6 @@ const PORTALS = [
   { tone: 'dean', icon: Building2, title: 'Dean', items: ['Department performance', 'Subject-wise performance', 'Faculty insights'] },
 ];
 
-const MODULES = [
-  { n: 1, title: 'Introduction to Forecasting', hours: 6 },
-  { n: 2, title: 'Forecasting Techniques', hours: 10 },
-  { n: 3, title: 'Univariate Time Series Models', hours: 12 },
-  { n: 4, title: 'Multivariate Time Series Models', hours: 8 },
-  { n: 5, title: 'Supervised & Advanced ML Models', hours: 4 },
-];
-
 function ScrollProgress() {
   const ref = useRef(null);
   useEffect(() => {
@@ -137,15 +129,12 @@ function ScrollProgress() {
   return <div ref={ref} className="fp-progress" aria-hidden="true" />;
 }
 
-const TOPICS = [
-  'Nature of Forecasting', 'Types of Forecasts', 'Forecasting Process', 'Planning & Control', 'MAE · MSE · RMSE · MAPE',
-  'Trend & Seasonality', 'Moving Average', 'Exponential Smoothing', "Holt's Linear Trend", 'Holt-Winters', 'Seasonal Variation',
-  'ACF & PACF', 'MA(q)', 'AR(p)', 'ADF Unit Root Test', 'Differencing & Lags', 'ARMA', 'ARIMA', 'SARIMA',
-  'VAR', 'VARIMAX', 'SARIMAX', 'Linear Regression', 'Decision Tree', 'KNN', 'Random Forest', 'XGBoost',
-];
-
-function TopicMarquee() {
-  const rows = [TOPICS.slice(0, 14), TOPICS.slice(13)];
+/** Scrolling strip of every topic in the courses currently on the platform. */
+function TopicMarquee({ courses }) {
+  const topics = (courses || []).flatMap(c => c.modules.flatMap(m => m.topics));
+  if (topics.length < 4) return null;
+  const half = Math.ceil(topics.length / 2);
+  const rows = [topics.slice(0, half), topics.slice(half)];
   return (
     <div className="fp-marquee" aria-label="Syllabus topics covered">
       {rows.map((row, r) => (
@@ -282,7 +271,7 @@ function FacultySection() {
 }
 
 const FAQS = [
-  ['Who can sign in?', 'Students enrolled in SB6202 and the course faculty, using the RV University email and password issued for the course.'],
+  ['Who can sign in?', 'Students enrolled in a course on the platform and their faculty, using the RV University email and password issued to them.'],
   ['How are quizzes made adaptive?', 'Each quiz has 20 questions drawn from 30 per topic (10 easy, 10 medium, 10 hard). The mix shifts towards easier or harder questions based on your recent scores, and Quiz 2 avoids repeating Quiz 1 where it can.'],
   ['What happens if I score below 80%?', 'After Quiz 1 you get the exact concepts you missed with explanations and a practice problem. After Quiz 2, a short fatigue check decides whether you take a break or continue practising.'],
   ['How are reflections and Teach the AI scored?', 'Your answer is compared with three reference answers written for each topic and checked for the key concepts a strong answer should mention, then mapped to the CIE rubric bands.'],
@@ -336,10 +325,10 @@ export default function LandingView({ onSignIn }) {
         <span className="fp-cube" style={{ left: '4%', bottom: 30 }} aria-hidden="true"><span className="cube3d-wrap" style={{ width: 70, height: 70, '--half': '35px' }}><span className="cube3d ink" style={{ animationDirection: 'reverse' }}><i /><i /><i /><i /><i /><i /><span className="cube3d-ring" /></span></span></span>
         <div className="fp-wrap fp-hero-grid">
           <div>
-            <div className="reveal"><span className="fp-pill"><span className="pulse-dot" style={{ color: 'var(--color-accent)' }} /> RV University · School of Business · SB6202</span></div>
-            <h1 className="fp-h1 reveal" style={{ '--delay': '80ms' }}>From AI that gives answers to AI that builds <em>forecasters.</em></h1>
+            <div className="reveal"><span className="fp-pill"><span className="pulse-dot" style={{ color: 'var(--color-accent)' }} /> RV University · School of Business</span></div>
+            <h1 className="fp-h1 reveal" style={{ '--delay': '80ms' }}>From AI that gives answers to AI that builds <em>independent learners.</em></h1>
             <p className="fp-lede reveal" style={{ '--delay': '160ms' }}>
-              An adaptive learning partner for MBA Business Forecasting. It tests what you know, makes you practise what you don't,
+              An adaptive AI learning partner for every course. It tests what you know, makes you practise what you don't,
               notices when you're tired, and shows faculty exactly where the class needs help.
             </p>
             <div className="fp-ctas reveal" style={{ '--delay': '240ms' }}>
@@ -359,7 +348,7 @@ export default function LandingView({ onSignIn }) {
         </div>
       </header>
 
-      <TopicMarquee />
+      <TopicMarquee courses={stats?.courses} />
 
       <section id="how" className="fp-section fp-section-alt">
         <InView className="fp-wrap fp-reveal">
@@ -424,18 +413,31 @@ export default function LandingView({ onSignIn }) {
       <section id="syllabus" className="fp-section fp-section-alt">
         <InView className="fp-wrap fp-reveal">
           <div className="fp-kicker">Grounded in the syllabus</div>
-          <h2 className="fp-h2">SB6202 Business Forecasting, <em>40 teaching hours.</em></h2>
-          <p className="fp-sub">Every question, practice set and reference answer maps to a topic in Dr Veena A's course outline.</p>
-          <div className="fp-modules">
-            {MODULES.map(m => (
-              <div key={m.n} className="fp-module hover-lift">
-                <div className="n">0{m.n}</div>
-                <h4>{m.title}</h4>
-                <div className="h">{m.hours} hours</div>
-                <div className="fp-hours"><span style={{ width: `${(m.hours / 12) * 100}%`, transitionDelay: `${m.n * 120}ms` }} /></div>
+          <h2 className="fp-h2">Courses on the platform, <em>module by module.</em></h2>
+          <p className="fp-sub">Every question, practice set and reference answer maps to a topic in the course outline your faculty teaches from.</p>
+          {(stats?.courses || []).map(course => {
+            const maxHours = Math.max(1, ...course.modules.map(m => m.hours || 0));
+            return (
+              <div key={course.code} style={{ marginTop: 34 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem' }}>
+                  {course.code} · {course.title}
+                  <span style={{ marginLeft: 10, fontSize: '.8rem', fontWeight: 600, color: 'var(--color-text-3)' }}>
+                    {course.modules.length} modules · {course.modules.reduce((n, m) => n + m.topics.length, 0)} topics · {course.modules.reduce((n, m) => n + (m.hours || 0), 0)} hours
+                  </span>
+                </div>
+                <div className="fp-modules" style={{ marginTop: 16 }}>
+                  {course.modules.map(m => (
+                    <div key={m.number} className="fp-module hover-lift">
+                      <div className="n">{String(m.number).padStart(2, '0')}</div>
+                      <h4>{m.title}</h4>
+                      <div className="h">{m.hours} hours · {m.topics.length} topics</div>
+                      <div className="fp-hours"><span style={{ width: `${((m.hours || 0) / maxHours) * 100}%`, transitionDelay: `${m.number * 120}ms` }} /></div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </InView>
       </section>
 
@@ -446,7 +448,7 @@ export default function LandingView({ onSignIn }) {
           <div className="hero-band tone-student" style={{ textAlign: 'center', padding: '48px 24px' }}>
             <span className="hero-grid" aria-hidden="true" />
             <Lightbulb size={30} />
-            <h2 className="hero-title" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', marginTop: 10 }}>Ready to become a forecaster?</h2>
+            <h2 className="hero-title" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', marginTop: 10 }}>Ready to learn independently?</h2>
             <p className="hero-sub" style={{ margin: '8px auto 22px' }}>Sign in with your RV University email to pick up where you left off.</p>
             <button className="btn-hero" onClick={onSignIn} style={{ padding: '12px 24px', fontSize: '.95rem' }}>Sign in <ArrowRight size={16} /></button>
           </div>
@@ -457,15 +459,15 @@ export default function LandingView({ onSignIn }) {
         <div className="fp-wrap fp-foot-grid">
           <div>
             <div className="fp-brand"><BrandMark size={18} /> AI Learning Partner 360</div>
-            <p style={{ margin: '12px 0 0', maxWidth: 320, lineHeight: 1.6 }}>An adaptive learning partner for SB6202 Business Forecasting at RV University School of Business.</p>
+            <p style={{ margin: '12px 0 0', maxWidth: 320, lineHeight: 1.6 }}>An adaptive AI learning partner for every course at RV University School of Business.</p>
           </div>
           <div><b>Platform</b><a href="#how">Learning loop</a><a href="#showcase">Inside the app</a><a href="#features">Student tools</a><a href="#faculty">For faculty</a></div>
-          <div><b>Course</b><a href="#syllabus">Syllabus</a><span>Dr Veena A</span><span>Semester III · 4 credits</span></div>
+          <div><b>Courses</b><a href="#syllabus">Syllabus</a>{(stats?.courses || []).map(c => <span key={c.code}>{c.code} · {c.title}</span>)}</div>
           <div><b>Access</b><button className="fp-linkbtn" onClick={onSignIn}>Sign in</button><a href="#faq">FAQ</a></div>
         </div>
         <div className="fp-wrap" style={{ marginTop: 26, paddingTop: 18, borderTop: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
           <span>© {new Date().getFullYear()} RV University School of Business</span>
-          <span>Built for MBA Business Forecasting</span>
+          <span>AI Learning Partner 360</span>
         </div>
       </footer>
     </div>

@@ -63,7 +63,7 @@ export default function PortalShell({ role, portalName, user, tabs, activeTab, o
               <BrandMark />
               <div style={{ minWidth: 0 }}>
                 <div className="brand-name">AI Learning <em>Partner</em> 360</div>
-                <div className="ps-portal"><span className="pulse-dot" />{portalName}<span className="brand-sub" style={{ color: 'var(--color-text-3)', fontWeight: 600 }}>· SB6202 Business Forecasting</span></div>
+                <div className="ps-portal"><span className="pulse-dot" />{portalName}<span className="brand-sub" style={{ color: 'var(--color-text-3)', fontWeight: 600 }}>· RV University School of Business</span></div>
               </div>
             </div>
             <div className="ps-user" ref={menuRef}>
@@ -103,7 +103,7 @@ export default function PortalShell({ role, portalName, user, tabs, activeTab, o
       <main className="ps-main">
         <div className="ps-page" key={activeTab}>{children}</div>
       </main>
-      <footer className="ps-footer">AI Learning Partner 360 · RV University School of Business · SB6202 Business Forecasting</footer>
+      <footer className="ps-footer">AI Learning Partner 360 · RV University School of Business</footer>
     </div>
   );
 }

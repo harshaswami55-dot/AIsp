@@ -907,9 +907,9 @@ def get_faculty_dashboard(db: Session = Depends(get_db), _: dict = Depends(requi
     misc_list = [{"topic_id": row["topic_id"], "topic": row["topic"], "text": item["label"], "frequency": item["count"], "correction": "Review the explanation attached to the corresponding quiz question."} for row in topic_rows for item in row["top_misconceptions"]]
 
     return {
-        "instructor": "Dr Veena A",
-        "course_code": "SB6202",
-        "course_title": "Business Forecasting",
+        "instructor": (db.query(Course).order_by(Course.id).first() or Course()).instructor,
+        "course_code": (db.query(Course).order_by(Course.id).first() or Course()).code,
+        "course_title": (db.query(Course).order_by(Course.id).first() or Course()).title,
         "total_enrolled_students": student_count,
         "class_average_mastery": class_average,
         "overall_learning_gain": average_gain,

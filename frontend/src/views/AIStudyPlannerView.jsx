@@ -194,6 +194,7 @@ function TopicsToStudy({ items, title = 'Topics to study' }) {
 export default function AIStudyPlannerView({ currentUser, onQuizStateChange }) {
   const [phase, setPhase] = useState('select');
   const [modules, setModules] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [progress, setProgress] = useState({});
   const [moduleId, setModuleId] = useState(null);
   const [topic, setTopic] = useState(null);
@@ -212,6 +213,7 @@ export default function AIStudyPlannerView({ currentUser, onQuizStateChange }) {
   const sessionStart = useRef(Date.now());
   const inQuiz = phase === 'quiz1' || phase === 'quiz2';
   const module = modules.find(m => m.id === moduleId);
+  const subject = subjects.find(s => s.id === module?.course_id) || subjects[0];
 
   const loadProgress = useCallback(() => {
     api(`/api/learning-gain/${currentUser.id}`)
@@ -221,7 +223,7 @@ export default function AIStudyPlannerView({ currentUser, onQuizStateChange }) {
 
   useEffect(() => {
     api('/api/journey/modules')
-      .then(d => { setModules(d.modules || []); setModuleId(d.modules?.[0]?.id ?? null); })
+      .then(d => { setModules(d.modules || []); setSubjects(d.subjects || []); setModuleId(d.modules?.[0]?.id ?? null); })
       .catch(e => setError(e.message));
     loadProgress();
   }, [loadProgress]);
@@ -297,7 +299,7 @@ export default function AIStudyPlannerView({ currentUser, onQuizStateChange }) {
       <PageHero
         icon={Brain}
         tone="planner"
-        eyebrow={`Business Forecasting (SB6202)${module ? ` · Module ${module.module_number}` : ''}`}
+        eyebrow={`${subject ? `${subject.code} · ${subject.title}` : 'Your course'}${module ? ` · Module ${module.module_number}` : ''}`}
         title={topic && phase !== 'select' ? topic.name : 'AI Study Planner'}
         subtitle={phase === 'select' ? 'Pick a sub topic. Quiz 1 checks what you know; below 80% you practise exactly what you missed, then Quiz 2 measures the change.' : undefined}
         stats={phase === 'select' && module ? [
@@ -314,11 +316,14 @@ export default function AIStudyPlannerView({ currentUser, onQuizStateChange }) {
       {phase === 'select' && (
         <div className="card" style={{ padding: 20, display: 'grid', gap: 14 }}>
           <label style={{ display: 'grid', gap: 6, fontWeight: 600, color: 'var(--color-text-2)', fontSize: '.85rem' }}>Subject
-            <select disabled value="bf"><option value="bf">Business Forecasting (SB6202)</option></select>
+            <select value={subject?.id ?? ''} disabled={subjects.length < 2}
+              onChange={e => setModuleId(modules.find(m => m.course_id === Number(e.target.value))?.id ?? null)}>
+              {subjects.map(s => <option key={s.id} value={s.id}>{s.code} · {s.title}</option>)}
+            </select>
           </label>
           <label style={{ display: 'grid', gap: 6, fontWeight: 600, color: 'var(--color-text-2)', fontSize: '.85rem' }}>Module
             <select value={moduleId ?? ''} onChange={e => setModuleId(Number(e.target.value))}>
-              {modules.map(m => <option key={m.id} value={m.id}>Module {m.module_number}: {m.title}</option>)}
+              {modules.filter(m => !subject || m.course_id === subject.id).map(m => <option key={m.id} value={m.id}>Module {m.module_number}: {m.title}</option>)}
             </select>
           </label>
           <div style={{ fontWeight: 600, color: 'var(--color-text-2)', fontSize: '.85rem' }}>Sub topics in this module</div>

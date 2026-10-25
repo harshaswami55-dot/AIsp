@@ -67,15 +67,15 @@ export default function LoginView({ onLogin, onBack }) {
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800 }}>AI Learning Partner 360</div>
         </div>
         <div>
-          <div className="hero-eyebrow reveal" style={{ '--delay': '80ms', color: '#FFF8F0' }}>RV University · School of Business · SB6202</div>
-          <h1 className="lg-title reveal" style={{ '--delay': '140ms', marginTop: 12 }}>Welcome back.<br />Let's build a <em>forecaster.</em></h1>
+          <div className="hero-eyebrow reveal" style={{ '--delay': '80ms', color: '#FFF8F0' }}>RV University · School of Business</div>
+          <h1 className="lg-title reveal" style={{ '--delay': '140ms', marginTop: 12 }}>Welcome back.<br />Let's keep <em>learning.</em></h1>
           <div className="lg-points">
             {POINTS.map(({ icon: Icon, text }, i) => (
               <div key={text} className="lg-point reveal" style={{ '--delay': `${260 + i * 90}ms` }}><i><Icon size={16} /></i>{text}</div>
             ))}
           </div>
         </div>
-        <div style={{ fontSize: '.78rem', opacity: .65 }}>Business Forecasting · Dr Veena A</div>
+        <div style={{ fontSize: '.78rem', opacity: .65 }}>Adaptive learning for every course</div>
       </aside>
 
       <main className="lg-main">

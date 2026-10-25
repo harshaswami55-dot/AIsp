@@ -21,7 +21,7 @@ from sqlalchemy.orm import Session
 from ai_engine import detect_misconceptions
 from auth import require_faculty, require_student
 from database import (
-    CaseletProject, LearningFatigueLog, LearningJourneyAttempt, Module, Question, QuizResult,
+    CaseletProject, Course, LearningFatigueLog, LearningJourneyAttempt, Module, Question, QuizResult,
     Reflection, SessionLocal, Topic, User, get_db,
 )
 
@@ -249,6 +249,11 @@ def topic_reference(topic_name: str) -> dict:
     return content
 
 
+def course_label(db: Session) -> str:
+    course = db.query(Course).order_by(Course.id).first()
+    return f"{course.code} {course.title}" if course else "Your courses"
+
+
 @router.get("/public/stats")
 def public_stats(db: Session = Depends(get_db)):
     """Course-level counts for the public front page (no personal data)."""
@@ -260,6 +265,12 @@ def public_stats(db: Session = Depends(get_db)):
         "job_roles": len(CAREERS),
         "skills": sum(len(r.get("skills", [])) for r in CAREERS),
         "caselets": len(CASELETS),
+        "courses": [{
+            "code": c.code, "title": c.title,
+            "modules": [{"number": m.module_number, "title": m.title, "hours": m.teaching_hours,
+                         "topics": [t.name for t in sorted(m.topics, key=lambda t: t.order_index)]}
+                        for m in sorted(c.modules, key=lambda m: m.module_number)],
+        } for c in db.query(Course).order_by(Course.id)],
     }
 
 
@@ -531,7 +542,7 @@ def student_dashboard(user_id: Optional[int] = None, db: Session = Depends(get_d
     scores = [s for s in best_by_topic.values() if s is not None]
     return {
         "student_name": user.full_name,
-        "course_title": "SB6202 Business Forecasting",
+        "course_title": course_label(db),
         "overall_mastery": round(sum(scores) / len(scores), 1) if scores else None,
         "topics_attempted": gain["topics_attempted"], "topics_mastered": gain["topics_mastered"],
         "topics_total": sum(topics_per_module.values()),
