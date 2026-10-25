@@ -417,7 +417,7 @@ def learning_gain_data(db: Session, user_id: int) -> dict:
         if gains:
             insights.append(f"Average gain from Quiz 1 to best Quiz 2: {round(sum(gains) / len(gains), 1)} points across {len(gains)} topic(s).")
         best_day = max((d for d in day_rows if d["gain"] is not None), key=lambda d: d["gain"], default=None)
-        if best_day:
+        if best_day and best_day["gain"] > 0:
             insights.append(f"Best day: {best_day['date']} (+{best_day['gain']} points).")
         weak = [t["topic"] for t in topic_rows if not t["mastered"]]
         if weak:
@@ -493,7 +493,8 @@ def fatigue_check(req: FatigueCheckRequest, db: Session = Depends(get_db), paylo
     if req.energy <= 2 or req.focus <= 2:
         reasons.append("you reported low energy or focus")
     score = round(min(100, score), 1)
-    fatigued = score >= 50
+    # A student who reports both low energy and low focus is fatigued, however short the session.
+    fatigued = score >= 50 or (req.energy <= 2 and req.focus <= 2)
     db.add(LearningFatigueLog(user_id=user_id, session_minutes=req.session_minutes, fatigue_score=score,
                               quiz_score=today[-1].score_pct if today else None, break_taken=fatigued))
     db.commit()
