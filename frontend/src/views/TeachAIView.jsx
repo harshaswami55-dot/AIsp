@@ -11,16 +11,20 @@ async function api(url, options) {
   return data;
 }
 
-export default function TeachAIView() {
+export default function TeachAIView({ onNavigate }) {
   const [topic, setTopic] = useState(null);
   const [answer, setAnswer] = useState('');
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [notReady, setNotReady] = useState('');
 
   const pickTopic = async (exclude) => {
-    setBusy(true); setError(''); setResult(null); setAnswer('');
-    try { setTopic(await api(`/api/teach/topic${exclude ? `?exclude=${exclude}` : ''}`)); }
+    setBusy(true); setError(''); setResult(null); setAnswer(''); setNotReady('');
+    try {
+      const data = await api(`/api/teach/topic${exclude ? `?exclude=${exclude}` : ''}`);
+      if (data.topic_id) setTopic(data); else { setTopic(null); setNotReady(data.message); }
+    }
     catch (e) { setError(e.message); setTopic(null); }
     finally { setBusy(false); }
   };
@@ -54,6 +58,15 @@ export default function TeachAIView() {
       {error && <div className="card reveal" style={{ padding: 14, color: 'var(--color-danger)', display: 'flex', gap: 8 }}><AlertTriangle size={16} /> {error}</div>}
 
       {!topic && busy && <Skeleton rows={2} height={120} />}
+
+      {notReady && (
+        <div className="card reveal" style={{ padding: 28, textAlign: 'center', display: 'grid', gap: 12, justifyItems: 'center' }}>
+          <span className="section-title" style={{ margin: 0 }}><span className="chip"><GraduationCap size={18} /></span></span>
+          <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Nothing to teach yet</h3>
+          <p style={{ margin: 0, color: 'var(--color-text-2)', maxWidth: 520 }}>{notReady}</p>
+          {onNavigate && <button className="btn btn-primary" onClick={() => onNavigate('planner')}>Go to AI Study Planner</button>}
+        </div>
+      )}
 
       {topic && (
         <div key={topic.topic_id} className="card reveal" style={{ padding: 20, display: 'grid', gap: 12, '--delay': '120ms' }}>

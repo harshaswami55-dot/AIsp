@@ -4,7 +4,6 @@ import LandingView from './views/LandingView';
 import StudentPortal from './views/StudentPortal';
 import FacultyPortal from './views/FacultyPortal';
 import DeanPortal from './views/DeanPortal';
-import FloatingAssistant from './components/FloatingAssistant';
 import { authFetch, clearAuth } from './api';
 
 export default function App() {
@@ -62,14 +61,11 @@ export default function App() {
   }
 
   return (
-    <>
-      <StudentPortal
-        currentUser={currentUser}
-        dashboardData={dashboardData}
-        onRefreshDashboard={() => fetchDashboardData(currentUser.id)}
-        onLogout={handleLogout}
-      />
-      <FloatingAssistant currentView="portal" />
-    </>
+    <StudentPortal
+      currentUser={currentUser}
+      dashboardData={dashboardData}
+      onRefreshDashboard={() => fetchDashboardData(currentUser.id)}
+      onLogout={handleLogout}
+    />
   );
 }

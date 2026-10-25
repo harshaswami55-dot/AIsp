@@ -100,17 +100,32 @@ function ToolCallBadge({ calls }) {
   );
 }
 
+const LATEX = { alpha: 'α', beta: 'β', gamma: 'γ', theta: 'θ', phi: 'φ', sigma: 'σ', mu: 'μ', epsilon: 'ε', varepsilon: 'ε',
+  rho: 'ρ', Delta: 'Δ', nabla: '∇', le: '≤', leq: '≤', ge: '≥', geq: '≥', neq: '≠', times: '×', cdot: '·', approx: '≈', pm: '±', sum: 'Σ', infty: '∞' };
+
+/** Models often answer with LaTeX ($\alpha = 0.05$); show it as readable text instead. */
+function plainMath(text) {
+  return text
+    .replace(/\$\$?([^$]+)\$\$?/g, (_, m) => m
+      .replace(/\\text\{([^}]*)\}/g, '$1')
+      .replace(/\\(?:hat|bar)\{([^}]*)\}/g, '$1')
+      .replace(/\\([A-Za-z]+)/g, (s, name) => LATEX[name] ?? name)
+      .replace(/([_^])\{([^}]*)\}/g, '$1$2')
+      .replace(/[{}]/g, ''))
+    .replace(/\\\(|\\\)/g, '');
+}
+
 function MessageBubble({ msg }) {
   const isUser = msg.role === 'user';
-  const lines = (msg.content || '').split('\n');
+  const lines = plainMath(msg.content || '').split('\n');
 
   const renderContent = (text) => {
-    const parts = text.split(/(\*\*.*?\*\*|[^]+)/g);
+    const parts = text.split(/(\*\*.*?\*\*|`[^`]+`)/g);
     return parts.map((part, i) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={i}>{part.slice(2, -2)}</strong>;
       }
-      if (part.startsWith('') && part.endsWith('')) {
+      if (part.length > 1 && part.startsWith('`') && part.endsWith('`')) {
         return <code key={i} style={{
           background: 'var(--color-surface-2)', padding: '1px 5px',
           borderRadius: '3px', fontFamily: 'monospace', fontSize: '0.85em'
@@ -144,7 +159,7 @@ function MessageBubble({ msg }) {
             ? 'linear-gradient(135deg, #2563eb, #1d4ed8)'
             : 'var(--color-surface-2)',
           border: isUser ? 'none' : '1px solid var(--color-border)',
-          color: 'var(--color-text)', fontSize: '0.88rem', lineHeight: 1.65
+          color: isUser ? '#fff' : 'var(--color-text)', fontSize: '0.88rem', lineHeight: 1.65
         }}>
           {lines.map((line, i) => {
             const trimmed = line.trim();
@@ -169,7 +184,7 @@ function MessageBubble({ msg }) {
               <div key={i} style={{
                 marginTop: '6px', padding: '10px 12px', borderRadius: '8px',
                 background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.2)',
-                fontSize: '0.78rem', color: '#c4b5fd', fontFamily: 'monospace', whiteSpace: 'pre-wrap'
+                fontSize: '0.78rem', color: 'var(--color-text-2)', fontFamily: 'monospace', whiteSpace: 'pre-wrap'
               }}>{r}</div>
             ))}
           </details>
@@ -234,7 +249,7 @@ function ARIAChatPanel({ pageContext, welcomeMessage, compact }) {
             <Brain size={compact ? 15 : 18} color="#fff" />
           </div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: compact ? '0.82rem' : '0.95rem', color: '#fff' }}>ARIA <span style={{ color: '#7c3aed', fontWeight: 900 }}>AI Agent</span></div>
+            <div style={{ fontWeight: 800, fontSize: compact ? '0.82rem' : '0.95rem', color: 'var(--color-text)' }}>ARIA <span style={{ color: 'var(--color-accent)', fontWeight: 900 }}>AI Agent</span></div>
             <div style={{ fontSize: '0.65rem', color: 'var(--color-text-3)' }}>SB6202 Business Forecasting • Dr. Veena A</div>
           </div>
         </div>

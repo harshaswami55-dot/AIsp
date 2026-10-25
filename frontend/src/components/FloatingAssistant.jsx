@@ -18,15 +18,13 @@ export default function FloatingAssistant({ currentView }) {
 
   const pageLabels = {
     dashboard: 'Student Dashboard',
-    diagnostic: 'Diagnostic Assessment',
-    path: 'Personalized Learning Path',
-    tutor: 'AI Tutor & Socratic',
-    lab: 'Forecasting Lab',
-    comparison: 'Model Comparison',
-    teach: 'Teach the AI',
-    independence: 'AI Independence Mode',
-    outcomes: 'Course Outcomes',
-    faculty: 'Faculty Dashboard'
+    planner: 'AI Study Planner',
+    gain: 'Learning Gain',
+    fatigue: 'Learning Fatigue',
+    reflections: 'Reflections',
+    caselets: 'Caselets',
+    skills: 'Skill Studio',
+    teach: 'Teach the AI'
   };
 
   const pageContext = pageLabels[currentView] || currentView;

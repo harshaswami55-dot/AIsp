@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PortalShell from '../components/PortalShell';
+import FloatingAssistant from '../components/FloatingAssistant';
 import { LayoutDashboard, Sparkles, TrendingUp, Activity, BookOpen, Briefcase, Layers, GraduationCap } from 'lucide-react';
 import StudentDashboardView from './StudentDashboardView';
 import AIStudyPlannerView from './AIStudyPlannerView';
@@ -38,7 +39,7 @@ export default function StudentPortal({ currentUser, dashboardData, onRefreshDas
       case 'reflections': return <ReflectionsView currentUser={currentUser} />;
       case 'caselets': return <CaseletsView currentUser={currentUser} />;
       case 'skills': return <SkillStudioView currentUser={currentUser} />;
-      case 'teach': return <TeachAIView />;
+      case 'teach': return <TeachAIView onNavigate={openTab} />;
       default: return null;
     }
   };
@@ -47,6 +48,8 @@ export default function StudentPortal({ currentUser, dashboardData, onRefreshDas
     <PortalShell role="student" portalName="Student Portal" user={currentUser} tabs={TABS} activeTab={activeTab}
       onTab={openTab} isTabDisabled={id => quizInProgress && activeTab !== id} onLogout={onLogout}>
       {renderContent()}
+      {/* The assistant is unavailable during a quiz, like the other tabs. */}
+      {!quizInProgress && <FloatingAssistant currentView={activeTab} />}
     </PortalShell>
   );
 }

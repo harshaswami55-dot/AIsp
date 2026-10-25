@@ -345,7 +345,7 @@ def teach_topic(exclude: Optional[int] = None, db: Session = Depends(get_db), pa
     if not candidates:
         candidates = [tid for tid in best if tid in topics and normalize(topics[tid].name) in TOPIC_CONTENT]
     if not candidates:
-        raise HTTPException(status_code=409, detail="Complete at least one topic in the AI Study Planner first - Teach the AI picks from topics you have studied.")
+        return {"topic_id": None, "message": "Take Quiz 1 on any topic in the AI Study Planner first — Teach the AI picks from topics you have studied."}
     weakest = sorted(candidates, key=lambda tid: best[tid])[:3]
     topic = topics[random.choice(weakest)]
     return {"topic_id": topic.id, "topic_name": topic.name, "your_best_quiz_score": best[topic.id],
